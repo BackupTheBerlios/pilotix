@@ -220,6 +220,16 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
+     * Renvoie la balle dont le numéro est fourni.
+     *
+     * @param i le numéro de la balle
+     * @return une instance de Ball
+     */
+    public Ball getBall(int i) {
+        return (Ball) balls.get(i);
+    }
+
+    /**
      * Teste si la balle indiquée existe.
      *
      * @param aBallId
@@ -227,13 +237,7 @@ public class ClientArea extends org.pilotix.common.Area {
      * @return vrai si la balle existe, faux sinon
      */
     public final boolean ballIsNull(int aBallId) {
-//        if (aBallId >= 0 && aBallId < getNbBalls()) {
             return balls.get(aBallId) == null;
-/*        }
-        else {
-            return false;
-        }
-*/
     }
 
 
