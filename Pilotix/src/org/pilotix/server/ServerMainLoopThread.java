@@ -19,33 +19,15 @@
 
 package org.pilotix.server;
 
-//import org.pilotix.common.*;
-
-//import java.net.Socket;
 import java.util.LinkedList;
-//import java.util.Iterator;
-//import java.io.OutputStream;
 
 public class ServerMainLoopThread extends Thread {
-
-    private int i = 0;
-    private ServerArea theArea;
+    
     private boolean newClientHandler = false;
+    private LinkedList theShips = PilotixServer.theSA.getShips();
 
-    private LinkedList theShips;
 
-    private byte[] bytes;
-    private int bytesLength;
-
-    public ServerMainLoopThread() throws Exception {
-        System.out.println("[ServerMainLoopThread] is Started ");
-        theArea = PilotixServer.theSA;
-        theShips = theArea.getShips();
-
-        PilotixServer.theCHTs = new LinkedList();
-        PilotixServer.theNewCHTs = new LinkedList();
-
-    }
+    public ServerMainLoopThread() throws Exception {}
 
     public void run() {
 
@@ -70,9 +52,6 @@ public class ServerMainLoopThread extends Thread {
                         .get(i)).getShip());
                 Object toto = PilotixServer.theCHTs.get(i);
                 PilotixServer.theCHTs.remove(toto);
-                System.out.println("Ship id :"
-                        + (((ClientHandlerThread) toto).getShip()).getId()
-                        + " has been deleted");
                 System.out
                         .println("[ServerMainLoopThread] is Now Running with "
                                 + PilotixServer.theCHTs.size() + " player(s) ");
@@ -97,19 +76,8 @@ public class ServerMainLoopThread extends Thread {
                     + PilotixServer.theCHTs.size() + " player(s) ");
 
         }
-        //lancement des calculs des resolution de collision et passage a la
-        // frame suivante
-        theArea.nextFrame();
-
-        /*
-         * switch (i){ case 0 : System.out.print(" \\ \r");break; case 1 :
-         * System.out.print(" | \r");break; case 2 : System.out.print(" /
-         * \r");break; case 3 : System.out.print(" - \r");break; } i++;
-         */
-
-
+        PilotixServer.theSA.nextFrame();
         //envoye de la frame courante a tous les autre ships
-
         for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
             try {
                 ((ClientHandlerThread) PilotixServer.theCHTs.get(i)).sendArea();

@@ -31,8 +31,13 @@ public class ClockerThread extends Thread {
         serverMainLoopThread = aServerMainLoopThread;
     }
 
-    public void run() {
+    public void run() {    
         while (true) {
+            /*
+             * switch (i){ case 0 : System.out.print(" \\ \r");break; case 1 :
+             * System.out.print(" | \r");break; case 2 : System.out.print(" /
+             * \r");break; case 3 : System.out.print(" - \r");break; } i++;
+             */
             serverMainLoopThread.run();
             try {
                 sleep(1000 / framePerSecond);

@@ -45,7 +45,7 @@ public class Ship extends PilotixElement implements Message{
 
     protected Vector speed;
     protected Angle direction;
-    protected int radius = 300;
+    protected int radius = 400;
 
     private byte[] byteCoded = new byte[lengthInByte];
 
@@ -169,5 +169,9 @@ public class Ship extends PilotixElement implements Message{
      */
     public int getLengthInByte() {
         return lengthInByte;
+    }
+    
+    public int getRadius() {        
+        return radius;
     }
 }

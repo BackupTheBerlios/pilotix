@@ -98,10 +98,6 @@ public class ServerShip extends org.pilotix.common.Ship {
         speed.set(nextSpeed);
     }
 
-    /*public Vector getCurrentPosition() {
-        return position;
-    }*/
-
     public Vector getSpeed() {
         return speed;
     }
@@ -133,6 +129,5 @@ public class ServerShip extends org.pilotix.common.Ship {
     public Command getCommand() {
         return command;
     }
-
 }
   

@@ -41,10 +41,10 @@ public class PilotixServer {
     public static ClockerThread theCT;
     public static ConnexionHandlerThread theCHT;
     public static XMLHandler theXH;
-
+    
     public static boolean newCHTs;
-    public static LinkedList theNewCHTs;
-    public static LinkedList theCHTs;
+    public static LinkedList theNewCHTs = new LinkedList();
+    public static LinkedList theCHTs = new LinkedList();
     
     public static String dataPath = System.getProperty("pilotix.data.path")
     + "/";
