@@ -128,12 +128,15 @@
   <target name="client" description="Lancer le client">
     <java jar="${dist}/PilotixClient.jar" fork="true">
       <sysproperty key="pilotix.config.path" value="config"/>
+      <sysproperty key="pilotix.data.path" value="data"/>
     </java>
   </target>
 
   <!-- Lance le serveur -->
   <target name="server" description="Lancer le serveur">
-    <java jar="${dist}/PilotixServer.jar" fork="true"/>
+    <java jar="${dist}/PilotixServer.jar" fork="true">
+      <sysproperty key="pilotix.data.path" value="data"/>
+    </java>
   </target>
 
   <!-- Nettoyage -->
