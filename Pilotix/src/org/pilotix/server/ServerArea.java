@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
 
 //import java.util.ArrayList;
 
-public class ServerArea {
+public class ServerArea extends Area{
 
     public LinkedList theShips;
     private ServerShip tmpShip;
@@ -40,9 +40,9 @@ public class ServerArea {
 
     private CollisionHandler collisionHandler;
     private byte[] byteCoded;
-    private int bytesLength;
+    private int lengthInByte;
 
-    int ShipBytesLength = Ship.getBytesLength();
+    //int ShipBytesLength = Ship.getBytesLength();
 
     Vector coin1 = new Vector(0, 0);
     Vector coin2 = new Vector(65535, 65535);
@@ -129,27 +129,27 @@ public class ServerArea {
         return theShips;
     }
 
-    public byte[] getAsByte() {
+    public byte[] getAsBytes() {
         byte[] tmp;
         byteCoded[0] = 0;
         byteCoded[0] = (byte) (MessageHandler.FRAMEINFO << 4);
         byteCoded[0] |= (byte) theShips.size();
-        bytesLength = 1;
+        lengthInByte = 1;
         for (int i = 0; i < theShips.size(); i++) {
             tmpShip = (ServerShip) theShips.get(i);
             tmp = tmpShip.getAsBytes();
 
-            for (int j = 0; j < ShipBytesLength; j++) {
-                byteCoded[bytesLength + j] = tmp[j];
+            for (int j = 0; j < Ship.lengthInByte; j++) {
+                byteCoded[lengthInByte + j] = tmp[j];
 
             }
-            bytesLength += ShipBytesLength;
+            lengthInByte += Ship.lengthInByte;
         }
         return byteCoded;
     }
 
-    public int getLengthOfByte() {
-        return bytesLength;
+    public int getLengthInByte() {
+        return lengthInByte;
     }
 
     public void nextFrame() {
