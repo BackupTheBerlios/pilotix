@@ -20,7 +20,6 @@
 package org.pilotix.server;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class ServerMainLoopThread extends Thread {
 
