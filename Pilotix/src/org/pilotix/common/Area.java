@@ -31,6 +31,7 @@ package org.pilotix.common;
  * </pre>
  */
 
+
 public class Area implements Transferable {
 
     protected int nbShips;
