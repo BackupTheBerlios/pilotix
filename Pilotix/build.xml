@@ -8,7 +8,6 @@
   <property name="src" location="src"/>
   <property name="build" location="class"/>
   <property name="dist" location="dist"/>
-  <property name="config" location="config"/>
   <property name="data" location="data"/>
   <property name="properties" location="properties"/>
   <property name="docs" location="docs"/>
@@ -60,7 +59,6 @@
     <mkdir dir="${dist}"/>
     <jar jarfile="${dist}/PilotixClient.jar">
       <fileset dir="${build}" includes="org/pilotix/client/**"/>
-      <fileset dir="." includes="config/*"/>
       <fileset dir="." includes="properties/*Client*"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
@@ -132,6 +130,17 @@
     </java>
   </target>
 
+  <!-- Lance le client sans utiliser les JAR -->
+  <target name="client2" depends="compile" description="Lancer le client sans utiliser les JAR">
+    <java classname="org.pilotix.client.PilotixClient" fork="true">
+      <classpath>
+        <pathelement location="${build}"/>
+        <pathelement location="."/>
+      </classpath>
+      <sysproperty key="pilotix.data.path" value="data"/>
+    </java>
+  </target>
+
   <!-- Lance le serveur -->
   <target name="server" description="Lancer le serveur">
     <java jar="${dist}/PilotixServer.jar" fork="true">
@@ -157,14 +166,15 @@
     <echo message="   ant &lt;option&gt;"/>
     <echo message=""/>
     <echo message="   &lt;option&gt; : "/>
-    <echo message="            server    : Lance un serveur"/>
-    <echo message="            client    : Lance un client"/>
-    <echo message="            compile   : Compilation du projet"/>
-    <echo message="            dist      : Compilation + Archives JAR non signées"/>
-    <echo message="            signature : Compilation + Archives JAR signées"/>
-    <echo message="            javadoc   : Documentation"/>
-    <echo message="            clean     : Nettoyage des classes et des archives"/>
-    <echo message="            clean-all : Idem + documentation Javadoc"/>
+    <echo message="            server      : Lance un serveur"/>
+    <echo message="            client      : Lance un client à partir des JAR"/>
+    <echo message="            clientseul  : Lance un client sans utiliser les JAR"/>
+    <echo message="            compile     : Compilation du projet"/>
+    <echo message="            dist        : Compilation + Archives JAR non signées"/>
+    <echo message="            signature   : Compilation + Archives JAR signées"/>
+    <echo message="            javadoc     : Documentation"/>
+    <echo message="            clean       : Nettoyage des classes et des archives"/>
+    <echo message="            clean-all   : Idem + documentation Javadoc"/>
   </target>
 
 </project>
