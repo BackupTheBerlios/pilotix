@@ -19,17 +19,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 package org.pilotix.common;
 
-/**
- * Contient les informations relatives à l'aire de jeu,
- * et les méthodes d'encapsulation pour les transferts
- * sur le réseau.
- *
- * <pre>
- * |   Octet 0   | Octet 1- 6 | Octet 7-12 |...
- * | 4bit | 4bit |            |            |
- * | Flag |nbShip|   a Ship   |   a Ship   |...
- * </pre>
- */
+/*
+* Contient les informations relatives à l'aire de jeu,
+* et les méthodes d'encapsulation pour les transferts
+* réseau
+*
+* <pre>
+* |   Octet 0   | Octet 1- 6 | Octet 7-12 |...
+* | 4bit | 4bit |            |            |
+* | Flag |nbShip|   a Ship   |   a Ship   |...
+* </pre>
+*/
 
 public class Area implements Message {
 
