@@ -145,6 +145,17 @@ public class IterableArray {
     }
 
     /**
+    * Teste la présence d'un objet à la case indiquée.
+    *
+    * @param index
+    *            numéro de la case à tester
+    * @return vrai s'il y a un objet, faux sinon
+    */
+    public boolean isNull(int index) {
+        return objects[index] == null;
+    }
+
+    /**
     * retourne le nombre de cases non vides
     * @return le nombre de cases utilisées
     */
@@ -199,8 +210,8 @@ public class IterableArray {
         first = -1;
         last = -1;
         current = -1;
-        /*for (int i = 0; i < max; i++)
-          objects[i] = null;*/
+        for (int i = 0; i < max; i++)
+          objects[i] = null;
     }
 
     /**
@@ -278,104 +289,103 @@ public class IterableArray {
         }
         System.out.println();
     }
+/*
+    public static void main(String[] args) {
+        IterableArray ia2 = new IterableArray(10);
+        System.out.println("Test de IterrableArray");
+        try {
+            ia2.afficherEtat();
+            ia2.add(5,"Cinq");
+            ia2.afficherEtat();
+            ia2.add(2,"Deux");
+            ia2.afficherEtat();
+            ia2.add(8,"Huit");
+            ia2.afficherEtat();
+            ia2.add(7,"Sept");
+            ia2.afficherEtat();
+            ia2.add(0,"Zero");
+            ia2.afficherEtat();
+            ia2.remove(8);
+            ia2.afficherEtat();
+            ia2.remove(0);
+            ia2.afficherEtat();
+            ia2.remove(5);
+            ia2.afficherEtat();
 
-    /*public static void main(String[] args) {
-      IterableArray2 ia2 = new IterableArray2(10);
-      System.out.println("Test de IterrableArray");
-      try {
-        ia2.afficherEtat();
-        ia2.add(5,"Cinq");
-        ia2.afficherEtat();
-        ia2.add(2,"Deux");
-        ia2.afficherEtat();
-        ia2.add(8,"Huit");
-        ia2.afficherEtat();
-        ia2.add(7,"Sept");
-        ia2.afficherEtat();
-        ia2.add(0,"Zero");
-        ia2.afficherEtat();
-        ia2.remove(8);
-        ia2.afficherEtat();
-        ia2.remove(0);
-        ia2.afficherEtat();
-        ia2.remove(5);
-        ia2.afficherEtat();
+            ia2.setCursorOnFirst();
+            while (ia2.hasNext()) {
+                System.out.print(ia2.next());
+            }
+            System.out.println();
 
-        ia2.setCursorOnFirst();
-        while (ia2.hasNext()) {
-          System.out.print(ia2.next());
+            ia2.setCursorOnLast();
+            while (ia2.hasPrev()) {
+                System.out.print(ia2.prev());
+            }
+            System.out.println();
+
+            System.out.println("Un");
+            ia2.add(1, "Un");
+            System.out.println(ia2.get(1));
+            ia2.afficherEtat();
+            System.out.println("-");
+            ia2.clear();
+
+            System.out.println("UnDeux");
+            ia2.add(1, "Un");
+            ia2.add(2, "Deux");
+            ia2.setCursorOnFirst();
+            while (ia2.hasNext()) {
+                System.out.print(ia2.next());
+            }
+            ia2.afficherEtat();
+            System.out.println("\n-");
+            ia2.clear();
+
+            System.out.println("UnTrois");
+            ia2.add(1, "Un");
+            ia2.add(2, "Deux");
+            ia2.remove(2);
+            ia2.add(3, "Trois");
+            ia2.setCursorOnFirst();
+            while (ia2.hasNext()) {
+                System.out.print(ia2.next());
+            }
+            ia2.afficherEtat();
+            System.out.println("\n-");
+            ia2.clear();
+
+            System.out.println("TroisDeuxUn");
+            ia2.add(1, "Un");
+            ia2.add(2, "Deux");
+            ia2.add(3, "Trois");
+            ia2.setCursorOnLast();
+            while (ia2.hasPrev()) {
+                System.out.print(ia2.prev());
+            }
+            ia2.afficherEtat();
+            System.out.println("\n-");
+            ia2.clear();
+
+            System.out.println("UnTroisCinqSept");
+            ia2.add(1, "Un");
+            ia2.afficherEtat();
+            ia2.add(7, "Sept");
+            ia2.afficherEtat();
+            ia2.add(3, "Trois");
+            ia2.afficherEtat();
+            ia2.add(5, "Cinq");
+            ia2.afficherEtat();
+            ia2.setCursorOnFirst();
+            while (ia2.hasNext()) {
+              System.out.print(ia2.next());
+            }
+            //ia2.afficherEtat();
+            System.out.println("\n-");
+            ia2.clear();
+        } catch (Exception e) {
+          e.printStackTrace();
         }
-        System.out.println();
-
-
-        ia2.setCursorOnLast();
-        while (ia2.hasPrev()) {
-          System.out.print(ia2.prev());
-        }
-        System.out.println();
-
-  /*			System.out.println("Un");
-        ia2.add(1, "Un");
-        System.out.println(ia2.get(1));
-        ia2.afficherEtat();
-        System.out.println("-");
-        ia2.clear();
-
-        System.out.println("UnDeux");
-        ia2.add(1, "Un");
-        ia2.add(2, "Deux");
-        ia2.setCursorOnFirst();
-        while (ia2.hasNext()) {
-          System.out.print(ia2.next());
-        }
-        ia2.afficherEtat();
-        System.out.println("\n-");
-        ia2.clear();
-
-        System.out.println("UnTrois");
-        ia2.add(1, "Un");
-        ia2.add(2, "Deux");
-        ia2.remove(2);
-        ia2.add(3, "Trois");
-        ia2.setCursorOnFirst();
-        while (ia2.hasNext()) {
-          System.out.print(ia2.next());
-        }
-        ia2.afficherEtat();
-        System.out.println("\n-");
-        ia2.clear();
-
-        System.out.println("TroisDeuxUn");
-        ia2.add(1, "Un");
-        ia2.add(2, "Deux");
-        ia2.add(3, "Trois");
-        ia2.setCursorOnLast();
-        while (ia2.hasPrev()) {
-          System.out.print(ia2.prev());
-        }
-        ia2.afficherEtat();
-        System.out.println("\n-");
-        ia2.clear();
-
-        System.out.println("UnTroisCinqSept");
-        ia2.add(1, "Un");
-        ia2.afficherEtat();
-        ia2.add(7, "Sept");
-        ia2.afficherEtat();
-        ia2.add(3, "Trois");
-        ia2.afficherEtat();
-        ia2.add(5, "Cinq");
-        ia2.afficherEtat();
-        ia2.setCursorOnFirst();
-        while (ia2.hasNext()) {
-          System.out.print(ia2.next());
-        }
-        //ia2.afficherEtat();
-        System.out.println("\n-");
-        ia2.clear();
-  *//*
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }*/
+    }
+*/
 }
