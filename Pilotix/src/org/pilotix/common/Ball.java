@@ -49,7 +49,6 @@ public class Ball extends PilotixElement implements Transferable {
     protected Vector speed = new Vector();
     public static int lengthInByte = 7;
     private byte[] byteCoded = new byte[lengthInByte];
-
     private int radius = 100;
 
     public Ball(Vector aPosition, Vector aSpeed) {
@@ -128,8 +127,7 @@ public class Ball extends PilotixElement implements Transferable {
         return radius;
     }
     
-    public Vector getSpeed(){
+    public Vector getSpeed() {
         return speed;
     }
-
 }
