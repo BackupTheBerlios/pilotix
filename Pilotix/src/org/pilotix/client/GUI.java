@@ -70,7 +70,7 @@ public class GUI extends JFrame {
         }
         setLocation((screenSize.width - frameSize.width) / 2,
                 (screenSize.height - frameSize.height) / 2);
-        show();
+        setVisible(true);
     }
 
     /**
