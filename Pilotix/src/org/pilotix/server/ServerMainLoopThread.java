@@ -19,42 +19,39 @@
 
 package org.pilotix.server;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ServerMainLoopThread extends Thread {
-    
+
     private boolean newClientHandler = false;
     private LinkedList theShips = PilotixServer.theSA.getShips();
 
-
-    public ServerMainLoopThread() throws Exception {}
+    public ServerMainLoopThread() throws Exception {
+    }
 
     public void run() {
 
         //Supression des Clients desirant partir de la list des client
-        for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
-            int state = ((ClientHandlerThread) PilotixServer.theCHTs.get(i))
-                    .getState();
+        for(int i=0;i<PilotixServer.theCHTs.size();i++){        
+            ClientHandlerThread CHT = (ClientHandlerThread) PilotixServer.theCHTs.get(i);
+            int state = CHT.getState();
             switch (state) {
             // Le client a quite la partie sortir
             case ClientHandlerThread.WANTTOLEAVE:
-                ((ClientHandlerThread) PilotixServer.theCHTs.get(i))
-                        .setState(ClientHandlerThread.TOBEKILL);
+                CHT.setState(ClientHandlerThread.TOBEKILL);
                 break;
             // Le client a quitte violament
             case ClientHandlerThread.DECONNECTED:
-                ((ClientHandlerThread) PilotixServer.theCHTs.get(i))
-                        .setState(ClientHandlerThread.TOBEKILL);
+                CHT.setState(ClientHandlerThread.TOBEKILL);
                 break;
             // Supression du client ayant quite
             case ClientHandlerThread.TOBEKILL:
-                theShips.remove(((ClientHandlerThread) PilotixServer.theCHTs
-                        .get(i)).getShip());
-                Object toto = PilotixServer.theCHTs.get(i);
+                theShips.remove(CHT.getShip());
+                Object toto = CHT;
                 PilotixServer.theCHTs.remove(toto);
-                System.out
-                        .println("[ServerMainLoopThread] is Now Running with "
-                                + PilotixServer.theCHTs.size() + " player(s) ");
+                System.out.println("[ServerMainLoopThread] is Now Running with "
+                    + PilotixServer.theCHTs.size() + " player(s) ");
                 break;
             }
         }
@@ -64,23 +61,27 @@ public class ServerMainLoopThread extends Thread {
             PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
             //Ajout des nouveaux ships 
             //et affectation et envoie au clients des numero de ship
-            for (int i = 0; i < PilotixServer.theNewCHTs.size(); i++) {
-                theShips.add(((ClientHandlerThread) (PilotixServer.theNewCHTs
-                        .get(i))).getShip());
+            for(Iterator iter = PilotixServer.theNewCHTs.iterator();iter.hasNext();){
+                ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();          
+                theShips.add(newCHT.getShip());
             }
             //effacement de la liste temporaire
             PilotixServer.theNewCHTs.clear();
 
             newClientHandler = false;
             System.out.println("[ServerMainLoopThread] is Now Running with "
-                    + PilotixServer.theCHTs.size() + " player(s) ");
+                + PilotixServer.theCHTs.size() + " player(s) ");
 
         }
+        
         PilotixServer.theSA.nextFrame();
         //envoye de la frame courante a tous les autre ships
-        for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
+            for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
+        //Iterator iter3 = PilotixServer.theCHTs.iterator();
+       // while (iter3.hasNext()) {
+            ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
             try {
-                ((ClientHandlerThread) PilotixServer.theCHTs.get(i)).sendArea();
+                CHT.sendArea();
             } catch (Exception e) {
                 //e.printStackTrace();
             }
