@@ -74,7 +74,7 @@
 	<Point Id=" 70" X="-0.733102" Y="-4.541368" Z=" 0.541794"/>
 	<Point Id=" 71" X="-0.919000" Y=" 1.690420" Z=" 0.661331"/>
 
-	<FaceList Id="coque" R="0.8" G="0.8" B="0.8">
+	<FaceList Id="coque" R="0.3" G="0.3" B="0.3">
 		<Face PointIds="2 8 9"/>
 		<Face PointIds="6 10 7"/>
 		<Face PointIds="6 12 10"/>
@@ -208,7 +208,7 @@
 		<Face PointIds="61 62 65"/>
 		<Face PointIds="61 65 28"/>
 	</FaceList>
-	<FaceList Id="vitre" R="0.0" G="0.0" B="1.0">
+	<FaceList Id="vitre" R="0.0" G="0.0" B="0.7">
 		<Face PointIds="1 4 8"/>
 		<Face PointIds="4 21 8"/>
 		<Face PointIds="35 5 1"/>
