@@ -19,36 +19,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 package org.pilotix.common;
 
-/*
-* Contient les informations relatives à l'aire de jeu,
-* et les méthodes d'encapsulation pour les transferts
-* réseau
-*
-* <pre>
-* |   Octet 0   | Octet 1- 6 | Octet 7-12 |...
-* | 4bit | 4bit |            |            |
-* | Flag |nbShip|   a Ship   |   a Ship   |...
-* </pre>
-*/
+/**
+ * Contient les informations relatives à l'aire de jeu,
+ * et les méthodes d'encapsulation pour les transferts
+ * sur le réseau.
+ *
+ * <pre>
+ * |   Octet 0   | Octet 1- 6 | Octet 7-12 |...
+ * | 4bit | 4bit |            |            |
+ * | Flag |nbShip|   a Ship   |   a Ship   |...
+ * </pre>
+ */
 
 public class Area implements Message {
 
     protected int nbShips;
     protected Ship[] ships;
     private int lengthInByte;
+    private Ship tmpShip;
 
     private byte[] byteCoded = null;
 
     public Area(){
         ships = new Ship[16];
         nbShips = 0;
+        tmpShip = new Ship();
     }
 
     public void set(Area anArea){
         nbShips = anArea.nbShips;
         ships = anArea.ships;
         lengthInByte = anArea.lengthInByte;
-
     }
 
     public void setFromBytes(byte[] bytes) {
@@ -58,7 +59,6 @@ public class Area implements Message {
         int index = 1;
         byte[] tmpByte = new byte[Ship.lengthInByte];
 
-        Ship tmpClientShip = new Ship();
         for (int i = 0; i < nbShips; i++) {
             tmpByte[0] = bytes[index];
             tmpByte[1] = bytes[index + 1];
@@ -66,20 +66,20 @@ public class Area implements Message {
             tmpByte[3] = bytes[index + 3];
             tmpByte[4] = bytes[index + 4];
             tmpByte[5] = bytes[index + 5];
-            
-            tmpClientShip.setFromBytes(tmpByte);
-            if (tmpClientShip.getStates() == Ship.REMOVE) {            
-                ships[tmpClientShip.getId()] = null;
+
+            tmpShip.setFromBytes(tmpByte);
+            if (tmpShip.getStates() == Ship.REMOVE) {
+                ships[tmpShip.getId()] = null;
             } else {
-                if (ships[tmpClientShip.getId()] == null) {
-                    ships[tmpClientShip.getId()] = new Ship();
+                if (ships[tmpShip.getId()] == null) {
+                    ships[tmpShip.getId()] = new Ship();
                 }
-                ships[tmpClientShip.getId()].set((Ship) tmpClientShip);
+                ships[tmpShip.getId()].set(tmpShip);
             }
             index = index + Ship.lengthInByte;
         }
     }
-    
+
     public byte[] getAsBytes() {
                         
         byte[] tmp;
