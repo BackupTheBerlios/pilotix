@@ -16,15 +16,12 @@
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/**
- * Vector : type de base pour la représentation 2D
- *
- * Auteurs : - Florent (dernière modif : 16/04/2003)
- */
 package org.pilotix.common;
 
 /**
- * vecteur 2D a multiple usage : position vitesse acceleration
+ * Vecteur 2D à multiples usages : position, vitesse, accéleration.
+ *
+ * @author Florent Sithimolada
  */
 public class Vector {
 
@@ -32,19 +29,19 @@ public class Vector {
     public int y;
 
     /**
-     * creation d'un vecteur  valeur initial = (0,0)
+     * Crée un vecteur de valeur (0,0).
      */
     public Vector() {
         this(0,0);
     }
 
     /**
-     * creation d'un vecteur avec deux valeur initial
+     * Crée un vecteur avec les valeurs fournies.
      *
      * @param px
-     *            valeur x
+     *            valeur de x
      * @param py
-     *            valeur y
+     *            valeur de y
      */
     public Vector(int px, int py) {
         x = px;
@@ -52,12 +49,12 @@ public class Vector {
     }
 
     /**
-     * mise a jour d'un vecteur avec deux valeur initial
+     * Met à jour un vecteur avec les valeurs fournies.
      *
      * @param px
-     *            valeur x
+     *            nouvelle valeur de x
      * @param py
-     *            valeur y
+     *            nouvelle valeur de y
      */
     public void set(int px, int py) {
         x = px;
@@ -65,11 +62,11 @@ public class Vector {
     }
 
     /**
-     * mise a jour d'un vecteur avec un autre vecteur
+     * Met à jour un vecteur avec un autre vecteur
      *
      * @param b
      *            le vecteur dont chaque composante sera
-     *            copiee dans le vecteur courant
+     *            copiée dans le vecteur courant
      */
     public void set(Vector b) {
         x = b.x;
@@ -77,7 +74,8 @@ public class Vector {
     }
 
     /**
-     * produit  vectoriel entre 2 vecteur
+     * Multiplie chaque terme du vecteur par les valeurs
+     * correspondantes du vecteur passé en paramètre.
      *
      * @param b
      *            le vecteur dont chaque composante sert

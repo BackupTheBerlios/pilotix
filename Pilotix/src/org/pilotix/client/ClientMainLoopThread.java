@@ -30,10 +30,11 @@ import org.pilotix.common.MessageHandler;
 import org.pilotix.common.Ship;
 
 /**
- * Cette classe est utilisée pour recevoir des messages du serveur et pour
- * mettre à jour ClientArea, Display3D et le tableau des joueurs dans GUIPanel
- * en fonction de ceux-ci.
- * 
+ * Cette classe est utilisée pour recevoir des messages
+ * du serveur et pour mettre à jour ClientArea, Display3D
+ * et le tableau des joueurs dans GUIPanel, en fonction
+ * de ceux-ci.
+ *
  * @see MessageHandler
  * @see ClientArea
  * @see GUIPanel
@@ -167,7 +168,6 @@ public class ClientMainLoopThread extends Thread {
             Information info = new Information();
             info.code = Information.DECONNECT;
             clientMessageHandler.send(info);
-            //clientMessageHandler.sendSESSIONMessage(0);
             if (Environment.debug) {
                 System.out
                         .println("[ClientMainLoopThread.endGame] Message SESSION(0) envoyé au serveur");
