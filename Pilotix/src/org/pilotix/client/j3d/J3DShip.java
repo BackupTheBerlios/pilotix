@@ -51,7 +51,6 @@ import javax.vecmath.Vector3f;
 public class J3DShip extends J3DObject {
 
     private J3DCamera camera = null;
-    private int id;
 
     /**
      * Crée une représentation 3D d'un vaisseau.
@@ -166,10 +165,4 @@ public class J3DShip extends J3DObject {
         return camera;
     }
     
-    public int getId(){
-        return id;
-    }
-    public void setId(int id){
-        this.id =id ; 
-    }
 }
