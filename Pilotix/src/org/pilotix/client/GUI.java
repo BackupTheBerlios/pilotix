@@ -24,6 +24,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import javax.swing.WindowConstants;
 
 /**
  * <p>
@@ -54,7 +55,7 @@ public class GUI extends JFrame {
                 "mainFrameTitle"));
         setSize(Environment.theXMLConfigHandler.getInterfaceLength(),
                 Environment.theXMLConfigHandler.getInterfaceHeight());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         guipanel = new GUIPanel();
         getContentPane().add("Center", guipanel);
