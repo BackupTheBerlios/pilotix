@@ -40,16 +40,12 @@ public class ServerArea {
 
     private CollisionHandler collisionHandler;
     private byte[] byteCoded;
-    private int LengthOfByteToSend;
+    private int bytesLength;
 
-    byte ShipBytesLength = Ship.bytesLength;
+    int ShipBytesLength = Ship.getBytesLength();
 
-    Vector coin1 = new Vector(
-        0,
-        0);
-    Vector coin2 = new Vector(
-        65535,
-        65535);
+    Vector coin1 = new Vector(0, 0);
+    Vector coin2 = new Vector(65535, 65535);
     int radius = 300;
     int coin1x = coin1.x + radius;
     int coin2x = coin2.x - radius;
@@ -73,10 +69,10 @@ public class ServerArea {
 
     public void collideWithBoundary(ServerShip s) {
 
-        currentPosition = s.getCurrentPosition();
+        currentPosition = s.getPosition();
         returnedPosition = s.getNextPosition();
         returnedSpeed = s.getNextSpeed();
- 
+
         if ((returnedPosition.x - radius) < coin1x) {
             returnedPosition.x = coin1x + radius;
             returnedSpeed.x = 0;
@@ -98,57 +94,34 @@ public class ServerArea {
     }
 
     public void collideWithObstacle(ServerShip s) {
-        currentPosition = s.getCurrentPosition();
+        currentPosition = s.getPosition();
         returnedPosition = s.getNextPosition();
         returnedSpeed = s.getNextSpeed();
         for (Iterator iter = obstacles.iterator(); iter.hasNext();) {
-            //System.out.println("ob");
             Obstacle obstacle = (Obstacle) iter.next();
             up = obstacle.upLeftCorner.y;
             down = obstacle.downRightCorner.y;
             left = obstacle.upLeftCorner.x;
             right = obstacle.downRightCorner.x;
-            if (((left - radius) < returnedPosition.x) && (returnedPosition.x < (right+radius))
-                && ((down-radius) < returnedPosition.y) && (returnedPosition.y < (up+radius))) {
-                //System.out.println("ouou");
+            if (((left - radius) < returnedPosition.x)
+                    && (returnedPosition.x < (right + radius))
+                    && ((down - radius) < returnedPosition.y)
+                    && (returnedPosition.y < (up + radius))) {                
                 if (currentPosition.x < left) {
                     returnedSpeed.x = 0;
-                    returnedPosition.x = left -radius;
+                    returnedPosition.x = left - radius;
                 } else if (right < currentPosition.x) {
                     returnedSpeed.x = 0;
-                    returnedPosition.x = right +radius;
+                    returnedPosition.x = right + radius;
                 }
                 if (currentPosition.y < down) {
                     returnedSpeed.y = 0;
-                    returnedPosition.y = down-radius;
+                    returnedPosition.y = down - radius;
                 } else if (up < currentPosition.y) {
                     returnedSpeed.y = 0;
-                    returnedPosition.y = up+radius;
-                }
-                //returnedSpeed.x = 0;
-                //returnedSpeed.y = 0;
-
-                /*if ((left > currentPosition.x) && (currentPosition.x > right)) {
-                    returnedSpeed.y = 0;
-                    if ((currentPosition.x - left) < (right - currentPosition.x)) {
-                        returnedPosition.x = left - radius;
-                    } else {
-                        returnedPosition.x = right + radius;
-                    }
-                }
-
-                if ((down < currentPosition.y) && (currentPosition.y < up)) {
-                    returnedSpeed.x = 0;
-                    if ((currentPosition.y - down) < (up - currentPosition.y)) {
-                        returnedPosition.y = down - radius;
-                    } else {
-                        returnedPosition.y = up + radius;
-                    }
-
-                }*/
+                    returnedPosition.y = up + radius;
+                }                
             }
-            s.setNextPosition(returnedPosition);
-            s.setNextSpeed(returnedSpeed);
         }
     }
 
@@ -157,86 +130,57 @@ public class ServerArea {
     }
 
     public byte[] getAsByte() {
-        /*
-         | Octet 0     | Octet 1-6 | Octet 7-12|... 
-         | 4bit | 4bit | 6 Octet | 6  Octet |... 
-         |Flag 4|nbship| Ship 0  | Ship 1 |...
-         */
         byte[] tmp;
         byteCoded[0] = 0;
         byteCoded[0] = (byte) (MessageHandler.FRAMEINFO << 4);
         byteCoded[0] |= (byte) theShips.size();
-        LengthOfByteToSend = 1;
+        bytesLength = 1;
         for (int i = 0; i < theShips.size(); i++) {
             tmpShip = (ServerShip) theShips.get(i);
             tmp = tmpShip.getAsBytes();
 
             for (int j = 0; j < ShipBytesLength; j++) {
-                byteCoded[LengthOfByteToSend + j] = tmp[j];
+                byteCoded[bytesLength + j] = tmp[j];
 
             }
-            LengthOfByteToSend += ShipBytesLength;
+            bytesLength += ShipBytesLength;
         }
         return byteCoded;
     }
 
     public int getLengthOfByte() {
-        return LengthOfByteToSend;
+        return bytesLength;
     }
 
     public void nextFrame() {
 
-        //calcul des force des liaisons tresor ships
 
-        //Calcule de trajectoirs des ships:
-
+        //Calcule de trajectoirs des ships sans obstacle:
         for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
-            //if( tmpShip != null){
-            tmpShip.computeSpeedFromForces();
-            //}else{}
+            tmpShip = (ServerShip) theShips.get(i);           
+            tmpShip.computeSpeedFromForces();        
         }
-
-        // Ships/Ships collision :
-        //for(int i=0;i<ships.size();i++){
-        //    for(int j=0;j<ships.size();j++){
-        //        collideShips(ships.get(i),ships.get(j));
-        //    }
-        //}
-
-        // Ships/bullet collision :
-        //for(int i=0;i<ships.size();i++){
-        //    for(int j=0;j<ships.size();j++){
-        //        collideShips(ships.get(i),ships.get(j));
-        //    }
-        //}
 
         //Ships/Wall collision : :
         for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
-            //if( tmpShip != null){
+            tmpShip = (ServerShip) theShips.get(i);            
             collideWithBoundary(tmpShip);
-            collideWithObstacle(tmpShip);
-            //}
+            collideWithObstacle(tmpShip);            
         }
-
+        // affectation des trajectoirs des ships	
         for (int i = 0; i < theShips.size(); i++) {
             tmpShip = (ServerShip) theShips.get(i);
-            //if( tmpShip != null){
             tmpShip.nextFrame();
-            //}
-
         }
     }
 
     public void setMap(String aMapFile) {
 
-        Document document = PilotixServer.theXH.getDocumentFromFile(aMapFile);
+        Document document = XMLHandler.getDocumentFromFile(aMapFile);
         Element rootNode = document.getDocumentElement();
 
-        coin2.set(
-            Integer.parseInt(rootNode.getAttribute("height")),
-            Integer.parseInt(rootNode.getAttribute("width")));
+        coin2.set(Integer.parseInt(rootNode.getAttribute("height")), Integer
+                .parseInt(rootNode.getAttribute("width")));
 
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
 
@@ -246,18 +190,16 @@ public class ServerArea {
 
         for (int i = 0; i < theObstacles.getLength(); i++) {
             tmp = ((Element) theObstacles.item(i))
-                .getElementsByTagName("UpLeftCorner");
+                    .getElementsByTagName("UpLeftCorner");
             upLeftCorner = (Element) tmp.item(0);
             tmp = ((Element) theObstacles.item(i))
-                .getElementsByTagName("DownRightCorner");
+                    .getElementsByTagName("DownRightCorner");
             downRightCorner = (Element) tmp.item(0);
-            obstacles.add(new Obstacle(
-                new Vector(
-                    Integer.parseInt(upLeftCorner.getAttribute("X")),
-                    Integer.parseInt(upLeftCorner.getAttribute("Y"))),
-                new Vector(
-                    Integer.parseInt(downRightCorner.getAttribute("X")),
-                    Integer.parseInt(downRightCorner.getAttribute("Y")))));
+            obstacles.add(new Obstacle(new Vector(Integer.parseInt(upLeftCorner
+                    .getAttribute("X")), Integer.parseInt(upLeftCorner
+                    .getAttribute("Y"))), new Vector(Integer
+                    .parseInt(downRightCorner.getAttribute("X")), Integer
+                    .parseInt(downRightCorner.getAttribute("Y")))));
         }
     }
 

@@ -19,7 +19,20 @@
 
 package org.pilotix.common;
 
-//import java.util.LinkedList;
+/*
+ * Contient les information relative a un Vaisseau.
+ * est spécialisé en ServerShip pour le server et
+ * ClientShip pour le client.
+ * 
+ * Contient egalement les methodes d'encapsulation pour les 
+ * transfert reseau
+ * 
+ * |   Octet 0   | Octet1-2| Octet3-4| Octet 5 |
+ * | 4bit | 4bit | 2Octets | 2Octets | 1Octet  | 
+ * |  Id  |States|    X    |    Y    |Direction|
+ *  
+ */
+
 
 public class Ship extends PilotixElement {
 
@@ -29,25 +42,22 @@ public class Ship extends PilotixElement {
     public final static int HIT = 3;
     public final static int ACCELERATING = 4;
 
-    public static final byte bytesLength = 6;
+    protected static byte bytesLength = 6;
 
-    protected int id;
-    protected int states;
-    protected Vector currentPosition;
+    protected Vector speed;
     protected Angle direction;
-    protected int radius = 10;
+    protected int radius = 300;
 
-    //private byte[] byteCoded;
-    private int inc;
-    private int deg;
+    
 
     public Ship() {
         super();
         id = -1;
-        currentPosition = new Vector(0, 0);
+        position = new Vector(0, 0);
         direction = new Angle(0);
         states = 0;
         byteCoded = new byte[bytesLength];
+        
     }
 
     /*
@@ -66,7 +76,7 @@ public class Ship extends PilotixElement {
     public void set(Ship aShip) {
         states = aShip.states;
         id = aShip.id;
-        currentPosition.set(aShip.getPosition());
+        position.set(aShip.getPosition());
         direction.set(aShip.getDirection());
     }
 
@@ -75,7 +85,7 @@ public class Ship extends PilotixElement {
     }
 
     public void setPosition(Vector aPosition) {
-        currentPosition = aPosition;
+        position = aPosition;
     }
 
     public void setDirection(Angle aDirection) {
@@ -96,7 +106,7 @@ public class Ship extends PilotixElement {
      * @return the current position of the Ship
      */
     public Vector getPosition() {
-        return currentPosition;
+        return position;
     }
 
     /**
@@ -112,36 +122,30 @@ public class Ship extends PilotixElement {
         return states;
     }
 
-    //methodes pour la transmission/reception du ship
-
-    /*
-     * | Octet 0 | Octet 1 | Octet 2 | Octet 3 | Octet 4 | Octet 5 | | 4bit |
-     * 4bit | 2 Octets | 2 Octets | | | Id |States| X | Y | Direction |
-     */
-
+    
     public void setFromBytes(byte[] bytes) {
         //flag = (byte)((bytes[0] & 240) >> 4);
         id = (byte) ((bytes[0] & 240) >> 4);
         states = (byte) (bytes[0] & 15);
 
-        currentPosition.x = 0;
-        currentPosition.y = 0;
+        position.x = 0;
+        position.y = 0;
 
-        inc = 1;
+        int inc = 1;
         for (int i = 0; i < 8; i++) {
-            currentPosition.x += ((byte) (bytes[2] >> i) & 0x01) * inc;
-            currentPosition.y += ((byte) (bytes[4] >> i) & 0x01) * inc;
+            position.x += ((byte) (bytes[2] >> i) & 0x01) * inc;
+            position.y += ((byte) (bytes[4] >> i) & 0x01) * inc;
             inc = inc << 1;
         }
         inc = 256;
         for (int i = 0; i < 8; i++) {
-            currentPosition.x += ((byte) (bytes[1] >> i) & 0x01) * inc;
-            currentPosition.y += ((byte) (bytes[3] >> i) & 0x01) * inc;
+            position.x += ((byte) (bytes[1] >> i) & 0x01) * inc;
+            position.y += ((byte) (bytes[3] >> i) & 0x01) * inc;
             inc = inc << 1;
         }
 
         inc = 1;
-        deg = 0;
+        int deg = 0;
         for (int i = 0; i < 8; i++) {
             deg += ((byte) (bytes[5] >> i) & 0x01) * inc;
             inc = inc << 1;
@@ -155,13 +159,18 @@ public class Ship extends PilotixElement {
         byteCoded[0] = (byte) (id << 4);
         byteCoded[0] |= (byte) states;
 
-        byteCoded[1] = (byte) (currentPosition.x / 256);
-        byteCoded[2] = (byte) currentPosition.x;
-        byteCoded[3] = (byte) (currentPosition.y / 256);
-        byteCoded[4] = (byte) currentPosition.y;
+        byteCoded[1] = (byte) (position.x / 256);
+        byteCoded[2] = (byte) position.x;
+        byteCoded[3] = (byte) (position.y / 256);
+        byteCoded[4] = (byte) position.y;
         byteCoded[5] = (byte) (direction.get() / 2);
 
         return byteCoded;
     }
+    /**
+     * @return Returns the bytesLength.
+     */
+    public static int getBytesLength() {
+        return bytesLength;
+    }
 }
-  

@@ -1,22 +1,42 @@
 /*
- * Created on 10 avr. 2004
- *
- * To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
+Pilotix : a multiplayer piloting game.
+Copyright (C) 2003 Pilotix.Org
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
 package org.pilotix.common;
 
+/*
+* Contient les information relative a l'aire de jeu.
+* 
+* Contient egalement les methodes d'encapsulation pour les 
+* transfert reseau
+* 
+* |   Octet 0   | Octet 1- 6 | Octet 7-12 |...
+* | 4bit | 4bit |            |            |      
+* | Flag |nbShip|   a Ship   |   a Ship   |...
+*  
+*/
 
-/**
- * @author flo
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
 public class Area extends PilotixElement {
 
     protected int nbShips;
     protected Ship[] ships;
+    
+    private static int byteLength;
     
     public Area(){
         ships = new Ship[16];
@@ -25,16 +45,13 @@ public class Area extends PilotixElement {
     
    
     public void setFromBytes(byte[] bytes) {
-        /*
-         * | Octet 0 | Octet 1- 6 | Octet 7-12 |... | 4bit | 4bit | | | |
-         * Flag4|nbShip| aShip | aShip |...
-         */
+        
 
         //Flag = (byte)((bytes[0] & 240) >> 4);
         nbShips = (byte) (bytes[0] & 15);
 
         int index = 1;
-        byte[] tmpByte = new byte[6];
+        byte[] tmpByte = new byte[Ship.getBytesLength()];
         //System.out.println("nbShip :"+nbShips);
         Ship tmpClientShip = new Ship();
         for (int i = 0; i < nbShips; i++) {
@@ -56,7 +73,7 @@ public class Area extends PilotixElement {
                 ships[tmpClientShip.getId()].set((Ship) tmpClientShip);
                 //System.out.println("Ship id maj :" +aShip.getId());
             }
-            index = index + 6;
+            index = index + Ship.getBytesLength();
         }
     }
     
@@ -65,7 +82,7 @@ public class Area extends PilotixElement {
     //| Octet 0     | Octet 1-6 | Octet 7-12|... 
     //| 4bit | 4bit |  6 Octet  |  6  Octet |... 
     //|Flag 4|nbship|   Ship 0  |   Ship 1  |...
-    public byte[] getAsBytes() {
+    /*public byte[] getAsBytes() {
                         
         byte[] tmp;
         byteCoded[0] = 0;
@@ -75,12 +92,14 @@ public class Area extends PilotixElement {
        
         for (int i = 0; i < nbShips; i++) {            
             tmp = ships[i].getAsBytes();
-            for (int j = 0; j < Ship.bytesLength; j++) {
+            for (int j = 0; j < Ship.getBytesLength(); j++) {
                 byteCoded[bytesLength + j] = tmp[j];
             }
-            bytesLength += Ship.bytesLength;
+            bytesLength += Ship.getBytesLength();
         }
         return byteCoded;
-    }
+    }*/
+    
+    
     
 }

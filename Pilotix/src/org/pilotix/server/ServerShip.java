@@ -25,9 +25,7 @@ import java.util.LinkedList;
 public class ServerShip extends org.pilotix.common.Ship {
 
     protected LinkedList forces;
-
-    //protected Vector currentPosition;
-    protected Vector currentSpeed;
+    
 
     protected Vector nextPosition;
     protected Vector nextSpeed;
@@ -44,7 +42,7 @@ public class ServerShip extends org.pilotix.common.Ship {
         super();
         nextPosition = new Vector(0, 0);
         nextSpeed = new Vector(0, 0);
-        currentSpeed = new Vector(0, 0);
+        speed = new Vector(0, 0);
         tmpVector = new Vector(0, 0);
         direction = (Angle) new ServerAngle(0);
         command = new Command();
@@ -57,7 +55,7 @@ public class ServerShip extends org.pilotix.common.Ship {
             int theStates) {
         id = aShipId;
         states = theStates;
-        currentPosition.set(aPosition);
+        position.set(aPosition);
         direction.set(aDirection);
     }
 
@@ -82,11 +80,11 @@ public class ServerShip extends org.pilotix.common.Ship {
                         * command.getAcceleration() * 10));
         //System.out.println("[ServerShip] Ship "+id+" Deg "+direction.get());
         //System.out.println("[ServerShip] Ship "+id+" F "+tmpVector);
-        nextSpeed.set(currentSpeed.x + tmpVector.x, currentSpeed.y
+        nextSpeed.set(speed.x + tmpVector.x, speed.y
                 + tmpVector.y);
         //System.out.println("[ServerShip] Ship "+id+" V "+nextSpeed);
         //System.out.println(currentPosition);
-        nextPosition.set(currentPosition.x + nextSpeed.x, currentPosition.y
+        nextPosition.set(position.x + nextSpeed.x, position.y
                 + nextSpeed.y);
         //System.out.println("[ServerShip] Ship "+id+" X "+nextPosition);
         command.setAcceleration(0);
@@ -96,16 +94,16 @@ public class ServerShip extends org.pilotix.common.Ship {
     }
 
     public void nextFrame() {
-        currentPosition.set(nextPosition);
-        currentSpeed.set(nextSpeed);
+        position.set(nextPosition);
+        speed.set(nextSpeed);
     }
 
-    public Vector getCurrentPosition() {
-        return currentPosition;
-    }
+    /*public Vector getCurrentPosition() {
+        return position;
+    }*/
 
-    public Vector getCurrentSpeed() {
-        return currentSpeed;
+    public Vector getSpeed() {
+        return speed;
     }
 
     public Vector getNextPosition() {

@@ -34,8 +34,13 @@ package org.pilotix.common;
  */
 public class PilotixElement {
 
+    protected int id;    
+    protected int states;
+    protected Vector position;
+    
+    
     byte[] byteCoded = null;
-    public int bytesLength = 0;
+    protected static int bytesLength = 0;
 
     public PilotixElement() {
     }
@@ -45,6 +50,9 @@ public class PilotixElement {
 
     public byte[] getAsBytes() {
         return null;
-    };
-    //public int getType(){return 0;};
+    };    
+
+    public static int getBytesLength() {
+        return bytesLength;
+    }
 }

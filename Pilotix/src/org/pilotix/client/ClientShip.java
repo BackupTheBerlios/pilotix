@@ -20,8 +20,8 @@
 package org.pilotix.client;
 
 import org.pilotix.common.Ship;
-import org.pilotix.common.Vector;
-import org.pilotix.common.Angle;
+//import org.pilotix.common.Vector;
+//import org.pilotix.common.Angle;
 
 public class ClientShip extends Ship {
 
@@ -40,13 +40,13 @@ public class ClientShip extends Ship {
      *  
      */
 
-    public void set(int aShipId, Vector aPosition, Angle aDirection,
+    /*public void set(int aShipId, Vector aPosition, Angle aDirection,
             int theStates) {
         id = aShipId;
         states = theStates;
-        currentPosition.set(aPosition);
+        position.set(aPosition);
         direction.set(aDirection);
-    }
+    }*/
 
 }
   

@@ -33,7 +33,17 @@ public class Vector {
     public int x;
 
     public int y;
-
+    /**
+     * creation d'un vecteur  valeur initial = (0,0)
+     * 
+     * @param px
+     *            valeur x
+     * @param py
+     *            valeur y 
+     */
+    public Vector() {
+        this(0,0);
+    }
     /**
      * creation d'un vecteur avec deux valeur initial
      * 

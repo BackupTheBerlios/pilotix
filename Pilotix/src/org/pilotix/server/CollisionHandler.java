@@ -31,9 +31,9 @@ class CollisionHandler {
     int coin1y = coin1.y + radius;
     int coin2y = coin2.y - radius;
 
-    public void collideWithBoundary(ServerShip s) {
+    /*public void collideWithBoundary(ServerShip s) {
 
-        Vector currentPosition = s.getCurrentPosition();
+        Vector currentPosition = s.getPosition();
         Vector returnedPosition = s.getNextPosition();
         Vector returnedSpeed = s.getNextSpeed();
 
@@ -55,6 +55,6 @@ class CollisionHandler {
 
         s.setNextPosition(returnedPosition);
         s.setNextSpeed(returnedSpeed);
-    }
+    }*/
 
 }

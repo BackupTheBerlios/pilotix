@@ -41,7 +41,7 @@ public class XMLHandler {
     private Document document = null;
     protected Element rootNode = null;
     private boolean isValid = false;
-    private DocumentBuilder docBuilder;
+    private static  DocumentBuilder docBuilder;
 
     /**
      * Construit une représentation DOM d'un fichier XML à partir de son URL.
@@ -105,7 +105,7 @@ public class XMLHandler {
      * @return L'objet org.w3c.dom.Document correspondant au contenu du fichier
      *         XML
      */
-    public Document getDocumentFromFile(String uri) {
+    public static Document getDocumentFromFile(String uri) {
         try {
             return docBuilder.parse(uri);
         } catch (Exception e) {
