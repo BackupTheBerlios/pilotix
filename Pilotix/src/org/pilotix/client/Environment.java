@@ -28,6 +28,7 @@ public class Environment {
     public static GUI theGUI = null;
     public static ClientMainLoopThread theClientMainLoopThread = null;
     public static Controls theControls = null;
+    public static ControlCommand controlCmd = null;
     public static Display3D theDisplay3D = null;
     public static ClientArea theClientArea = null;
     public static XMLHandler theXMLConfigHandler = null;
