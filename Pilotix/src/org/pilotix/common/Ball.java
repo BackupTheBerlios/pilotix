@@ -24,20 +24,33 @@ package org.pilotix.common;
  * et les méthodes d'encapsulation pour les transferts
  * sur le réseau.
  *
- * <pre>
- * |   Octet 0   | Octet1-2| Octet3-4| Octet 5 | Octet 6 |
- * | 4bit | 4bit | 2Octets | 2Octets | 1 Octet | 1 Octet |
- * |  Id  |States|    X    |    Y    |Vitesse X|Vitesse Y|
- * </pre>
  */
-public class Ball extends PilotixElement implements Transferable{
+public class Ball extends PilotixElement implements Transferable {
 
-    Vector speed;
+    /**
+     * Message de creation de Ball
+     * <pre>
+     * |      Octet   0     | Octet1-2| Octet3-4| Octet 5 | Octet 6 |
+     * | 4bit | 3bit | 1bit | 2Octets | 2Octets | 1 Octet | 1 Octet |
+     * |ShipID|BallID|   0  |    X    |    Y    |Vitesse X|Vitesse Y|
+     * </pre>
+     */
+
+    /**
+     * Message de destruction de Ball
+     * <pre>
+     * |      Octet   0     | 
+     * | 4bit | 3bit | 1bit |
+     * |ShipID|BallID|   1  |
+     * </pre>     
+     * 
+     */
+    Vector speed = new Vector();
     public static int lengthInByte = 7;
     private byte[] byteCoded = new byte[lengthInByte];
-    
+
     public Ball() {
-        speed = new Vector();
+
     }
 
     public void setFromBytes(byte[] bytes) {
@@ -79,15 +92,15 @@ public class Ball extends PilotixElement implements Transferable{
         byteCoded[2] = (byte) position.x;
         byteCoded[3] = (byte) (position.y / 256);
         byteCoded[4] = (byte) position.y;
-        
+
         byteCoded[5] = (byte) speed.x;
         byteCoded[6] = (byte) speed.y;
 
         return byteCoded;
     }
-    
-    public int getLengthInByte(){
+
+    public int getLengthInByte() {
         return lengthInByte;
     }
-    
+
 }

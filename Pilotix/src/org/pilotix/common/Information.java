@@ -43,6 +43,23 @@ public class Information implements Transferable {
     public Information() {
 
     }
+    
+
+    public void setCode(int aCode){
+        code = aCode;
+    }
+    public void setOwnShipId(int anId){
+        ownShipId = anId;
+        code = OWN_SHIP_ID;
+    }
+    public void setAreaId(String anAreaId){
+        areaId = anAreaId;
+        code = AREA_ID;
+    }
+    public void setDeconnected(){
+        code = DECONNECT;
+    }
+    
 
     public void setFromBytes(byte[] bytes) {
         code = (byte) (bytes[0] & 15);
@@ -77,7 +94,7 @@ public class Information implements Transferable {
         case DECONNECT:
             break;
         }
-        System.out.println("INFO OWNSHIP!!!"+ownShipId);
+        //System.out.println("INFO OWNSHIP!!!"+ownShipId);
         return byteCoded;
     }
 
