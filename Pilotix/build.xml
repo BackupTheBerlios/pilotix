@@ -59,27 +59,27 @@
   <target name="dist" depends="compile" description="Générer une distribution">
     <mkdir dir="${dist}"/>
     <jar jarfile="${dist}/PilotixClient.jar">
-      <fileset dir="${build}" includes="Pilotix/client/**"/>
+      <fileset dir="${build}" includes="org/pilotix/client/**"/>
       <fileset dir="." includes="config/*"/>
       <fileset dir="." includes="properties/*Client*"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
-        <attribute name="Main-Class" value="Pilotix.client.PilotixClient"/>
+        <attribute name="Main-Class" value="org.pilotix.client.PilotixClient"/>
         <attribute name="Class-Path" value="PilotixCommon.jar PilotixData.jar"/>
       </manifest>
     </jar>
     <jar jarfile="${dist}/PilotixCommon.jar">
-      <fileset dir="${build}" includes="Pilotix/common/**"/>
+      <fileset dir="${build}" includes="org/pilotix/common/**"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
       </manifest>
     </jar>
     <jar jarfile="${dist}/PilotixServer.jar">
-      <fileset dir="${build}" includes="Pilotix/server/**"/>
+      <fileset dir="${build}" includes="org/pilotix/server/**"/>
       <fileset dir="${properties}" includes="*Server*"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
-        <attribute name="Main-Class" value="Pilotix.server.PilotixServer"/>
+        <attribute name="Main-Class" value="org.pilotix.server.PilotixServer"/>
         <attribute name="Class-Path" value="PilotixCommon.jar"/>
       </manifest>
     </jar>
