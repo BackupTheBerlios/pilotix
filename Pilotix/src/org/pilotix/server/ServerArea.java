@@ -185,11 +185,28 @@ public class ServerArea {
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
 
         NodeList tmp;
+/*
         Element upLeftCorner;
         Element downRightCorner;
+*/
+        Element tmpXmlObstacle = null;
 
         for (int i = 0; i < theObstacles.getLength(); i++) {
-            tmp = ((Element) theObstacles.item(i))
+            tmpXmlObstacle = (Element) theObstacles.item(i);
+            obstacles.add(
+                new Obstacle(
+                   new Vector(
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerY"))
+                   ),
+                   new Vector(
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerX")),
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerY"))
+                   )
+                )
+            );
+
+/*            tmp = ((Element) theObstacles.item(i))
                     .getElementsByTagName("UpLeftCorner");
             upLeftCorner = (Element) tmp.item(0);
             tmp = ((Element) theObstacles.item(i))
@@ -200,6 +217,7 @@ public class ServerArea {
                     .getAttribute("Y"))), new Vector(Integer
                     .parseInt(downRightCorner.getAttribute("X")), Integer
                     .parseInt(downRightCorner.getAttribute("Y")))));
+*/
         }
     }
 
