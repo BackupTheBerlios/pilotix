@@ -51,14 +51,6 @@ import javax.vecmath.Color3f;
  * @author Grégoire Colbert
  * 
  * @see GUIPanel
- * 
- * @.todo
- * <ul>
- * <li>Déboguer l'affichage initial des vaisseaux, car ceux dont l'id est
- * inférieur à celui du joueur sont créés avant l'ajout de la caméra et on ne
- * les voit dans la vue principale qu'après avoir bougé! Toute aide est la
- * bienvenue!</li>
- * </ul>
  */
 public class Display3D {
 
@@ -139,35 +131,21 @@ public class Display3D {
      */
     public void reset() {
         if (objectsJ3D.containsKey("J3DMinimap")) {
-            if (Environment.debug) {
-                System.out.println("[Display3D.reset] On détache la caméra de la minimap");
-            }
-            ((J3DMinimap)objectsJ3D.get("J3DMinimap")).getCamera()
-                                 .getView().removeCanvas3D(minimapCanvas3D);
+            ((J3DMinimap)objectsJ3D.get("J3DMinimap"))
+                  .getCamera().getView().removeCanvas3D(minimapCanvas3D);
         }
         if (ownShip3DCamera != null) {
-            if (Environment.debug) {
-                System.out.println("[Display3D.reset] On détache ownShip3DCamera de mainCanvas3D");
-            }
             ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
-            if (Environment.debug) {
-                System.out
-                        .println("[Display3D.reset] Mise à null de ownShip3DCamera");
-            }
             ownShip3DCamera = null;
         }
 
         LinkedList tmplist = new LinkedList(objectsJ3D.values());
         for (int i=0; i<tmplist.size(); i++) {
             if (Environment.debug) {
-                System.out
-                        .println("[Display3D.reset] On retire l'objet n°"+i+" de la locale: "
-                                 +tmplist.get(i).toString());
+                System.out.println("[Display3D.reset] locale -= "
+                               +tmplist.get(i).toString());
             }
             locale.removeBranchGraph((BranchGroup)tmplist.get(i));
-        }
-        if (Environment.debug) {
-            System.out.println("[Display3D.reset] objectsJ3D.clear()");
         }
         objectsJ3D.clear();
     }
@@ -211,11 +189,6 @@ public class Display3D {
             // Si c'est le vaisseau du joueur qu'on vient de créer, on lui
             // ajoute une caméra
             if (Environment.theClientArea.getOwnShipId() == aShipId) {
-                if (Environment.debug) {
-                    System.out
-                            .println("[Display3D.addShip] ===> Ajout d'une caméra sur MON vaisseau (id="
-                                    + aShipId + ")");
-                }
                 ownShip3DCamera = new J3DCamera(mainCanvas3D);
                 ownShip3DCamera.setCoordinates(0.0f, 0.0f, 150.0f);
                 ((J3DShip)objectsJ3D.get("ship"+aShipId)).addCamera(ownShip3DCamera);
@@ -223,31 +196,6 @@ public class Display3D {
 
             // Ajout du J3DShip dans la locale
             locale.addBranchGraph((BranchGroup)objectsJ3D.get("ship"+aShipId));
-
-            if (Environment.debug) {
-                if (Environment.theClientArea.getOwnShipId() == aShipId) {
-                    System.out
-                            .println("[Display3D.addShip] ===> Ajout dans Locale de MON vaisseau id="
-                                    + aShipId);
-                } else {
-                    System.out
-                            .println("[Display3D.addShip] ===> Ajout dans Locale vaisseau id="
-                                    + aShipId);
-                }
-                System.out.println("[Display3D.addShip] La locale comporte "
-                        + locale.numBranchGraphs() + " branches");
-            }
-
-            // Demande de rafraîchissement de la vue pour que l'on puisse voir
-            // les branches de la locale déjà présentes avant l'ajout de la
-            // caméra
-            // Mais je n'ai pas encore trouvé la bonne méthode, on dirait...
-            /*
-             * if (ownShip3DCamera!=null) {
-             * ownShip3DCamera.getView().repaint(); } mainCanvas3D.validate();
-             * minimap.getCamera().getView().repaint();
-             * minimapCanvas3D.validate();
-             */
 
             // Appel de setShip pour modifier la position, la direction et
             // l'état du vaisseau
@@ -271,25 +219,13 @@ public class Display3D {
      */
     private void removeShip(int aShipId) {
         if (aShipId == Environment.theClientArea.getOwnShipId()) {
-            if (Environment.debug) {
-                System.out
-                        .println("[Display3D.removeShip] On débranche la caméra de MON vaisseau d'id="
-                                + aShipId);
-            }
-            /*
-             * Si le vaisseau est celui du joueur, on retire la caméra
-             */
+            // Si le vaisseau est celui du joueur, on retire la caméra
             ((J3DShip)objectsJ3D.get("ship"+Environment.theClientArea.getOwnShipId()))
                     .getCamera().getView().removeCanvas3D(mainCanvas3D);
         }
-        if (Environment.debug) {
-            System.out.println("[Display3D.removeShip] => Retrait de MON vaisseau (id="+ aShipId + ")");
-        }
         // On retire une branche de la locale.
         locale.removeBranchGraph((BranchGroup)objectsJ3D.get("ship"+aShipId));
-        if (Environment.debug) {
-            System.out.println("[Display3D.removeShip] objectsJ3D.remove("+ aShipId + ")");
-        }
+        // On retire le vaisseau de la liste des objets 3D
         objectsJ3D.remove("ship"+aShipId);
     }
 
