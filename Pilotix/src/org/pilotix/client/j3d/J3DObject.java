@@ -24,6 +24,7 @@ import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Matrix4f;
+import javax.vecmath.Color3f;
 
 import org.pilotix.client.Environment;
 import org.pilotix.common.Angle;
@@ -82,19 +83,22 @@ public class J3DObject extends BranchGroup {
      * qui est recherché dans le répertoire pilotix.config.path/shapes
      * (par défaut ce répertoire est data/shapes/).
      *
-     * @param shapeURL le nom d'un fichier ".PilotixShape.xml" dans "data/shapes"
+     * @param shapeURL
+     *        le nom d'un fichier ".pilotix.shape.xml" dans "data/shapes"
+     * @param aDynamicColor
+     *        la couleur à utiliser si l'attribut rgb="dynamic" dans le fichier XML
      */
-    public J3DObject(String shapeURL) {
+    public J3DObject(String aShapeURL, Color3f aDynamicColor) {
         this();
         try {
             Shape3DHandler shape3DHandler = new Shape3DHandler();
-            theObjectShape = shape3DHandler.getShape3DFromURL(shapeURL);
+            theObjectShape = shape3DHandler.getShape3DFromURL(aShapeURL, aDynamicColor);
         } catch (Exception e) {
             e.printStackTrace();
         }
         rotationTG.addChild(theObjectShape);
     }
-    
+
     
    
     /**
