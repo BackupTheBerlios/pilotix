@@ -98,8 +98,8 @@ public class Vector {
         y = y * b.y;
     }
     
-    public int dot(Vector b) {
-        return  x * b.x + y * b.y;
+    public long dot(Vector b) {
+        return  (long)x * (long)b.x + (long)y * (long)b.y;
     }
     
     public Vector plus(Vector b) {
@@ -127,5 +127,9 @@ public class Vector {
     public Vector plus(int x, int y) {
         Vector result = new Vector(this.x+x,this.y+y);
         return result;
+    }
+    
+    public String toString(){
+        return "[Vector]"+x+","+y;
     }
 }

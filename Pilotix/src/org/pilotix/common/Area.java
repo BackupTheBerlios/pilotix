@@ -115,8 +115,8 @@ public class Area implements Transferable {
         byteCoded[0] = (byte) (Transferable.AREA << 4);
         byteCoded[0] |= (byte) ships.size();
         lengthInByte = 1;
-        for (ships.setCursorOnFirst(); ships.hasNext();) {
-            tmp = ((Ship) ships.next()).getAsBytes();
+        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+            tmp = ((Ship) ships.cursor1next()).getAsBytes();
             for (int j = 0; j < Ship.lengthInByte; j++) {
                 byteCoded[lengthInByte + j] = tmp[j];
             }

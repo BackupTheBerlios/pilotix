@@ -54,6 +54,7 @@ public class IterableArray {
     private int last;
     /** pointeur sur la case non vide en train d'etre parcouru */
     private int current;
+    private int current2;
 
     public IterableArray(int nbmax) {
         objects = new Object[nbmax];
@@ -69,6 +70,7 @@ public class IterableArray {
         first = -1;
         last = -1;
         current = -1;
+        current2 = -1;
     }
 
     /**
@@ -88,7 +90,7 @@ public class IterableArray {
             System.out.println("IterableArray Full");
         } else if (nb == 0) { // premiere insertion
             //System.out.println("insert Tete");
-            first = last = current = index;
+            first = last = current = current2 = index;
             next[index] = prev[index] = -1;
             //isFree[index]=false;
         } else if (index < first) { // insertion avant le premier
@@ -210,6 +212,7 @@ public class IterableArray {
         first = -1;
         last = -1;
         current = -1;
+        current2 = -1;
         for (int i = 0; i < max; i++)
           objects[i] = null;
     }
@@ -230,25 +233,61 @@ public class IterableArray {
         current = last;
     }
 
-    public boolean hasNext() {
+    public boolean cursor1hasNext() {
         return current != -1;
     }
 
-    public boolean hasPrev() {
+    public boolean cursor1hasPrev() {
         return current != -1;
     }
 
-    public Object next() {
+    public Object cursor1next() {
         Object result = objects[current];
         current = next[current];
         return result;
     }
 
-    public Object prev() {
+    public Object cursor1prev() {
         Object result = objects[current];
         current = prev[current];
         return result;
     }
+    
+    /**
+     * positionne le curseur sur la premier case non vide
+     *
+     */
+     public void setCursor2OnFirst() {
+        current2 = first;
+     }
+
+     /**
+     * positionne le curseur sur la derniere case non vide
+     *
+     */
+     public void setCursor2OnLast() {
+         current2 = last;
+     }
+
+     public boolean cursor2hasNext() {
+         return current2 != -1;
+     }
+
+     public boolean cursor2hasPrev() {
+         return current2 != -1;
+     }
+
+     public Object cursor2next() {
+         Object result = objects[current2];
+         current2 = next[current2];
+         return result;
+     }
+
+     public Object cursor2prev() {
+         Object result = objects[current2];
+         current2 = prev[current2];
+         return result;
+     }
 
     private void afficherEtat() {
         System.out.println();

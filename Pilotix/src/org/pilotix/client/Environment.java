@@ -44,7 +44,9 @@ public class Environment {
             + "/";
 
     public static String propertiesPath = "properties/";
-
+    //public static String propertiesPath = System.getProperty("pilotix.properties.path")
+    //+ "/";
+    
     public static final float u3d = 0.01f;
     public static boolean debug = true;
 }

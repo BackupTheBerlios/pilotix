@@ -33,6 +33,7 @@ public class ServerArea extends Area {
 
     //private LinkedList ships = new LinkedList();
     private LinkedList balls = new LinkedList();
+    private ServerShip tmpShip;
     private ServerShip tmpShip2;
 
     private LinkedList obstacles = new LinkedList();
@@ -118,8 +119,8 @@ public class ServerArea extends Area {
          */
 
         //Calcule de prochaine trajectoirs des ships sans collisions:
-        for (ships.setCursorOnFirst(); ships.hasNext();) {
-            tmpShip2 = (ServerShip) ships.next();
+        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+            tmpShip2 = (ServerShip) ships.cursor1next();
             tmpShip2.computeSpeedFromForces();
         }
 
@@ -132,22 +133,28 @@ public class ServerArea extends Area {
 
         //modification des trajectoires en prenant en compte les collisions
         // ships/ships
-        for (ships.setCursorOnFirst(); ships.hasNext();) {
-            tmpShip2 = (ServerShip) ships.next();
-            collideWithShips(tmpShip2);
+        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+            tmpShip = (ServerShip) ships.cursor1next();
+            for (ships.setCursor2OnFirst(); ships.cursor2hasNext();) {
+                tmpShip2 = (ServerShip) ships.cursor2next();
+                if (tmpShip2.getId() > tmpShip.getId()) {
+                    collideWithShip(tmpShip, tmpShip2);
+                }
+            }
+            //collideWithShips(tmpShip2);
         }
 
         //modification des trajectoires en prenant en compte les collisions
         //Ships/Obstacles et Ships/frontiere externes
-        for (ships.setCursorOnFirst(); ships.hasNext();) {
-            tmpShip2 = (ServerShip) ships.next();
+        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+            tmpShip2 = (ServerShip) ships.cursor1next();
             collideWithBoundary(tmpShip2);
             collideWithObstacle(tmpShip2);
         }
 
         // affectation des trajectoirs des ships
-        for (ships.setCursorOnFirst(); ships.hasNext();) {
-            tmpShip2 = (ServerShip) ships.next();
+        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+            tmpShip2 = (ServerShip) ships.cursor1next();
             tmpShip2.nextFrame();
         }
 
@@ -275,21 +282,21 @@ public class ServerArea extends Area {
 
     }
 
-    public void collideWithShips(ServerShip s1) {
-        for (ships.setCursorOnFirst(); ships.hasNext();) {
-            tmpShip2 = (ServerShip) ships.next();
+    /*public void collideWithShips(ServerShip s1) {
+        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+            tmpShip2 = (ServerShip) ships.cursor1next();
             if (tmpShip2.getId() > s1.getId()) {
                 collideWithShip(s1, tmpShip2);
             }
         }
-    }
+    }*/
 
     public void collideWithShip(ServerShip sa, ServerShip sb) {
         Vector va = sa.getNextPosition().less(sa.getPosition());
         Vector vb = sb.getNextPosition().less(sb.getPosition());
         Vector AB = sb.getPosition().less(sa.getPosition());
         Vector vab = vb.less(va);
-        int rab = sa.getRadius() + sb.getRadius();
+        long rab = sa.getRadius() + sb.getRadius();
 
         //if (AB.dot(AB) <= rab * rab) {
         //} else {
@@ -304,7 +311,9 @@ public class ServerArea extends Area {
             double r2 = (-b - sq) * d;
             r1 = Math.min(r1, r2);
             if ((0 < r1) && (r1 < 1)) {
-                //System.out.println("r1 " + r1);
+                System.out.println("col " + sa.getId()+" "+sb.getId());
+                System.out.println(sa.getPosition());
+                System.out.println(sa.getNextPosition());
                 sa.setNextPosition(sa.getPosition().plus(va.mult(r1)).plus(
                         vb.mult(1 - r1)));
                 sb.setNextPosition(sb.getPosition().plus(vb.mult(r1)).plus(
