@@ -49,6 +49,8 @@ package org.pilotix.common;
 public class Area implements Transferable {
 
     protected int nbMaxShips = 8; // a recuperer dans la map
+    protected int nbMaxBalls = 32; // a recuperer dans la map
+    protected int nbMaxObstacles = 32; // a recuperer dans la map
     protected int nbShips;
     protected int nbBalls;
     protected IterableArray ships;
@@ -76,13 +78,25 @@ public class Area implements Transferable {
         lengthInByte = anArea.lengthInByte;
     }
 
-    
-
     /**
-     * @return Returns the nbMaxShips.
+     * @return Le nombre maximum de vaisseaux
      */
     public int getNbMaxShips() {
         return nbMaxShips;
+    }
+
+    /**
+     * @return Le nombre maximum de balles
+     */
+    public int getNbMaxBalls() {
+        return nbMaxBalls;
+    }
+
+    /**
+     * @return Le nombre maximum d'obstacles
+     */
+    public int getNbMaxObstacles() {
+        return nbMaxObstacles;
     }
 
     /**
