@@ -35,7 +35,7 @@ public class ClientConfigHandler {
     private final static String cfgFileName = "pilotix.client.config.xml";
     private Document configDocument;
     private Element documentElement;
-    
+
     /**
      * Construit la représentation du contenu du fichier de configuration du client
      */
@@ -45,33 +45,33 @@ public class ClientConfigHandler {
                         ResourceLocator.CONFIG, cfgFileName));
         documentElement = configDocument.getDocumentElement();
     }
-    
+
     /**
      * Renvoie la couleur du vaisseau dont l'id est passé en paramêtre. Le
      * fichier XML de configuration doit contenir un joueur dont l'id vaut le
      * numéro de son vaisseau (0, 1, etc).
-     * 
+     *
      * @param aShipId
      *            l'identifiant du vaisseau
      * @return la couleur du vaisseau ayant cet identifiant
+     *         (le blanc est la couleur renvoyée par défaut)
      */
     public final Color3f getColorFromId(int aShipId) {
         boolean found = false;
         String theColorIdent = null;
-        Integer tmpShipId = new Integer(aShipId);
 
         Element colorsElt = (Element) (documentElement.getElementsByTagName("colors").item(0));
         NodeList pilotList = colorsElt.getElementsByTagName("pilot");
         for (int i = 0; !found && i < pilotList.getLength(); i++) {
             Element pilot = (Element) pilotList.item(i);
             String id = pilot.getAttribute("id");
-            if (id.equals(tmpShipId.toString())) {
+            if (Integer.parseInt(id) == aShipId) {
                 found = true;
                 theColorIdent = pilot.getAttribute("rgb");
             }
         }
-        if (theColorIdent == null) {
-            theColorIdent = "Any";
+        if (!found) {
+            theColorIdent = "1.0;1.0;1.0";
         }
         return getColor(theColorIdent);
     }
@@ -84,11 +84,11 @@ public class ClientConfigHandler {
      */
     // la méthode se trouve ici pour le moment, mais comme elle servira également pour la récupération
     // des couleurs des vaisseaux, il faudra trouver un endroit où la mettre
-	private Color3f getColor(String colorIdent) {
-		java.util.StringTokenizer st = new java.util.StringTokenizer(colorIdent, ";");
-		float r = Float.parseFloat(st.nextToken());
-		float g = Float.parseFloat(st.nextToken());
-		float b = Float.parseFloat(st.nextToken());
-		return new Color3f(r,g,b);
-	}
+    private Color3f getColor(String colorIdent) {
+        java.util.StringTokenizer st = new java.util.StringTokenizer(colorIdent, ";");
+        float r = Float.parseFloat(st.nextToken());
+        float g = Float.parseFloat(st.nextToken());
+        float b = Float.parseFloat(st.nextToken());
+        return new Color3f(r,g,b);
+    }
 }
