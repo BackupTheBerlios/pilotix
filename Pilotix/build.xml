@@ -122,16 +122,16 @@
     </javadoc>
   </target>
 
-  <!-- Lance le client -->
-  <target name="client" description="Lancer le client">
+  <!-- Lance le client à partir du Jar -->
+  <target name="client" description="Lancer le client à partir du Jar">
     <java jar="${dist}/PilotixClient.jar" fork="true">
       <sysproperty key="pilotix.config.path" value="config"/>
       <sysproperty key="pilotix.data.path" value="data"/>
     </java>
   </target>
 
-  <!-- Lance le client sans utiliser les JAR -->
-  <target name="client2" depends="compile" description="Lancer le client sans utiliser les JAR">
+  <!-- Lance le client sans utiliser le JAR -->
+  <target name="clientnojar" depends="compile" description="Lancer le client sans utiliser le Jar">
     <java classname="org.pilotix.client.PilotixClient" fork="true">
       <classpath>
         <pathelement location="${build}"/>
@@ -141,15 +141,15 @@
     </java>
   </target>
 
-  <!-- Lance le serveur -->
-  <target name="server" description="Lancer le serveur">
+  <!-- Lance le serveur à partir du Jar -->
+  <target name="server" description="Lancer le serveur à partir du Jar">
     <java jar="${dist}/PilotixServer.jar" fork="true">
       <sysproperty key="pilotix.data.path" value="data"/>
     </java>
   </target>
 
-  <!-- Lance le serveur sans utiliser les JAR -->
-  <target name="serveur2" depends="compile" description="Lancer le serveur sans utiliser les JAR">
+  <!-- Lance le serveur sans utiliser le Jar -->
+  <target name="servernojar" depends="compile" description="Lancer le serveur sans utiliser le Jar">
     <java classname="org.pilotix.server.PilotixServer" fork="true">
       <classpath>
         <pathelement location="${build}"/>
@@ -177,12 +177,13 @@
     <echo message="   ant &lt;option&gt;"/>
     <echo message=""/>
     <echo message="   &lt;option&gt; : "/>
-    <echo message="            server      : Lance un serveur"/>
-    <echo message="            client      : Lance un client à partir des JAR"/>
-    <echo message="            clientseul  : Lance un client sans utiliser les JAR"/>
+    <echo message="            server      : Lance un serveur à partir du Jar"/>
+    <echo message="            servernojar : Lance un serveur sans utiliser le Jar"/>
+    <echo message="            client      : Lance un client à partir du Jar"/>
+    <echo message="            clientnojar : Lance un client sans utiliser le Jar"/>
     <echo message="            compile     : Compilation du projet"/>
-    <echo message="            dist        : Compilation + Archives JAR non signées"/>
-    <echo message="            signature   : Compilation + Archives JAR signées"/>
+    <echo message="            dist        : Compilation + Archives Jar non signées"/>
+    <echo message="            signature   : Compilation + Archives Jar signées"/>
     <echo message="            javadoc     : Documentation"/>
     <echo message="            clean       : Nettoyage des classes et des archives"/>
     <echo message="            clean-all   : Idem + documentation Javadoc"/>
