@@ -317,11 +317,6 @@ public class GUIPanel extends JPanel implements ActionListener {
         endgameMenuItem.setEnabled(false);
 
         // Arrêt de la boucle de réception des messages du serveur
-        if (Environment.debug) {
-            System.out.println("");
-            System.out.println("[GUIPanel.endGame] ARRET DU JOUEUR d'id="
-                    + Environment.theClientArea.getOwnShipId());
-        }
         Environment.theClientMainLoopThread.endGame();
 
         // Un peu de ménage
