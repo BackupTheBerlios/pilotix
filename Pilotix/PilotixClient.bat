@@ -1,0 +1,1 @@
+java -Dpilotix.data.path=data -Dpilotix.config.path=config -classpath dist\PilotixClient.jar;dist\PilotixData.jar;dist\PilotixCommon.jar Pilotix.client.PilotixClient 

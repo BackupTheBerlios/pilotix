@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT PilotixPilot (Description*,game*)>
+<!ATTLIST PilotixPilot     Login          CDATA #REQUIRED                           
+                           PilotixVersion CDATA #REQUIRED>
+
+<!ELEMENT Description (FisrtName,Name,Photo?,Comment?>
+<!ELEMENT FirstName (#PCDATA)>
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT Photo (#PCDATA)>
+<!ELEMENT Comment (#PCDATA)>
+
+<!ELEMENT Game EMPTY>
+<!ATTLIST Game     Date      CDATA #REQUIRED
+                   Map       CDATA #REQUIRED
+                   Ship      CDATA #REQUIRED
+                   Score     CDATA #REQUIRED>
+
+

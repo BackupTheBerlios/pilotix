@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PilotixShape SYSTEM "PilotixShape.dtd">
+<PilotixShape>
+
+	<Point Id="  1" X=" 0.488627" Y=" 3.905706" Z=" 0.805729"/>
+	<Point Id="  2" X=" 0.488628" Y=" 1.796729" Z=" 1.294357"/>
+	<Point Id="  3" X=" 1.366063" Y="-0.101597" Z=" 0.518804"/>
+	<Point Id="  4" X=" 1.478382" Y=" 2.749731" Z="-0.402013"/>
+	<Point Id="  5" X=" 0.308488" Y="-0.646411" Z=" 1.782985"/>
+	<Point Id="  6" X=" 0.000000" Y="-0.646411" Z=" 1.782985"/>
+	<Point Id="  7" X=" 0.901395" Y=" 4.238995" Z=" 0.051292"/>
+	<Point Id="  8" X=" 0.488627" Y=" 4.944951" Z=" 0.455814"/>
+	<Point Id="  9" X=" 0.593263" Y="-0.647175" Z=" 1.329318"/>
+	<Point Id=" 10" X=" 1.708778" Y="-1.792808" Z=" 0.281355"/>
+	<Point Id=" 11" X=" 0.488627" Y=" 4.561523" Z=" 0.197261"/>
+	<Point Id=" 12" X=" 1.093382" Y=" 1.081562" Z=" 0.645967"/>
+	<Point Id=" 13" X=" 0.488627" Y=" 3.639367" Z=" 0.379359"/>
+	<Point Id=" 14" X="-0.000001" Y=" 3.639367" Z=" 0.379359"/>
+	<Point Id=" 15" X=" 3.174207" Y="-2.104752" Z="-1.506811"/>
+	<Point Id=" 16" X=" 3.108114" Y="-2.965226" Z="-1.661256"/>
+	<Point Id=" 17" X=" 2.995235" Y="-3.414526" Z="-1.519126"/>
+	<Point Id=" 18" X=" 1.923448" Y="-3.970324" Z="-0.502882"/>
+	<Point Id=" 19" X=" 1.661578" Y="-3.914024" Z="-0.016202"/>
+	<Point Id=" 20" X=" 1.834394" Y="-2.883938" Z=" 0.064690"/>
+	<Point Id=" 21" X=" 0.000000" Y="-2.854321" Z=" 1.541022"/>
+	<Point Id=" 22" X=" 0.488628" Y="-2.854321" Z=" 1.541022"/>
+	<Point Id=" 23" X=" 0.488629" Y="-4.285619" Z=" 1.344334"/>
+	<Point Id=" 24" X=" 0.591565" Y="-4.928521" Z=" 0.926743"/>
+	<Point Id=" 25" X=" 0.000000" Y="-0.108727" Z=" 0.460602"/>
+	<Point Id=" 26" X=" 0.488628" Y="-0.108727" Z=" 0.460602"/>
+	<Point Id=" 27" X=" 0.488628" Y="-2.416955" Z=" 0.429888"/>
+	<Point Id=" 28" X=" 0.000000" Y="-2.416955" Z=" 0.429888"/>
+	<Point Id=" 29" X=" 0.000001" Y="-5.077426" Z=" 0.395512"/>
+	<Point Id=" 30" X=" 0.575035" Y="-5.105828" Z=" 0.610154"/>
+	<Point Id=" 31" X=" 1.574658" Y="-2.831753" Z="-0.470910"/>
+	<Point Id=" 32" X=" 1.446612" Y="-3.958406" Z="-0.307942"/>
+	<Point Id=" 33" X=" 0.733104" Y="-4.541368" Z=" 0.541794"/>
+	<Point Id=" 34" X="-0.000000" Y=" 1.690421" Z=" 0.575714"/>
+	<Point Id=" 35" X=" 0.918999" Y=" 1.690421" Z=" 0.661331"/>
+	<Point Id=" 36" X="-0.000000" Y=" 1.796729" Z=" 1.294357"/>
+	<Point Id=" 37" X="-0.000001" Y=" 3.905706" Z=" 0.805729"/>
+	<Point Id=" 38" X="-0.488629" Y=" 3.905706" Z=" 0.805729"/>
+	<Point Id=" 39" X="-0.488628" Y=" 1.796729" Z=" 1.294357"/>
+	<Point Id=" 40" X="-1.366063" Y="-0.101598" Z=" 0.518804"/>
+	<Point Id=" 41" X="-1.478383" Y=" 2.749730" Z="-0.402013"/>
+	<Point Id=" 42" X="-0.308488" Y="-0.646411" Z=" 1.782985"/>
+	<Point Id=" 43" X="-0.901397" Y=" 4.238995" Z=" 0.051292"/>
+	<Point Id=" 44" X="-0.488629" Y=" 4.944951" Z=" 0.455814"/>
+	<Point Id=" 45" X="-0.000001" Y=" 4.944951" Z=" 0.455814"/>
+	<Point Id=" 46" X="-0.593263" Y="-0.647175" Z=" 1.329318"/>
+	<Point Id=" 47" X="-1.708778" Y="-1.792809" Z=" 0.281355"/>
+	<Point Id=" 48" X="-0.000001" Y=" 4.561523" Z=" 0.197261"/>
+	<Point Id=" 49" X="-0.488629" Y=" 4.561523" Z=" 0.197261"/>
+	<Point Id=" 50" X="-1.093382" Y=" 1.081562" Z=" 0.645967"/>
+	<Point Id=" 51" X="-0.488629" Y=" 3.639367" Z=" 0.379359"/>
+	<Point Id=" 52" X="-0.000000" Y=" 1.081562" Z=" 0.645967"/>
+	<Point Id=" 53" X="-3.174207" Y="-2.104753" Z="-1.506811"/>
+	<Point Id=" 54" X="-3.108113" Y="-2.965227" Z="-1.661256"/>
+	<Point Id=" 55" X="-2.995234" Y="-3.414527" Z="-1.519126"/>
+	<Point Id=" 56" X="-1.923447" Y="-3.970325" Z="-0.502882"/>
+	<Point Id=" 57" X="-1.661577" Y="-3.914024" Z="-0.016202"/>
+	<Point Id=" 58" X="-1.834393" Y="-2.883939" Z=" 0.064690"/>
+	<Point Id=" 59" X="-0.488627" Y="-2.854321" Z=" 1.541022"/>
+	<Point Id=" 60" X="-0.488627" Y="-4.285619" Z=" 1.344334"/>
+	<Point Id=" 61" X=" 0.000001" Y="-4.285619" Z=" 1.344334"/>
+	<Point Id=" 62" X=" 0.000001" Y="-4.928521" Z=" 1.132617"/>
+	<Point Id=" 63" X="-0.591564" Y="-4.928521" Z=" 0.926743"/>
+	<Point Id=" 64" X="-0.488628" Y="-0.108728" Z=" 0.460602"/>
+	<Point Id=" 65" X="-0.488627" Y="-2.416955" Z=" 0.429888"/>
+	<Point Id=" 66" X="-0.575034" Y="-5.105828" Z=" 0.610154"/>
+	<Point Id=" 67" X="-1.574658" Y="-2.831753" Z="-0.470910"/>
+	<Point Id=" 68" X="-1.446611" Y="-3.958406" Z="-0.307942"/>
+	<Point Id=" 69" X=" 0.000001" Y="-4.357292" Z=" 0.130091"/>
+	<Point Id=" 70" X="-0.733102" Y="-4.541368" Z=" 0.541794"/>
+	<Point Id=" 71" X="-0.919000" Y=" 1.690420" Z=" 0.661331"/>
+
+	<FaceList Id="coque" R="0.8" G="0.8" B="0.8">
+		<Face PointIds="2 8 9"/>
+		<Face PointIds="6 10 7"/>
+		<Face PointIds="6 12 10"/>
+		<Face PointIds="0 6 7"/>
+		<Face PointIds="0 3 6"/>
+		<Face PointIds="3 12 6"/>
+		<Face PointIds="9 19 14"/>
+		<Face PointIds="14 19 15"/>
+		<Face PointIds="15 19 18"/>
+		<Face PointIds="2 25 11"/>
+		<Face PointIds="9 14 30"/>
+		<Face PointIds="14 15 30"/>
+		<Face PointIds="15 31 30"/>
+		<Face PointIds="2 9 25"/>
+		<Face PointIds="9 30 26"/>
+		<Face PointIds="9 26 25"/>
+		<Face PointIds="26 30 32"/>
+		<Face PointIds="30 31 32"/>
+		<Face PointIds="19 21 22"/>
+		<Face PointIds="18 19 22"/>
+		<Face PointIds="9 21 19"/>
+		<Face PointIds="8 21 9"/>
+		<Face PointIds="36 7 44"/>
+		<Face PointIds="36 0 7"/>
+		<Face PointIds="4 5 21"/>
+		<Face PointIds="5 20 21"/>
+		<Face PointIds="21 60 22"/>
+		<Face PointIds="20 60 21"/>
+		<Face PointIds="22 61 23"/>
+		<Face PointIds="22 60 61"/>
+		<Face PointIds="18 32 31"/>
+		<Face PointIds="18 22 32"/>
+		<Face PointIds="1 8 11"/>
+		<Face PointIds="2 11 8"/>
+		<Face PointIds="0 12 3"/>
+		<Face PointIds="1 11 34"/>
+		<Face PointIds="39 46 45"/>
+		<Face PointIds="42 43 48"/>
+		<Face PointIds="42 48 50"/>
+		<Face PointIds="37 43 42"/>
+		<Face PointIds="37 42 40"/>
+		<Face PointIds="40 42 50"/>
+		<Face PointIds="46 52 57"/>
+		<Face PointIds="52 53 57"/>
+		<Face PointIds="53 56 57"/>
+		<Face PointIds="39 49 63"/>
+		<Face PointIds="46 66 52"/>
+		<Face PointIds="52 66 53"/>
+		<Face PointIds="53 66 67"/>
+		<Face PointIds="39 63 46"/>
+		<Face PointIds="46 64 66"/>
+		<Face PointIds="46 63 64"/>
+		<Face PointIds="64 69 66"/>
+		<Face PointIds="66 69 67"/>
+		<Face PointIds="57 59 58"/>
+		<Face PointIds="56 59 57"/>
+		<Face PointIds="46 57 58"/>
+		<Face PointIds="45 46 58"/>
+		<Face PointIds="36 44 43"/>
+		<Face PointIds="36 43 37"/>
+		<Face PointIds="41 58 5"/>
+		<Face PointIds="5 58 20"/>
+		<Face PointIds="58 59 60"/>
+		<Face PointIds="20 58 60"/>
+		<Face PointIds="59 62 61"/>
+		<Face PointIds="59 61 60"/>
+		<Face PointIds="56 67 69"/>
+		<Face PointIds="56 69 59"/>
+		<Face PointIds="38 49 45"/>
+		<Face PointIds="39 45 49"/>
+		<Face PointIds="37 40 50"/>
+		<Face PointIds="38 70 49"/>
+		<Face PointIds="1 36 35"/>
+		<Face PointIds="35 36 38"/>
+		<Face PointIds="36 37 38"/>
+		<Face PointIds="0 36 1"/>
+		<Face PointIds="13 47 10"/>
+		<Face PointIds="13 10 12"/>
+		<Face PointIds="7 10 47"/>
+		<Face PointIds="7 47 44"/>
+		<Face PointIds="51 11 25"/>
+		<Face PointIds="51 25 24"/>
+		<Face PointIds="24 25 26"/>
+		<Face PointIds="24 26 27"/>
+		<Face PointIds="28 68 32"/>
+		<Face PointIds="28 32 29"/>
+		<Face PointIds="51 33 34"/>
+		<Face PointIds="51 34 11"/>
+		<Face PointIds="12 34 33"/>
+		<Face PointIds="12 33 13"/>
+		<Face PointIds="0 1 34"/>
+		<Face PointIds="0 34 12"/>
+		<Face PointIds="13 50 48"/>
+		<Face PointIds="13 48 47"/>
+		<Face PointIds="43 44 47"/>
+		<Face PointIds="43 47 48"/>
+		<Face PointIds="51 24 63"/>
+		<Face PointIds="51 63 49"/>
+		<Face PointIds="24 27 64"/>
+		<Face PointIds="24 64 63"/>
+		<Face PointIds="28 65 69"/>
+		<Face PointIds="28 69 68"/>
+		<Face PointIds="51 49 70"/>
+		<Face PointIds="51 70 33"/>
+		<Face PointIds="50 13 33"/>
+		<Face PointIds="50 33 70"/>
+		<Face PointIds="37 50 70"/>
+		<Face PointIds="37 70 38"/>
+		<Face PointIds="62 69 65"/>
+		<Face PointIds="59 69 62"/>
+		<Face PointIds="22 23 32"/>
+		<Face PointIds="23 29 32"/>
+		<Face PointIds="26 32 68"/>
+		<Face PointIds="26 68 27"/>
+		<Face PointIds="27 68 64"/>
+		<Face PointIds="64 68 69"/>
+	</FaceList>
+	<FaceList Id="peinture" R="1.0" G="0.0" B="0.0">
+		<Face PointIds="16 18 17"/>
+		<Face PointIds="15 18 16"/>
+		<Face PointIds="15 16 31"/>
+		<Face PointIds="16 17 31"/>
+		<Face PointIds="17 18 31"/>
+		<Face PointIds="54 55 56"/>
+		<Face PointIds="53 54 56"/>
+		<Face PointIds="53 67 54"/>
+		<Face PointIds="54 67 55"/>
+		<Face PointIds="55 67 56"/>
+		<Face PointIds="61 28 29"/>
+		<Face PointIds="61 29 23"/>
+		<Face PointIds="61 62 65"/>
+		<Face PointIds="61 65 28"/>
+	</FaceList>
+	<FaceList Id="vitre" R="0.0" G="0.0" B="1.0">
+		<Face PointIds="1 4 8"/>
+		<Face PointIds="4 21 8"/>
+		<Face PointIds="35 5 1"/>
+		<Face PointIds="1 5 4"/>
+		<Face PointIds="38 45 41"/>
+		<Face PointIds="41 45 58"/>
+		<Face PointIds="35 38 5"/>
+		<Face PointIds="38 41 5"/>
+	</FaceList>
+</PilotixShape>
+

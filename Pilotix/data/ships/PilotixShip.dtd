@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT PilotixShip (Engine*,Hull*,Shape*)>
+
+<!ELEMENT Engine EMPTY>
+<!ATTLIST Engine   Velocity  CDATA  #REQUIRED
+                   TrunSpeed CDATA  #REQUIRED>
+
+<!ELEMENT Hull EMPTY>
+<!ATTLIST Hull     Weight    CDATA #REQUIRED
+                   Shield    CDATA #REQUIRED>
+
+<!ELEMENT Shape EMPTY>
+<!ATTLIST Shape    File      CDATA #REQUIRED>
+

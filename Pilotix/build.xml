@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Pilotix" default="usage" basedir=".">
+
+  <description>Compilation de Pilotix</description>
+
+  <!-- Propriétés globales -->
+  <property name="jaroj" value="2003-2004"/>
+  <property name="src" location="src"/>
+  <property name="build" location="class"/>
+  <property name="dist" location="dist"/>
+  <property name="config" location="config"/>
+  <property name="data" location="data"/>
+  <property name="properties" location="properties"/>
+  <property name="docs" location="docs"/>
+  <property name="javadoc" location="${docs}/javadoc"/>
+
+  <!-- Logo -->
+  <target name="logo">
+    <echo message="                     _"/>
+    <echo message="_______________     /o\     _______________"/>
+    <echo message="\___________ * \___/   \___/ * ___________/"/>
+    <echo message="    \_______\_____Pilotix_____/_______/"/>
+    <echo message="        \_______/  \_ _/  \_______/"/>
+    <echo message="            \##/           \##/"/>
+  </target>
+
+  <target name="autres-logos">
+    <echo message="                      _"/>
+    <echo message="_______________      /o\      _______________"/>
+    <echo message="\__________  * \____/   \____/ *  __________/"/>
+    <echo message="    \_______   *   Pilotix   *   _______/"/>
+    <echo message="            \___ * /\_ _/\ * ___/"/>
+    <echo message="               \##/       \##/"/>
+    <echo message=""/>
+    <echo message="               _"/>
+    <echo message="              /o\"/>
+    <echo message="/\___________/   \___________/\"/>
+    <echo message="\/--:---:-- Pilotix --:---:--\/"/>
+    <echo message="    *   * \ /\_ _/\ / *   *"/>
+    <echo message="           O       O"/>
+    <echo message=""/>
+  </target>
+
+  <!-- Initialisation -->
+  <target name="init" depends="logo">
+    <mkdir dir="${build}"/>
+  </target>
+
+  <!-- Compilation -->
+  <target name="compile" depends="init" description="Compiler le code source">
+    <javac srcdir="${src}"
+            destdir="${build}"
+            encoding="ISO-8859-1"
+            optimize="yes" />
+  </target>
+
+  <!-- Archives -->
+  <target name="dist" depends="compile" description="Générer une distribution">
+    <mkdir dir="${dist}"/>
+    <jar jarfile="${dist}/PilotixClient.jar">
+      <fileset dir="${build}" includes="Pilotix/client/**"/>
+      <fileset dir="." includes="config/*"/>
+      <fileset dir="." includes="properties/*Client*"/>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="Pilotix.client.PilotixClient"/>
+        <attribute name="Class-Path" value="PilotixCommon.jar PilotixData.jar"/>
+      </manifest>
+    </jar>
+    <jar jarfile="${dist}/PilotixCommon.jar">
+      <fileset dir="${build}" includes="Pilotix/common/**"/>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+    </jar>
+    <jar jarfile="${dist}/PilotixServer.jar">
+      <fileset dir="${build}" includes="Pilotix/server/**"/>
+      <fileset dir="${properties}" includes="*Server*"/>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="Pilotix.server.PilotixServer"/>
+        <attribute name="Class-Path" value="PilotixCommon.jar"/>
+      </manifest>
+    </jar>
+    <jar jarfile="${dist}/PilotixData.jar">
+      <fileset dir="${data}"/>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- Signer les archives -->
+  <target name="signature" depends="dist" description="Signer les archives JAR">
+    <signjar jar="${dist}/PilotixClient.jar" alias="pilotix.org" keystore="./pilotix.org.key" storepass="public" />
+    <signjar jar="${dist}/PilotixCommon.jar" alias="pilotix.org" keystore="./pilotix.org.key" storepass="public" />
+    <signjar jar="${dist}/PilotixData.jar" alias="pilotix.org" keystore="./pilotix.org.key" storepass="public" />
+    <signjar jar="${dist}/PilotixServer.jar" alias="pilotix.org" keystore="./pilotix.org.key" storepass="public" />
+  </target>
+
+  <!-- Documentation -->
+  <target name="javadoc" depends="logo" description="Générer la documentation">
+    <tstamp/>
+    <javadoc packagenames="*"
+             sourcepath="${src}"
+             destdir="${javadoc}"
+             author="true"
+             version="true"
+             use="true"
+             encoding="ISO-8859-1"
+             docencoding="ISO-8859-1"
+             charset="ISO-8859-1"
+             windowtitle="Pilotix : documentation"
+             stylesheetfile="../../include/css/std-screen.css"
+             nodeprecatedlist="true">
+      <doctitle><![CDATA[<h1>Pilotix : documentation</h1><h2>(${DSTAMP})</h2>]]></doctitle>
+      <!--
+      <header><![CDATA[<a href="http://www.pilotix.org/"><img src="http://localhost/pilotix.org/include/images/logopilotix-petit-avec-fleche.png"></a><br>Pilotix.org]]></header>
+      <footer><![CDATA[<a href="http://www.pilotix.org/"><img src="http://localhost/pilotix.org/include/images/logopilotix-petit-avec-fleche.png"></a><br>Pilotix.org]]></footer>
+      <bottom><![CDATA[<i>Pilotix.org <a href="http://www.pilotix.org/"><img src="http://localhost/pilotix.org/include/images/url.gif"></a> ${jaroj} - Stilisto : Grégoire Colbert</i>]]></bottom>
+      -->
+      <bottom><![CDATA[<i><a href="http://www.pilotix.org/"><img src="http://www.pilotix.org/include/images/logopilotix-petit-avec-fleche.png"></a> Pilotix.org ${jaroj} - Stilisto : Grégoire Colbert</i>]]></bottom>
+      <tag name=".todo" scope="all" description="À faire&#160;:" />
+      <!--
+      <link offline="true" href="http://java.sun.com/products/jdk/1.4.1/docs/api/" packagelistLoc="C:\tmp"/>
+      <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+      -->
+    </javadoc>
+  </target>
+
+  <!-- Lance le client -->
+  <target name="client" description="Lancer le client">
+    <java jar="${dist}/PilotixClient.jar" fork="true">
+      <sysproperty key="pilotix.config.path" value="config"/>
+    </java>
+  </target>
+
+  <!-- Lance le serveur -->
+  <target name="server" description="Lancer le serveur">
+    <java jar="${dist}/PilotixServer.jar" fork="true"/>
+  </target>
+
+  <!-- Nettoyage -->
+  <target name="clean" description="Nettoyer l'arborescence">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+  <!-- Nettoyage complet -->
+  <target name="clean-all" depends="clean" description="Nettoyer l'arborescence et la javadoc">
+    <delete dir="${javadoc}"/>
+  </target>
+
+  <!-- Usage -->
+  <target name="usage">
+    <echo message="*** Pilotix - script ANT ***"/>
+    <echo message="Usage : "/>
+    <echo message="   ant &lt;option&gt;"/>
+    <echo message=""/>
+    <echo message="   &lt;option&gt; : "/>
+    <echo message="            server    : Lance un serveur"/>
+    <echo message="            client    : Lance un client"/>
+    <echo message="            compile   : Compilation du projet"/>
+    <echo message="            dist      : Compilation + Archives JAR non signées"/>
+    <echo message="            signature : Compilation + Archives JAR signées"/>
+    <echo message="            javadoc   : Documentation"/>
+    <echo message="            clean     : Nettoyage des classes et des archives"/>
+    <echo message="            clean-all : Idem + documentation Javadoc"/>
+  </target>
+
+</project>
