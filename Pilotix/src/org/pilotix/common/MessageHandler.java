@@ -44,14 +44,15 @@ public class MessageHandler {
 
     private int nbShip;
     private int byteLength;
+    private Object result;
+    private Area tmpArea;
 
     public MessageHandler(Socket aSocket) throws Exception {
         input = aSocket.getInputStream();
         output = aSocket.getOutputStream();
         message = new byte[100];
-        
+        tmpArea = new Area();
     }
-
 
     public void send(Message aMessage) {
         try {
@@ -68,14 +69,12 @@ public class MessageHandler {
         byte messageType = (byte) ((firstByte & 240) >> 4);
         byte firstByteRest = (byte) (firstByte & 15);
 
-        Object result;
         switch (messageType) {
         case Message.AREA:
             nbShip = firstByteRest;
             getByteFromInput(message, 1, nbShip * 6);
-            Area area = new Area();
-            area.setFromBytes(message);
-            result = (Object) area;
+            tmpArea.setFromBytes(message);
+            result = (Object) tmpArea;
             break;
         case Message.COMMAND:
             getByteFromInput(message, 1, 2);
@@ -102,8 +101,7 @@ public class MessageHandler {
                 offset += i;
             } else {
                 //System.out.println("Le Client a quité sauvagement !!!");
-                Exception e = new Exception();
-                throw e;
+                throw new Exception("Le client est sorti sauvagement!");
             }
         }
         //System.out.print("[offset :"+offset+"]");
