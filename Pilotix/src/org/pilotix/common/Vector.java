@@ -49,16 +49,14 @@ public class Vector {
     }
     
     /**
-     * Crée un vecteur avec les valeurs fournies.
+     * Crée un vecteur identique à celui fourni.
      *
-     * @param px
-     *            valeur de x
-     * @param py
-     *            valeur de y
+     * @param aVector
+     *            le vecteur à dupliquer
      */
     public Vector(Vector aVector){
-    	x = aVector.x;
-    	y = aVector.y;
+        x = aVector.x;
+        y = aVector.y;
     }
 
     /**
