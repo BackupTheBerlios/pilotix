@@ -71,9 +71,9 @@ public class Display3D {
     private IterableArray shipsJ3D = new IterableArray(
         Environment.theClientArea.getNbMaxShips());
     private IterableArray ballsJ3D = new IterableArray(
-        Environment.theClientArea.getNbMaxShips());
+        Environment.theClientArea.getNbMaxBalls());
     private IterableArray obstaclesJ3D = new IterableArray(
-        Environment.theClientArea.getNbMaxShips());
+        Environment.theClientArea.getNbMaxObstacles());
 
     private J3DMinimap minimapJ3D;
 
@@ -212,7 +212,7 @@ public class Display3D {
             }
             locale.addBranchGraph(shipJ3D);
             return shipJ3D;
-        };
+        }
 
         public void update(Object modele, Object modifie) {
             ((J3DShip) modifie).setPosition(((Ship) modele).getPosition());
@@ -233,17 +233,20 @@ public class Display3D {
             J3DBall ballJ3D = new J3DBall(ball.getPosition(), 10);
             locale.addBranchGraph(ballJ3D);
             return ballJ3D;
-        };
+        }
 
         public void update(Object modele, Object modifie) {
             ((J3DBall) modifie).setPosition(((Ball) modele).getPosition());
         }
+
         public void remove(Object object){
             locale.removeBranchGraph((J3DBall)object);
             System.out.println("[Display3D] Remove Ball");
         }
     };
 }
+
+    /********************************************************************/
 
     /**
      * Initialise les composants d'affichage 3D.
@@ -261,7 +264,7 @@ public class Display3D {
      * nbMaxObjectsJ3D-1 | J3DArea
      * </pre>
      */
-    /*
+/*
     public void init() {
         // Création du conteneur pour les J3DBalls
         ballsJ3D = new IterableArray(Environment.theClientArea.getNbMaxShips());
@@ -315,12 +318,12 @@ public class Display3D {
                 + i));
         }
     }
-    */
+*/
 
     /**
      * Réinitialise ce Display3D.
      */
-     /* N'EST PLUS UTILISE
+    /*
     public void reset() {
         // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
         if (!objectsJ3D.isNull(nbMaxObjectsJ3D - 2)) {
@@ -333,10 +336,19 @@ public class Display3D {
             ownShip3DCamera = null;
         }
 
+        // LinkedList tmplist = new LinkedList(objectsJ3D.values());
+        // for (int i = 0; i < tmplist.size(); i++) {
+        // if (Environment.debug) {
+        // System.out.println("[Display3D.reset] locale -= "
+        // + tmplist.get(i).toString());
+        // }
+        // locale.removeBranchGraph((BranchGroup) tmplist.get(i));
+        // }
+
         objectsJ3D.clear();
         ballsJ3D.clear();
     }
-    */
+
 
     /**
      * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
@@ -408,7 +420,7 @@ public class Display3D {
      * @param aShipId
      *            l'identifiant du vaisseau à retirer
      */
-     /*
+    /*
     private void removeShip(int aShipId) {
         if (aShipId == Environment.theClientArea.getOwnShipId()) {
             // Si le vaisseau est celui du joueur, on retire la caméra
@@ -420,7 +432,8 @@ public class Display3D {
         // On retire le vaisseau de la liste des objets 3D
         objectsJ3D.remove(aShipId);
     }
-*/
+    */
+
     /**
      * Modifie les paramètres d'un vaisseau existant dans l'affichage 3D. Cette
      * fonction est appelée par updateShip().
@@ -436,7 +449,7 @@ public class Display3D {
      * @param aState
      *            l'état du vaisseau
      */
-     /*
+    /*
     private void setShip(int aShipId, Vector aPosition, Angle aDirection,
             int aAltitude, int aState) {
         if (!objectsJ3D.isNull(aShipId)) {
@@ -450,7 +463,8 @@ public class Display3D {
                 + "]==null");
         }
     }
-*/
+    */
+
     /**
      * Crée, met à jour l'état, ou supprime un vaisseau dans l'affichage 3D, en
      * consultant l'état du vaisseau dans le tableau "ships" de ClientArea pour
@@ -460,7 +474,7 @@ public class Display3D {
      * @param aShipId
      *            l'identifiant du vaisseau à modifier
      */
-    /* N'EST PLUS UTILISE
+     /*
     private void updateShip(int aShipId) {
         // Si le ship dans ClientArea n'est pas null...
         if (!Environment.theClientArea.shipIsNull(aShipId)) {
@@ -498,7 +512,7 @@ public class Display3D {
      * @param aBallId
      *            l'identifiant de la balle à modifier
      */
-     /* N'EST PLUS UTILISE
+     /*
     private void updateBall(int aBallId) {
         // Si la balle dans ClientArea n'est pas nulle...
         if (!Environment.theClientArea.ballIsNull(aBallId)) {
@@ -523,5 +537,20 @@ public class Display3D {
         }
         // Si la balle est nulle dans ClientArea et dans ballsJ3D,
         // on ne fait rien
+    }
+*/
+    /**
+     * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
+     * qu'il apparaît dans ClientArea au moment de l'appel. Elle est appelée par
+     * ClientMainLoopThread.
+     */
+     /*
+    public void update() {
+        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
+            updateBall(i);
+        }
+        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
+            updateShip(i);
+        }
     }
     */
