@@ -148,6 +148,17 @@
     </java>
   </target>
 
+  <!-- Lance le serveur sans utiliser les JAR -->
+  <target name="serveur2" depends="compile" description="Lancer le serveur sans utiliser les JAR">
+    <java classname="org.pilotix.server.PilotixServer" fork="true">
+      <classpath>
+        <pathelement location="${build}"/>
+        <pathelement location="."/>
+      </classpath>
+      <sysproperty key="pilotix.data.path" value="data"/>
+    </java>
+  </target>
+
   <!-- Nettoyage -->
   <target name="clean" description="Nettoyer l'arborescence">
     <delete dir="${build}"/>
