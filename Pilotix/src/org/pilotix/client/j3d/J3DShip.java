@@ -55,8 +55,8 @@ public class J3DShip extends J3DObject {
     /**
      * Crée une représentation 3D d'un vaisseau.
      */
-    public J3DShip(String shipShapeURL, Color3f aColor3f) {
-        super(shipShapeURL);
+    public J3DShip(String shipShapeURL, Color3f aShipColor) {
+        super(shipShapeURL, aShipColor);
 
         // Creation de deux phares blancs a l'avant du vaisseau
         float spotRange = 150.0f;
@@ -106,7 +106,8 @@ public class J3DShip extends J3DObject {
                                             cockpitLightPosition, 30.0f);
         Light thisShipCockpitLight = new PointLight(
                 true,
-                aColor3f,
+                //aShipColor,
+                new Color3f(0.3f, 0.3f, 0.3f),
                 new Point3f(cockpitLightPosition),
                 new Point3f(1.0f, 0.0f,0.009f));
         thisShipCockpitLight.setInfluencingBounds(cockpitLightBounds);
