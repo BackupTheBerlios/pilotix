@@ -168,7 +168,7 @@ public class GUIPanel extends JPanel implements ActionListener {
         // numéro n'est pas forcément égal au nombre de joueurs en cours, car
         // le joueur dont le numéro est le plus grand n'est pas forcément le
         // premier à partir.
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
             if (Environment.theClientArea.shipIsNull(i) || playerHasQuit) {
                 infoPlayers.setValueAt("", i, 0);
                 infoPlayers.setValueAt("", i, 1);
