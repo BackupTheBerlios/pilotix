@@ -41,6 +41,7 @@ public class MessageHandler {
     private byte messageType;
 
     private Command command = new Command();
+    private Information info = new Information();
 
     private int nbShip;
     private int byteLength;
@@ -64,7 +65,8 @@ public class MessageHandler {
 
     public Object receive() throws Exception {
 
-        getByteFromInput(message, 0, 1);
+        //getByteFromInput(message, 0, 1);
+        input.read(message, 0, 1);
         byte firstByte = message[0];
         byte messageType = (byte) ((firstByte & 240) >> 4);
         byte firstByteRest = (byte) (firstByte & 15);
@@ -72,15 +74,24 @@ public class MessageHandler {
         switch (messageType) {
         case Transferable.AREA:
             nbShip = firstByteRest;
-            getByteFromInput(message, 1, nbShip * 6);
-            tmpArea.setFromBytes(message);
+            //getByteFromInput(message, 1, nbShip * 6);
+        	input.read(message, 1, nbShip * 6);
+        tmpArea.setFromBytes(message);
             result = (Object) tmpArea;
             break;
         case Transferable.COMMAND:
-            getByteFromInput(message, 1, 2);
+            input.read(message, 1, 2);
+            //getByteFromInput(message, 1, 2);
             //Command aCommand = new Command();
             command.setFromBytes(message);
             result = (Object) command;
+            break;
+        case Transferable.INFO:
+            input.read(message, 1, 1);
+            //getByteFromInput(message, 1, 1);
+            //Command aCommand = new Command();
+            info.setFromBytes(message);
+            result = (Object) info;
             break;
         default:
             System.out.println("[MessageHandler] Flag inconnu :" + messageType);
@@ -91,7 +102,7 @@ public class MessageHandler {
 
     }
 
-    private void getByteFromInput(byte[] bytes, int off, int nbByte)
+    /*private void getByteFromInput(byte[] bytes, int off, int nbByte)
             throws Exception {
         int i = 0;
         int offset = off;
@@ -105,6 +116,6 @@ public class MessageHandler {
             }
         }
         //System.out.print("[offset :"+offset+"]");
-    }
+    }*/
     
 }

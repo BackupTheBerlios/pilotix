@@ -74,12 +74,15 @@ public class ClientMainLoopThread extends Thread {
         try {
             String ip = Environment.theServerIP;
             int port = Environment.theServerPort.intValue();
-            socket = new Socket(ip, port);
+            socket = new Socket(
+                ip,
+                port);
             if (Environment.debug) {
                 System.out.println("[CMLT] Connecté à "
                         + socket.getInetAddress() + ":" + socket.getPort());
             }
-            clientMessageHandler = new MessageHandler(socket);
+            clientMessageHandler = new MessageHandler(
+                socket);
 
             // A ce niveau, on sait que le serveur fonctionne
             // Il est donc judicieux d'initialiser maintenant l'aire locale
@@ -117,17 +120,21 @@ public class ClientMainLoopThread extends Thread {
                     // Enfin, on envoie la commande au serveur
                     //clientMessageHandler.sendCOMMANDMessage(tmpCommand);
                     clientMessageHandler.send(tmpCommand);
-                } else if (obj instanceof Information) {
+                } else if (obj instanceof Information) {                    
                     switch (((Information) obj).code) {
                     case Information.OWN_SHIP_ID:
                         // On reçoit notre numéro de joueur
                         Environment.theClientArea
-                                .setOwnShipId(((Information) obj).ownShipId);
-                        System.out.println("[CMLT] OWN_SHIP_ID : "+ ((Information) obj).ownShipId);
+                            .setOwnShipId(((Information) obj).ownShipId);
+                        /*System.out
+                            .println("[CMLT]!!!!!!!!!!!!!!!!!! OWN_SHIP_ID : "
+                                    + ((Information) obj).ownShipId);*/
                         break;
                     default:
                         break;
                     }
+                } else{
+                    System.out.println("Paquet Inconnue");
                 }
             }
 

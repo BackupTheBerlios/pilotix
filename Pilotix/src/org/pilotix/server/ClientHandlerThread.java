@@ -45,6 +45,7 @@ public class ClientHandlerThread extends Thread {
         Information info = new Information();
         info.code = Information.OWN_SHIP_ID;
         info.ownShipId = theClientId;
+        messageHandler.send(info);
         state = READY;
         PilotixServer.theNewCHTs.add((Object) this);
         PilotixServer.theSMLT.newClient();

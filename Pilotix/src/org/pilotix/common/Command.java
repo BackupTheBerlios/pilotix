@@ -21,6 +21,14 @@ package org.pilotix.common;
 
 public class Command implements Transferable {
 
+    /**
+     * <pre>
+     * |   Octet 0   | Octet 1 |   Octet 2   |
+     * | 4bit | 4bit | 1 Octet | 4bit | 4bit |
+     * | Flag |Accele| Directi |ToolId|BallId|
+     * </pre>
+     */
+    
     public static int lengthInByte = 3;
     private byte[] byteCoded = new byte[lengthInByte];
     private Angle direction;
@@ -80,9 +88,6 @@ public class Command implements Transferable {
     }
     
     
-    // |   Octet 0   | Octet 1 |   Octet 2   |
-    // | 4bit | 4bit | 1 Octet | 4bit | 4bit |
-    // | Flag |Accele| Directi |ToolId|BallId|
     
     
     

@@ -19,27 +19,26 @@
 
 package org.pilotix.client.j3d;
 
-import org.pilotix.client.Environment;
-import org.pilotix.client.ResourceLocator;
-import javax.media.j3d.TransformGroup;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.ColoringAttributes;
-import javax.media.j3d.Shape3D;
-import javax.media.j3d.LineArray;
 import javax.media.j3d.Appearance;
-import javax.media.j3d.ImageComponent2D;
-import javax.media.j3d.Texture2D;
-import javax.media.j3d.Texture;
-import javax.media.j3d.QuadArray;
+import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.GeometryArray;
-
-import javax.vecmath.Vector3f;
+import javax.media.j3d.ImageComponent2D;
+import javax.media.j3d.LineArray;
+import javax.media.j3d.QuadArray;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.Texture;
+import javax.media.j3d.Texture2D;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3f;
-import javax.vecmath.Point3d;
-import javax.media.j3d.AmbientLight;
-import com.sun.j3d.utils.image.TextureLoader;
 import javax.vecmath.TexCoord2f;
+import javax.vecmath.Vector3f;
+
+import org.pilotix.client.Environment;
+import org.pilotix.client.ResourceLocator;
+
+import com.sun.j3d.utils.image.TextureLoader;
 
 /**
  * <p>

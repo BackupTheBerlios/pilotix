@@ -49,6 +49,7 @@ public class Information implements Transferable {
         switch (code) {
         case OWN_SHIP_ID:
             ownShipId = bytes[1];
+            
             break;
         case AREA_ID:
             areaId = new String(bytes, 2, bytes.length - 2);
@@ -76,6 +77,7 @@ public class Information implements Transferable {
         case DECONNECT:
             break;
         }
+        System.out.println("INFO OWNSHIP!!!"+ownShipId);
         return byteCoded;
     }
 
