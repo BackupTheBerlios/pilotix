@@ -133,8 +133,9 @@ public class ServerShip extends Ship {
 
     public void commandPilotixElement(IterableArray balls) {
         if (command.getToolId() == 1) {
+            command.setToolId(0);
             if(balls.isNull(id)){                
-            System.out.println("Ball "+id+" Created !");
+            //System.out.println("Ball "+id+" Created !");
             
             balls.add(id,new ServerBall(position.plus(
                 (int) ((ServerAngle) direction).getX() * radius,
@@ -145,6 +146,7 @@ public class ServerShip extends Ship {
                 
             }
             //System.out.println("Balls!");
+            
         }
 
     }

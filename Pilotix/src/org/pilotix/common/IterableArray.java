@@ -174,6 +174,7 @@ public class IterableArray {
     *             si le tableau est déjà vide
     */
     public synchronized void remove(int index) {
+        System.out.println("[IterrableArray] remove"+index);
         if (nb == 0) {
             //throw new Exception("IterableArray already empty");
             System.out.println("IterableArray already empty");

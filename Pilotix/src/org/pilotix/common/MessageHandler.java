@@ -24,6 +24,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+import org.pilotix.client.Environment;
+
 /**
  * This class aim to transport Object via the TCPSocket sendAnObject() methodes
  * transforme AnObject into byte[] and send it thru the socket
@@ -84,19 +86,26 @@ public class MessageHandler {
             input.read(message, 1, nbShip * 6);
             input.read(message, (1+nbShip * 6),1);
             int index = (nbShip * 6)+2;
+            //System.out.println("nb balls="+message[1+nbShip * 6]);
             for(int i=0;i<message[1+nbShip * 6];i++){
                 input.read(message, index,1);
                 
                 if((message[index] & 1)==0){
                     index++;
-                    input.read(message, index,5);
-                    index++;
+                    input.read(message, index,6);
+                    index+=6;
                 }else{
                     index++;
                 }
                 
             }
-        tmpArea.setFromBytes(message);
+                System.out.print("Message[");
+            for(int i=0;i<index;i++){
+                System.out.print(message[i]+",");
+            }
+             System.out.println("]");
+             Environment.theClientArea.setFromBytes(message);
+        //tmpArea.setFromBytes(message);
             result = (Object) tmpArea;
             break;
         case Transferable.COMMAND:

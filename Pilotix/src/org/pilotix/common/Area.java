@@ -19,6 +19,8 @@
 
 package org.pilotix.common;
 
+import org.pilotix.server.ServerBall;
+
 /**
  * Contient les informations relatives à l'aire de jeu, et les méthodes
  * d'encapsulation pour les transferts sur le réseau.
@@ -73,7 +75,7 @@ public class Area implements Transferable {
 
         int index = 1;
         tmpByte = new byte[Ship.lengthInByte];
-        ships.clear(); //TODO a supprimer !!! et a tester
+        //ships.clear(); //TODO a supprimer !!! et a tester
         for (int i = 0; i < nbShips; i++) {
             tmpByte[0] = bytes[index];
             tmpByte[1] = bytes[index + 1];
@@ -93,9 +95,12 @@ public class Area implements Transferable {
             index = index + Ship.lengthInByte;
         }
 
-        nbBalls = bytes[index];
+        
+        int nbBallUpdate=0;
+        nbBallUpdate = bytes[index];
+        
         index++;
-        for (int i = 0; i < nbBalls; i++) {
+        for (int i = 0; i < nbBallUpdate; i++) {
             if ((bytes[index] & 1) == 0) {
                 tmpByte = new byte[Ball.lengthInByte];
                 tmpByte[0] = bytes[index];
@@ -106,8 +111,13 @@ public class Area implements Transferable {
                 tmpByte[5] = bytes[index + 5];
                 tmpByte[6] = bytes[index + 6];
                 tmpBall.setFromBytes(tmpByte);
-                System.out.println("Ajout de la balle d'id="+tmpBall.getId());
-                balls.add(tmpBall.getId(), tmpBall);
+                System.out.println("Ajout de la balle d'id=" + tmpBall.getId());
+                nbBalls++;
+                if (balls.isNull(tmpBall.getId())) {
+                    balls.add(tmpBall.getId(), tmpBall);
+                } else {
+                    System.out.println("Pb tentative d'ajout a la meme place");
+                }
                 index = index + Ball.lengthInByte;
             } else {
                 byte[] b = new byte[1];
@@ -115,8 +125,10 @@ public class Area implements Transferable {
                 tmpBall.setFromBytes(b);
                 balls.remove(tmpBall.getId());
                 index++;
+                nbBalls--;
             }
         }
+        System.out.println("nb balls=" + nbBalls);
 
     }
 
@@ -151,16 +163,36 @@ public class Area implements Transferable {
             }
             lengthInByte += Ship.lengthInByte;
         }
-        byteCoded[lengthInByte] = (byte) balls.size();
-        lengthInByte++;
+
+        int shipToAdd = 0;
         for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-            tmp = ((Ball) balls.cursor1next()).getAsBytes();
-            for (int j = 0; j < tmp.length; j++) {
-                byteCoded[lengthInByte + j] = tmp[j];
+            int state = ((ServerBall) (balls.cursor1next())).getState();
+            if ((state == ServerBall.ADD) || (state == ServerBall.REMOVE)) {
+                shipToAdd++;
             }
-            lengthInByte += tmp.length;
+
         }
-        
+            byteCoded[lengthInByte] = (byte) shipToAdd;
+            lengthInByte++;
+        if (shipToAdd != 0) {
+            for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+                tmp = ((Ball) balls.cursor1next()).getAsBytes();
+                if (tmp != null) {
+                    for (int j = 0; j < tmp.length; j++) {
+                        byteCoded[lengthInByte + j] = tmp[j];
+                    }
+                    lengthInByte += tmp.length;
+                }
+            }
+        }
+        /*if(balls.size()!=0){
+         System.out.print("||");
+         for(int i=0;i<byteCoded.length;i++){
+         System.out.print(byteCoded[i]+",");                
+         }
+         System.out.println("||");            
+         }*/
+
         return byteCoded;
     }
 

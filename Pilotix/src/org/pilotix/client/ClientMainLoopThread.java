@@ -90,7 +90,7 @@ public class ClientMainLoopThread extends Thread {
                 Object obj = clientMessageHandler.receive();                 
                 if (obj instanceof Area) {
                     // On écrit l'aire de jeu reçue dans ClientArea
-                    Environment.theClientArea.set((Area) obj);
+                    //Environment.theClientArea.set((Area) obj);
 
                     // On met à jour l'affichage 3D
                     Environment.theDisplay3D.update();

@@ -50,6 +50,13 @@ public abstract class PilotixElement {
     public void setStates(int state) {
         this.states = state;
     }
+    
+    /**
+     * @return Returns the state.
+     */
+    public int getState() {
+        return states;
+    }
 
     /*public abstract void setFromBytes(byte[] bytes);
 

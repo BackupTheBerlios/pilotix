@@ -120,7 +120,8 @@ public class ServerArea extends Area {
             tmpShip = (ServerShip) ships.cursor1next();
             for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
                 ServerBall tmpBall = (ServerBall) balls.cursor1next();
-                collideWithBall(tmpShip, tmpBall);
+                if (tmpBall.getState() != ServerBall.REMOVE)
+                        collideWithBall(tmpShip, tmpBall);
             }
         }
 
@@ -144,12 +145,13 @@ public class ServerArea extends Area {
             collideWithObstacle(tmpShip);
         }
 
-        //modification des trajectoires en prenant en compte les collisions
-        //Ships/Obstacles et Ships/frontiere externes
+        //devalidation des balls touchant un obstacle ou les frontieres
         for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
             tmpBall = (ServerBall) balls.cursor1next();
-            collideWithBoundary(tmpBall);
-            collideWithObstacle(tmpBall);
+            if (tmpBall.getState() != ServerBall.REMOVE) {
+                collideWithBoundary(tmpBall);
+                collideWithObstacle(tmpBall);
+            }
         }
 
         // affectation des trajectoirs des ships
@@ -160,11 +162,17 @@ public class ServerArea extends Area {
         // effacement des Balls ayant touche un mur ou un ship
         for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
             tmpBall = (ServerBall) balls.cursor1next();
-            if (tmpBall.getState() == ServerBall.TO_DELETE) {
-                System.out.println("Ball "+tmpBall.getId()+" Deleted !");
-                tmpBall.setStates(ServerBall.DELETE);
-            }
-            if (tmpBall.getState() == ServerBall.DELETE) {
+            if (tmpBall.getState() == ServerBall.NEW) {
+                System.out.println("Ball " + tmpBall.getId() + " Created !");
+                tmpBall.setStates(ServerBall.ADD);
+            } else if (tmpBall.getState() == ServerBall.ADD) {
+                tmpBall.setStates(ServerBall.NORMAL);
+                //System.out.println("Ball id=" + tmpBall.getId() + " state="
+                //    + tmpBall.getState());
+            } else if (tmpBall.getState() == ServerBall.TO_REMOVE) {
+                System.out.println("Ball " + tmpBall.getId() + " Deleted !");
+                tmpBall.setStates(ServerBall.REMOVE);
+            } else if (tmpBall.getState() == ServerBall.REMOVE) {
                 balls.remove(tmpBall.getId());
             }
         }
@@ -235,10 +243,10 @@ public class ServerArea extends Area {
         }
     }
 
-    public void collideWithBoundary(ServerBall s) {
+    public void collideWithBoundary(ServerBall ball) {
 
-        returnedPosition = s.getNextPosition();
-        radius = s.getRadius();
+        returnedPosition = ball.getNextPosition();
+        radius = ball.getRadius();
 
         up = borders.upLeftCorner.y;
         down = borders.downRightCorner.y;
@@ -249,25 +257,31 @@ public class ServerArea extends Area {
             || (returnedPosition.x > (right - radius))
             || (returnedPosition.y > (up - radius))
             || (returnedPosition.y < (down + radius))) {
-            s.setStates(ServerBall.TO_DELETE);
+            if (ball.getState() == ServerBall.NEW)
+                ball.setStates(ServerBall.REMOVE);
+            else
+                ball.setStates(ServerBall.TO_REMOVE);
         }
     }
 
-    public void collideWithObstacle(ServerBall s) {
-        returnedPosition = s.getNextPosition();
+    public void collideWithObstacle(ServerBall ball) {
+        returnedPosition = ball.getNextPosition();
         for (Iterator iter = obstacles.iterator(); iter.hasNext();) {
             Obstacle obstacle = (Obstacle) iter.next();
-            
+
             up = obstacle.upLeftCorner.y;
             down = obstacle.downRightCorner.y;
             left = obstacle.upLeftCorner.x;
             right = obstacle.downRightCorner.x;
-            
+
             if (((left - radius) < returnedPosition.x)
                 && (returnedPosition.x < (right + radius))
                 && ((down - radius) < returnedPosition.y)
                 && (returnedPosition.y < (up + radius)))
-                    s.setStates(ServerBall.TO_DELETE);
+                    if (ball.getState() == ServerBall.NEW)
+                        ball.setStates(ServerBall.REMOVE);
+                    else
+                        ball.setStates(ServerBall.TO_REMOVE);
         }
 
     }
@@ -285,12 +299,12 @@ public class ServerArea extends Area {
     }
 
     /*private void collideWithBalls(ServerShip aShip) {
-        for (int i = 0; i < balls.size(); i++) {
-            tmpBall = (ServerBall) balls.get(i);
-            collideWithBall(tmpShip2, tmpBall);
-        }
+     for (int i = 0; i < balls.size(); i++) {
+     tmpBall = (ServerBall) balls.get(i);
+     collideWithBall(tmpShip2, tmpBall);
+     }
 
-    }*/
+     }*/
 
     private void collideWithBall(ServerShip aShip, ServerBall aBall) {
         Vector va = aShip.getNextPosition().less(aShip.getPosition());
@@ -317,7 +331,11 @@ public class ServerArea extends Area {
                 tmpVector.set(aShip.getNextSpeed());
                 aShip.setNextSpeed(aBall.getSpeed());
                 //aBall.setNextSpeed(tmpVector);
-                aBall.setStates(ServerBall.TO_DELETE);
+                if (aBall.getState() == ServerBall.NEW)
+                    aBall.setStates(ServerBall.REMOVE);
+                else
+                    aBall.setStates(ServerBall.TO_REMOVE);
+
             } else {
                 //System.out.println("no collision");
             }

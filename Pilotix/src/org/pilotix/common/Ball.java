@@ -35,7 +35,7 @@ public class Ball extends PilotixElement implements Transferable {
      * |ShipID|BallID|   0  |    X    |    Y    |Vitesse X|Vitesse Y|
      * </pre>
      */
-    public static final int NEW = 0;
+    public static final int ADD = 1;
 
     /**
      * Message de destruction de Ball
@@ -46,7 +46,7 @@ public class Ball extends PilotixElement implements Transferable {
      * </pre>
      *
      */
-    public static final int DELETE = 1;
+    public static final int REMOVE = 4;
 
     protected Vector speed = new Vector();
     public static int lengthInByte = 7;
@@ -57,7 +57,7 @@ public class Ball extends PilotixElement implements Transferable {
         super();
         position.set(aPosition);
         speed.set(aSpeed);
-        states = NEW;
+        states = ADD;
     }
 
     public Ball() {
@@ -68,6 +68,9 @@ public class Ball extends PilotixElement implements Transferable {
         //flag = (byte)((bytes[0] & 240) >> 4);
         id = (byte) ((bytes[0] & 14) >> 1);
         states = (byte) (bytes[0] & 1);
+        //if ((byte) (bytes[0] & 1)== 0){
+        //    states = ADD;
+        //}
         if (bytes.length > 1) {
             position.x = 0;
             position.y = 0;
@@ -96,10 +99,10 @@ public class Ball extends PilotixElement implements Transferable {
 
     public byte[] getAsBytes() {
 
-        if (states == NEW) {
+        if (states == ADD) {
             byteCoded[0] = 0;
             byteCoded[0] = (byte) (id << 3);
-            byteCoded[0] |= (byte) states;
+            byteCoded[0] |= (byte) 0;
 
             byteCoded[1] = (byte) (position.x / 256);
             byteCoded[2] = (byte) position.x;
@@ -110,8 +113,10 @@ public class Ball extends PilotixElement implements Transferable {
             byteCoded[6] = (byte) speed.y;
 
             return byteCoded;
-        } else {
+        } else if (states == REMOVE) {
             return new byte[] { (byte) ((id << 3) + 1)};
+        } else {
+            return null;
         }
     }
 
