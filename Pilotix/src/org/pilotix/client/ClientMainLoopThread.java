@@ -86,7 +86,7 @@ public class ClientMainLoopThread extends Thread {
             Environment.theClientArea.init();
 
             if (Environment.debug) {
-                System.out.println("[CMLT] Début boucle");
+                System.out.println("[CMLT] Début de la boucle");
             }
             while (!quit) {
                 Object obj = clientMessageHandler.receive();
@@ -120,10 +120,7 @@ public class ClientMainLoopThread extends Thread {
                 } else if (obj instanceof Information) {
                     switch (((Information) obj).code) {
                     case Information.OWN_SHIP_ID:
-                        if (Environment.debug) {
-                            System.out.println("[CMLT] Reçu OWN_SHIP_ID : "
-                                            + ((Information) obj).ownShipId);
-                        }
+                        // On reçoit notre numéro de joueur
                         Environment.theClientArea
                                 .setOwnShipId(((Information) obj).ownShipId);
                         break;
@@ -134,8 +131,7 @@ public class ClientMainLoopThread extends Thread {
             }
 
             if (Environment.debug) {
-                System.out.println("[CMLT] Fin de la boucle");
-                System.out.println("[CMLT] ClientArea.reset()");
+                System.out.println("[CMLT] Fin de la boucle.");
             }
             Environment.theClientArea.reset();
             socket.close();
@@ -165,9 +161,6 @@ public class ClientMainLoopThread extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (Environment.debug) {
-            System.out.println("[CMLT.endGame] quit = true");
         }
         quit = true;
     }
