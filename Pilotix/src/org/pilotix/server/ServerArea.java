@@ -21,15 +21,12 @@ package org.pilotix.server;
 
 import org.pilotix.common.*;
 
-//import java.util.Iterator;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-//import java.util.ArrayList;
 
 public class ServerArea extends Area {
 
