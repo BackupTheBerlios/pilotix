@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PilotixShape SYSTEM "pilotix.ship.dtd">
-<PilotixShip Id="SimpleShip" Version="0.5">
-    <Engine Velocity="10" TrunSpeed="180" />
-    <Hull Weight="500" Shield="100" />
-    <Shape File="SimpleShip.PilotixShip.xml"/>
-</PilotixShip>
