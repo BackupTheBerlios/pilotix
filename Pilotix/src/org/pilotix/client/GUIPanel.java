@@ -186,7 +186,11 @@ public class GUIPanel extends JPanel implements ActionListener {
                 infoPlayers.setValueAt(
                       String.valueOf(Environment.theClientArea.getShipDirection(i).get()),
                       i, 3);
-                //infoPlayers.setValueAt(String.valueOf(tmpShip.getSpeed()),i,4);
+                      /*
+                infoPlayers.setValueAt(
+                      String.valueOf(Environment.theClientArea.getShipSpeed(i).get()),
+                      i,4);
+                      */
             }
         }
     }
