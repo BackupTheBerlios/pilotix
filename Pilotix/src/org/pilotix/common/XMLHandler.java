@@ -19,12 +19,9 @@
 
 package org.pilotix.common;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import javax.xml.parsers.*;
 import java.net.URL;
-import javax.vecmath.Color3f;
 
 /**
  * Cette classe sert à construire un Document DOM à partir de l'URL d'un
@@ -38,8 +35,6 @@ import javax.vecmath.Color3f;
  */
 public class XMLHandler {
 
-    private Document document = null;
-    protected Element rootNode = null;
     private boolean isValid = false;
     private static  DocumentBuilder docBuilder;
 
@@ -60,8 +55,7 @@ public class XMLHandler {
             builderFactory.setValidating(false);
             docBuilder = builderFactory.newDocumentBuilder();
 
-            document = docBuilder.parse(fileURL.openStream());
-            rootNode = document.getDocumentElement();
+            Document document = docBuilder.parse(fileURL.openStream());
             isValid = true;
         } catch (Exception e) {
             System.out.println("[XMLHandler(URL)]" + e.getMessage());
@@ -105,99 +99,12 @@ public class XMLHandler {
      * @return L'objet org.w3c.dom.Document correspondant au contenu du fichier
      *         XML
      */
-    public static Document getDocumentFromFile(String uri) {
+    /*public static Document getDocumentFromFile(String uri) {
         try {
             return docBuilder.parse(uri);
         } catch (Exception e) {
             System.out.println("[XMLHandler.getDocumentFromFile]" + e.getMessage());
             return null;
         }
-    }
-
-    /**
-     * Renvoie la hauteur de la fenêtre du jeu.
-     * 
-     * @return la hauteur de l'interface, en pixels
-     */
-    public final int getInterfaceHeight() {
-        String h = ((Element) rootNode.getElementsByTagName("interface")
-                .item(0)).getAttribute("h");
-        return Integer.parseInt(h);
-    }
-
-    /**
-     * Renvoie la longueur de la fenêtre du jeu.
-     * 
-     * @return la longueur de l'interface, en pixels
-     */
-    public final int getInterfaceLength() {
-        String l = ((Element) rootNode.getElementsByTagName("interface")
-                .item(0)).getAttribute("l");
-        return Integer.parseInt(l);
-    }
-
-    /**
-     * Renvoie une instance de Color3f correspondant à la couleur dont
-     * l'identifiant est passé en paramêtre. Cet identifiant doit exister dans
-     * le fichier de configuration XML, sinon la couleur blanche sera renvoyée
-     * par défaut.
-     * 
-     * @param colorIdent
-     *            le nom de la couleur
-     * @return la couleur demandée
-     */
-    public final Color3f getColor(String colorIdent) {
-        float[] color = new float[3];
-        boolean found = false;
-
-        NodeList colorList = ((Element) rootNode.getElementsByTagName(
-                "couleurs").item(0)).getElementsByTagName("couleur");
-
-        for (int i = 0; !found && i < colorList.getLength(); i++) {
-            Element xmlColor = (Element) colorList.item(i);
-            if (xmlColor.getAttribute("id").equals(colorIdent)) {
-                found = true;
-                color[0] = Float.parseFloat(xmlColor.getAttribute("r"));
-                color[1] = Float.parseFloat(xmlColor.getAttribute("v"));
-                color[2] = Float.parseFloat(xmlColor.getAttribute("b"));
-            }
-        }
-
-        if (!found) {
-            color[0] = 1.0f;
-            color[1] = 1.0f;
-            color[2] = 1.0f;
-        }
-        return new Color3f(color);
-    }
-
-    /**
-     * Renvoie la couleur du vaisseau dont l'id est passé en paramêtre. Le
-     * fichier XML de configuration doit contenir un joueur dont l'id vaut le
-     * numéro de son vaisseau (0, 1, etc).
-     * 
-     * @param aShipId
-     *            l'identifiant du vaisseau
-     * @return la couleur du vaisseau ayant cet identifiant
-     */
-    public final Color3f getColorFromId(int aShipId) {
-        boolean found = false;
-        String theColorIdent = null;
-        Integer tmpShipId = new Integer(aShipId);
-
-        NodeList playerList = ((Element) rootNode.getElementsByTagName(
-                "joueurs").item(0)).getElementsByTagName("joueur");
-        for (int i = 0; !found && i < playerList.getLength(); i++) {
-            Element xmlPlayer = (Element) playerList.item(i);
-            String id = xmlPlayer.getAttribute("id");
-            if (id.equals(tmpShipId.toString())) {
-                found = true;
-                theColorIdent = xmlPlayer.getAttribute("couleur");
-            }
-        }
-        if (theColorIdent == null) {
-            theColorIdent = "Any";
-        }
-        return getColor(theColorIdent);
-    }
+    }*/
 }

@@ -184,7 +184,7 @@ public class Display3D {
      */
     private void addShip(int aShipId, Vector aPosition, Angle aDirection, int aAltitude) {
         if (objectsJ3D.get("ship"+aShipId) == null) {
-            Color3f thisShipColor = Environment.theXMLConfigHandler
+            Color3f thisShipColor = Environment.clientConfig
                     .getColorFromId(aShipId);
             objectsJ3D.put("ship"+aShipId,
                          new J3DShip("wipeout.pilotix.shape.xml",thisShipColor));

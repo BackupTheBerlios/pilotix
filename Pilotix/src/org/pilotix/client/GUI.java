@@ -53,8 +53,8 @@ public class GUI extends JFrame {
         setTitle(ResourceBundle.getBundle(
                 Environment.propertiesPath + "i18nClient").getString(
                 "mainFrameTitle"));
-        setSize(Environment.theXMLConfigHandler.getInterfaceLength(),
-                Environment.theXMLConfigHandler.getInterfaceHeight());
+        setSize(Environment.userConfig.getInterfaceLength(),
+                Environment.userConfig.getInterfaceHeight());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         guipanel = new GUIPanel();
