@@ -40,34 +40,43 @@ public class J3DObstacle extends J3DObject {
 
     /**
      * Construit un obstacle dont les coordonnées des coins sont fournis
-     * (le système de coordonnées est celui du serveur).
+     * (le système de coordonnées est celui du serveur), et recouvre
+     * les faces avec la texture indiquée, dont l'URL sera trouvée
+     * par ResourceLocator.
      */
-    public J3DObstacle(Vector upLeftCorner, Vector downRightCorner) {
+    public J3DObstacle(Vector upLeftCorner,
+                        Vector downRightCorner,
+                        int height,
+                        int altitude,
+                        String texture) {
 
         super();
 
-        URL url = Environment.theRL.getResource(
-                ResourceLocator.TEXTURE, "obstacle.jpg");
-        TextureLoader loader = new TextureLoader(url, Environment.theGUI);
+        TextureLoader loader = new TextureLoader(
+               Environment.theRL.getResource(ResourceLocator.TEXTURE, texture),
+               Environment.theGUI);
         ImageComponent2D image = loader.getImage();
-        Texture2D texture = new Texture2D(Texture.BASE_LEVEL,
-                Texture.INTENSITY, 256, 256);
-        texture.setBoundaryModeS(Texture.WRAP);
-        texture.setBoundaryModeT(Texture.WRAP);
-        texture.setImage(0, image);
+        Texture2D texture2D = new Texture2D(Texture.BASE_LEVEL,
+                                            Texture.INTENSITY,
+                                            256, 256);
+        texture2D.setBoundaryModeS(Texture.WRAP);
+        texture2D.setBoundaryModeT(Texture.WRAP);
+        texture2D.setImage(0, image);
 
         Appearance obstacleAppearance = new Appearance();
-        obstacleAppearance.setTexture(texture);
+        obstacleAppearance.setTexture(texture2D);
 
         Box obstacleShape = new Box(((downRightCorner.x - upLeftCorner.x) / 2)*Environment.u3d,
                                      ((upLeftCorner.y - downRightCorner.y) / 2)*Environment.u3d,
-                                     10.0f,
+                                     height*Environment.u3d,
                                      obstacleAppearance);
         rotationTG.addChild(obstacleShape);
 
         this.setPosition(new Vector(
                 upLeftCorner.x + ((downRightCorner.x - upLeftCorner.x) / 2),
                 downRightCorner.y + ((upLeftCorner.y - downRightCorner.y) / 2)));
+
+        this.setAltitude(altitude);
 
         this.compile();
     }
