@@ -145,7 +145,8 @@ public class ClientArea  extends org.pilotix.common.Area {
                       Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerY"))),
                    Integer.parseInt(tmpXmlObstacle.getAttribute("height")),
                    Integer.parseInt(tmpXmlObstacle.getAttribute("altitude")),
-                   tmpXmlObstacle.getAttribute("texture"));
+                   tmpXmlObstacle.getAttribute("topTexture"),
+                   tmpXmlObstacle.getAttribute("sideTexture"));
         }
     }
 
@@ -154,15 +155,18 @@ public class ClientArea  extends org.pilotix.common.Area {
         public Vector downRightCorner;
         public int altitude;
         public int height;
-        public String texture;
+        public String topTexture;
+        public String sideTexture;
 
         public Obstacle(Vector upLeftCorner, Vector downRightCorner,
-                         int height, int altitude, String texture) {
+                         int height, int altitude,
+                         String topTexture, String sideTexture) {
             this.upLeftCorner = upLeftCorner;
             this.downRightCorner = downRightCorner;
             this.height = height;
             this.altitude = altitude;
-            this.texture = texture;
+            this.topTexture = topTexture;
+            this.sideTexture = sideTexture;
         }
     }
 
