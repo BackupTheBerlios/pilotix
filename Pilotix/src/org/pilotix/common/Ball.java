@@ -27,8 +27,6 @@ package org.pilotix.common;
  */
 public class Ball extends PilotixElement implements Transferable {
 
-    /** lorsque la balle doit etre diffuse*/
-    public static final int NEW = 0;
     /**
      * Message de creation de Ball
      * <pre>
@@ -37,18 +35,17 @@ public class Ball extends PilotixElement implements Transferable {
      * |ShipID|BallID|   0  |    X    |    Y    |Vitesse X|Vitesse Y|
      * </pre>
      */
-
-    /** lorsque la balle doit etre supprime*/
-    public static final int DELETE = 1;
+    public static final int NEW = 0;
     /**
      * Message de destruction de Ball
      * <pre>
-     * |      Octet   0     | 
+     * |      Octet   0     |
      * | 4bit | 3bit | 1bit |
      * |ShipID|BallID|   1  |
-     * </pre>     
-     * 
+     * </pre>
+     *
      */
+    public static final int DELETE = 1;
     protected Vector speed = new Vector();
     public static int lengthInByte = 7;
     private byte[] byteCoded = new byte[lengthInByte];
@@ -131,7 +128,7 @@ public class Ball extends PilotixElement implements Transferable {
         return radius;
     }
     
-    public Vector speed(){
+    public Vector getSpeed(){
         return speed;
     }
 
