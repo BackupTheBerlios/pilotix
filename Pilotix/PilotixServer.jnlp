@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="0.2 1.0" codebase="http://www.pilotix.org/" href="root/Pilotix/PilotixServer.jnlp">
+  <information>
+    <title>Pilotix (server)</title>
+    <vendor>Pilotix.org</vendor>
+    <homepage href="index.php" />
+    <description>Pilotix server</description>
+    <description kind="short">Stirludo por pluraj ludantoj. Jeu de pilotage multijoueurs.</description>
+    <icon href="include/images/logopilotix-petit.gif" />
+    <offline-allowed />
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.4+"/>
+    <jar href="root/Pilotix/dist/PilotixServer.jar" main="true" download="eager" />
+    <jar href="root/Pilotix/dist/PilotixCommon.jar" download="eager" />
+    <jar href="root/Pilotix/dist/PilotixData.jar" download="eager" />
+    <property name="pilotix.data.path" value="data" />
+  </resources>
+  <application-desc main-class="org.pilotix.server.PilotixServer" />
+</jnlp>
