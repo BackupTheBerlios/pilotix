@@ -1,29 +1,35 @@
 package org.pilotix.common;
 
 /**
- * Classe servant a vehiculer des infomation divers
- * entre client et server
+ * Classe servant à véhiculer diverses informations
+ * entre le client et le serveur.
  */
 public class Information implements Message {
 
     /**
+     * <pre>
      * |   Octet 0   | Octet 1 |
-     * | 4bit | 4bit | 1 Octet | 
+     * | 4bit | 4bit | 1 Octet |
      * | Flag |   1  |OwnShipId|
+     * </pre>
      */
     public static final byte OWN_SHIP_ID = 1;
 
     /**
+     * <pre>
      * |   Octet 0   | Octet 1 |  Octet  2  |  Octet  3  |  Octet  4  |...
-     * | 4bit | 4bit | 1 Octet |  1 Octet   |  1 Octet   |  1 Octet   | 
+     * | 4bit | 4bit | 1 Octet |  1 Octet   |  1 Octet   |  1 Octet   |
      * | Flag |   2  | Area Id |StringLength|   Char 0   |   Char 1   |...
+     * </pre>
      */
     public static final byte AREA_ID = 2;
 
     /**
+     * <pre>
      * |   Octet 0   |
      * | 4bit | 4bit |
      * | Flag |   3  |
+     * </pre>
      */
     public static final byte DECONNECT = 3;
 
