@@ -57,7 +57,6 @@ public class MessageHandler {
 
     public void send(Transferable aMessage) {
         try {
-        	
             output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
             //System.out.println("Packet Send,"+ aMessage.getLengthInByte());
         } catch (Exception e) {
@@ -77,7 +76,7 @@ public class MessageHandler {
         case Transferable.AREA:
             nbShip = firstByteRest;
             //getByteFromInput(message, 1, nbShip * 6);
-        	input.read(message, 1, nbShip * 6);
+            input.read(message, 1, nbShip * 6);
         tmpArea.setFromBytes(message);
             result = (Object) tmpArea;
             break;

@@ -63,8 +63,8 @@ public class Ship extends PilotixElement implements Transferable{
      * direction = aDirection; states = theStates;
      */
     
-    public Ship(Ship aShip){    	
-    	states = aShip.states;
+    public Ship(Ship aShip){
+        states = aShip.states;
         id = aShip.id;
         position = new Vector(aShip.getPosition());
         direction = new Angle(aShip.getDirection());
