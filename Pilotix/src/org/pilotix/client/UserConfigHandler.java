@@ -43,7 +43,7 @@ public class UserConfigHandler {
     private Document configDocument;
     private Element documentElement;
     private String firstName;
-    private String lastName;
+    private String familyName;
     // photo et commentaire ?
     private int interfaceHeight, interfaceLength;
     private HashMap keymap;
@@ -73,7 +73,7 @@ public class UserConfigHandler {
         nl = documentElement.getElementsByTagName("Description");
         Element topElt = (Element)nl.item(0);
         firstName = getChildElementValue(topElt, "FirstName");
-        lastName = getChildElementValue(topElt, "LastName");
+        familyName = getChildElementValue(topElt, "FamilyName");
         // --- interface
         nl = documentElement.getElementsByTagName("Interface");
         topElt = (Element)nl.item(0);
@@ -103,12 +103,12 @@ public class UserConfigHandler {
         firstName = name;
     }
     
-    public String getLastName() {
-        return lastName;
+    public String getFamilyName() {
+        return familyName;
     }
     
-    public void setLastName(String name) {
-        lastName = name;
+    public void setFamilyName(String name) {
+        familyName = name;
     }
 
     /**
