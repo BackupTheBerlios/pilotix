@@ -29,8 +29,8 @@ public abstract class PilotixElement {
     protected int id;    
     protected int states;
     protected Vector position = new Vector();
-    
-    
+
+
     //byte[] byteCoded = null;
     //public static int lengthInByte = 0;
 
@@ -43,6 +43,11 @@ public abstract class PilotixElement {
     public Vector getPosition(){
         return position;
     }
+
+    public Vector getPosition() {
+        return position;
+    }
+
 
     /*public abstract void setFromBytes(byte[] bytes);
 
