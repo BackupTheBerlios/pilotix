@@ -19,8 +19,8 @@
 
 package org.pilotix.client.j3d;
 
-import org.pilotix.client.*;
-import org.pilotix.common.*;
+import org.pilotix.client.Environment;
+import org.pilotix.common.ResourceLocator;
 import org.w3c.dom.*;
 
 import java.util.StringTokenizer;
