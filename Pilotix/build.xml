@@ -6,7 +6,7 @@
   <!-- Propriétés globales -->
   <property name="jaroj" value="2003-2004"/>
   <property name="src" location="src"/>
-  <property name="build" location="class"/>
+  <property name="class" location="class"/>
   <property name="dist" location="dist"/>
   <property name="data" location="data"/>
   <property name="properties" location="properties"/>
@@ -42,13 +42,13 @@
 
   <!-- Initialisation -->
   <target name="init" depends="logo">
-    <mkdir dir="${build}"/>
+    <mkdir dir="${class}"/>
   </target>
 
   <!-- Compilation -->
   <target name="compile" depends="init" description="Compiler le code source">
     <javac srcdir="${src}"
-            destdir="${build}"
+            destdir="${class}"
             encoding="ISO-8859-1"
             optimize="yes"
             debug="yes" />
@@ -58,7 +58,7 @@
   <target name="dist" depends="compile" description="Générer une distribution">
     <mkdir dir="${dist}"/>
     <jar jarfile="${dist}/PilotixClient.jar">
-      <fileset dir="${build}" includes="org/pilotix/client/**"/>
+      <fileset dir="${class}" includes="org/pilotix/client/**"/>
       <fileset dir="." includes="properties/*Client*"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
@@ -67,13 +67,13 @@
       </manifest>
     </jar>
     <jar jarfile="${dist}/PilotixCommon.jar">
-      <fileset dir="${build}" includes="org/pilotix/common/**"/>
+      <fileset dir="${class}" includes="org/pilotix/common/**"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
       </manifest>
     </jar>
     <jar jarfile="${dist}/PilotixServer.jar">
-      <fileset dir="${build}" includes="org/pilotix/server/**"/>
+      <fileset dir="${class}" includes="org/pilotix/server/**"/>
       <fileset dir="${properties}" includes="*Server*"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
@@ -133,7 +133,7 @@
   <target name="clientnojar" depends="compile" description="Lancer le client sans utiliser le Jar">
     <java classname="org.pilotix.client.PilotixClient" fork="true">
       <classpath>
-        <pathelement location="${build}"/>
+        <pathelement location="${class}"/>
         <pathelement location="."/>
       </classpath>
       <sysproperty key="pilotix.data.path" value="data"/>
@@ -146,7 +146,7 @@
       <arg value="localhost"/>
       <arg value="9000"/>
       <classpath>
-        <pathelement location="${build}"/>
+        <pathelement location="${class}"/>
         <pathelement location="."/>
       </classpath>
     </java>
@@ -163,7 +163,7 @@
   <target name="servernojar" depends="compile" description="Lancer le serveur sans utiliser le Jar">
     <java classname="org.pilotix.server.PilotixServer" fork="true">
       <classpath>
-        <pathelement location="${build}"/>
+        <pathelement location="${class}"/>
         <pathelement location="."/>
       </classpath>
       <sysproperty key="pilotix.data.path" value="data"/>
@@ -172,7 +172,7 @@
 
   <!-- Nettoyage -->
   <target name="clean" description="Nettoyer l'arborescence">
-    <delete dir="${build}"/>
+    <delete dir="${class}"/>
     <delete dir="${dist}"/>
   </target>
 
