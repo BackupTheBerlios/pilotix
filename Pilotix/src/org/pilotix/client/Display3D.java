@@ -113,15 +113,18 @@ public class Display3D {
         Vector downRightCorner = null;
         int altitude = 0;
         int height = 0;
-        String texture = null;
+        String topTexture = null;
+        String sideTexture = null;
         for (int i = 0; i < Environment.theClientArea.getObstacles().length; i++) {
             upLeftCorner = Environment.theClientArea.getObstacle(i).upLeftCorner;
             downRightCorner = Environment.theClientArea.getObstacle(i).downRightCorner;
-            texture = Environment.theClientArea.getObstacle(i).texture;
+            topTexture = Environment.theClientArea.getObstacle(i).topTexture;
+            sideTexture = Environment.theClientArea.getObstacle(i).sideTexture;
             altitude = Environment.theClientArea.getObstacle(i).altitude;
             height = Environment.theClientArea.getObstacle(i).height;
             objectsJ3D.put("obstacle"+i,
-                           new J3DObstacle(upLeftCorner,downRightCorner,height,altitude,texture));
+                           new J3DObstacle(upLeftCorner,downRightCorner,height,altitude,
+                                           topTexture,sideTexture));
             locale.addBranchGraph((BranchGroup)objectsJ3D.get("obstacle"+i));
         }
     }
