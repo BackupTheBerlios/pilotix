@@ -19,13 +19,15 @@
 
 package org.pilotix.client;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import org.pilotix.common.Angle;
 import org.pilotix.common.Command;
-import org.pilotix.common.MessageHandler;
+import org.pilotix.common.Information;
 import org.pilotix.common.Message;
+import org.pilotix.common.MessageHandler;
 import org.pilotix.common.Ship;
-import java.net.Socket;
-import java.io.IOException;
 
 /**
  * Cette classe est utilisée pour recevoir des messages du serveur et pour
@@ -165,7 +167,10 @@ public class ClientMainLoopThread extends Thread {
      */
     public void endGame() {
         try {
-            clientMessageHandler.sendSESSIONMessage(0);
+            Information info = new Information();
+            info.code = Information.DECONNECT;
+            clientMessageHandler.send(info);
+            //clientMessageHandler.sendSESSIONMessage(0);
             if (Environment.debug) {
                 System.out
                         .println("[ClientMainLoopThread.endGame] Message SESSION(0) envoyé au serveur");

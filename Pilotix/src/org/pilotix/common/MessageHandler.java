@@ -37,14 +37,6 @@ public class MessageHandler {
     private InputStream input;
     private OutputStream output;
 
-    //  message type for server to client
-    //public static final byte FRAMEINFO = 4;
-    //public static final byte OWNSHIPINFO = 9;
-
-    // message type for client to server
-    //public static final byte COMMAND = 10;
-    //public static final byte SESSION = 11;
-
     private byte firstByte;
     private byte firstByteRest;
     private byte[] message;
@@ -90,11 +82,9 @@ public class MessageHandler {
 
     public void send(Message aMessage) {
         try {
-            
-        output.write(aMessage.getAsBytes(), 0,
-                aMessage.getLengthInByte());
+            output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -114,8 +104,8 @@ public class MessageHandler {
             area.setFromBytes(message);
             result = (Object) area;
             break;
-        case Message.COMMAND:           
-            getByteFromInput(message, 1, 2);            
+        case Message.COMMAND:
+            getByteFromInput(message, 1, 2);
             //Command aCommand = new Command();
             command.setFromBytes(message);
             result = (Object) command;
