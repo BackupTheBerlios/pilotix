@@ -19,11 +19,14 @@
 
 package org.pilotix.server;
 
-import org.pilotix.common.*;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.pilotix.common.Area;
+import org.pilotix.common.ResourceLocator;
+import org.pilotix.common.Ship;
+import org.pilotix.common.Transferable;
+import org.pilotix.common.Vector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -240,7 +243,7 @@ public class ServerArea extends Area {
             int q = (b * b) - (4 * a * c);
             if (q >= 0) {
                 double sq = Math.sqrt(q);
-                double d = 1 / (2 * a);
+                double d = ((double)1) / ((double)(2 * a));
                 double r1 = (-b + sq) * d;
                 double r2 = (-b - sq) * d;
 
