@@ -21,6 +21,7 @@ package org.pilotix.client;
 
 import org.pilotix.common.Ship;
 import org.pilotix.common.Vector;
+import org.pilotix.common.Angle;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -192,6 +193,54 @@ public class ClientArea  extends org.pilotix.common.Area {
     }
 
     /**
+     * Teste si le vaisseau indiqué existe.
+     *
+     * @param aShipId
+     *         le vaisseau dont l'existence doit être testée
+     * @return
+     *         vrai si le vaisseau existe, faux sinon
+     */
+    public final boolean shipIsNull(int aShipId) {
+        return (ships[aShipId]==null) ? true : false;
+    }
+
+    /**
+     * Renvoie la position du vaisseau dont l'identifiant est passé en paramètre.
+     *
+     * @param aShipId
+     *         le vaisseau dont la position doit être renvoyée
+     * @return
+     *         la position du vaisseau
+     */
+    public final Vector getShipPosition(int aShipId) {
+        return ships[aShipId].getPosition();
+    }
+
+    /**
+     * Renvoie la direction du vaisseau dont l'identifiant est passé en paramètre.
+     *
+     * @param aShipId
+     *         le vaisseau dont la direction doit être renvoyée
+     * @return
+     *         la direction du vaisseau
+     */
+    public final Angle getShipDirection(int aShipId) {
+        return ships[aShipId].getDirection();
+    }
+
+    /**
+     * Renvoie l'état du vaisseau dont l'identifiant est passé en paramètre.
+     *
+     * @param aShipId
+     *         le vaisseau dont l'état doit être renvoyé
+     * @return
+     *         l'état du vaisseau
+     */
+    public final int getShipStates(int aShipId) {
+        return ships[aShipId].getStates();
+    }
+
+    /**
      * Renvoie le vaisseau dont l'identificateur est fourni.
      *
      * @param shipID
@@ -199,10 +248,11 @@ public class ClientArea  extends org.pilotix.common.Area {
      * @return une instance de Ship, ou null si l'identifiant fourni n'est pas
      *         celui d'un vaisseau
      */
+/*
     public Ship getShip(int shipID) {
         return (Ship) ships[shipID];
     }
-
+*/
     /**
      * Renvoie l'ensemble des vaisseaux dans un tableau.
      *
