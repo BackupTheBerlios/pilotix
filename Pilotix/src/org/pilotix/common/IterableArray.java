@@ -171,9 +171,13 @@ public class IterableArray {
     public void reset() {
         current = lastInserted;
     }
-    
+
+    /**
+     * Teste si l'objet d'indice <code>index</code> existe.
+     * @return vrai si l'objet existe, faux sinon.
+     */
     public boolean isNull(int index) {
-        return objects[index] != null;
+        return objects[index] == null;
     }
     
 }
