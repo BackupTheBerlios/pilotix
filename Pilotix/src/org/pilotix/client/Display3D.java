@@ -57,6 +57,7 @@ public class Display3D {
     private Locale locale = null;
     private IterableArray objectsJ3D = null;
     private int nbMaxObjectsJ3D = 32;
+    private IterableArray ballsJ3D = null;
     private J3DCamera ownShip3DCamera = null;
     private Canvas3D mainCanvas3D = null;
     private Canvas3D minimapCanvas3D = null;
@@ -101,6 +102,9 @@ public class Display3D {
      * </pre>
      */
     public void init() {
+        // Création du conteneur pour les J3DBalls
+        ballsJ3D = new IterableArray(Environment.theClientArea.getNbBalls());
+
         // Création du conteneur pour les J3DObject
         objectsJ3D = new IterableArray(nbMaxObjectsJ3D);
 
@@ -170,6 +174,7 @@ public class Display3D {
         }
         */
         objectsJ3D.clear();
+        ballsJ3D.clear();
     }
 
     /**
@@ -193,7 +198,7 @@ public class Display3D {
     /**
      * Ajoute un vaisseau dans l'affichage 3D. Cette fonction est appelée par
      * updateShip().
-     * 
+     *
      * @param aShipId
      *            l'identifiant du vaisseau à ajouter
      * @param aPosition
@@ -318,11 +323,54 @@ public class Display3D {
     }
 
     /**
+     * Crée, met à jour l'état, ou supprime une balle dans l'affichage 3D, en
+     * consultant l'état de la balle dans le tableau "balls" de Area pour
+     * savoir ce qu'il faut faire. Cette fonction est appelée par la fonction
+     * update().
+     *
+     * @param aBallId
+     *            l'identifiant de la balle à modifier
+     */
+    private void updateBall(int aBallId) {
+        // Si la balle dans ClientArea existe...
+        if (! Environment.theClientArea.ballIsNull(aBallId)) {
+            if (!ballsJ3D.isNull(aBallId)) {
+                // ...et le J3DBall non plus, on met simplement à jour la vue 3D
+                locale.addBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
+            } else {
+                // ...sinon si seule la J3DBall est nulle, on ajoute cette balle
+                ballsJ3D.add(aBallId,
+                        new J3DBall(
+                            Environment.theClientArea.getBallPosition(aBallId),
+                            100));
+                locale.addBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
+            }
+        } else {
+            if (!ballsJ3D.isNull(aBallId)) {
+                // Sinon si la balle est nulle mais pas la J3DBall,
+                // il faut faire disparaître la J3DBall.
+                // On retire une branche de la locale.
+                locale.removeBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
+                // On retire la balle de la liste des balles
+                ballsJ3D.remove(aBallId);
+            }
+            else {
+                // Si la balle est nulle dans ClientArea et dans ballsJ3D,
+                // on ajoute la balle dans ClientArea
+
+            }
+        }
+    }
+
+    /**
      * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
      * qu'il apparaît dans ClientArea au moment de l'appel. Elle est appelée par
      * ClientMainLoopThread.
      */
     public void update() {
+        for (int i = 0; i < Environment.theClientArea.getNbBalls(); i++) {
+            updateBall(i);
+        }
         for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
             updateShip(i);
         }
