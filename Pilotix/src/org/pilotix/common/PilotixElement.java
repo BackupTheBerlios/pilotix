@@ -39,6 +39,10 @@ public abstract class PilotixElement {
     public int getId() {
         return id;
     }
+    
+    public Vector position(){
+        return position;
+    }
 
     /*public abstract void setFromBytes(byte[] bytes);
 

@@ -130,5 +130,9 @@ public class Ball extends PilotixElement implements Transferable {
     public int getRadius() {
         return radius;
     }
+    
+    public Vector speed(){
+        return speed;
+    }
 
 }
