@@ -33,6 +33,8 @@ import org.pilotix.common.*;
 public class ControlCommand {
 	/** code de la touche d'acceleration */
 	private int accelKey;
+	/** code de la touche d'action */
+	private int useKey;
 	/** Objet Command positionné à partir de l'état des touches */
 	private Command cmd;
 	/** Angle de rotation du vaisseau */
@@ -47,6 +49,8 @@ public class ControlCommand {
 		// récupération des touches définies
 		try {
 			accelKey = getKeyCode((String)keys.get("ACCELERATE"));
+			useKey = getKeyCode((String)keys.get("USE"));
+			
 		} catch (Exception e) {
 			System.err.println("Erreur lors de la récupération de la config des touches");
 			e.printStackTrace();
@@ -64,11 +68,12 @@ public class ControlCommand {
 		int[] keyStatus = Environment.theControls.getKeyStatus();
 
 		cmd.setAcceleration(0);
-		cmd.setAccessory(0);
-		cmd.setProjectileId(0);
+		cmd.setToolId(0);
+		cmd.setBallId(0);
 		
 		// actions des touches
 		if (keyStatus[accelKey] == Controls.PRESSED) cmd.setAcceleration(2);
+		if (keyStatus[useKey] == Controls.PRESSED) cmd.setToolId(1);
 		
 		// actions de la souris
 		angle.set(Environment.theControls.getMouseVariation().x);

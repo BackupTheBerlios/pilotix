@@ -22,8 +22,8 @@ class ClientTest {
                 cmd = new Command();
                 cmd.setDirection(angle);
                 cmd.setAcceleration(1);
-                cmd.setAccessory(0);
-                cmd.setProjectileId(0);
+                cmd.setToolId(0);
+                cmd.setBallId(0);
                 while (!quit) {
                     try {
                         dummy = msHandler.receive();

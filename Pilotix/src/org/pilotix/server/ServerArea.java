@@ -33,7 +33,8 @@ import org.w3c.dom.NodeList;
 
 public class ServerArea extends Area {
 
-    public LinkedList theShips;
+    private LinkedList ships = new LinkedList();
+    private LinkedList balls = new LinkedList();
     private ServerShip tmpShip;
 
     private LinkedList obstacles = new LinkedList();
@@ -52,10 +53,10 @@ public class ServerArea extends Area {
     int left;
     int right;
     private int radius;
+    private ServerBall tmpBall;
 
     public ServerArea() {
-        System.out.println("[Area Created]");
-        theShips = new LinkedList();
+        System.out.println("[Area Created]");        
         byteCoded = new byte[5000];
     }
 
@@ -90,17 +91,20 @@ public class ServerArea extends Area {
     }
 
     public LinkedList getShips() {
-        return theShips;
+        return ships;
+    }
+    public LinkedList getBalls() {
+        return balls;
     }
 
     public byte[] getAsBytes() {
         byte[] tmp;
         byteCoded[0] = 0;
         byteCoded[0] = (byte) (Transferable.AREA << 4);
-        byteCoded[0] |= (byte) theShips.size();
+        byteCoded[0] |= (byte) ships.size();
         lengthInByte = 1;
-        for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
+        for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
             tmp = tmpShip.getAsBytes();
 
             for (int j = 0; j < Ship.lengthInByte; j++) {
@@ -118,30 +122,52 @@ public class ServerArea extends Area {
 
     public void nextFrame() {
 
+        //creation des differents projectils :
+        /*for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
+            tmpShip.commandPilotixElement(balls);
+        }*/
+        
+        //Calcule de prochaine trajectoirs des balls sans collisions:
+        /*for (int i = 0; i < balls.size(); i++) {
+            tmpBall = (ServerBall) balls.get(i);
+            tmpBall.computeSpeedFromForces();
+        }*/
+        
         //Calcule de prochaine trajectoirs des ships sans collisions:
-        for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
+        for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
             tmpShip.computeSpeedFromForces();
         }
+        
+        //modification des trajectoires en prenant en compte les collisions
+        // ships/balls
+        /*for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
+            collideWithBalls(tmpShip);
+        }*/
+
         //modification des trajectoires en prenant en compte les collisions
         // ships/ships
-        for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
+        for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
             collideWithShips(tmpShip);
         }
         //modification des trajectoires en prenant en compte les collisions
         //Ships/Obstacles et Ships/frontiere externes
-        for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
+        for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
             collideWithBoundary(tmpShip);
             collideWithObstacle(tmpShip);
         }
         // affectation des trajectoirs des ships	
-        for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
+        for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
             tmpShip.nextFrame();
         }
     }
+
+
 
     public void collideWithBoundary(ServerShip s) {
 
@@ -214,9 +240,60 @@ public class ServerArea extends Area {
 
     }
 
+    private void collideWithBalls(ServerShip aShip) {
+        for (int i = 0; i < balls.size(); i++) {
+            tmpBall = (ServerBall) balls.get(i);            
+                collideWithBall(tmpShip, tmpBall);           
+        }
+        
+    }
+
+    private void collideWithBall(ServerShip aShip, ServerBall aBall) {
+        Vector va = aShip.getNextPosition().less(aShip.getPosition());
+        Vector vb = aBall.getNextPosition().less(aBall.getPosition());
+        Vector AB = aBall.getPosition().less(aShip.getPosition());
+        Vector vab = vb.less(va);
+        int rab = aShip.getRadius() + aBall.getRadius();
+
+        //if (AB.dot(AB) <= rab * rab) {
+        //} else {
+        long a = vab.dot(vab);
+        long b = 2 * vab.dot(AB);
+        long c = (AB.dot(AB)) - (rab * rab);
+        long q = (b * b) - (4 * a * c);
+        if (q >= 0) {
+            double sq = Math.sqrt(q);
+            double d = ((double) 1) / ((double) (2 * a));
+            double r1 = (-b + sq) * d;
+            double r2 = (-b - sq) * d;
+            r1 = Math.min(r1, r2);
+            if ((0 < r1) && (r1 < 1)) {
+                //System.out.println("r1 " + r1);
+                aShip.setNextPosition(aShip.getPosition().plus(va.mult(r1)).plus(
+                    vb.mult(1 - r1)));
+                //aBall.setNextPosition(aBall.getPosition().plus(vb.mult(r1)).plus(
+                //    va.mult(1 - r1)));
+
+                tmpVector.set(aShip.getNextSpeed());
+                aShip.setNextSpeed(aBall.getSpeed());
+                //aBall.setNextSpeed(tmpVector);
+                
+                aBall.setState(ServerBall.TO_DELETE);
+
+            } else {
+                //System.out.println("no collision");
+            }
+        } else {
+            //System.out.println("no collision");
+        }
+        //}
+        
+    }
+
+
     public void collideWithShips(ServerShip s1) {
-        for (int i = 0; i < theShips.size(); i++) {
-            tmpShip = (ServerShip) theShips.get(i);
+        for (int i = 0; i < ships.size(); i++) {
+            tmpShip = (ServerShip) ships.get(i);
             if (tmpShip.getId() > s1.getId()) {
                 collideWithShip(s1, tmpShip);
             }

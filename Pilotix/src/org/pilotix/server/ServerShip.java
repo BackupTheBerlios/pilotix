@@ -18,14 +18,17 @@
  */
 
 package org.pilotix.server;
-import org.pilotix.common.Ship;
-import org.pilotix.common.*;
+
 import java.util.LinkedList;
 
-public class ServerShip extends Ship {
+import org.pilotix.common.Angle;
+import org.pilotix.common.Command;
+import org.pilotix.common.Ship;
+import org.pilotix.common.Vector;
 
-    protected LinkedList forces;
+public class ServerShip extends Ship {
     
+    protected LinkedList forces;
 
     protected Vector nextPosition;
     protected Vector nextSpeed;
@@ -65,27 +68,24 @@ public class ServerShip extends Ship {
 
     public void addCommand(Command aCommand) {
         tmpAngle.set((command.getDirection()).get()
-                + ((aCommand.getDirection()).get()));
+            + ((aCommand.getDirection()).get()));
         command.setDirection(tmpAngle);
         command.setAcceleration(aCommand.getAcceleration());
-        //command.setAccessory(aCommand.getAccessory());
+        command.setToolId(aCommand.getToolId());
         //command.SetProjectileId(aCommand.getProjectileId());
     }
 
     public void computeSpeedFromForces() {
         ((ServerAngle) direction).plus(command.getDirection());
-        tmpVector.set((int) (((ServerAngle) direction).getX()
-                * command.getAcceleration() * 10),
-                (int) (((ServerAngle) direction).getY()
-                        * command.getAcceleration() * 10));
+        tmpVector.set(
+            (int) (((ServerAngle) direction).getX() * command.getAcceleration() * 10),
+            (int) (((ServerAngle) direction).getY() * command.getAcceleration() * 10));
         //System.out.println("[ServerShip] Ship "+id+" Deg "+direction.get());
         //System.out.println("[ServerShip] Ship "+id+" F "+tmpVector);
-        nextSpeed.set(speed.x + tmpVector.x, speed.y
-                + tmpVector.y);
+        nextSpeed.set(speed.x + tmpVector.x, speed.y + tmpVector.y);
         //System.out.println("[ServerShip] Ship "+id+" V "+nextSpeed);
         //System.out.println(currentPosition);
-        nextPosition.set(position.x + nextSpeed.x, position.y
-                + nextSpeed.y);
+        nextPosition.set(position.x + nextSpeed.x, position.y + nextSpeed.y);
         //System.out.println("[ServerShip] Ship "+id+" X "+nextPosition);
         command.setAcceleration(0);
         tmpAngle.set(0);
@@ -129,5 +129,16 @@ public class ServerShip extends Ship {
     public Command getCommand() {
         return command;
     }
+
+    public void commandPilotixElement(LinkedList balls) {
+        if (command.getToolId() == 1) {
+            balls.add(new ServerBall(position.plus(
+                (int) ((ServerAngle) direction).getX() * radius,
+                (int) ((ServerAngle) direction).getY() * radius), speed.plus(
+                (int) ((ServerAngle) direction).getX() * 100,
+                (int) ((ServerAngle) direction).getX() * 100)));
+            //System.out.println("Balls!");
+        }
+
+    }
 }
-  

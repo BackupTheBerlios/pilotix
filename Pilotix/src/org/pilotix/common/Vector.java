@@ -111,4 +111,10 @@ public class Vector {
         result.y = (int) Math.round(aNumber * this.y);
         return result;
     }
+
+    
+    public Vector plus(int x, int y) {
+        Vector result = new Vector(this.x+x,this.y+y);
+        return result;
+    }
 }

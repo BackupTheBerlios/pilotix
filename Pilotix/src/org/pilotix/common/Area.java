@@ -40,9 +40,12 @@ package org.pilotix.common;
 public class Area implements Transferable {
 
     protected int nbShips;
+    protected int nbBalls;
     protected Ship[] ships;
+    protected Ball[] balls;
     private int lengthInByte;
     private Ship tmpShip;
+    private Ball tmpBall;
     private byte[] tmpByte;
     private byte[] byteCoded = null;
 

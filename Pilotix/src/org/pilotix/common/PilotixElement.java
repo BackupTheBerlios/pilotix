@@ -28,7 +28,7 @@ public abstract class PilotixElement {
 
     protected int id;    
     protected int states;
-    protected Vector position;
+    protected Vector position = new Vector();
     
     
     //byte[] byteCoded = null;
