@@ -8,12 +8,38 @@ public class Information implements Transferable {
 
     /**
      * <pre>
+     * | Octet 0 |    Octet 1   | Octet 2 |
+     * | 1 Octet |    1 Octet   | 1 Octet |
+     * |Flag INFO|Flag OwnShipId|   id    |
+     * </pre>
+     */
+    public static final byte OWN_SHIP_ID = 1;
+    /**
+     * <pre>
+     * |  Octet 0  |  Octet 1  |  Octet  2  |  Octet  3-3+n |
+     * |  1 Octet  |  1 Octet  |  1 Octet   |     1 Octet   |   
+     * | Flag INFO |Flag AreaID|StringLength|    Char 0-n   |
+     * </pre>
+     */
+    public static final byte AREA_ID = 2;
+    /**
+     * <pre>
+     * |  Octet 0  |    Octet 1   |
+     * |  1 Octet  |    1 Octet   |   
+     * | Flag INFO |flag Deconnect|
+     * </pre>
+     */
+    public static final byte DECONNECT = 3;
+    
+    /**
+     * Obsolet
+     * <pre>
      * |   Octet 0   | Octet 1 |
      * | 4bit | 4bit | 1 Octet |
      * | Flag |   1  |OwnShipId|
      * </pre>
      */
-    public static final byte OWN_SHIP_ID = 1;
+    
 
     /**
      * <pre>
@@ -22,7 +48,7 @@ public class Information implements Transferable {
      * | Flag |   2  | Area Id |StringLength|   Char 0   |   Char 1   |...
      * </pre>
      */
-    public static final byte AREA_ID = 2;
+    
 
     /**
      * <pre>
@@ -31,7 +57,7 @@ public class Information implements Transferable {
      * | Flag |   3  |
      * </pre>
      */
-    public static final byte DECONNECT = 3;
+    
 
     private int lengthInByte = 0;
     private byte[] byteCoded;
@@ -43,30 +69,54 @@ public class Information implements Transferable {
     public Information() {
 
     }
-    
 
-    public void setCode(int aCode){
+    public void setCode(int aCode) {
         code = aCode;
     }
-    public void setOwnShipId(int anId){
+
+    public void setOwnShipId(int anId) {
         ownShipId = anId;
         code = OWN_SHIP_ID;
     }
-    public void setAreaId(String anAreaId){
+
+    public void setAreaId(String anAreaId) {
         areaId = anAreaId;
         code = AREA_ID;
     }
-    public void setDeconnected(){
+
+    public void setDeconnected() {
         code = DECONNECT;
     }
-    
+
+    public void read(MessageHandler mh)  throws Exception {        
+        code = mh.receiveOneByte();
+        if (code == OWN_SHIP_ID) {
+            ownShipId = mh.receiveOneByte();
+        } 
+    }
+
+    public void write(MessageHandler mh) throws Exception{
+        byte[] bytes;
+        if (code == OWN_SHIP_ID) {
+            bytes = new byte[3];
+            bytes[0] = Transferable.INFO;
+            bytes[1] = OWN_SHIP_ID;
+            bytes[2] = (byte)ownShipId;            
+            mh.send(bytes);
+        } else if(code == DECONNECT){
+            bytes = new byte[2];
+            bytes[0] = Transferable.INFO;
+            bytes[1] = DECONNECT;
+            mh.send(bytes);
+        }
+    }
 
     public void setFromBytes(byte[] bytes) {
         code = (byte) (bytes[0] & 15);
         switch (code) {
         case OWN_SHIP_ID:
             ownShipId = bytes[1];
-            
+
             break;
         case AREA_ID:
             areaId = new String(bytes, 2, bytes.length - 2);

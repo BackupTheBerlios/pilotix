@@ -22,10 +22,10 @@ package org.pilotix.client;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.pilotix.common.Area;
 import org.pilotix.common.Information;
 import org.pilotix.common.MessageHandler;
 import org.pilotix.common.Ship;
+import org.pilotix.common.Transferable;
 
 /**
  * Cette classe est utilisée pour recevoir des messages
@@ -72,10 +72,10 @@ public class ClientMainLoopThread extends Thread {
         try {
             String ip = Environment.theServerIP;
             int port = Environment.theServerPort.intValue();
-            socket = new Socket(ip,port);
+            socket = new Socket(ip, port);
             if (Environment.debug) {
                 System.out.println("[CMLT] Connecté à "
-                        + socket.getInetAddress() + ":" + socket.getPort());
+                    + socket.getInetAddress() + ":" + socket.getPort());
             }
             clientMessageHandler = new MessageHandler(socket);
 
@@ -87,31 +87,58 @@ public class ClientMainLoopThread extends Thread {
                 System.out.println("[CMLT] Début de la boucle");
             }
             while (!quit) {
-                Object obj = clientMessageHandler.receive();                 
-                if (obj instanceof Area) {
-                    // On écrit l'aire de jeu reçue dans ClientArea
-                    //Environment.theClientArea.set((Area) obj);
+
+                
+                int flag = clientMessageHandler.receiveOneByte();
+
+                if (flag == Transferable.AREA) {
+                    //System.out.println("Package AREA");
+                    Environment.theClientArea.read(clientMessageHandler);
 
                     // On met à jour l'affichage 3D
                     Environment.theDisplay3D.update();
 
                     // On met à jour la liste des joueurs présents
                     Environment.theGUI.getGUIPanel().update();
-
-                    // Enfin, on envoie la commande au serveur
-                    clientMessageHandler.send(Environment.controlCmd.getCommand());
-                } else if (obj instanceof Information) {
-                    switch (((Information) obj).code) {
-                    case Information.OWN_SHIP_ID:
-                        // On reçoit notre numéro de joueur
-                        Environment.theClientArea.setOwnShipId(((Information) obj).ownShipId);
-                        break;
-                    default:
-                        break;
+                    
+                    (Environment.controlCmd.getCommand()).write(clientMessageHandler);
+                } else if (flag == Transferable.INFO) {
+                    int isOwnShip = clientMessageHandler.receiveOneByte();
+                    // On reçoit notre numéro de joueur
+                    if (isOwnShip == Information.OWN_SHIP_ID) {
+                        System.out.println("Package OWN_SHIP_ID");
+                        Environment.theClientArea.setOwnShipId(clientMessageHandler.receiveOneByte());
                     }
-                } else{
-                    System.out.println("Paquet Inconnue");
+
+                } else {
+                    System.out.println("Paquet Inconnue = "+flag);
                 }
+
+                /* Object obj = clientMessageHandler.receive();                 
+                 if (obj instanceof Area) {
+                 // On écrit l'aire de jeu reçue dans ClientArea
+                 //Environment.theClientArea.set((Area) obj);
+
+                 // On met à jour l'affichage 3D
+                 Environment.theDisplay3D.update();
+
+                 // On met à jour la liste des joueurs présents
+                 Environment.theGUI.getGUIPanel().update();
+
+                 // Enfin, on envoie la commande au serveur
+                 clientMessageHandler.send(Environment.controlCmd.getCommand());
+                 } else if (obj instanceof Information) {
+                 switch (((Information) obj).code) {
+                 case Information.OWN_SHIP_ID:
+                 // On reçoit notre numéro de joueur
+                 Environment.theClientArea.setOwnShipId(((Information) obj).ownShipId);
+                 break;
+                 default:
+                 break;
+                 }
+                 } else{
+                 System.out.println("Paquet Inconnue");
+                 }*/
             }
 
             if (Environment.debug) {
@@ -139,7 +166,8 @@ public class ClientMainLoopThread extends Thread {
         try {
             Information info = new Information();
             info.code = Information.DECONNECT;
-            clientMessageHandler.send(info);
+            info.write(clientMessageHandler);
+            //clientMessageHandler.send(info);
             if (Environment.debug) {
                 System.out.println("[CMLT.endGame] DECONNECT envoyé.");
             }

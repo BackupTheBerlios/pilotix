@@ -13,6 +13,8 @@ public interface Transferable {
 
     //public byte[] byteCoded = null;
     public static final byte AREA = 1;
+    public static final byte SHIP = 3;
+    public static final byte BALL = 4;
     public static final byte INFO = 2;
 
     // message type for client to server
@@ -24,17 +26,24 @@ public interface Transferable {
      * @param bytes
      *         le tableau contenant l'objet
      */
-    public abstract void setFromBytes(byte[] bytes);
+    //public abstract void setFromBytes(byte[] bytes);
 
     /**
      * Retourne une chaîne d'octets représentant l'objet
      */
-    public abstract byte[] getAsBytes();
+    //public abstract byte[] getAsBytes();
 
     /**
      * Retourne la taille en octets de la chaîne de bits
      * renvoyée par <code>getAsBytes</code>
      *
      */
-    public abstract int getLengthInByte();
+    //public abstract int getLengthInByte();
+    
+    //public abstract int flag();
+    
+    public abstract void read(MessageHandler messageHandler)throws Exception;
+
+    
+    public abstract void write(MessageHandler messageHandler)throws Exception;
 }

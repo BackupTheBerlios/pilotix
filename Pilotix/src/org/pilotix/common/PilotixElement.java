@@ -36,6 +36,13 @@ public abstract class PilotixElement {
 
     public PilotixElement(){};
     
+    public PilotixElement(int id,int states,Vector position){
+    this.id = id;
+    this.states = states;
+    this.position.set(position);
+    };
+    
+    
     public int getId() {
         return id;
     }
@@ -54,7 +61,7 @@ public abstract class PilotixElement {
     /**
      * @return Returns the state.
      */
-    public int getState() {
+    public int getStates() {
         return states;
     }
 

@@ -26,17 +26,26 @@ class ClientTest {
                 cmd.setBallId(0);
                 while (!quit) {
                     try {
-                        dummy = msHandler.receive();
+                        /*dummy = msHandler.receive();
                         if (dummy instanceof Information) System.out.println("Recu une info");
                         else if (dummy instanceof Command) System.out.println("Recu une commande");
-                        msHandler.send(cmd);
+                        msHandler.send(cmd);*/
+                        int flag = msHandler.receiveOneByte();
+                        if(flag == Transferable.AREA){
+                            cmd.write(msHandler);
+                        }
                     } catch (Exception e) {
                         quit = true;
                     }
                 }
                 Information info = new Information();
                 info.code = Information.DECONNECT;
-                msHandler.send(info);
+                //msHandler.send(info);
+                try {
+                info.write(msHandler);
+                } catch (Exception e) {
+                   
+                }
             }
         };
 

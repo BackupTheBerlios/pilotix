@@ -24,8 +24,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import org.pilotix.client.Environment;
-
 /**
  * This class aim to transport Object via the TCPSocket sendAnObject() methodes
  * transforme AnObject into byte[] and send it thru the socket
@@ -39,7 +37,6 @@ public class MessageHandler {
     private InputStream input;
     private OutputStream output;
 
-   
     private byte[] message;
     private byte messageType;
 
@@ -58,20 +55,59 @@ public class MessageHandler {
         tmpArea = new Area();
     }
 
-    public void send(Transferable aMessage) {
+    /*
+     * Prochainement Obsolette
+     */
+    /*public void send(Transferable aMessage) {
         try {
             output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
             //System.out.println("Packet Send,"+ aMessage.getLengthInByte());
         } catch (SocketException e) {
-          //pb le client ferme la socket avant que le serveur 
-          // fasse le necessaire pour l'enlever de sa list de broadcast
-          // pas tres grave...
+            //pb le client ferme la socket avant que le serveur 
+            // fasse le necessaire pour l'enlever de sa list de broadcast
+            // pas tres grave...
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+    
+    public void send(byte[] bytes) throws Exception{
+            output.write(bytes, 0, bytes.length);
+    }
+    
+ 
+    public void sendOneByte(byte aByte) {
+        byte[] bytes = { aByte};        
+        try {
+            output.write(bytes, 0, 1);
+        } catch (SocketException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Object receive() throws Exception {
+    public byte receiveOneByte() throws Exception  {
+        byte[] result = new byte[1];        
+            input.read(result, 0, 1);        
+        return result[0];
+    }
+
+    public byte[] receiveNBytes(int nbByte) {
+        byte[] result = new byte[nbByte];
+        try {
+            input.read(result, 0, nbByte);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
+    /*
+     * Prochainement Obsolette
+     */
+    /*public Object receive() throws Exception {
 
         //getByteFromInput(message, 0, 1);
         input.read(message, 0, 1);
@@ -84,28 +120,24 @@ public class MessageHandler {
             nbShip = firstByteRest;
             //getByteFromInput(message, 1, nbShip * 6);
             input.read(message, 1, nbShip * 6);
-            input.read(message, (1+nbShip * 6),1);
-            int index = (nbShip * 6)+2;
+            input.read(message, (1 + nbShip * 6), 1);
+            int index = (nbShip * 6) + 2;
             //System.out.println("nb balls="+message[1+nbShip * 6]);
-            for(int i=0;i<message[1+nbShip * 6];i++){
-                input.read(message, index,1);
-                
-                if((message[index] & 1)==0){
+            for (int i = 0; i < message[1 + nbShip * 6]; i++) {
+                input.read(message, index, 1);
+
+                if ((message[index] & 1) == 0) {
                     index++;
-                    input.read(message, index,8);
-                    index+=8;
-                }else{
+                    input.read(message, index, 8);
+                    index += 8;
+                } else {
                     index++;
                 }
-                
+
             }
-                /*System.out.print("Message[");
-            for(int i=0;i<index;i++){
-                System.out.print(message[i]+",");
-            }
-             System.out.println("]");*/
-             Environment.theClientArea.setFromBytes(message);
-        //tmpArea.setFromBytes(message);
+            
+            Environment.theClientArea.setFromBytes(message);
+            //tmpArea.setFromBytes(message);
             result = (Object) tmpArea;
             break;
         case Transferable.COMMAND:
@@ -129,22 +161,5 @@ public class MessageHandler {
         }
         return result;
 
-    }
-
-    /*private void getByteFromInput(byte[] bytes, int off, int nbByte)
-            throws Exception {
-        int i = 0;
-        int offset = off;
-        while (offset < nbByte) {
-            i = input.read(bytes, offset, nbByte - offset + off);
-            if (i > 0) {
-                offset += i;
-            } else {
-                //System.out.println("Le Client a quité sauvagement !!!");
-                throw new Exception("Le client est sorti sauvagement!");
-            }
-        }
-        //System.out.print("[offset :"+offset+"]");
     }*/
-    
 }

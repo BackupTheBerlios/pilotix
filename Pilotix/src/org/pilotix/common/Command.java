@@ -23,6 +23,15 @@ public class Command implements Transferable {
 
     /**
      * <pre>
+     * |   Octet 0  | Octet 1 | Octet 2 | Octet 3 | Octet 4 |
+     * |   1 Octet  | 1 Octet | 1 Octet | 1 Octet | 1 Octet |
+     * |Flag COMMAND| Accele  | Directi | ToolId  | BallId  |
+     * </pre>
+     */
+    
+    
+    /**
+     * <pre>
      * |   Octet 0   | Octet 1 |   Octet 2   |
      * | 4bit | 4bit | 1 Octet | 4bit | 4bit |
      * | Flag |Accele| Directi |ToolId|BallId|
@@ -82,7 +91,7 @@ public class Command implements Transferable {
         return ballId;
     }
     
-    public void setFromBytes(byte[] bytes) {
+    /*public void setFromBytes(byte[] bytes) {
         acceleration = (bytes[0] & 15);
         direction.set(bytes[1] * 3);
         toolId = ((bytes[2] & 240) >> 4);
@@ -103,4 +112,26 @@ public class Command implements Transferable {
     public int getLengthInByte(){
         return lengthInByte;
     }
+    */
+    
+    public void read(MessageHandler mh){
+        
+        byte[] bytes = mh.receiveNBytes(4);
+        acceleration = bytes[0];
+        direction.set(bytes[1]*3);
+        toolId = bytes[2];
+        ballId = bytes[3];
+    }
+    
+    public void write(MessageHandler mh)throws Exception{
+        byte[] bytes = new byte[5];
+        bytes[0]=Transferable.COMMAND;
+        bytes[1]=(byte) acceleration;
+        bytes[2]=(byte) (direction.get() / 3);
+        bytes[3]=(byte) toolId;
+        bytes[4]=(byte) ballId;
+        mh.send(bytes);
+    }
+    
+    
 }
