@@ -125,7 +125,6 @@
   <!-- Lance le client à partir du Jar -->
   <target name="client" description="Lancer le client à partir du Jar">
     <java jar="${dist}/PilotixClient.jar" fork="true">
-      <sysproperty key="pilotix.config.path" value="config"/>
       <sysproperty key="pilotix.data.path" value="data"/>
     </java>
   </target>
