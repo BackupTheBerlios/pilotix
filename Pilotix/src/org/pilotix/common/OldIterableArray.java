@@ -26,7 +26,7 @@ package org.pilotix.common;
  * @author Florent Sithimolada
  */
 
-public class IterableArray {
+public class OldIterableArray {
 
     private Object[] objects;
     private boolean[] isFree;
@@ -43,7 +43,7 @@ public class IterableArray {
      * @param nbmax
      *            maximum size of the array
      */
-    public IterableArray(int nbmax) {
+    public OldIterableArray(int nbmax) {
         objects = new Object[nbmax];
         isFree = new boolean[nbmax];
         prev = new int[nbmax];

@@ -25,10 +25,14 @@ public class IdHandler {
     private int nbMaxId;
     private boolean[] tab;
 
-    public IdHandler(int theNbMaxId) {
+    public IdHandler() {
         nbId = 0;
-        nbMaxId = theNbMaxId;
-        tab = new boolean[nbMaxId];
+        nbMaxId = 0;        
+    }
+    
+    public void setNbMaxIds(int nb){
+    	nbMaxId = nb;
+    	tab = new boolean[nbMaxId];
     }
 
     /*public synchronized void needToWait() throws InterruptedException {
@@ -38,7 +42,7 @@ public class IdHandler {
     }*/
 
     public synchronized int getId() {
-        int i = 0;
+        int i = 0;        
         while (tab[i] == true) {
             i++;
         }

@@ -34,7 +34,7 @@ import java.util.LinkedList;
 
 public class PilotixServer {
     
-    public static int nbMaxPlayer;
+    //public static int nbMaxPlayer;
 
     public static IdHandler theIH;
     public static ServerArea theSA;
@@ -63,11 +63,12 @@ public class PilotixServer {
      */
 
     public PilotixServer(int port, int fps) throws Exception {
-        nbMaxPlayer = 4;
-        theIH = new IdHandler(nbMaxPlayer);
+        //nbMaxPlayer = 4;
+        theIH = new IdHandler();
         theXH = new XMLHandler();
         theSA = new ServerArea();
         theSA.setMap("defaut.pilotix.area.xml");
+        theIH.setNbMaxIds(theSA.getNbMaxShips());
         theSMLT = new ServerMainLoopThread();
         theCHT = new ConnexionHandlerThread(port);
         theCT = new ClockerThread(fps,theSMLT);

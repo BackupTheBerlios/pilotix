@@ -1,21 +1,21 @@
 /*
-Pilotix : a multiplayer piloting game.
-Copyright (C) 2003 Pilotix.Org
+ Pilotix : a multiplayer piloting game.
+ Copyright (C) 2003 Pilotix.Org
 
-This program is isFree software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+ This program is isFree software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 package org.pilotix.common;
 
@@ -71,7 +71,8 @@ public class IterableArray2 {
 		current = -1;
 	}
 	/**
-	 * insertion de l'objet dans la case de numero donnee
+	 * insertion de l'objet dans la case de numero donnee Attention les
+	 * insertions au milieu peuvent prendre jusqu'a un temps nbmax
 	 * 
 	 * @param index
 	 *            numero de la case ou sera stoque l'objet
@@ -84,6 +85,7 @@ public class IterableArray2 {
 		if (nb == max) {
 			throw new Exception("IterableArray Full");
 		} else if (nb == 0) { // premiere insertion
+			//System.out.println("insert Tete");
 			first = last = current = index;
 			next[index] = prev[index] = -1;
 			//isFree[index]=false;
@@ -94,16 +96,24 @@ public class IterableArray2 {
 			first = index;
 			//isFree[index]=false;
 		} else if (last < index) { // insertion apres le dernier
+			//System.out.println("insert fin");
 			prev[index] = last;
 			next[index] = -1;
 			next[last] = index;
 			last = index;
 			//isFree[index]=false;
 		} else {//insertion entre premier et dernier
-			throw new Exception("cas non encore implante,"
-					+ " faite une insertion avant le premier"
-					+ " ou apres le dernier elements");
+			int currentSearch = first;
+			while (next[currentSearch] < index) {
+				currentSearch = next[currentSearch];
+			}
+			prev[next[currentSearch]] = index;
+			next[index] = next[currentSearch];
+			next[currentSearch] = index;
+			prev[index] = currentSearch;
 		}
+		objects[index] = obj;
+		nb++;
 	}
 	/**
 	 * recupere la donne stoque
@@ -153,6 +163,7 @@ public class IterableArray2 {
 			prev[next[index]] = save;
 			nb--;
 		}
+		objects[index]=null;
 	}
 	/**
 	 * efface tout le contenu de l'array
@@ -162,6 +173,8 @@ public class IterableArray2 {
 		first = -1;
 		last = -1;
 		current = -1;
+		/*for (int i = 0; i < max; i++)
+			objects[i] = null;*/
 	}
 	/**
 	 * positionne le curseur sur la premier case non vide
@@ -179,19 +192,160 @@ public class IterableArray2 {
 	}
 
 	public boolean hasNext() {
-		current = next[current];
 		return current != -1;
 	}
 	public boolean hasPrev() {
-		current = prev[current];
 		return current != -1;
 	}
 
 	public Object next() {
-		return objects[current];
+		Object result = objects[current];
+		current = next[current];
+		return result;
 	}
 
 	public Object prev() {
-		return objects[current];
+		Object result = objects[current];
+		current = prev[current];
+		return result;
+	}
+
+	private void afficherEtat() {
+		System.out.println();
+		for (int i = 0; i < max; i++) {
+			if ((i == first) && (i == last)) {
+				System.out.print("|");
+			} else if(i == first){
+				System.out.print("[");
+			} else if(i== last){
+				System.out.print("]");
+			} else {
+				System.out.print(" ");
+			}
+		}
+		System.out.println();
+		for (int i = 0; i < max; i++) {
+			if (prev[i] == -1) {
+				System.out.print("X");
+			} else {
+				System.out.print(prev[i]);
+			}
+		}
+		System.out.println();
+		for (int i = 0; i < max; i++) {
+			if (objects[i] == null) {
+				System.out.print(" ");
+			} else {
+				System.out.print("#");
+			}
+		}
+		System.out.println();
+		for (int i = 0; i < max; i++) {
+			if (next[i] == -1) {
+				System.out.print("X");
+			} else {
+				System.out.print(next[i]);
+			}
+		}
+		System.out.println();
+	}
+	public static void main(String[] args) {
+		IterableArray2 ia2 = new IterableArray2(10);
+		System.out.println("Test de IterrableArray");
+		try {
+			ia2.afficherEtat();
+			ia2.add(5,"Cinq");
+			ia2.afficherEtat();
+			ia2.add(2,"Deux");
+			ia2.afficherEtat();
+			ia2.add(8,"Huit");
+			ia2.afficherEtat();
+			ia2.add(7,"Sept");
+			ia2.afficherEtat();
+			ia2.add(0,"Zero");
+			ia2.afficherEtat();
+			ia2.remove(8);
+			ia2.afficherEtat();
+			ia2.remove(0);
+			ia2.afficherEtat();
+			ia2.remove(5);
+			ia2.afficherEtat();
+			
+			ia2.setCursorOnFirst();
+			while (ia2.hasNext()) {
+				System.out.print(ia2.next());
+			}
+			System.out.println();
+			
+			
+			ia2.setCursorOnLast();
+			while (ia2.hasPrev()) {
+				System.out.print(ia2.prev());
+			}
+			System.out.println();
+			
+/*			System.out.println("Un");
+			ia2.add(1, "Un");
+			System.out.println(ia2.get(1));
+			ia2.afficherEtat();
+			System.out.println("-");
+			ia2.clear();
+
+			System.out.println("UnDeux");
+			ia2.add(1, "Un");
+			ia2.add(2, "Deux");
+			ia2.setCursorOnFirst();
+			while (ia2.hasNext()) {
+				System.out.print(ia2.next());
+			}
+			ia2.afficherEtat();
+			System.out.println("\n-");
+			ia2.clear();
+
+			System.out.println("UnTrois");
+			ia2.add(1, "Un");
+			ia2.add(2, "Deux");
+			ia2.remove(2);
+			ia2.add(3, "Trois");
+			ia2.setCursorOnFirst();
+			while (ia2.hasNext()) {
+				System.out.print(ia2.next());
+			}
+			ia2.afficherEtat();
+			System.out.println("\n-");
+			ia2.clear();
+
+			System.out.println("TroisDeuxUn");
+			ia2.add(1, "Un");
+			ia2.add(2, "Deux");
+			ia2.add(3, "Trois");
+			ia2.setCursorOnLast();
+			while (ia2.hasPrev()) {
+				System.out.print(ia2.prev());
+			}
+			ia2.afficherEtat();
+			System.out.println("\n-");
+			ia2.clear();
+
+			System.out.println("UnTroisCinqSept");
+			ia2.add(1, "Un");
+			ia2.afficherEtat();
+			ia2.add(7, "Sept");
+			ia2.afficherEtat();
+			ia2.add(3, "Trois");
+			ia2.afficherEtat();
+			ia2.add(5, "Cinq");
+			ia2.afficherEtat();
+			ia2.setCursorOnFirst();
+			while (ia2.hasNext()) {
+				System.out.print(ia2.next());
+			}
+			//ia2.afficherEtat();
+			System.out.println("\n-");
+			ia2.clear();
+*/
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

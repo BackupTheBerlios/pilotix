@@ -39,9 +39,10 @@ package org.pilotix.common;
 
 public class Area implements Transferable {
 
+    protected int nbMaxShips = 8; // a recuperer dans la map
     protected int nbShips;
     protected int nbBalls;
-    protected Ship[] ships;
+    protected Ship[] ships;    
     protected Ball[] balls;
     private int lengthInByte;
     private Ship tmpShip;
@@ -111,4 +112,10 @@ public class Area implements Transferable {
         return lengthInByte;
     }
     
+	/**
+	 * @return Returns the nbMaxShips.
+	 */
+	public int getNbMaxShips() {
+		return nbMaxShips;
+	}
 }
