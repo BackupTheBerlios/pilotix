@@ -1,3 +1,6 @@
 .project
 prompt.bat
 *.bat
+class
+dist
+.classpath
