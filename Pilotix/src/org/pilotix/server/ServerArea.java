@@ -31,15 +31,7 @@ import org.w3c.dom.NodeList;
 
 public class ServerArea extends Area {
 
-    //private LinkedList ships = new LinkedList();
-    private LinkedList balls = new LinkedList();
-    private ServerShip tmpShip;
-    private ServerShip tmpShip2;
-
     private LinkedList obstacles = new LinkedList();
-
-    //private byte[] byteCoded;
-    //private int lengthInByte;
 
     Obstacle borders = new Obstacle(new Vector(0, 65535), new Vector(65535, 0));
 
@@ -52,7 +44,11 @@ public class ServerArea extends Area {
     int left;
     int right;
     private int radius;
+
     private ServerBall tmpBall;
+
+    private ServerShip tmpShip;
+    private ServerShip tmpShip2;
 
     public ServerArea(String aMapFile) {
         super();
@@ -63,16 +59,14 @@ public class ServerArea extends Area {
 
     public void setMap(String aMapFile) {
 
-        Document document = PilotixServer.theXH
-                .getDocumentFromURL(PilotixServer.theRL.getResource(
-                        ResourceLocator.AREA, aMapFile));
+        Document document = PilotixServer.theXH.getDocumentFromURL(PilotixServer.theRL.getResource(
+            ResourceLocator.AREA,
+            aMapFile));
         Element rootNode = document.getDocumentElement();
 
         borders.upLeftCorner.x = 0;
-        borders.upLeftCorner.y = Integer.parseInt(rootNode
-                .getAttribute("height"));
-        borders.downRightCorner.x = Integer.parseInt(rootNode
-                .getAttribute("width"));
+        borders.upLeftCorner.y = Integer.parseInt(rootNode.getAttribute("height"));
+        borders.downRightCorner.x = Integer.parseInt(rootNode.getAttribute("width"));
         borders.downRightCorner.y = 0;
 
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
@@ -83,14 +77,13 @@ public class ServerArea extends Area {
 
         for (int i = 0; i < theObstacles.getLength(); i++) {
             tmpXmlObstacle = (Element) theObstacles.item(i);
-            obstacles.add(new Obstacle(new Vector(Integer
-                    .parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
-                    Integer.parseInt(tmpXmlObstacle
-                            .getAttribute("upLeftCornerY"))), new Vector(
-                    Integer.parseInt(tmpXmlObstacle
-                            .getAttribute("downRightCornerX")), Integer
-                            .parseInt(tmpXmlObstacle
-                                    .getAttribute("downRightCornerY")))));
+            obstacles.add(new Obstacle(
+                new Vector(
+                    Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
+                    Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerY"))),
+                new Vector(
+                    Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerX")),
+                    Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerY")))));
         }
 
         ships = new IterableArray(8);
@@ -106,34 +99,34 @@ public class ServerArea extends Area {
 
     public void nextFrame() {
 
-        //creation des differents projectils :
-        /*
-         * for (int i = 0; i < ships.size(); i++) { tmpShip = (ServerShip)
-         * ships.get(i); tmpShip.commandPilotixElement(balls); }
-         */
+        //Creation des differents projectils :
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
+            ((ServerShip) ships.cursor1next()).commandPilotixElement(balls);
+        }
 
         //Calcule de prochaine trajectoirs des balls sans collisions:
-        /*
-         * for (int i = 0; i < balls.size(); i++) { tmpBall = (ServerBall)
-         * balls.get(i); tmpBall.computeSpeedFromForces(); }
-         */
+        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+            ((ServerBall) balls.cursor1next()).computeSpeedFromForces();
+        }
 
         //Calcule de prochaine trajectoirs des ships sans collisions:
-        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
-            tmpShip2 = (ServerShip) ships.cursor1next();
-            tmpShip2.computeSpeedFromForces();
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
+            ((ServerShip) ships.cursor1next()).computeSpeedFromForces();
+        }
+
+        //modification des trajectoires des ships en prenant en compte les collisions
+        // ships/balls     
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
+            tmpShip = (ServerShip) ships.cursor1next();
+            for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+                ServerBall tmpBall = (ServerBall) balls.cursor1next();
+                collideWithBall(tmpShip, tmpBall);
+            }
         }
 
         //modification des trajectoires en prenant en compte les collisions
-        // ships/balls
-        /*
-         * for (int i = 0; i < ships.size(); i++) { tmpShip = (ServerShip)
-         * ships.get(i); collideWithBalls(tmpShip); }
-         */
-
-        //modification des trajectoires en prenant en compte les collisions
         // ships/ships
-        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
             tmpShip = (ServerShip) ships.cursor1next();
             for (ships.setCursor2OnFirst(); ships.cursor2hasNext();) {
                 tmpShip2 = (ServerShip) ships.cursor2next();
@@ -141,21 +134,43 @@ public class ServerArea extends Area {
                     collideWithShip(tmpShip, tmpShip2);
                 }
             }
-            //collideWithShips(tmpShip2);
         }
 
         //modification des trajectoires en prenant en compte les collisions
         //Ships/Obstacles et Ships/frontiere externes
-        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
-            tmpShip2 = (ServerShip) ships.cursor1next();
-            collideWithBoundary(tmpShip2);
-            collideWithObstacle(tmpShip2);
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
+            tmpShip = (ServerShip) ships.cursor1next();
+            collideWithBoundary(tmpShip);
+            collideWithObstacle(tmpShip);
+        }
+
+        //modification des trajectoires en prenant en compte les collisions
+        //Ships/Obstacles et Ships/frontiere externes
+        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+            tmpBall = (ServerBall) balls.cursor1next();
+            collideWithBoundary(tmpBall);
+            collideWithObstacle(tmpBall);
         }
 
         // affectation des trajectoirs des ships
-        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
-            tmpShip2 = (ServerShip) ships.cursor1next();
-            tmpShip2.nextFrame();
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
+            ((ServerShip) ships.cursor1next()).nextFrame();
+        }
+
+        // effacement des Balls ayant touche un mur ou un ship
+        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+            tmpBall = (ServerBall) balls.cursor1next();
+            if (tmpBall.getState() == ServerBall.TO_DELETE) {
+                System.out.println("Ball "+tmpBall.getId()+" Deleted !");
+                tmpBall.setState(ServerBall.DELETE);
+            }
+            if (tmpBall.getState() == ServerBall.DELETE) {
+                balls.remove(tmpBall.getId());
+            }
+        }
+        //      affectation des trajectoirs des Balls survivante
+        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+            ((ServerBall) balls.cursor1next()).nextFrame();
         }
 
     }
@@ -199,9 +214,9 @@ public class ServerArea extends Area {
             left = obstacle.upLeftCorner.x;
             right = obstacle.downRightCorner.x;
             if (((left - radius) < returnedPosition.x)
-                    && (returnedPosition.x < (right + radius))
-                    && ((down - radius) < returnedPosition.y)
-                    && (returnedPosition.y < (up + radius))) {
+                && (returnedPosition.x < (right + radius))
+                && ((down - radius) < returnedPosition.y)
+                && (returnedPosition.y < (up + radius))) {
                 if (currentPosition.x < left) {
                     returnedSpeed.x = 0;
                     returnedPosition.x = left - radius;
@@ -220,6 +235,43 @@ public class ServerArea extends Area {
         }
     }
 
+    public void collideWithBoundary(ServerBall s) {
+
+        returnedPosition = s.getNextPosition();
+        radius = s.getRadius();
+
+        up = borders.upLeftCorner.y;
+        down = borders.downRightCorner.y;
+        left = borders.upLeftCorner.x;
+        right = borders.downRightCorner.x;
+
+        if ((returnedPosition.x < (left + radius))
+            || (returnedPosition.x > (right - radius))
+            || (returnedPosition.y > (up - radius))
+            || (returnedPosition.y < (down + radius))) {
+            s.setState(ServerBall.TO_DELETE);
+        }
+    }
+
+    public void collideWithObstacle(ServerBall s) {
+        returnedPosition = s.getNextPosition();
+        for (Iterator iter = obstacles.iterator(); iter.hasNext();) {
+            Obstacle obstacle = (Obstacle) iter.next();
+            
+            up = obstacle.upLeftCorner.y;
+            down = obstacle.downRightCorner.y;
+            left = obstacle.upLeftCorner.x;
+            right = obstacle.downRightCorner.x;
+            
+            if (((left - radius) < returnedPosition.x)
+                && (returnedPosition.x < (right + radius))
+                && ((down - radius) < returnedPosition.y)
+                && (returnedPosition.y < (up + radius)))
+                    s.setState(ServerBall.TO_DELETE);
+        }
+
+    }
+
     class Obstacle {
 
         public Vector upLeftCorner;
@@ -232,23 +284,21 @@ public class ServerArea extends Area {
 
     }
 
-    private void collideWithBalls(ServerShip aShip) {
+    /*private void collideWithBalls(ServerShip aShip) {
         for (int i = 0; i < balls.size(); i++) {
             tmpBall = (ServerBall) balls.get(i);
             collideWithBall(tmpShip2, tmpBall);
         }
 
-    }
+    }*/
 
     private void collideWithBall(ServerShip aShip, ServerBall aBall) {
         Vector va = aShip.getNextPosition().less(aShip.getPosition());
         Vector vb = aBall.getNextPosition().less(aBall.getPosition());
         Vector AB = aBall.getPosition().less(aShip.getPosition());
         Vector vab = vb.less(va);
-        int rab = aShip.getRadius() + aBall.getRadius();
+        long rab = aShip.getRadius() + aBall.getRadius();
 
-        //if (AB.dot(AB) <= rab * rab) {
-        //} else {
         long a = vab.dot(vab);
         long b = 2 * vab.dot(AB);
         long c = (AB.dot(AB)) - (rab * rab);
@@ -260,36 +310,21 @@ public class ServerArea extends Area {
             double r2 = (-b - sq) * d;
             r1 = Math.min(r1, r2);
             if ((0 < r1) && (r1 < 1)) {
-                //System.out.println("r1 " + r1);
-                aShip.setNextPosition(aShip.getPosition().plus(va.mult(r1))
-                        .plus(vb.mult(1 - r1)));
+                aShip.setNextPosition(aShip.getPosition().plus(va.mult(r1)).plus(
+                    vb.mult(1 - r1)));
                 //aBall.setNextPosition(aBall.getPosition().plus(vb.mult(r1)).plus(
                 //    va.mult(1 - r1)));
-
                 tmpVector.set(aShip.getNextSpeed());
                 aShip.setNextSpeed(aBall.getSpeed());
                 //aBall.setNextSpeed(tmpVector);
-
                 aBall.setState(ServerBall.TO_DELETE);
-
             } else {
                 //System.out.println("no collision");
             }
         } else {
             //System.out.println("no collision");
         }
-        //}
-
     }
-
-    /*public void collideWithShips(ServerShip s1) {
-        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
-            tmpShip2 = (ServerShip) ships.cursor1next();
-            if (tmpShip2.getId() > s1.getId()) {
-                collideWithShip(s1, tmpShip2);
-            }
-        }
-    }*/
 
     public void collideWithShip(ServerShip sa, ServerShip sb) {
         Vector va = sa.getNextPosition().less(sa.getPosition());
@@ -298,8 +333,6 @@ public class ServerArea extends Area {
         Vector vab = vb.less(va);
         long rab = sa.getRadius() + sb.getRadius();
 
-        //if (AB.dot(AB) <= rab * rab) {
-        //} else {
         long a = vab.dot(vab);
         long b = 2 * vab.dot(AB);
         long c = (AB.dot(AB)) - (rab * rab);
@@ -311,13 +344,14 @@ public class ServerArea extends Area {
             double r2 = (-b - sq) * d;
             r1 = Math.min(r1, r2);
             if ((0 < r1) && (r1 < 1)) {
-                System.out.println("col " + sa.getId()+" "+sb.getId());
+                System.out.println("col " + sa.getId() + " " + sb.getId());
                 System.out.println(sa.getPosition());
                 System.out.println(sa.getNextPosition());
+
                 sa.setNextPosition(sa.getPosition().plus(va.mult(r1)).plus(
-                        vb.mult(1 - r1)));
+                    vb.mult(1 - r1)));
                 sb.setNextPosition(sb.getPosition().plus(vb.mult(r1)).plus(
-                        va.mult(1 - r1)));
+                    va.mult(1 - r1)));
 
                 tmpVector.set(sa.getNextSpeed());
                 sa.setNextSpeed(sb.getNextSpeed());

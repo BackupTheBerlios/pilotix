@@ -221,7 +221,7 @@ public class IterableArray {
     * positionne le curseur sur la premier case non vide
     *
     */
-    public void setCursorOnFirst() {
+    public void setCursor1OnFirst() {
         current = first;
     }
 
@@ -229,7 +229,7 @@ public class IterableArray {
     * positionne le curseur sur la derniere case non vide
     *
     */
-    public void setCursorOnLast() {
+    public void setCursor1OnLast() {
         current = last;
     }
 

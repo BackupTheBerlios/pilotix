@@ -53,8 +53,10 @@ public class Area implements Transferable {
     public Area() {
         byteCoded = new byte[5000];
         ships = new IterableArray(nbMaxShips);
+        balls = new IterableArray(nbMaxShips);
         nbShips = 0;
         tmpShip = new Ship();
+        tmpBall = new Ball();
     }
 
     public void set(Area anArea) {
@@ -69,7 +71,7 @@ public class Area implements Transferable {
 
         int index = 1;
         tmpByte = new byte[Ship.lengthInByte];
-        ships.clear();
+        ships.clear(); //TODO a supprimer !!! et a tester
         for (int i = 0; i < nbShips; i++) {
             tmpByte[0] = bytes[index];
             tmpByte[1] = bytes[index + 1];
@@ -81,14 +83,37 @@ public class Area implements Transferable {
             tmpShip.setFromBytes(tmpByte);
             if (tmpShip.getStates() == Ship.REMOVE) {
                 ships.remove(tmpShip.getId());
+            } else if (ships.isNull(tmpShip.getId())) {
+                ships.add(tmpShip.getId(), new Ship(tmpShip));
             } else {
-                if (ships.get(tmpShip.getId()) == null) {
-                    ships.add(tmpShip.getId(), new Ship(tmpShip));
-                }
                 ((Ship) ships.get(tmpShip.getId())).set(tmpShip);
             }
             index = index + Ship.lengthInByte;
         }
+
+        nbBalls = bytes[index];
+        index++;
+        for (int i = 0; i < nbBalls; i++) {
+            if ((bytes[index] & 1) == 0) {
+                tmpByte = new byte[Ball.lengthInByte];
+                tmpByte[0] = bytes[index];
+                tmpByte[1] = bytes[index + 1];
+                tmpByte[2] = bytes[index + 2];
+                tmpByte[3] = bytes[index + 3];
+                tmpByte[4] = bytes[index + 4];
+                tmpByte[5] = bytes[index + 5];
+                tmpByte[6] = bytes[index + 6];
+                tmpBall.setFromBytes(tmpByte);
+                balls.add(tmpBall.getId(), tmpBall);
+                index = index + Ball.lengthInByte;
+            } else {
+                byte[] b = new byte[1];
+                b[0] = bytes[index];
+                tmpBall.setFromBytes(b);
+                index++;
+            }
+        }
+
     }
 
     /*
@@ -115,7 +140,7 @@ public class Area implements Transferable {
         byteCoded[0] = (byte) (Transferable.AREA << 4);
         byteCoded[0] |= (byte) ships.size();
         lengthInByte = 1;
-        for (ships.setCursorOnFirst(); ships.cursor1hasNext();) {
+        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
             tmp = ((Ship) ships.cursor1next()).getAsBytes();
             for (int j = 0; j < Ship.lengthInByte; j++) {
                 byteCoded[lengthInByte + j] = tmp[j];

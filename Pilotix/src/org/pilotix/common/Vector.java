@@ -129,6 +129,7 @@ public class Vector {
         return result;
     }
     
+    
     public String toString(){
         return "[Vector]"+x+","+y;
     }

@@ -58,8 +58,8 @@ public class Command implements Transferable {
         acceleration = anAcceleration;
     }
 
-    public void setToolId(int anAccessory) {
-        toolId = anAccessory;
+    public void setToolId(int aToolId) {
+        toolId = aToolId;
     }
 
     public void setBallId(int anProjectileId) {

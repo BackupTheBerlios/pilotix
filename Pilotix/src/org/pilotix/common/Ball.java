@@ -27,6 +27,8 @@ package org.pilotix.common;
  */
 public class Ball extends PilotixElement implements Transferable {
 
+    /** lorsque la balle doit etre diffuse*/
+    public static final int NEW = 0;
     /**
      * Message de creation de Ball
      * <pre>
@@ -36,6 +38,8 @@ public class Ball extends PilotixElement implements Transferable {
      * </pre>
      */
 
+    /** lorsque la balle doit etre supprime*/
+    public static final int DELETE = 1;
     /**
      * Message de destruction de Ball
      * <pre>
@@ -45,22 +49,26 @@ public class Ball extends PilotixElement implements Transferable {
      * </pre>     
      * 
      */
-    protected Vector speed = new Vector();    
+    protected Vector speed = new Vector();
     public static int lengthInByte = 7;
     private byte[] byteCoded = new byte[lengthInByte];
-    
+
     private int radius = 100;
 
-    public Ball(Vector aPosition,Vector aSpeed) {
+    public Ball(Vector aPosition, Vector aSpeed) {
         super();
         position.set(aPosition);
         speed.set(aSpeed);
     }
 
+    public Ball() {
+        super();
+    }
+
     public void setFromBytes(byte[] bytes) {
         //flag = (byte)((bytes[0] & 240) >> 4);
-        id = (byte) ((bytes[0] & 240) >> 4);
-        states = (byte) (bytes[0] & 15);
+        id = (byte) ((bytes[0] & 14) >> 1);
+        states = (byte) (bytes[0] & 1);
 
         position.x = 0;
         position.y = 0;
@@ -88,32 +96,38 @@ public class Ball extends PilotixElement implements Transferable {
 
     public byte[] getAsBytes() {
 
-        byteCoded[0] = 0;
-        byteCoded[0] = (byte) (id << 4);
-        byteCoded[0] |= (byte) states;
+        if (states == NEW) {
+            byteCoded[0] = 0;
+            byteCoded[0] = (byte) (id << 3);
+            byteCoded[0] |= (byte) states;
 
-        byteCoded[1] = (byte) (position.x / 256);
-        byteCoded[2] = (byte) position.x;
-        byteCoded[3] = (byte) (position.y / 256);
-        byteCoded[4] = (byte) position.y;
+            byteCoded[1] = (byte) (position.x / 256);
+            byteCoded[2] = (byte) position.x;
+            byteCoded[3] = (byte) (position.y / 256);
+            byteCoded[4] = (byte) position.y;
 
-        byteCoded[5] = (byte) speed.x;
-        byteCoded[6] = (byte) speed.y;
+            byteCoded[5] = (byte) speed.x;
+            byteCoded[6] = (byte) speed.y;
 
-        return byteCoded;
+            return byteCoded;
+        } else {
+            return new byte[] { (byte) ((id << 3) + 1)};
+        }
     }
 
     public int getLengthInByte() {
         return lengthInByte;
     }
-    
+
     public void nextFrame() {
-        position.set(position.plus(speed));        
+        position.set(position.plus(speed));
+        System.out.println("position Ball "+position);
     }
+
     /**
      * @return le rayon d'action
      */
-    public int getRadius() {       
+    public int getRadius() {
         return radius;
     }
 

@@ -5,12 +5,9 @@ import org.pilotix.common.Vector;
 
 public class ServerBall extends Ball {
 
-    /** lorsque la balle doit etre diffuse*/
-    public static final int NEW = 0;
-    /** lorsque la balle doit etre supprime*/
-    public static final int TO_DELETE = 1;
-
-    private int state;
+   
+    public static final int TO_DELETE = 2;
+    //private int state;
     
     private Vector nextPosition = new Vector();
     
@@ -23,21 +20,21 @@ public class ServerBall extends Ball {
      */
     public ServerBall(Vector aPosition, Vector aSpeed) {
         super(aPosition, aSpeed);
-        state = NEW;
+        states = NEW;
     }
 
     /**
      * @return Returns the state.
      */
     public int getState() {
-        return state;
+        return states;
     }
 
     /**
      * @param state The state to set.
      */
     public void setState(int state) {
-        this.state = state;
+        this.states = state;
     }
 
     /**
@@ -59,6 +56,8 @@ public class ServerBall extends Ball {
     public Vector getSpeed() {        
         return speed;
     }
+
+ 
    
 
     

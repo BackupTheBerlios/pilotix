@@ -23,6 +23,7 @@ import java.util.LinkedList;
 
 import org.pilotix.common.Angle;
 import org.pilotix.common.Command;
+import org.pilotix.common.IterableArray;
 import org.pilotix.common.Ship;
 import org.pilotix.common.Vector;
 
@@ -130,13 +131,19 @@ public class ServerShip extends Ship {
         return command;
     }
 
-    public void commandPilotixElement(LinkedList balls) {
+    public void commandPilotixElement(IterableArray balls) {
         if (command.getToolId() == 1) {
-            balls.add(new ServerBall(position.plus(
+            if(balls.isNull(id)){                
+            System.out.println("Ball "+id+" Created !");
+            
+            balls.add(id,new ServerBall(position.plus(
                 (int) ((ServerAngle) direction).getX() * radius,
                 (int) ((ServerAngle) direction).getY() * radius), speed.plus(
-                (int) ((ServerAngle) direction).getX() * 100,
-                (int) ((ServerAngle) direction).getX() * 100)));
+                (int) (((ServerAngle) direction).getX() * (double)500),
+                (int) (((ServerAngle) direction).getY() * (double)500))));}
+            else{
+                
+            }
             //System.out.println("Balls!");
         }
 

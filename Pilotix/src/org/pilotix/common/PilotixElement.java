@@ -35,6 +35,10 @@ public abstract class PilotixElement {
     //public static int lengthInByte = 0;
 
     public PilotixElement(){};
+    
+    public int getId() {
+        return id;
+    }
 
     /*public abstract void setFromBytes(byte[] bytes);
 
