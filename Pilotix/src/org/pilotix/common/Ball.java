@@ -111,7 +111,7 @@ public class Ball extends PilotixElement implements Transferable {
         position.set(position.plus(speed));        
     }
     /**
-     * @return
+     * @return le rayon d'action
      */
     public int getRadius() {       
         return radius;
