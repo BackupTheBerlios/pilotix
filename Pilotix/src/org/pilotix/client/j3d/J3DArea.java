@@ -58,7 +58,8 @@ public class J3DArea extends J3DObject {
 
         // La geometrie du sol
         QuadArray quadArray = new QuadArray(4, GeometryArray.COORDINATES
-                | GeometryArray.TEXTURE_COORDINATE_2);
+                | GeometryArray.TEXTURE_COORDINATE_2
+                | GeometryArray.COLOR_3);
         Point3f tmpPoint3f = new Point3f();
         tmpPoint3f.set(0.0f, 0.0f, -1.0f);
         quadArray.setCoordinate(0, tmpPoint3f);
@@ -82,6 +83,11 @@ public class J3DArea extends J3DObject {
         quadArray.setTextureCoordinate(0, 3, tmpTexCoord2f);
         areaGroundShape3D.setGeometry(quadArray);
 
+        quadArray.setColor(0, new Color3f(0.8f,0.67f,0.47f));
+        quadArray.setColor(1, new Color3f(0.8f,0.67f,0.47f));
+        quadArray.setColor(2, new Color3f(0.8f,0.67f,0.47f));
+        quadArray.setColor(3, new Color3f(0.8f,0.67f,0.47f));
+
         // La texture du sol
         //java.net.URL url =
         // this.getClass().getClassLoader().getResource("textures/grnd.jpg");
@@ -99,7 +105,7 @@ public class J3DArea extends J3DObject {
         texture.setImage(0, image);
 
         Appearance groundAppearance = new Appearance();
-        groundAppearance.setTexture(texture);
+//        groundAppearance.setTexture(texture);
         areaGroundShape3D.setAppearance(groundAppearance);
 
         this.addChild(areaGroundShape3D);
@@ -168,6 +174,7 @@ public class J3DArea extends J3DObject {
          */
 
         // Une lumiere d'ambiance
+        /*
         javax.media.j3d.BoundingSphere areaLightBounds = new javax.media.j3d.BoundingSphere(
                 new Point3d(aXMax / 2, aYMax / 2, 0.0f), java.lang.Math.max(
                         aXMax, aYMax));
@@ -175,7 +182,7 @@ public class J3DArea extends J3DObject {
                 1.0f, 1.0f, 1.0f));
         areaLight.setInfluencingBounds(areaLightBounds);
         this.addChild(areaLight);
-
+*/
         this.compile();
     }
 
