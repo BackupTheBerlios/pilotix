@@ -40,7 +40,7 @@ public abstract class PilotixElement {
         return id;
     }
     
-    public Vector position(){
+    public Vector getPosition(){
         return position;
     }
 
