@@ -140,6 +140,18 @@
     </java>
   </target>
 
+  <!-- Ajoute un joueur machine -->
+  <target name="robot" description="Ajouter un joueur machine">
+    <java classname="org.pilotix.client.ClientTest" fork="true">
+      <arg value="localhost"/>
+      <arg value="9000"/>
+      <classpath>
+        <pathelement location="${build}"/>
+        <pathelement location="."/>
+      </classpath>
+    </java>
+  </target>
+
   <!-- Lance le serveur à partir du Jar -->
   <target name="server" description="Lancer le serveur à partir du Jar">
     <java jar="${dist}/PilotixServer.jar" fork="true">
@@ -180,6 +192,7 @@
     <echo message="            servernojar : Lance un serveur sans utiliser le Jar"/>
     <echo message="            client      : Lance un client à partir du Jar"/>
     <echo message="            clientnojar : Lance un client sans utiliser le Jar"/>
+    <echo message="            robot       : Lance un joueur machine"/>
     <echo message="            compile     : Compilation du projet"/>
     <echo message="            dist        : Compilation + Archives Jar non signées"/>
     <echo message="            signature   : Compilation + Archives Jar signées"/>
