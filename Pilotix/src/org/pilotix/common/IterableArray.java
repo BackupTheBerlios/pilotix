@@ -65,7 +65,7 @@ public class IterableArray {
      *            the Object to insert
      * @return address where the object as been inserted
      */
-    public int add(Object obj) throws Exception {
+    public synchronized int add(Object obj) throws Exception {
         if (nb >= max) {
             System.out.println("Array Full !!!!");
             Exception e = new Exception();
@@ -97,7 +97,7 @@ public class IterableArray {
      * @param indice
      *            indice of the object that as to be remove
      */
-    public void remove(int indice) throws Exception {
+    public synchronized void remove(int indice) throws Exception {
         if ((indice < 0) || (max < indice)) {
             System.out.println("indice Out of bounds !!!!");
             Exception e = new Exception();
@@ -165,5 +165,12 @@ public class IterableArray {
         int saveCurrent = current;
         current = prev[current];
         return objects[saveCurrent];
+    }
+    
+    /**
+     * @return return set the in Builded cursor to the begining of the list 
+     */
+    public void reset() {
+        current = lastInserted;
     }
 }

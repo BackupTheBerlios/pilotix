@@ -34,7 +34,7 @@ package org.pilotix.common;
  */
 
 
-public class Ship extends PilotixElement {
+public class Ship extends PilotixElement implements Message{
 
     public final static int ADD = 0;
     public final static int REMOVE = 1;
@@ -42,22 +42,20 @@ public class Ship extends PilotixElement {
     public final static int HIT = 3;
     public final static int ACCELERATING = 4;
 
-    protected static byte bytesLength = 6;
+    public static int lengthInByte = 6;
 
     protected Vector speed;
     protected Angle direction;
     protected int radius = 300;
 
-    
+    private byte[] byteCoded = new byte[lengthInByte];
 
     public Ship() {
         super();
         id = -1;
         position = new Vector(0, 0);
         direction = new Angle(0);
-        states = 0;
-        byteCoded = new byte[bytesLength];
-        
+        states = 0;               
     }
 
     /*
@@ -170,7 +168,7 @@ public class Ship extends PilotixElement {
     /**
      * @return Returns the bytesLength.
      */
-    public static int getBytesLength() {
-        return bytesLength;
+    public int getLengthInByte() {
+        return lengthInByte;
     }
 }

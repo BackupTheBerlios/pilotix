@@ -32,27 +32,21 @@ package org.pilotix.common;
  * 
  * @author Florent Sithimolada
  */
-public class PilotixElement {
+public abstract class PilotixElement {
 
     protected int id;    
     protected int states;
     protected Vector position;
     
     
-    byte[] byteCoded = null;
-    protected static int bytesLength = 0;
+    //byte[] byteCoded = null;
+    //public static int lengthInByte = 0;
 
-    public PilotixElement() {
-    }
+    public PilotixElement(){};
 
-    public void setFromBytes(byte[] bytes) {
-    };
+    /*public abstract void setFromBytes(byte[] bytes);
 
-    public byte[] getAsBytes() {
-        return null;
-    };    
+    public abstract byte[] getAsBytes();    
 
-    public static int getBytesLength() {
-        return bytesLength;
-    }
+    public abstract int getLengthInByte();*/
 }

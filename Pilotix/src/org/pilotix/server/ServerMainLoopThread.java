@@ -83,7 +83,8 @@ public class ServerMainLoopThread extends Thread {
         //a la liste des Client principale,
         if (newClientHandler) {
             PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
-            //Ajout des nouveaux ships
+            //Ajout des nouveaux ships 
+            //et affectation et envoie au clients des numero de ship
             for (int i = 0; i < PilotixServer.theNewCHTs.size(); i++) {
                 theShips.add(((ClientHandlerThread) (PilotixServer.theNewCHTs
                         .get(i))).getShip());
@@ -107,14 +108,15 @@ public class ServerMainLoopThread extends Thread {
          */
 
         //recuperation via area de l'ensemble des ship :
-        bytes = theArea.getAsByte();
-        bytesLength = theArea.getLengthOfByte();
+        //bytes = theArea.getAsBytes();
+        //bytesLength = theArea.getLengthInByte();
         //envoye de la frame courante a tous les autre ships
 
         for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
             try {
-                ((ClientHandlerThread) PilotixServer.theCHTs.get(i)).send(bytes,
-                        bytesLength);
+                //((ClientHandlerThread) PilotixServer.theCHTs.get(i)).send(bytes,
+                //        bytesLength);
+                ((ClientHandlerThread) PilotixServer.theCHTs.get(i)).sendArea();
             } catch (Exception e) {
                 e.printStackTrace();
             }

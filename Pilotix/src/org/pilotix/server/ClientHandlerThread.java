@@ -98,9 +98,17 @@ public class ClientHandlerThread extends Thread {
      * e){ //e.printStackTrace(); }
      */
 
-    public void send(byte[] anArea, int aSize) throws Exception {
+    /*public void send(byte[] anArea, int aSize) throws Exception {
         //try{
         messageHandler.sendBytes(anArea, aSize);
+        //}catch(Exception e){
+        //    e.printStackTrace();
+        //}
+    }*/
+    
+    public void sendArea() throws Exception {
+        //try{
+        messageHandler.send(PilotixServer.theSA);
         //}catch(Exception e){
         //    e.printStackTrace();
         //}

@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 package org.pilotix.common;
 
+
 /*
 * Contient les information relative a l'aire de jeu.
 * 
@@ -31,12 +32,13 @@ package org.pilotix.common;
 *  
 */
 
-public class Area extends PilotixElement {
+public class Area implements Message {
 
     protected int nbShips;
     protected Ship[] ships;
+    private int lengthInByte;
     
-    private static int byteLength;
+    private byte[] byteCoded = null;
     
     public Area(){
         ships = new Ship[16];
@@ -46,13 +48,11 @@ public class Area extends PilotixElement {
    
     public void setFromBytes(byte[] bytes) {
         
-
-        //Flag = (byte)((bytes[0] & 240) >> 4);
         nbShips = (byte) (bytes[0] & 15);
 
         int index = 1;
-        byte[] tmpByte = new byte[Ship.getBytesLength()];
-        //System.out.println("nbShip :"+nbShips);
+        byte[] tmpByte = new byte[Ship.lengthInByte];
+
         Ship tmpClientShip = new Ship();
         for (int i = 0; i < nbShips; i++) {
             tmpByte[0] = bytes[index];
@@ -63,7 +63,6 @@ public class Area extends PilotixElement {
             tmpByte[5] = bytes[index + 5];
             
             tmpClientShip.setFromBytes(tmpByte);
-            //setShip(tmpClientShip);
             if (tmpClientShip.getStates() == Ship.REMOVE) {            
                 ships[tmpClientShip.getId()] = null;
             } else {
@@ -71,35 +70,31 @@ public class Area extends PilotixElement {
                     ships[tmpClientShip.getId()] = new Ship();
                 }
                 ships[tmpClientShip.getId()].set((Ship) tmpClientShip);
-                //System.out.println("Ship id maj :" +aShip.getId());
             }
-            index = index + Ship.getBytesLength();
+            index = index + Ship.lengthInByte;
         }
     }
     
-
-    
-    //| Octet 0     | Octet 1-6 | Octet 7-12|... 
-    //| 4bit | 4bit |  6 Octet  |  6  Octet |... 
-    //|Flag 4|nbship|   Ship 0  |   Ship 1  |...
-    /*public byte[] getAsBytes() {
+    public byte[] getAsBytes() {
                         
         byte[] tmp;
         byteCoded[0] = 0;
         byteCoded[0] = (byte) (MessageHandler.FRAMEINFO << 4);
         byteCoded[0] |= (byte) nbShips;
-        bytesLength = 1;
+        lengthInByte = 1;
        
         for (int i = 0; i < nbShips; i++) {            
             tmp = ships[i].getAsBytes();
-            for (int j = 0; j < Ship.getBytesLength(); j++) {
-                byteCoded[bytesLength + j] = tmp[j];
+            for (int j = 0; j < Ship.lengthInByte; j++) {
+                byteCoded[lengthInByte + j] = tmp[j];
             }
-            bytesLength += Ship.getBytesLength();
+            lengthInByte += Ship.lengthInByte;
         }
         return byteCoded;
-    }*/
+    }
     
-    
+    public int getLengthInByte(){
+        return lengthInByte;
+    }
     
 }

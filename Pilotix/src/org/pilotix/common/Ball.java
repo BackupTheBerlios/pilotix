@@ -30,10 +30,11 @@ package org.pilotix.common;
  * |  Id  |States|    X    |    Y    |Vitesse X|Vitesse Y|
  *  
  */
-public class Ball extends PilotixElement {
+public class Ball extends PilotixElement implements Message{
 
     Vector speed;
-    private static int bytesLength = 7;
+    public static int lengthInByte = 7;
+    private byte[] byteCoded = new byte[lengthInByte];
     
     public Ball() {
         speed = new Vector();
@@ -84,4 +85,9 @@ public class Ball extends PilotixElement {
 
         return byteCoded;
     }
+    
+    public int getLengthInByte(){
+        return lengthInByte;
+    }
+    
 }

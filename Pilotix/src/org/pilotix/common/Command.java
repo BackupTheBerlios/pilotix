@@ -19,12 +19,19 @@
 
 package org.pilotix.common;
 
-public class Command {
+public class Command implements Message {
 
+    public static int lengthInByte = 3;
+    private byte[] byteCoded = new byte[lengthInByte];
     private Angle direction;
     private int acceleration;
     private int accessory;
     private int projectileId;
+    
+    
+    private int velocity;
+    private int toolId;
+    private int ballId;
 
     public Command() {
         direction = new Angle(0);
@@ -70,5 +77,95 @@ public class Command {
 
     public int getProjectileId() {
         return projectileId;
+    }
+    
+    
+    // |   Octet 0   | Octet 1 |   Octet 2   |
+    // | 4bit | 4bit | 1 Octet | 4bit | 4bit |
+    // | Flag |Accele| Directi |ToolId|BallId|
+    
+    
+    
+    public void setFromBytes(byte[] bytes) {
+        
+        
+       /* command.setAcceleration(firstByteRest);
+        getByteFromInput(message, 0, 3);
+        direction.set(message[0] * 3);
+        command.setDirection(direction);
+        command.setAccessory(((message[1] & 240) >> 4));
+        command.setProjectileId((message[2] & 15));*/
+        
+        
+        acceleration = (bytes[0] & 15);
+        direction.set(bytes[1] * 3);
+        accessory = ((bytes[2] & 240) >> 4);
+        projectileId = ((bytes[3] & 15));
+        
+        //flag = (byte)((bytes[0] & 240) >> 4);
+       /* id = (byte) ((bytes[0] & 240) >> 4);
+        states = (byte) (bytes[0] & 15);
+
+        position.x = 0;
+        position.y = 0;
+
+        int inc = 1;
+        for (int i = 0; i < 8; i++) {
+            position.x += ((byte) (bytes[2] >> i) & 0x01) * inc;
+            position.y += ((byte) (bytes[4] >> i) & 0x01) * inc;
+            inc = inc << 1;
+        }
+        inc = 256;
+        for (int i = 0; i < 8; i++) {
+            position.x += ((byte) (bytes[1] >> i) & 0x01) * inc;
+            position.y += ((byte) (bytes[3] >> i) & 0x01) * inc;
+            inc = inc << 1;
+        }
+
+        inc = 1;
+        for (int i = 0; i < 8; i++) {
+            speed.x += ((byte) (bytes[5] >> i) & 0x01) * inc;
+            speed.y += ((byte) (bytes[6] >> i) & 0x01) * inc;
+            inc = inc << 1;
+        }*/
+    }
+
+    public byte[] getAsBytes() {
+        
+        byteCoded[0] = 0;
+        byteCoded[0] = (byte) (Message.COMMAND << 4);
+        byteCoded[0] |= (byte) acceleration;
+        byteCoded[1] = (byte) (direction.get() / 3);
+        byteCoded[2] = 0;
+        byteCoded[2] = (byte) (accessory << 4);
+        byteCoded[2] |= (byte) projectileId;
+        
+        /*message[0] = 0;
+        message[0] = (byte) (COMMAND << 4);
+        message[0] |= (byte) aCommand.getAcceleration();
+        message[1] = (byte) (aCommand.getDirection().get() / 3);
+        message[2] = 0;
+        message[3] = (byte) (aCommand.getAccessory() << 4);
+        message[3] |= (byte) aCommand.getProjectileId();
+        output.write(message, 0, 4);*/
+        
+
+        /*byteCoded[0] = 0;
+        byteCoded[0] = (byte) (id << 4);
+        byteCoded[0] |= (byte) states;
+
+        byteCoded[1] = (byte) (position.x / 256);
+        byteCoded[2] = (byte) position.x;
+        byteCoded[3] = (byte) (position.y / 256);
+        byteCoded[4] = (byte) position.y;
+        
+        byteCoded[5] = (byte) speed.x;
+        byteCoded[6] = (byte) speed.y;
+        */
+        return byteCoded;
+    }
+    
+    public int getLengthInByte(){
+        return lengthInByte;
     }
 }

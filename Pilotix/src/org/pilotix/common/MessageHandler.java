@@ -38,9 +38,9 @@ public class MessageHandler {
     private OutputStream output;
 
     //  message type for server to client
-    public static final byte FRAMEINFO = 4;   
+    public static final byte FRAMEINFO = 4;
     public static final byte OWNSHIPINFO = 9;
-    
+
     // message type for client to server
     public static final byte COMMAND = 10;
     public static final byte SESSION = 11;
@@ -88,6 +88,47 @@ public class MessageHandler {
         return message;
     }
 
+    public void send(Message aMessage) {
+        try {
+            
+        output.write(aMessage.getAsBytes(), 0,
+                aMessage.getLengthInByte());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Object receive() throws Exception {
+
+        getByteFromInput(message, 0, 1);
+        firstByte = message[0];
+        messageType = (byte) ((firstByte & 240) >> 4);
+        firstByteRest = (byte) (firstByte & 15);
+
+        Object result;
+        switch (messageType) {
+        case FRAMEINFO:
+            nbShip = firstByteRest;
+            getByteFromInput(message, 1, nbShip * 6);
+            Area area = new Area();
+            area.setFromBytes(message);
+            result = (Object) area;
+            break;
+        case COMMAND:           
+            getByteFromInput(message, 1, 2);            
+            //Command aCommand = new Command();
+            command.setFromBytes(message);
+            result = (Object) command;
+            break;
+        default:
+            System.out.println("[MessageHandler] Flag inconnu :" + messageType);
+            result = null;
+            break;
+        }
+        return result;
+
+    }
+
     /**
      * This call is blocking use getXXX() to retrives the content
      * 
@@ -109,28 +150,30 @@ public class MessageHandler {
             getByteFromInput(message, 1, nbShip * 6);
             break;
         /*case SHIP:
-            ship.setId(firstByteRest);
-            getByteFromInput(message, 0, 1);
-            ship.setStates((byte) ((message[0] & 240) >> 4));
-            getByteFromInput(message, 0, 4);
-            extractXandY(message);
-            getByteFromInput(message, 0, 1);
-            int inc = 1;
-            int deg = 0;
-            for (int i = 0; i < 8; i++) {
-                deg += ((byte) (message[0] >> i) & 0x01) * inc;
-                inc = inc << 1;
-            }
-            direction.set(deg * 2);
-            ship.setDirection(direction);
-            break;*/
+         ship.setId(firstByteRest);
+         getByteFromInput(message, 0, 1);
+         ship.setStates((byte) ((message[0] & 240) >> 4));
+         getByteFromInput(message, 0, 4);
+         extractXandY(message);
+         getByteFromInput(message, 0, 1);
+         int inc = 1;
+         int deg = 0;
+         for (int i = 0; i < 8; i++) {
+         deg += ((byte) (message[0] >> i) & 0x01) * inc;
+         inc = inc << 1;
+         }
+         direction.set(deg * 2);
+         ship.setDirection(direction);
+         break;*/
         case COMMAND:
             command.setAcceleration(firstByteRest);
-            getByteFromInput(message, 0, 3);
+            getByteFromInput(message, 0, 2);
+            //getByteFromInput(message, 0, 3);
             direction.set(message[0] * 3);
             command.setDirection(direction);
             command.setAccessory(((message[1] & 240) >> 4));
-            command.setProjectileId((message[2] & 15));
+            command.setProjectileId((message[1] & 15));
+            //command.setProjectileId((message[2] & 15));
             break;
         case OWNSHIPINFO:
             ownShipId = firstByteRest;
@@ -152,24 +195,24 @@ public class MessageHandler {
      */
 
     /*public void sendSHIPMessage(Ship aShip) throws Exception {
-        message[0] = 0;
-        message[0] = (byte) (SHIP << 4);
-        message[0] |= (byte) aShip.getId();
-        message[1] = 0;
-        message[1] = (byte) (aShip.getStates() << 4);
+     message[0] = 0;
+     message[0] = (byte) (SHIP << 4);
+     message[0] |= (byte) aShip.getId();
+     message[1] = 0;
+     message[1] = (byte) (aShip.getStates() << 4);
 
-        message[2] = (byte) (aShip.getPosition().x / 256);
-        //System.out.println("High X"+(byte)aShip.getPosition().x/256);
-        //System.out.println("Low X"+(byte)aShip.getPosition().x);
+     message[2] = (byte) (aShip.getPosition().x / 256);
+     //System.out.println("High X"+(byte)aShip.getPosition().x/256);
+     //System.out.println("Low X"+(byte)aShip.getPosition().x);
 
-        message[3] = (byte) aShip.getPosition().x;
-        message[4] = (byte) (aShip.getPosition().y / 256);
-        message[5] = (byte) aShip.getPosition().y;
-        //System.out.println(aShip.getPosition().y);
+     message[3] = (byte) aShip.getPosition().x;
+     message[4] = (byte) (aShip.getPosition().y / 256);
+     message[5] = (byte) aShip.getPosition().y;
+     //System.out.println(aShip.getPosition().y);
 
-        message[6] = (byte) (aShip.getDirection().get() / 2);
-        output.write(message, 0, 7);
-    }*/
+     message[6] = (byte) (aShip.getDirection().get() / 2);
+     output.write(message, 0, 7);
+     }*/
 
     public void sendCOMMANDMessage(Command aCommand) throws Exception {
         message[0] = 0;
@@ -214,36 +257,36 @@ public class MessageHandler {
     }
 
     /*private void extractXandY(byte[] bytes) {
-        int x = 0;
-        int y = 0;
-        
-        //  int inc = 1; for (int i=0;i <8;i++){ inc; inc; inc = inc < < 1; }
-         //inc = 256; inc; inc; inc = 512; inc; inc;
-         
+     int x = 0;
+     int y = 0;
+     
+     //  int inc = 1; for (int i=0;i <8;i++){ inc; inc; inc = inc < < 1; }
+     //inc = 256; inc; inc; inc = 512; inc; inc;
+     
 
-        int inc = 1;
-        for (int i = 0; i < 8; i++) {
-            x += ((byte) (message[1] >> i) & 0x01) * inc;
-            y += ((byte) (message[3] >> i) & 0x01) * inc;
-            inc = inc << 1;
-        }
-        inc = 256;
-        for (int i = 0; i < 8; i++) {
-            x += ((byte) (message[0] >> i) & 0x01) * inc;
-            y += ((byte) (message[2] >> i) & 0x01) * inc;
-            inc = inc << 1;
-        }
+     int inc = 1;
+     for (int i = 0; i < 8; i++) {
+     x += ((byte) (message[1] >> i) & 0x01) * inc;
+     y += ((byte) (message[3] >> i) & 0x01) * inc;
+     inc = inc << 1;
+     }
+     inc = 256;
+     for (int i = 0; i < 8; i++) {
+     x += ((byte) (message[0] >> i) & 0x01) * inc;
+     y += ((byte) (message[2] >> i) & 0x01) * inc;
+     inc = inc << 1;
+     }
 
- 
+     
 
-        ship.setPosition(new Vector(x, y));
-        //System.out.println(x);
-        //System.out.println(y);
-    }*/
+     ship.setPosition(new Vector(x, y));
+     //System.out.println(x);
+     //System.out.println(y);
+     }*/
 
     /*public Ship getShip() {
-        return ship;
-    }*/
+     return ship;
+     }*/
 
     public byte getFrameInfoCode() {
         return frameInfoCode;
@@ -258,6 +301,6 @@ public class MessageHandler {
     }
 
     /*public int getSessionCode() {
-        return sessionCode;
-    }*/
+     return sessionCode;
+     }*/
 }
