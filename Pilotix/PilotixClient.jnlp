@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="0.2 1.0" codebase="http://www.pilotix.org/" href="root/PilotixClient.jnlp">
+<jnlp spec="0.2 1.0" codebase="http://www.pilotix.org/" href="root/Pilotix/PilotixClient.jnlp">
   <information>
-    <title>Pilotix</title>
+    <title>Pilotix (client)</title>
     <vendor>Pilotix.org</vendor>
     <homepage href="index.php" />
     <description>Pilotix client</description>
