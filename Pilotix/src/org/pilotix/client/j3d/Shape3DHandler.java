@@ -20,7 +20,6 @@
 package org.pilotix.client.j3d;
 
 import org.pilotix.client.*;
-//import org.pilotix.common.*;
 import org.w3c.dom.*;
 
 import java.util.StringTokenizer;
@@ -43,7 +42,7 @@ public class Shape3DHandler {
     private Document document;
     private Element rootNode;
 
-    private int vertexCount;
+    private int pointCount;
 
     private Color3f color;
 
@@ -52,9 +51,9 @@ public class Shape3DHandler {
     private NodeList faces;
     private Element face;
 
-    private NodeList vertexs;
-    private StringTokenizer vertexIds;
-    private Element vertex;
+    private NodeList points;
+    private StringTokenizer pointsIds;
+    private Element xmlPoint;
 
     /**
      * Renvoie une instance de Shape3D correspondant aux données contenues dans
@@ -70,8 +69,7 @@ public class Shape3DHandler {
                         ResourceLocator.SHAPE, aShapeFile));
         rootNode = document.getDocumentElement();
 
-        //calcul du nombre de vertex utilisé :
-        //  = nb face * 3
+        //calcul du nombre de points utilisés: nb face * 3
         int count = 0;
         NodeList faceLists = rootNode.getElementsByTagName("FaceList");
         for (int i = 0; i < faceLists.getLength(); i++) {
@@ -79,15 +77,17 @@ public class Shape3DHandler {
                     .getElementsByTagName("Face");
             count = count + faces.getLength();
         }
-        System.out.println("[Shape3DLoader] Total faces : " + count);
+        if (Environment.debug) {
+            System.out.println("[Shape3DLoader] Total faces : " + count);
+        }
         TriangleArray triangleArray = new TriangleArray(count * 3,
                 GeometryArray.COORDINATES
                 | GeometryArray.NORMALS
                 | GeometryArray.COLOR_3);
 
-        //recuperation de tous les vertex
-        vertexs = rootNode.getElementsByTagName("Point");
-        vertexCount = 0;
+        //recuperation de tous les points
+        points = rootNode.getElementsByTagName("Point");
+        pointCount = 0;
         //pour chaque FaceList existant
         faceLists = rootNode.getElementsByTagName("FaceList");
         //System.out.println("[Shape3DLoader] nb FaceList : "+
@@ -101,17 +101,17 @@ public class Shape3DHandler {
             faces = faceList.getElementsByTagName("Face");
             for (int j = 0; j < faces.getLength(); j++) {
                 face = (Element) faces.item(j);
-                vertexIds = new StringTokenizer(face.getAttribute("PointIds"));
-                while (vertexIds.hasMoreTokens()) {
-                    vertex = (Element) (vertexs.item(Integer.parseInt(vertexIds
+                pointsIds = new StringTokenizer(face.getAttribute("PointIds"));
+                while (pointsIds.hasMoreTokens()) {
+                    xmlPoint = (Element) (points.item(Integer.parseInt(pointsIds
                             .nextToken())));
-                    triangleArray.setCoordinate(vertexCount,
+                    triangleArray.setCoordinate(pointCount,
                              new Point3f(
-                                  Float.parseFloat(vertex.getAttribute("X")),
-                                  Float.parseFloat(vertex.getAttribute("Y")),
-                                  Float.parseFloat(vertex.getAttribute("Z"))));
-                    triangleArray.setColor(vertexCount, color);
-                    vertexCount++;
+                                  Float.parseFloat(xmlPoint.getAttribute("X")),
+                                  Float.parseFloat(xmlPoint.getAttribute("Y")),
+                                  Float.parseFloat(xmlPoint.getAttribute("Z"))));
+                    triangleArray.setColor(pointCount, color);
+                    pointCount++;
                 }
             }
         }
