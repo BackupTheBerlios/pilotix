@@ -19,21 +19,20 @@
 
 package org.pilotix.common;
 
-/*
- * Contient les information relative a un Vaisseau.
- * est spécialisé en ServerShip pour le server et
- * ClientShip pour le client.
- * 
- * Contient egalement les methodes d'encapsulation pour les 
- * transfert reseau
- * 
+/**
+ * Contient les informations relatives à un Vaisseau.
+ * Ship est spécialisée en ServerShip pour le serveur et
+ * en ClientShip pour le client.
+ *
+ * Contient également les méthodes d'encapsulation pour les
+ * transfert sur le réseau
+ *
+ * <pre>
  * |   Octet 0   | Octet1-2| Octet3-4| Octet 5 |
- * | 4bit | 4bit | 2Octets | 2Octets | 1Octet  | 
+ * | 4bit | 4bit | 2Octets | 2Octets | 1Octet  |
  * |  Id  |States|    X    |    Y    |Direction|
- *  
+ * </pre>
  */
-
-
 public class Ship extends PilotixElement implements Message{
 
     public final static int ADD = 0;

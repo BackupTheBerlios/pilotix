@@ -15,21 +15,13 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  */
-/*
- * 
- * Element : Elements constitutif de l'area
- * 
- * Auteurs : - Florent (dernière modif : 16/04/2003)
- *  
- */
+
 package org.pilotix.common;
 
 /**
- * This class is used as abstract class of every else that store the physical
- * caracteristics
- * 
- * @see Ship
- * 
+ * Cette classe est la classe parente de toutes les classes
+ * qui définissent des objets physiques du jeu.
+ *
  * @author Florent Sithimolada
  */
 public abstract class PilotixElement {

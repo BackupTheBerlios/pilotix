@@ -19,32 +19,34 @@
 package org.pilotix.common;
 
 /**
- * Angle en degree modulo entre 0 et 359
+ * Angle en degrés compris entre 0 et 359,
+ * les angles en dehors de cette plage étant
+ * ramenés dedans par un modulo.
  */
 public class Angle {
 
     protected int degree;
 
     /**
-     * creation d'un angle de valeur 0
+     * Crée un angle de valeur 0.
      */
     public Angle() {
         degree = 0;
     }
 
     /**
-     * creation d'un angle avec une valeur passe en parametre
-     * 
+     * Crée un angle avec la valeur passée en paramètre.
+     *
      * @param aDegree
-     *            valeur l'angle
+     *            la valeur de l'angle
      */
     public Angle(int aDegree) {
         set(aDegree);
     }
 
     /**
-     * mise a jour de angle avec une valeur passe en parametre
-     * 
+     * Met à jour cet angle avec la valeur passée en paramètre.
+     *
      * @param aDegree
      *            valeur l'angle
      */
@@ -57,18 +59,18 @@ public class Angle {
     }
 
     /**
-     * mise a jour de angle avec une valeur d'un autre angle
-     * 
+     * Mise à jour de l'angle avec la valeur d'un autre angle.
+     *
      * @param anAngle
-     *            un angle
+     *            l'angle dont on veut recopier la valeur
      */
     public void set(Angle anAngle) {
         degree = anAngle.degree;
     }
 
     /**
-     * recupere la valeur de l'angle
-     * 
+     * Récupère la valeur de l'angle.
+     *
      * @return un angle
      */
     public int get() {

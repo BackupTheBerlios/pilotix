@@ -19,16 +19,16 @@
 
 package org.pilotix.common;
 
-/*
- * Contient les information relative a une Balle.
- * 
- * Contient egalement les methodes d'encapsulation pour les 
- * transfert reseau
- * 
+/**
+ * Contient les informations relatives à une balle,
+ * et les méthodes d'encapsulation pour les transferts
+ * sur le réseau.
+ *
+ * <pre>
  * |   Octet 0   | Octet1-2| Octet3-4| Octet 5 | Octet 6 |
  * | 4bit | 4bit | 2Octets | 2Octets | 1 Octet | 1 Octet |
  * |  Id  |States|    X    |    Y    |Vitesse X|Vitesse Y|
- *  
+ * </pre>
  */
 public class Ball extends PilotixElement implements Message{
 
