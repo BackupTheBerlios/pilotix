@@ -47,6 +47,6 @@ public class J3DBall extends J3DObject {
         this.setAltitude(altitude);
 
         this.compile();
-        System.out.println("J3DBall construite");
+        //System.out.println("J3DBall construite");
     }
 }

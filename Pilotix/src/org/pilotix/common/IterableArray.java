@@ -62,9 +62,9 @@ public class IterableArray {
         prev = new int[nbmax];
         next = new int[nbmax];
         /*
-        * for (int i = 0; i < nbmax; i++) { //isFree[i] = true; prev[i] = i -
-        * 1; next[i] = i + 1; } next[nbmax - 1] = -1;
-        */
+         * for (int i = 0; i < nbmax; i++) { //isFree[i] = true; prev[i] = i -
+         * 1; next[i] = i + 1; } next[nbmax - 1] = -1;
+         */
         nb = 0;
         max = nbmax;
         first = -1;
@@ -74,17 +74,17 @@ public class IterableArray {
     }
 
     /**
-    * Insertion de l'objet dans la case de numéro donné. Attention les
-    * insertions au milieu peuvent prendre jusqu'à un temps nbmax.
-    *
-    * @param index
-    *            numero de la case où sera stocké l'objet
-    * @param obj
-    *            objet à stocker
-    * @throws Exception
-    *             quand le tableau est plein
-    */
-    public synchronized void add(int index, Object obj)  {
+     * Insertion de l'objet dans la case de numéro donné. Attention les
+     * insertions au milieu peuvent prendre jusqu'à un temps nbmax.
+     *
+     * @param index
+     *            numero de la case où sera stocké l'objet
+     * @param obj
+     *            objet à stocker
+     * @throws Exception
+     *             quand le tableau est plein
+     */
+    public synchronized void add(int index, Object obj) {
         if (nb == max) {
             //throw new Exception("IterableArray Full");
             System.out.println("IterableArray Full");
@@ -121,63 +121,63 @@ public class IterableArray {
     }
 
     /**
-    * Récupère la donnée stockée
-    *
-    * @param index
-    *            numéro de la case à récupérer
-    * @return l'objet stocké
-    */
+     * Récupère la donnée stockée
+     *
+     * @param index
+     *            numéro de la case à récupérer
+     * @return l'objet stocké
+     */
     public Object get(int index) {//throws Exception {
         /*
-        * if (isFree[index]) throw new Exception("IterableArray2 already
-        * empty"); else
-        */
+         * if (isFree[index]) throw new Exception("IterableArray2 already
+         * empty"); else
+         */
         return objects[index];
     }
 
     /**
-    * Modifie la donnée stockée
-    *
-    * @param index
-    *            numéro de la case à modifier
-    * @return l'objet stocké
-    */
-    public void set(int index,Object obj) {//throws Exception {
+     * Modifie la donnée stockée
+     *
+     * @param index
+     *            numéro de la case à modifier
+     * @return l'objet stocké
+     */
+    public void set(int index, Object obj) {//throws Exception {
         objects[index] = obj;
     }
 
     /**
-    * Teste la présence d'un objet à la case indiquée.
-    *
-    * @param index
-    *            numéro de la case à tester
-    * @return vrai s'il y a un objet, faux sinon
-    */
+     * Teste la présence d'un objet à la case indiquée.
+     *
+     * @param index
+     *            numéro de la case à tester
+     * @return vrai s'il y a un objet, faux sinon
+     */
     public boolean isNull(int index) {
         return objects[index] == null;
     }
 
     /**
-    * retourne le nombre de cases non vides
-    * @return le nombre de cases utilisées
-    */
-    public int size(){
+     * retourne le nombre de cases non vides
+     * @return le nombre de cases utilisées
+     */
+    public int size() {
         return nb;
     }
 
     /**
-    * Supprime l'objet situé à l'emplacement donné.
-    *
-    * @param index
-    *            numéro de la case à supprimer
-    * @throws Exception
-    *             si le tableau est déjà vide
-    */
+     * Supprime l'objet situé à l'emplacement donné.
+     *
+     * @param index
+     *            numéro de la case à supprimer
+     * @throws Exception
+     *             si le tableau est déjà vide
+     */
     public synchronized void remove(int index) {
         //System.out.println("[IterrableArray] remove"+index);
         if (nb == 0) {
             //throw new Exception("IterableArray already empty");
-            System.out.println("[IterableArray] already empty "+index);
+            System.out.println("[IterableArray] already empty " + index);
         } else if (index == first) {
             if (nb == 1) {
                 first = -1;
@@ -202,12 +202,12 @@ public class IterableArray {
             prev[next[index]] = save;
             nb--;
         }
-        objects[index]=null;
-      }
+        objects[index] = null;
+    }
 
     /**
-    * efface tout le contenu de l'array
-    */
+     * efface tout le contenu de l'array
+     */
     public void clear() {
         nb = 0;
         first = -1;
@@ -215,89 +215,113 @@ public class IterableArray {
         current = -1;
         current2 = -1;
         for (int i = 0; i < max; i++)
-          objects[i] = null;
+            objects[i] = null;
     }
 
-    /**
-    * positionne le curseur sur la premier case non vide
-    *
-    */
-    public void setCursor1OnFirst() {
-        current = first;
-    }
-
-    /**
-    * positionne le curseur sur la derniere case non vide
-    *
-    */
-    public void setCursor1OnLast() {
-        current = last;
-    }
-
-    public boolean cursor1hasNext() {
-        return current != -1;
-    }
-
-    public boolean cursor1hasPrev() {
-        return current != -1;
-    }
-
-    public Object cursor1next() {
-        Object result = objects[current];
-        current = next[current];
-        return result;
-    }
-
-    public Object cursor1prev() {
-        Object result = objects[current];
-        current = prev[current];
-        return result;
-    }
-    
     /**
      * positionne le curseur sur la premier case non vide
      *
      */
-     public void setCursor2OnFirst() {
-        current2 = first;
-     }
+    public void cursor1OnFirst() {
+        current = first;
+    }
 
-     /**
+    /**
      * positionne le curseur sur la derniere case non vide
      *
      */
-     public void setCursor2OnLast() {
-         current2 = last;
+    /*public void cursor1OnLast() {
+     current = last;
+     }*/
+
+    public boolean cursor1IsNotNull() {
+        return current != -1;
+    }
+
+    public boolean cursor1IsNull() {
+        return current == -1;
+    }
+
+    public Object cursor1Get() {
+        return objects[current];
+    }
+
+    public int cursor1GetIndex() {
+        return current;
+    }
+
+    public void cursor1Next() {
+        current = next[current];
+    }
+
+    /*public Object cursor1getAndStepNext() {
+     Object result = objects[current];
+     current = next[current];
+     return result;
+     }*/
+
+    /*public Object cursor1getAndStepPrev() {
+     Object result = objects[current];
+     current = prev[current];
+     return result;
+     }*/
+
+    /**
+     * positionne le curseur sur la premier case non vide
+     *
+     */
+    public void cursor2OnFirst() {
+        current2 = first;
+    }
+
+    /**
+     * positionne le curseur sur la derniere case non vide
+     *
+     */
+    /*public void setCursor2OnLast() {
+     current2 = last;
+     }*/
+
+    public boolean cursor2IsNotNull() {
+        return current2 != -1;
+    }
+
+    public void cursor2Next() {
+        current2 = next[current2];
+    }
+
+    public Object cursor2Get() {
+        return objects[current2];
+    }
+
+    public int cursor2GetIndex() {
+        return current2;
+    }
+
+    /*public boolean cursor2hasPrev() {
+     return current2 != -1;
+     }*/
+
+    /*public Object cursor2getAndStepNext() {
+     Object result = objects[current2];
+     current2 = next[current2];
+     return result;
      }
 
-     public boolean cursor2hasNext() {
-         return current2 != -1;
-     }
-
-     public boolean cursor2hasPrev() {
-         return current2 != -1;
-     }
-
-     public Object cursor2next() {
-         Object result = objects[current2];
-         current2 = next[current2];
-         return result;
-     }
-
-     public Object cursor2prev() {
-         Object result = objects[current2];
-         current2 = prev[current2];
-         return result;
-     }
+     public Object cursor2getAndStepPrev() {
+     Object result = objects[current2];
+     current2 = prev[current2];
+     return result;
+     }*/
 
     private void afficherEtat() {
         System.out.println();
         for (int i = 0; i < max; i++) {
             if ((i == first) && (i == last)) {
                 System.out.print("|");
-            } else if(i == first){
+            } else if (i == first) {
                 System.out.print("[");
-            } else if(i== last){
+            } else if (i == last) {
                 System.out.print("]");
             } else {
                 System.out.print(" ");
@@ -329,103 +353,177 @@ public class IterableArray {
         }
         System.out.println();
     }
-/*
-    public static void main(String[] args) {
-        IterableArray ia2 = new IterableArray(10);
-        System.out.println("Test de IterrableArray");
-        try {
-            ia2.afficherEtat();
-            ia2.add(5,"Cinq");
-            ia2.afficherEtat();
-            ia2.add(2,"Deux");
-            ia2.afficherEtat();
-            ia2.add(8,"Huit");
-            ia2.afficherEtat();
-            ia2.add(7,"Sept");
-            ia2.afficherEtat();
-            ia2.add(0,"Zero");
-            ia2.afficherEtat();
-            ia2.remove(8);
-            ia2.afficherEtat();
-            ia2.remove(0);
-            ia2.afficherEtat();
-            ia2.remove(5);
-            ia2.afficherEtat();
 
-            ia2.setCursorOnFirst();
-            while (ia2.hasNext()) {
-                System.out.print(ia2.next());
+    public void copyInto(IterableArray other, Action action) {
+
+        this.cursor1OnFirst();
+        other.cursor1OnFirst();
+        while (this.cursor1IsNotNull()||other.cursor1IsNotNull()) {
+
+            if (other.cursor1IsNull()) {
+                //ajout d'un nouvel objet
+                //System.out.println("first add");
+                other.add(current, action.add(objects[current]));
+                other.cursor1SetIndexAfter(current);
+                this.cursor1Next();
+                //System.out.println("fin de first add:"+current+" "+other.current);
+            } else {
+
+                if (this.cursor1IsNull()) {
+                    //System.out.println("remove on null");
+                    //suppression de l'objet
+                    action.remove(other.get(other.current));
+                    //int index = other.cursor1GetIndex();
+                    other.remove(other.current);
+                    other.cursor1Next();
+                } else if (other.current < current) {
+                    //System.out.println("remove on leser");
+                    //  suppression de l'objet
+                    action.remove(other.get(other.current));
+                    //int index = other.cursor1GetIndex();
+                    other.remove(other.current);
+                    other.cursor1Next();
+                    this.cursor1Next();
+                } else if (other.current > current) {
+                    //ajout d'un nouvel objet                    
+                    //System.out.println("new add");
+                    other.add(current, action.add(objects[current]));
+                    this.cursor1Next();
+                } else if (other.current == current) {
+                    //System.out.println("update");
+                    //mise a jour de objet
+                    action.update(objects[current], other.get(other.current));
+                    other.cursor1Next();
+                    this.cursor1Next();
+                } 
+
             }
-            System.out.println();
-
-            ia2.setCursorOnLast();
-            while (ia2.hasPrev()) {
-                System.out.print(ia2.prev());
-            }
-            System.out.println();
-
-            System.out.println("Un");
-            ia2.add(1, "Un");
-            System.out.println(ia2.get(1));
-            ia2.afficherEtat();
-            System.out.println("-");
-            ia2.clear();
-
-            System.out.println("UnDeux");
-            ia2.add(1, "Un");
-            ia2.add(2, "Deux");
-            ia2.setCursorOnFirst();
-            while (ia2.hasNext()) {
-                System.out.print(ia2.next());
-            }
-            ia2.afficherEtat();
-            System.out.println("\n-");
-            ia2.clear();
-
-            System.out.println("UnTrois");
-            ia2.add(1, "Un");
-            ia2.add(2, "Deux");
-            ia2.remove(2);
-            ia2.add(3, "Trois");
-            ia2.setCursorOnFirst();
-            while (ia2.hasNext()) {
-                System.out.print(ia2.next());
-            }
-            ia2.afficherEtat();
-            System.out.println("\n-");
-            ia2.clear();
-
-            System.out.println("TroisDeuxUn");
-            ia2.add(1, "Un");
-            ia2.add(2, "Deux");
-            ia2.add(3, "Trois");
-            ia2.setCursorOnLast();
-            while (ia2.hasPrev()) {
-                System.out.print(ia2.prev());
-            }
-            ia2.afficherEtat();
-            System.out.println("\n-");
-            ia2.clear();
-
-            System.out.println("UnTroisCinqSept");
-            ia2.add(1, "Un");
-            ia2.afficherEtat();
-            ia2.add(7, "Sept");
-            ia2.afficherEtat();
-            ia2.add(3, "Trois");
-            ia2.afficherEtat();
-            ia2.add(5, "Cinq");
-            ia2.afficherEtat();
-            ia2.setCursorOnFirst();
-            while (ia2.hasNext()) {
-              System.out.print(ia2.next());
-            }
-            //ia2.afficherEtat();
-            System.out.println("\n-");
-            ia2.clear();
-        } catch (Exception e) {
-          e.printStackTrace();
+            
         }
+
     }
-*/
+
+
+    private void cursor1SetIndexAfter(int index) {
+       current=first;
+       //System.out.println("cursor after"+index); 
+       //System.out.println("First="+current);        
+       while ((current != -1)&& (current <= index)){
+           //System.out.println("current"+ current);
+           //System.out.println("Next current"+next[current]);
+           current = next[current];            
+        }
+        //System.out.println("finish="+current);
+       //current = anIndex
+    }
+
+    public interface Action {
+
+        public Object add(Object obj);
+
+        public void update(Object modele, Object modifie);
+
+        public void remove(Object object);
+
+    }
+
+    /*
+     public static void main(String[] args) {
+     IterableArray ia2 = new IterableArray(10);
+     System.out.println("Test de IterrableArray");
+     try {
+     ia2.afficherEtat();
+     ia2.add(5,"Cinq");
+     ia2.afficherEtat();
+     ia2.add(2,"Deux");
+     ia2.afficherEtat();
+     ia2.add(8,"Huit");
+     ia2.afficherEtat();
+     ia2.add(7,"Sept");
+     ia2.afficherEtat();
+     ia2.add(0,"Zero");
+     ia2.afficherEtat();
+     ia2.remove(8);
+     ia2.afficherEtat();
+     ia2.remove(0);
+     ia2.afficherEtat();
+     ia2.remove(5);
+     ia2.afficherEtat();
+
+     ia2.setCursorOnFirst();
+     while (ia2.hasNext()) {
+     System.out.print(ia2.next());
+     }
+     System.out.println();
+
+     ia2.setCursorOnLast();
+     while (ia2.hasPrev()) {
+     System.out.print(ia2.prev());
+     }
+     System.out.println();
+
+     System.out.println("Un");
+     ia2.add(1, "Un");
+     System.out.println(ia2.get(1));
+     ia2.afficherEtat();
+     System.out.println("-");
+     ia2.clear();
+
+     System.out.println("UnDeux");
+     ia2.add(1, "Un");
+     ia2.add(2, "Deux");
+     ia2.setCursorOnFirst();
+     while (ia2.hasNext()) {
+     System.out.print(ia2.next());
+     }
+     ia2.afficherEtat();
+     System.out.println("\n-");
+     ia2.clear();
+
+     System.out.println("UnTrois");
+     ia2.add(1, "Un");
+     ia2.add(2, "Deux");
+     ia2.remove(2);
+     ia2.add(3, "Trois");
+     ia2.setCursorOnFirst();
+     while (ia2.hasNext()) {
+     System.out.print(ia2.next());
+     }
+     ia2.afficherEtat();
+     System.out.println("\n-");
+     ia2.clear();
+
+     System.out.println("TroisDeuxUn");
+     ia2.add(1, "Un");
+     ia2.add(2, "Deux");
+     ia2.add(3, "Trois");
+     ia2.setCursorOnLast();
+     while (ia2.hasPrev()) {
+     System.out.print(ia2.prev());
+     }
+     ia2.afficherEtat();
+     System.out.println("\n-");
+     ia2.clear();
+
+     System.out.println("UnTroisCinqSept");
+     ia2.add(1, "Un");
+     ia2.afficherEtat();
+     ia2.add(7, "Sept");
+     ia2.afficherEtat();
+     ia2.add(3, "Trois");
+     ia2.afficherEtat();
+     ia2.add(5, "Cinq");
+     ia2.afficherEtat();
+     ia2.setCursorOnFirst();
+     while (ia2.hasNext()) {
+     System.out.print(ia2.next());
+     }
+     //ia2.afficherEtat();
+     System.out.println("\n-");
+     ia2.clear();
+     } catch (Exception e) {
+     e.printStackTrace();
+     }
+     }
+     */
 }

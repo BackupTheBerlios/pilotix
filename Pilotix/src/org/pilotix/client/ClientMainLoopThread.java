@@ -94,9 +94,11 @@ public class ClientMainLoopThread extends Thread {
                 if (flag == Transferable.AREA) {
                     //System.out.println("Package AREA");
                     Environment.theClientArea.read(clientMessageHandler);
-
-                    // On met à jour l'affichage 3D
-                    Environment.theDisplay3D.update();
+                    //effectue les calcul coté client
+                    Environment.theClientArea.nextFrame();
+                    // On met à jour l'affichage 3D                    
+                    Environment.theDisplay3D.update2();
+                    // Environment.theDisplay3D.update();
 
                     // On met à jour la liste des joueurs présents
                     Environment.theGUI.getGUIPanel().update();

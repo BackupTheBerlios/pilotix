@@ -91,6 +91,18 @@ public class Area implements Transferable {
     public int getNbBalls() {
         return nbBalls;
     }
+    
+    
+    public IterableArray getShips() {
+        return ships;
+    }
+
+    /**
+     * @return le nombre de balles
+     */
+    public IterableArray getBalls() {
+        return balls;
+    }
 
     public void read(MessageHandler mh) throws Exception {
         byte flag = mh.receiveOneByte();
@@ -121,11 +133,11 @@ public class Area implements Transferable {
 
     public void write(MessageHandler mh) throws Exception {
         mh.sendOneByte(Transferable.AREA);
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();)
-            ((Ship) (ships.cursor1next())).write(mh);
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next())
+            ((Ship) (ships.cursor1Get())).write(mh);
 
-        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();)
-            ((Ball) (balls.cursor1next())).write(mh);
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next())
+            ((Ball) (balls.cursor1Get())).write(mh);
         mh.sendOneByte(Transferable.AREA);
     }
 

@@ -98,26 +98,26 @@ public class ServerArea extends Area {
     public void nextFrame() {
 
         //Creation des differents projectils :
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-            ((ServerShip) ships.cursor1next()).commandPilotixElement(balls);
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next()) {
+            ((ServerShip) ships.cursor1Get()).commandPilotixElement(balls);
         }
 
         //Calcule de prochaine trajectoirs des balls sans collisions:
-        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-            ((ServerBall) balls.cursor1next()).computeSpeedFromForces();
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next()) {
+            ((ServerBall) balls.cursor1Get()).computeSpeedFromForces();
         }
 
         //Calcule de prochaine trajectoirs des ships sans collisions:
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-            ((ServerShip) ships.cursor1next()).computeSpeedFromForces();
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next()) {
+            ((ServerShip) ships.cursor1Get()).computeSpeedFromForces();
         }
 
         //modification des trajectoires des ships en prenant en compte les collisions
         // ships/balls     
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-            tmpShip = (ServerShip) ships.cursor1next();
-            for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-                ServerBall tmpBall = (ServerBall) balls.cursor1next();
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next()) {
+            tmpShip = (ServerShip) ships.cursor1Get();
+            for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next()) {
+                ServerBall tmpBall = (ServerBall) balls.cursor1Get();
                 if (tmpBall.getStates() != ServerBall.REMOVE)
                         collideWithBall(tmpShip, tmpBall);
             }
@@ -125,10 +125,10 @@ public class ServerArea extends Area {
 
         //modification des trajectoires en prenant en compte les collisions
         // ships/ships
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-            tmpShip = (ServerShip) ships.cursor1next();
-            for (ships.setCursor2OnFirst(); ships.cursor2hasNext();) {
-                tmpShip2 = (ServerShip) ships.cursor2next();
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next()) {
+            tmpShip = (ServerShip) ships.cursor1Get();
+            for (ships.cursor2OnFirst(); ships.cursor2IsNotNull();ships.cursor2Next()) {
+                tmpShip2 = (ServerShip) ships.cursor2Get();
                 if (tmpShip2.getId() > tmpShip.getId()) {
                     collideWithShip(tmpShip, tmpShip2);
                 }
@@ -137,15 +137,15 @@ public class ServerArea extends Area {
 
         //modification des trajectoires en prenant en compte les collisions
         //Ships/Obstacles et Ships/frontiere externes
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-            tmpShip = (ServerShip) ships.cursor1next();
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next()) {
+            tmpShip = (ServerShip) ships.cursor1Get();
             collideWithBoundary(tmpShip);
             collideWithObstacle(tmpShip);
         }
 
         //devalidation des balls touchant un obstacle ou les frontieres
-        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-            tmpBall = (ServerBall) balls.cursor1next();
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next()) {
+            tmpBall = (ServerBall) balls.cursor1Get();
             if (tmpBall.getStates() != ServerBall.REMOVE) {
                 collideWithBoundary(tmpBall);
                 collideWithObstacle(tmpBall);
@@ -153,13 +153,13 @@ public class ServerArea extends Area {
         }
 
         // affectation des trajectoirs des ships
-        for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-            ((ServerShip) ships.cursor1next()).nextFrame();
+        for (ships.cursor1OnFirst(); ships.cursor1IsNotNull();ships.cursor1Next()) {
+            ((ServerShip) ships.cursor1Get()).nextFrame();
         }
 
         // effacement des Balls ayant touche un mur ou un ship
-        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-            tmpBall = (ServerBall) balls.cursor1next();
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next()) {
+            tmpBall = (ServerBall) balls.cursor1Get();
             if (tmpBall.getStates() == ServerBall.NEW) {
                 System.out.println("Ball " + tmpBall.getId() + " Added !");
                 tmpBall.setStates(ServerBall.ADD);
@@ -176,8 +176,8 @@ public class ServerArea extends Area {
             }
         }
         //      affectation des trajectoirs des Balls survivante
-        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-            ((ServerBall) balls.cursor1next()).nextFrame();
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next()) {
+            ((ServerBall) balls.cursor1Get()).nextFrame();
         }
 
     }

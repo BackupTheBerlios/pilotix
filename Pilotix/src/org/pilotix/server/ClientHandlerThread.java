@@ -63,7 +63,8 @@ public class ClientHandlerThread extends Thread {
                     Information info = new Information();
                     info.read(messageHandler);
                     if (info.code == Information.DECONNECT){
-                        state = WANTTOLEAVE;
+                        //state = WANTTOLEAVE;
+                        state = TOBEKILL;
                         active = false;
                         try {
                             PilotixServer.theIH.giveBackId(ship.getId());

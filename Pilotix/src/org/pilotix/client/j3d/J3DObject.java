@@ -98,6 +98,20 @@ public class J3DObject extends BranchGroup {
         }
         rotationTG.addChild(theObjectShape);
     }
+    
+    
+    public J3DObject(String aShapeURL, Color3f aDynamicColor,Vector position,Angle direction) {
+        this();
+        try {
+            Shape3DHandler shape3DHandler = new Shape3DHandler();
+            theObjectShape = shape3DHandler.getShape3DFromURL(aShapeURL, aDynamicColor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        rotationTG.addChild(theObjectShape);
+        setPosition(position);
+        setDirection(direction);
+    }
 
     
    
@@ -145,5 +159,14 @@ public class J3DObject extends BranchGroup {
     public final void setDirection(Angle angle) {
         rotation.rotZ(-Math.toRadians((double) angle.get()));
         rotationTG.setTransform(rotation);
+    }
+    
+    
+    public void addCamera(J3DCamera aCamera, boolean canRotate) {
+        if (canRotate) {
+            rotationTG.addChild(aCamera);
+        } else {
+            translationTG.addChild(aCamera);
+        }
     }
 }

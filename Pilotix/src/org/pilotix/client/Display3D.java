@@ -19,20 +19,29 @@
 
 package org.pilotix.client;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Canvas3D;
+import javax.media.j3d.GraphicsConfigTemplate3D;
+import javax.media.j3d.Locale;
+import javax.media.j3d.VirtualUniverse;
+import javax.vecmath.Color3f;
+
+import org.pilotix.client.ClientArea.Obstacle;
+import org.pilotix.client.j3d.J3DArea;
+import org.pilotix.client.j3d.J3DBall;
+import org.pilotix.client.j3d.J3DCamera;
+import org.pilotix.client.j3d.J3DMinimap;
+import org.pilotix.client.j3d.J3DObstacle;
+import org.pilotix.client.j3d.J3DShip;
 import org.pilotix.common.Angle;
+import org.pilotix.common.Ball;
+import org.pilotix.common.IterableArray;
 import org.pilotix.common.Ship;
 import org.pilotix.common.Vector;
-import org.pilotix.common.IterableArray;
-import org.pilotix.client.j3d.*;
-
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsConfiguration;
-import javax.media.j3d.GraphicsConfigTemplate3D;
-import javax.media.j3d.Canvas3D;
-import javax.media.j3d.VirtualUniverse;
-import javax.media.j3d.Locale;
-import javax.media.j3d.BranchGroup;
-import javax.vecmath.Color3f;
+import org.pilotix.common.IterableArray.Action;
 
 /**
  * <p>
@@ -57,10 +66,18 @@ public class Display3D {
     private Locale locale = null;
     private IterableArray objectsJ3D = null;
     private int nbMaxObjectsJ3D = 32;
-    private IterableArray ballsJ3D = null;
     private J3DCamera ownShip3DCamera = null;
     private Canvas3D mainCanvas3D = null;
     private Canvas3D minimapCanvas3D = null;
+
+    private IterableArray shipsJ3D = new IterableArray(
+        Environment.theClientArea.getNbMaxShips());
+    private IterableArray ballsJ3D = new IterableArray(
+        Environment.theClientArea.getNbMaxShips());
+    private IterableArray obstaclesJ3D = new IterableArray(
+        Environment.theClientArea.getNbMaxShips());
+
+    private J3DMinimap minimapJ3D;
 
     /**
      * Crée un VirtualUniverse, une Locale, et deux Canvas3D. Le premier canvas
@@ -74,9 +91,8 @@ public class Display3D {
         locale = new Locale(universe);
 
         GraphicsConfigTemplate3D template = new GraphicsConfigTemplate3D();
-        GraphicsConfiguration config = GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getDefaultScreenDevice()
-                .getBestConfiguration(template);
+        GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getBestConfiguration(
+            template);
         mainCanvas3D = new Canvas3D(config);
         minimapCanvas3D = new Canvas3D(config);
 
@@ -111,19 +127,21 @@ public class Display3D {
         // Ajout de la minimap dans objectsJ3D
         float xMax = Environment.theClientArea.getXMax();
         float yMax = Environment.theClientArea.getYMax();
-        objectsJ3D.add(nbMaxObjectsJ3D-2,
-                       new J3DMinimap(minimapCanvas3D,xMax / 2.0f, yMax / 2.0f));
-        locale.addBranchGraph((J3DMinimap) objectsJ3D.get(nbMaxObjectsJ3D-2));
+        objectsJ3D.add(nbMaxObjectsJ3D - 2, new J3DMinimap(
+            minimapCanvas3D,
+            xMax / 2.0f,
+            yMax / 2.0f));
+        locale.addBranchGraph((J3DMinimap) objectsJ3D.get(nbMaxObjectsJ3D - 2));
 
         // Ajuste la taille du Canvas3D de la minimap pour qu'on voit tout
         double w = minimapCanvas3D.getWidth();
         minimapCanvas3D.setSize((int) w, (int) (w * (yMax / xMax)));
 
         // Ajout du J3DArea dans objectsJ3D
-        objectsJ3D.add(nbMaxObjectsJ3D-1,
-                       new J3DArea(Environment.theClientArea.getXMax(),
-                                   Environment.theClientArea.getYMax()));
-        locale.addBranchGraph((BranchGroup) objectsJ3D.get(nbMaxObjectsJ3D-1));
+        objectsJ3D.add(nbMaxObjectsJ3D - 1, new J3DArea(
+            Environment.theClientArea.getXMax(),
+            Environment.theClientArea.getYMax()));
+        locale.addBranchGraph((BranchGroup) objectsJ3D.get(nbMaxObjectsJ3D - 1));
 
         // Ajout des obstacles dans objectsJ3D (définis dans ClientArea)
         Vector upLeftCorner = null;
@@ -132,19 +150,24 @@ public class Display3D {
         int height = 0;
         String topTexture = null;
         String sideTexture = null;
-        for (int i = 0; i < Environment.theClientArea.getObstacles().length; i++) {
+        for (int i = 0; i < Environment.theClientArea.getObstacles().size(); i++) {
             upLeftCorner = Environment.theClientArea.getObstacle(i).upLeftCorner;
             downRightCorner = Environment.theClientArea.getObstacle(i).downRightCorner;
             topTexture = Environment.theClientArea.getObstacle(i).topTexture;
             sideTexture = Environment.theClientArea.getObstacle(i).sideTexture;
             altitude = Environment.theClientArea.getObstacle(i).altitude;
             height = Environment.theClientArea.getObstacle(i).height;
-            objectsJ3D.add(Environment.theClientArea.getNbMaxShips()+i,
-                           new J3DObstacle(upLeftCorner, downRightCorner,
-                                           height, altitude,
-                                           topTexture, sideTexture));
-            locale.addBranchGraph((BranchGroup) objectsJ3D.get(
-                        Environment.theClientArea.getNbMaxShips() + i));
+            objectsJ3D.add(
+                Environment.theClientArea.getNbMaxShips() + i,
+                new J3DObstacle(
+                    upLeftCorner,
+                    downRightCorner,
+                    height,
+                    altitude,
+                    topTexture,
+                    sideTexture));
+            locale.addBranchGraph((BranchGroup) objectsJ3D.get(Environment.theClientArea.getNbMaxShips()
+                + i));
         }
     }
 
@@ -153,10 +176,10 @@ public class Display3D {
      */
     public void reset() {
         // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
-        if (!objectsJ3D.isNull(nbMaxObjectsJ3D-2)) {
+        if (!objectsJ3D.isNull(nbMaxObjectsJ3D - 2)) {
             System.out.println("[Display3D.reset()] Suppression de la J3DMinimap");
-            ((J3DMinimap) objectsJ3D.get(nbMaxObjectsJ3D-2)).getCamera().getView()
-                    .removeCanvas3D(minimapCanvas3D);
+            ((J3DMinimap) objectsJ3D.get(nbMaxObjectsJ3D - 2)).getCamera().getView().removeCanvas3D(
+                minimapCanvas3D);
         }
         if (ownShip3DCamera != null) {
             ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
@@ -164,15 +187,15 @@ public class Display3D {
         }
 
         /*
-        LinkedList tmplist = new LinkedList(objectsJ3D.values());
-        for (int i = 0; i < tmplist.size(); i++) {
-            if (Environment.debug) {
-                System.out.println("[Display3D.reset] locale -= "
-                        + tmplist.get(i).toString());
-            }
-            locale.removeBranchGraph((BranchGroup) tmplist.get(i));
-        }
-        */
+         LinkedList tmplist = new LinkedList(objectsJ3D.values());
+         for (int i = 0; i < tmplist.size(); i++) {
+         if (Environment.debug) {
+         System.out.println("[Display3D.reset] locale -= "
+         + tmplist.get(i).toString());
+         }
+         locale.removeBranchGraph((BranchGroup) tmplist.get(i));
+         }
+         */
         objectsJ3D.clear();
         ballsJ3D.clear();
     }
@@ -211,10 +234,10 @@ public class Display3D {
     private void addShip(int aShipId, Vector aPosition, Angle aDirection,
             int aAltitude) {
         if (objectsJ3D.isNull(aShipId)) {
-            Color3f thisShipColor = Environment.clientConfig
-                    .getColorFromId(aShipId);
-            objectsJ3D.add(aShipId,
-                           new J3DShip("wipeout.pilotix.shape.xml", thisShipColor));
+            Color3f thisShipColor = Environment.clientConfig.getColorFromId(aShipId);
+            objectsJ3D.add(aShipId, new J3DShip(
+                "wipeout.pilotix.shape.xml",
+                thisShipColor));
 
             // Si c'est le vaisseau du joueur qu'on vient de créer, on lui
             // ajoute une caméra
@@ -231,11 +254,10 @@ public class Display3D {
             // l'état du vaisseau
             setShip(aShipId, aPosition, aDirection, aAltitude, Ship.ADD);
         } else {
-            System.err
-                    .println("[Display3D.addShip] ALERTE : utilisez setShip() et non addShip()"
-                            + " car le vaisseau dont l'id est "
-                            + aShipId
-                            + " existe déjà dans la liste objectsJ3D.");
+            System.err.println("[Display3D.addShip] ALERTE : utilisez setShip() et non addShip()"
+                + " car le vaisseau dont l'id est "
+                + aShipId
+                + " existe déjà dans la liste objectsJ3D.");
             setShip(aShipId, aPosition, aDirection, aAltitude, Ship.NULL);
         }
     }
@@ -250,8 +272,8 @@ public class Display3D {
     private void removeShip(int aShipId) {
         if (aShipId == Environment.theClientArea.getOwnShipId()) {
             // Si le vaisseau est celui du joueur, on retire la caméra
-            ((J3DShip) objectsJ3D.get(Environment.theClientArea.getOwnShipId()))
-                       .getCamera().getView().removeCanvas3D(mainCanvas3D);
+            ((J3DShip) objectsJ3D.get(Environment.theClientArea.getOwnShipId())).getCamera().getView().removeCanvas3D(
+                mainCanvas3D);
         }
         // On retire une branche de la locale.
         locale.removeBranchGraph((BranchGroup) objectsJ3D.get(aShipId));
@@ -284,7 +306,7 @@ public class Display3D {
             // FAIRE PLUS TARD
         } else {
             System.err.println("[Display3D.setShip] ERREUR: ship[" + aShipId
-                    + "]==null");
+                + "]==null");
         }
     }
 
@@ -302,17 +324,19 @@ public class Display3D {
         if (!Environment.theClientArea.shipIsNull(aShipId)) {
             if (!objectsJ3D.isNull(aShipId)) {
                 // ...et le J3DShip non plus, on met simplement à jour la vue 3D
-                setShip(aShipId,
-                        Environment.theClientArea.getShipPosition(aShipId),
-                        Environment.theClientArea.getShipDirection(aShipId),
-                        100,
-                        Environment.theClientArea.getShipStates(aShipId));
+                setShip(
+                    aShipId,
+                    Environment.theClientArea.getShipPosition(aShipId),
+                    Environment.theClientArea.getShipDirection(aShipId),
+                    100,
+                    Environment.theClientArea.getShipStates(aShipId));
             } else {
                 // ...sinon si seul le J3DShip est null, on ajoute ce vaisseau
-                addShip(aShipId,
-                        Environment.theClientArea.getShipPosition(aShipId),
-                        Environment.theClientArea.getShipDirection(aShipId),
-                        100);
+                addShip(
+                    aShipId,
+                    Environment.theClientArea.getShipPosition(aShipId),
+                    Environment.theClientArea.getShipDirection(aShipId),
+                    100);
             }
         } else if (!objectsJ3D.isNull(aShipId)) {
             // Sinon si le ship est null mais pas le shipJ3D,
@@ -333,27 +357,25 @@ public class Display3D {
      */
     private void updateBall(int aBallId) {
         // Si la balle dans ClientArea n'est pas nulle...
-        if (! Environment.theClientArea.ballIsNull(aBallId)) {
+        if (!Environment.theClientArea.ballIsNull(aBallId)) {
             if (!ballsJ3D.isNull(aBallId)) {
                 // ...et le J3DBall non plus, on met simplement à jour la vue 3D
                 Environment.theClientArea.getBall(aBallId).nextFrame();
-                ((J3DBall) ballsJ3D.get(aBallId)).setPosition(
-                      Environment.theClientArea.getBallPosition(aBallId));
+                ((J3DBall) ballsJ3D.get(aBallId)).setPosition(Environment.theClientArea.getBallPosition(aBallId));
             } else {
                 // ...sinon si seule la J3DBall est nulle, on ajoute cette balle
-                ballsJ3D.add(aBallId,
-                        new J3DBall(
-                            Environment.theClientArea.getBallPosition(aBallId),
-                            100));
+                ballsJ3D.add(aBallId, new J3DBall(
+                    Environment.theClientArea.getBallPosition(aBallId),
+                    100));
                 locale.addBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
             }
         } else if (!ballsJ3D.isNull(aBallId)) {
-                // Sinon si la balle est nulle mais pas la J3DBall,
-                // il faut faire disparaître la J3DBall.
-                // On retire une branche de la locale.
-                locale.removeBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
-                // On retire la balle de la liste des balles
-                ballsJ3D.remove(aBallId);
+            // Sinon si la balle est nulle mais pas la J3DBall,
+            // il faut faire disparaître la J3DBall.
+            // On retire une branche de la locale.
+            locale.removeBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
+            // On retire la balle de la liste des balles
+            ballsJ3D.remove(aBallId);
         }
         // Si la balle est nulle dans ClientArea et dans ballsJ3D,
         // on ne fait rien
@@ -372,4 +394,137 @@ public class Display3D {
             updateShip(i);
         }
     }
+
+    public void init2() {
+
+        float xMax = Environment.theClientArea.getXMax();
+        float yMax = Environment.theClientArea.getYMax();
+
+        minimapJ3D = new J3DMinimap(minimapCanvas3D, xMax / 2.0f, yMax / 2.0f);
+
+        locale.addBranchGraph(minimapJ3D);
+
+        // Ajuste la taille du Canvas3D de la minimap pour qu'on voit tout
+        double w = minimapCanvas3D.getWidth();
+        minimapCanvas3D.setSize((int) w, (int) (w * (yMax / xMax)));
+
+        // Ajout du J3DArea dans objectsJ3D
+        locale.addBranchGraph(new J3DArea(xMax, yMax));
+
+        // Ajout des obstacles dans objectsJ3D (définis dans ClientArea)
+        J3DObstacle tmpObstacleJ3D;
+        Obstacle tmpObstacle;
+        IterableArray obstacles = Environment.theClientArea.getObstacles();
+        for (int i = 0; i < obstacles.size(); i++) {
+            tmpObstacle = (Obstacle) obstacles.get(i);
+            tmpObstacleJ3D = new J3DObstacle(
+                tmpObstacle.upLeftCorner,
+                tmpObstacle.downRightCorner,
+                tmpObstacle.height,
+                tmpObstacle.altitude,
+                tmpObstacle.topTexture,
+                tmpObstacle.sideTexture);
+            obstaclesJ3D.add(i, tmpObstacleJ3D);
+            locale.addBranchGraph(tmpObstacleJ3D);
+        }
+
+        ownShip3DCamera = new J3DCamera(mainCanvas3D);
+        ownShip3DCamera.setCoordinates(0.0f, 0.0f, 150.0f);
+    }
+
+    /**
+     * Réinitialise ce Display3D.
+     */
+    public void reset2() {
+        // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
+        if (minimapJ3D != null) {
+            //System.out.println("[Display3D.reset()] Suppression de la J3DMinimap");
+            minimapJ3D.getCamera().getView().removeCanvas3D(minimapCanvas3D);
+        }
+        if (ownShip3DCamera != null) {
+            ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
+            ownShip3DCamera = null;
+        }
+
+        obstaclesJ3D.clear();
+        shipsJ3D.clear();
+        ballsJ3D.clear();
+    }
+
+    /**
+     * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
+     * qu'il apparaît dans ClientArea au moment de l'appel. Elle est appelée par
+     * ClientMainLoopThread.
+     * 
+     * parcours des ships et mise à jours des shipsJ3D
+     * 
+     * devrait remplacer update()
+     */
+
+    public void update2() {
+        //      Mise a jour des Ships
+        IterableArray ships = Environment.theClientArea.getShips();
+
+        ships.copyInto(shipsJ3D, actionShips);
+        //      Mise a jour des 
+        IterableArray balls = Environment.theClientArea.getBalls();
+
+        balls.copyInto(ballsJ3D, actionBalls);
+
+    }
+
+    Action actionShips = new Action() {
+
+        public Object add(Object aShip) {
+            Ship ship = (Ship) aShip;
+            System.out.println("[Display3D] New Ship id="+ship.getId());
+
+            J3DShip shipJ3D = new J3DShip(
+                "wipeout.pilotix.shape.xml",
+                Environment.clientConfig.getColorFromId(ship.getId()));
+            shipJ3D.setPosition(ship.getPosition());
+            shipJ3D.setDirection(ship.getDirection());
+
+            /*J3DObject shipJ3D = new J3DObject(
+             "wipeout.pilotix.shape.xml",
+             Environment.clientConfig.getColorFromId(ship.getId()),
+             ship.getPosition(),
+             ship.getDirection());*/
+
+            if (ship.getId() == Environment.theClientArea.getOwnShipId()) {
+                shipJ3D.addCamera(ownShip3DCamera);
+            }
+            locale.addBranchGraph(shipJ3D);
+            return shipJ3D;
+        };
+
+        public void update(Object modele, Object modifie) {
+            ((J3DShip) modifie).setPosition(((Ship) modele).getPosition());
+            ((J3DShip) modifie).setDirection(((Ship) modele).getDirection());
+        }
+        
+        public void remove(Object object){
+            locale.removeBranchGraph((J3DShip)object);
+            System.out.println("[Display3D] Remove Ship");
+        }
+    };
+
+    Action actionBalls = new Action() {
+
+        public Object add(Object aBall) {
+            Ball ball = (Ball) aBall;
+            System.out.println("[Display3D] Add Ball id="+ball.getId());
+            J3DBall ballJ3D = new J3DBall(ball.getPosition(), 10);
+            locale.addBranchGraph(ballJ3D);
+            return ballJ3D;
+        };
+
+        public void update(Object modele, Object modifie) {
+            ((J3DBall) modifie).setPosition(((Ball) modele).getPosition());
+        }
+        public void remove(Object object){
+            locale.removeBranchGraph((J3DBall)object);
+            System.out.println("[Display3D] Remove Ball");
+        }
+    };
 }

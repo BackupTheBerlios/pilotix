@@ -57,7 +57,7 @@ import org.w3c.dom.NodeList;
  */
 public class ClientArea extends org.pilotix.common.Area {
 
-    private Obstacle[] obstacles;
+    private IterableArray obstacles;
     private int ownShipId;
     private float xMax = 100.00f; // Valeur par défaut, écrasée par setArea()
     private float yMax = 100.00f; // Valeur par défaut, écrasée par setArea()
@@ -79,19 +79,19 @@ public class ClientArea extends org.pilotix.common.Area {
     public void init() {
         // Réinitialisation de la liste des Ships
         /*
-        for (int i = 0; i < ships.length; i++) {
-            ships[i] = null;
-        }
-        */
+         for (int i = 0; i < ships.length; i++) {
+         ships[i] = null;
+         }
+         */
         ships.clear();
         balls.clear();
         this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE
-                                                 // ENVOYE PAR LE SERVEUR
+        // ENVOYE PAR LE SERVEUR
         if (Environment.debug) {
-            System.out
-                    .println("[ClientArea.init] Appel imminent de Display3D.init()");
+            System.out.println("[ClientArea.init] Appel imminent de Display3D.init()");
         }
-        Environment.theDisplay3D.init();
+        Environment.theDisplay3D.init2();
+        //        Environment.theDisplay3D.init();
     }
 
     /**
@@ -102,10 +102,10 @@ public class ClientArea extends org.pilotix.common.Area {
         ships.clear();
         balls.clear();
         if (Environment.debug) {
-            System.out
-                    .println("[ClientArea.reset] Appel imminent de Display3D.reset()");
+            System.out.println("[ClientArea.reset] Appel imminent de Display3D.reset()");
         }
-        Environment.theDisplay3D.reset();
+        Environment.theDisplay3D.reset2();
+        //        Environment.theDisplay3D.reset();
     }
 
     /**
@@ -116,9 +116,9 @@ public class ClientArea extends org.pilotix.common.Area {
      *            le nom du fichier ".pilotix.area.xml" à utiliser
      */
     public void setArea(String aAreaFile) {
-        Document document = Environment.theXMLHandler
-                .getDocumentFromURL(Environment.theRL.getResource(
-                        ResourceLocator.AREA, aAreaFile));
+        Document document = Environment.theXMLHandler.getDocumentFromURL(Environment.theRL.getResource(
+            ResourceLocator.AREA,
+            aAreaFile));
         Element rootNode = null;
         try {
             rootNode = document.getDocumentElement();
@@ -128,32 +128,34 @@ public class ClientArea extends org.pilotix.common.Area {
 
         // Définition des limites externes de l'aire de jeu
         xMax = Integer.parseInt(rootNode.getAttribute("width"))
-                * Environment.u3d;
+            * Environment.u3d;
         yMax = Integer.parseInt(rootNode.getAttribute("height"))
-                * Environment.u3d;
+            * Environment.u3d;
 
         // Définition des limites internes de l'aire de jeu (obstacles)
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
-        obstacles = new Obstacle[theObstacles.getLength()];
+        obstacles = new IterableArray(theObstacles.getLength());
         Element tmpXmlObstacle = null;
         for (int i = 0; i < theObstacles.getLength(); i++) {
             tmpXmlObstacle = (Element) theObstacles.item(i);
-            obstacles[i] = new Obstacle(new Vector(Integer
-                    .parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
-                    Integer.parseInt(tmpXmlObstacle
-                            .getAttribute("upLeftCornerY"))), new Vector(
-                    Integer.parseInt(tmpXmlObstacle
-                            .getAttribute("downRightCornerX")), Integer
-                            .parseInt(tmpXmlObstacle
-                                    .getAttribute("downRightCornerY"))),
+            obstacles.add(
+                i,
+                new Obstacle(
+                    new Vector(
+                        Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
+                        Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerY"))),
+                    new Vector(
+                        Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerX")),
+                        Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerY"))),
                     Integer.parseInt(tmpXmlObstacle.getAttribute("height")),
                     Integer.parseInt(tmpXmlObstacle.getAttribute("altitude")),
-                    tmpXmlObstacle.getAttribute("topTexture"), tmpXmlObstacle
-                            .getAttribute("sideTexture"));
+                    tmpXmlObstacle.getAttribute("topTexture"),
+                    tmpXmlObstacle.getAttribute("sideTexture")));
         }
     }
 
     public class Obstacle {
+
         public Vector upLeftCorner;
         public Vector downRightCorner;
         public int altitude;
@@ -177,7 +179,7 @@ public class ClientArea extends org.pilotix.common.Area {
      *
      * @return le tableau des obstacles
      */
-    public Obstacle[] getObstacles() {
+    public IterableArray getObstacles() {
         return obstacles;
     }
 
@@ -190,12 +192,18 @@ public class ClientArea extends org.pilotix.common.Area {
      *         pas celui d'un vaisseau
      */
     public Obstacle getObstacle(int i) {
-        if (i > obstacles.length) {
-            return null;
-        } else {
-            return (Obstacle) obstacles[i];
-        }
+        /*if (i > obstacles.length) {
+         return null;
+         } else {
+         return (Obstacle) obstacles[i];
+         }*/
+
+        return (Obstacle) obstacles.get(i);
     }
+
+    /*public IterrableArray getObstacles2() {
+     return obstacles;
+     }*/
 
     /**
      * Renvoie la position de la balle dont le numéro est fourni.
@@ -237,9 +245,8 @@ public class ClientArea extends org.pilotix.common.Area {
      * @return vrai si la balle existe, faux sinon
      */
     public final boolean ballIsNull(int aBallId) {
-            return balls.get(aBallId) == null;
+        return balls.get(aBallId) == null;
     }
-
 
     /**
      * Teste si le vaisseau indiqué existe.
@@ -261,7 +268,7 @@ public class ClientArea extends org.pilotix.common.Area {
      * @return la position du vaisseau
      */
     public final Vector getShipPosition(int aShipId) {
-        return ((Ship)ships.get(aShipId)).getPosition();
+        return ((Ship) ships.get(aShipId)).getPosition();
         //return ships[aShipId].getPosition();
     }
 
@@ -274,7 +281,7 @@ public class ClientArea extends org.pilotix.common.Area {
      * @return la direction du vaisseau
      */
     public final Angle getShipDirection(int aShipId) {
-        return ((Ship)ships.get(aShipId)).getDirection();
+        return ((Ship) ships.get(aShipId)).getDirection();
         //return ships[aShipId].getDirection();
     }
 
@@ -286,7 +293,7 @@ public class ClientArea extends org.pilotix.common.Area {
      * @return l'état du vaisseau
      */
     public final int getShipStates(int aShipId) {
-        return ((Ship)ships.get(aShipId)).getStates();
+        return ((Ship) ships.get(aShipId)).getStates();
         //return ships[aShipId].getStates();
     }
 
@@ -306,12 +313,12 @@ public class ClientArea extends org.pilotix.common.Area {
      *
      * @return le tableau des vaisseaux
      */
-     /*
-    public Ship[] getShips() {
-        return ships;
-    }
-    */
-    public IterableArray getShips(){
+    /*
+     public Ship[] getShips() {
+     return ships;
+     }
+     */
+    public IterableArray getShips() {
         return ships;
     }
 
@@ -359,5 +366,10 @@ public class ClientArea extends org.pilotix.common.Area {
      */
     public final float getYMax() {
         return yMax;
+    }
+
+    public void nextFrame() {
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull(); balls.cursor1Next())
+            ((Ball) balls.cursor1Get()).nextFrame();
     }
 }

@@ -47,9 +47,9 @@ public class ServerMainLoopThread extends Thread {
             case ClientHandlerThread.TOBEKILL:
                 //theShips.remove(CHT.getShip());
                 PilotixServer.theSA.removeShip(CHT.getShip());
-                Object toto = CHT;
-                PilotixServer.theCHTs.remove(toto);
-                System.out.println("[ServerMainLoopThread] is Now Running with "
+                //Object toto = CHT;
+                PilotixServer.theCHTs.remove(CHT);
+                System.out.println("[ServerMainLoopThread]Running with "
                     + PilotixServer.theCHTs.size() + " player(s) ");
                 break;
             }
@@ -69,7 +69,7 @@ public class ServerMainLoopThread extends Thread {
             PilotixServer.theNewCHTs.clear();
 
             newClientHandler = false;
-            System.out.println("[ServerMainLoopThread] is Now Running with "
+            System.out.println("[ServerMainLoopThread]Running with "
                 + PilotixServer.theCHTs.size() + " player(s) ");
 
         }
