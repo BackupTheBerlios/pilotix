@@ -119,7 +119,7 @@
       <footer><![CDATA[<a href="http://www.pilotix.org/"><img src="http://localhost/pilotix.org/include/images/logopilotix-petit-avec-fleche.png"></a><br>Pilotix.org]]></footer>
       <bottom><![CDATA[<i>Pilotix.org <a href="http://www.pilotix.org/"><img src="http://localhost/pilotix.org/include/images/url.gif"></a> ${jaroj} - Stilisto : Grégoire Colbert</i>]]></bottom>
       -->
-      <bottom><![CDATA[<i><a href="http://www.pilotix.org/"><img src="http://www.pilotix.org/include/images/logopilotix-petit-avec-fleche.png"></a> Pilotix.org ${jaroj} - Stilisto : Grégoire Colbert</i>]]></bottom>
+      <bottom><![CDATA[<em><a href="http://www.pilotix.org/" target="_top"><img src="http://www.pilotix.org/include/images/logopilotix-petit-avec-fleche.png"></a> Pilotix.org ${jaroj} - Stilisto : Grégoire Colbert</em>]]></bottom>
       <tag name=".todo" scope="all" description="À faire&#160;:" />
       <!--
       <link offline="true" href="http://java.sun.com/products/jdk/1.4.1/docs/api/" packagelistLoc="C:\tmp"/>
