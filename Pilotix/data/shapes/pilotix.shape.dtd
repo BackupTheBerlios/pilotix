@@ -12,6 +12,4 @@
 
 <!ELEMENT FaceList (Face*)>
 <!ATTLIST FaceList Id        CDATA  #REQUIRED
-                   R         CDATA  #REQUIRED
-                   G         CDATA  #REQUIRED
-                   B         CDATA  #REQUIRED>
+                   rgb       CDATA  #REQUIRED>
