@@ -116,30 +116,6 @@ public class ClientMainLoopThread extends Thread {
                     /* Enfin, on envoie la commande au serveur */
                     clientMessageHandler.sendCOMMANDMessage(tmpCommand);
                     break;
-                    /*case MessageHandler.SHIP:
-                    
-                     * tmpShip = clientMessageHandler.getShip(); // On écrit le
-                     * vaisseau reçu dans ClientArea
-                     * Environment.theClientArea.setShip(tmpShip);
-                     *  // On met à jour l'affichage 3D
-                     * Environment.theDisplay3D.updateShip(tmpShip.getId());
-                     *  // On met à jour la liste des joueurs présents dans
-                     * GUIPanel
-                     * Environment.theGUI.getGUIPanel().updatePlayer(tmpShip.getId());
-                     *  // Puis on prend en compte les actions du joueur depuis
-                     * la dernière frame tmpCommand.setDirection(new
-                     * Angle(Environment.theControls.getMouseVariation().x));
-                     * int[] aks = Environment.theControls.getKeyStatus(); if
-                     * (aks[Environment.theControls.keyAccel] ==
-                     * Controls.PRESSED) { if (Environment.debug) {
-                     * System.out.println("Accelerer"); }
-                     * tmpCommand.setAcceleration(2); } else {
-                     * tmpCommand.setAcceleration(0); }
-                     * tmpCommand.setAccessory(0);
-                     * tmpCommand.setProjectileId(0);
-                     *  // Enfin, on envoie la commande au serveur
-                     
-                    break;*/
                 case MessageHandler.OWNSHIPINFO:
                     int id = clientMessageHandler.getOwnShipId();
                     if (Environment.debug) {
