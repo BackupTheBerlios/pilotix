@@ -38,12 +38,12 @@ public class MessageHandler {
     private OutputStream output;
 
     //  message type for server to client
-    public static final byte FRAMEINFO = 4;
-    public static final byte OWNSHIPINFO = 9;
+    //public static final byte FRAMEINFO = 4;
+    //public static final byte OWNSHIPINFO = 9;
 
     // message type for client to server
-    public static final byte COMMAND = 10;
-    public static final byte SESSION = 11;
+    //public static final byte COMMAND = 10;
+    //public static final byte SESSION = 11;
 
     private byte firstByte;
     private byte firstByteRest;
@@ -107,14 +107,14 @@ public class MessageHandler {
 
         Object result;
         switch (messageType) {
-        case FRAMEINFO:
+        case Message.AREA:
             nbShip = firstByteRest;
             getByteFromInput(message, 1, nbShip * 6);
             Area area = new Area();
             area.setFromBytes(message);
             result = (Object) area;
             break;
-        case COMMAND:           
+        case Message.COMMAND:           
             getByteFromInput(message, 1, 2);            
             //Command aCommand = new Command();
             command.setFromBytes(message);
@@ -145,7 +145,7 @@ public class MessageHandler {
         //System.out.println("[nb ship]"+(byte)(message[0] & 15));
 
         switch (messageType) {
-        case FRAMEINFO:
+        case Message.AREA:
             nbShip = firstByteRest;
             getByteFromInput(message, 1, nbShip * 6);
             break;
@@ -165,7 +165,7 @@ public class MessageHandler {
          direction.set(deg * 2);
          ship.setDirection(direction);
          break;*/
-        case COMMAND:
+        case Message.COMMAND:
             command.setAcceleration(firstByteRest);
             getByteFromInput(message, 0, 2);
             //getByteFromInput(message, 0, 3);
@@ -175,10 +175,10 @@ public class MessageHandler {
             command.setProjectileId((message[1] & 15));
             //command.setProjectileId((message[2] & 15));
             break;
-        case OWNSHIPINFO:
+        case Message.INFO:
             ownShipId = firstByteRest;
             break;
-        case SESSION:
+        case Message.SESSION:
             sessionCode = firstByteRest;
             break;
         default:
@@ -216,7 +216,7 @@ public class MessageHandler {
 
     public void sendCOMMANDMessage(Command aCommand) throws Exception {
         message[0] = 0;
-        message[0] = (byte) (COMMAND << 4);
+        message[0] = (byte) (Message.COMMAND << 4);
         message[0] |= (byte) aCommand.getAcceleration();
         message[1] = (byte) (aCommand.getDirection().get() / 3);
         message[2] = 0;
@@ -227,14 +227,14 @@ public class MessageHandler {
 
     public void sendOWNSHIPINFOMessage(int ownShipId) throws Exception {
         message[0] = 0;
-        message[0] = (byte) (OWNSHIPINFO << 4);
+        message[0] = (byte) (Message.INFO << 4);
         message[0] |= (byte) ownShipId;
         output.write(message, 0, 1);
     }
 
     public void sendSESSIONMessage(int aSessionCode) throws Exception {
         message[0] = 0;
-        message[0] = (byte) (SESSION << 4);
+        message[0] = (byte) (Message.SESSION << 4);
         message[0] |= (byte) aSessionCode;
         output.write(message, 0, 1);
     }

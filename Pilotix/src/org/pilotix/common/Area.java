@@ -79,7 +79,7 @@ public class Area implements Message {
                         
         byte[] tmp;
         byteCoded[0] = 0;
-        byteCoded[0] = (byte) (MessageHandler.FRAMEINFO << 4);
+        byteCoded[0] = (byte) (Message.AREA << 4);
         byteCoded[0] |= (byte) nbShips;
         lengthInByte = 1;
        

@@ -59,10 +59,10 @@ public class ClientHandlerThread extends Thread {
         while (active) {
             try {
                 switch (messageHandler.receiveMessage()) {
-                case MessageHandler.COMMAND:
+                case Message.COMMAND:
                     ship.addCommand(messageHandler.getCommand());
                     break;
-                case MessageHandler.SESSION:
+                case Message.SESSION:
                     state = WANTTOLEAVE;
                     active = false;
                     try {

@@ -132,7 +132,7 @@ public class ServerArea extends Area{
     public byte[] getAsBytes() {
         byte[] tmp;
         byteCoded[0] = 0;
-        byteCoded[0] = (byte) (MessageHandler.FRAMEINFO << 4);
+        byteCoded[0] = (byte) (Message.AREA << 4);
         byteCoded[0] |= (byte) theShips.size();
         lengthInByte = 1;
         for (int i = 0; i < theShips.size(); i++) {

@@ -24,7 +24,6 @@ import org.pilotix.client.Environment;
 import org.pilotix.client.ResourceLocator;
 import com.sun.j3d.utils.geometry.Box;
 import javax.media.j3d.Appearance;
-import java.net.URL;
 import com.sun.j3d.utils.image.TextureLoader;
 import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Texture2D;

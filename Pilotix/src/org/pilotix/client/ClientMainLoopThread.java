@@ -22,6 +22,7 @@ package org.pilotix.client;
 import org.pilotix.common.Angle;
 import org.pilotix.common.Command;
 import org.pilotix.common.MessageHandler;
+import org.pilotix.common.Message;
 import org.pilotix.common.Ship;
 import java.net.Socket;
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class ClientMainLoopThread extends Thread {
             }
             while (!quit) {
                 switch (clientMessageHandler.receiveMessage()) {
-                case MessageHandler.FRAMEINFO:
+                case Message.AREA:
 
                     // On écrit le vaisseau reçu dans ClientArea
                     Environment.theClientArea.setFromBytes(clientMessageHandler
@@ -117,7 +118,7 @@ public class ClientMainLoopThread extends Thread {
                     //clientMessageHandler.sendCOMMANDMessage(tmpCommand);
                     clientMessageHandler.send(tmpCommand);
                     break;
-                case MessageHandler.OWNSHIPINFO:
+                case Message.INFO:
                     int id = clientMessageHandler.getOwnShipId();
                     if (Environment.debug) {
                         System.out
