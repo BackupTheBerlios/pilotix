@@ -31,11 +31,11 @@ public class IdHandler {
         tab = new boolean[nbMaxId];
     }
 
-    public synchronized void needToWait() throws InterruptedException {
+    /*public synchronized void needToWait() throws InterruptedException {
         if (nbMaxId == nbId) {
             wait();
         }
-    }
+    }*/
 
     public synchronized int getId() {
         int i = 0;
