@@ -27,8 +27,7 @@ public class ClockerThread extends Thread {
     public ClockerThread(int fps, ServerMainLoopThread aServerMainLoopThread)
             throws Exception {
         framePerSecond = fps;
-        System.out.println("[ClockerThread] is Cloking to " + framePerSecond
-                + " Frame Per Second");
+        System.out.println("[ClockerThread] Frames/s = "+framePerSecond);
         serverMainLoopThread = aServerMainLoopThread;
     }
 
@@ -40,7 +39,6 @@ public class ClockerThread extends Thread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            ;
         }
     }
 }
