@@ -116,8 +116,8 @@ public class ClientMainLoopThread extends Thread {
                     /* Enfin, on envoie la commande au serveur */
                     clientMessageHandler.sendCOMMANDMessage(tmpCommand);
                     break;
-                case MessageHandler.SHIP:
-                    /*
+                    /*case MessageHandler.SHIP:
+                    
                      * tmpShip = clientMessageHandler.getShip(); // On écrit le
                      * vaisseau reçu dans ClientArea
                      * Environment.theClientArea.setShip(tmpShip);
@@ -138,8 +138,8 @@ public class ClientMainLoopThread extends Thread {
                      * tmpCommand.setAccessory(0);
                      * tmpCommand.setProjectileId(0);
                      *  // Enfin, on envoie la commande au serveur
-                     */
-                    break;
+                     
+                    break;*/
                 case MessageHandler.OWNSHIPINFO:
                     int id = clientMessageHandler.getOwnShipId();
                     if (Environment.debug) {

@@ -36,16 +36,11 @@ public class MessageHandler {
 
     private InputStream input;
     private OutputStream output;
-    // message type for serveur to client
-    public static final byte BALL = 1;
-    public static final byte BONUS = 2;
-    public static final byte BULLET = 3;
-    public static final byte FRAMEINFO = 4;
-    public static final byte MINE = 5;
-    public static final byte ROCKET = 6;
-    public static final byte SHIP = 7;
-    public static final byte SHIELDWALL = 8;
+
+    //  message type for server to client
+    public static final byte FRAMEINFO = 4;   
     public static final byte OWNSHIPINFO = 9;
+    
     // message type for client to server
     public static final byte COMMAND = 10;
     public static final byte SESSION = 11;
@@ -60,7 +55,7 @@ public class MessageHandler {
 
     private byte frameInfoCode;
 
-    private Ship ship;
+    //private Ship ship;
     private Command command;
     private int ownShipId;
     private int sessionCode;
@@ -75,7 +70,7 @@ public class MessageHandler {
         output = aSocket.getOutputStream();
         message = new byte[100];
         direction = new Angle(0);
-        ship = new Ship();
+        //ship = new Ship();
         command = new Command();
     }
 
@@ -113,7 +108,7 @@ public class MessageHandler {
             nbShip = firstByteRest;
             getByteFromInput(message, 1, nbShip * 6);
             break;
-        case SHIP:
+        /*case SHIP:
             ship.setId(firstByteRest);
             getByteFromInput(message, 0, 1);
             ship.setStates((byte) ((message[0] & 240) >> 4));
@@ -128,7 +123,7 @@ public class MessageHandler {
             }
             direction.set(deg * 2);
             ship.setDirection(direction);
-            break;
+            break;*/
         case COMMAND:
             command.setAcceleration(firstByteRest);
             getByteFromInput(message, 0, 3);
@@ -156,7 +151,7 @@ public class MessageHandler {
      * anFrameInfoCode; output.write(message,0,1);
      */
 
-    public void sendSHIPMessage(Ship aShip) throws Exception {
+    /*public void sendSHIPMessage(Ship aShip) throws Exception {
         message[0] = 0;
         message[0] = (byte) (SHIP << 4);
         message[0] |= (byte) aShip.getId();
@@ -174,7 +169,7 @@ public class MessageHandler {
 
         message[6] = (byte) (aShip.getDirection().get() / 2);
         output.write(message, 0, 7);
-    }
+    }*/
 
     public void sendCOMMANDMessage(Command aCommand) throws Exception {
         message[0] = 0;
@@ -218,13 +213,13 @@ public class MessageHandler {
         //System.out.print("[offset :"+offset+"]");
     }
 
-    private void extractXandY(byte[] bytes) {
+    /*private void extractXandY(byte[] bytes) {
         int x = 0;
         int y = 0;
-        /*
-         * int inc = 1; for (int i=0;i <8;i++){ inc; inc; inc = inc < < 1; }
-         * inc = 256; inc; inc; inc = 512; inc; inc;
-         */
+        
+        //  int inc = 1; for (int i=0;i <8;i++){ inc; inc; inc = inc < < 1; }
+         //inc = 256; inc; inc; inc = 512; inc; inc;
+         
 
         int inc = 1;
         for (int i = 0; i < 8; i++) {
@@ -239,22 +234,16 @@ public class MessageHandler {
             inc = inc << 1;
         }
 
-        /***********************************************************************
-         * x += ((byte)(message[0] >> 2) & 0x01) inc; inc = 512; inc; inc;
-         */
-
-        /***********************************************************************
-         * x = 256 message[2] + message[3];
-         */
+ 
 
         ship.setPosition(new Vector(x, y));
         //System.out.println(x);
         //System.out.println(y);
-    }
+    }*/
 
-    public Ship getShip() {
+    /*public Ship getShip() {
         return ship;
-    }
+    }*/
 
     public byte getFrameInfoCode() {
         return frameInfoCode;
@@ -268,7 +257,7 @@ public class MessageHandler {
         return ownShipId;
     }
 
-    public int getSessionCode() {
+    /*public int getSessionCode() {
         return sessionCode;
-    }
+    }*/
 }
