@@ -104,4 +104,11 @@ public class Vector {
         result.y = y - b.y;
         return result;
     }
+    
+    public Vector mult(double aNumber) {
+        Vector result = new Vector();
+        result.x = (int) Math.round(aNumber * this.x);
+        result.y = (int) Math.round(aNumber * this.y);
+        return result;
+    }
 }

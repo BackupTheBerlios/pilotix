@@ -111,11 +111,11 @@ public class ServerShip extends Ship {
     }
 
     public void setNextPosition(Vector aPosition) {
-        nextPosition = aPosition;
+        nextPosition.set(aPosition);
     }
 
     public void setNextSpeed(Vector aSpeed) {
-        nextSpeed = aSpeed;
+        nextSpeed.set(aSpeed);
     }
 
     public Angle getDirection() {

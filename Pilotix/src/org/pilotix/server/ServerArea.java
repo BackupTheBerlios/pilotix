@@ -231,23 +231,40 @@ public class ServerArea extends Area {
         int rab = sa.getRadius() + sb.getRadius();
         
         if (AB.dot(AB) <= rab * rab) {
-            System.out.println("currently overlapping between "+sa.getId()+" and "+sb.getId());
-        } else {
-            int a = vab.dot(vab);
-            System.out.println("a"+a);
-            int b = 2 * vab.dot(AB);
-            System.out.println("b"+b);
-            int c = (AB.dot(AB)) - (rab * rab);
-            System.out.println("c"+c);
+            //System.out.println("currently overlapping between "+sa.getId()+" and "+sb.getId());
             
-            int q = (b * b) - (4 * a * c);
+        } else {
+            long a = vab.dot(vab);
+            //System.out.println("a"+a);
+            long b = 2 * vab.dot(AB);
+            //System.out.println("b"+b);
+            long c = (AB.dot(AB)) - (rab * rab);
+            //System.out.println("c"+c);
+            
+            long q = (b * b) - (4 * a * c);
             if (q >= 0) {
                 double sq = Math.sqrt(q);
                 double d = ((double)1) / ((double)(2 * a));
                 double r1 = (-b + sq) * d;
                 double r2 = (-b - sq) * d;
-
-                System.out.println("Collision between "+sa.getId()+" and "+sb.getId());
+                r1 = Math.min(r1, r2);
+                if (r1 >= 0) {
+                    //System.out.println("Collision");
+                    Vector tmpA = sa.getPosition().plus(va.mult(r1));
+                    sa.setNextPosition(tmpA.plus(vb.mult(1 - r1)));
+                    Vector tmpB = sb.getPosition().plus(vb.mult(r1));
+                    sb.setNextPosition(tmpB.plus(va.mult(1 - r1)));
+                    
+                    Vector tmpSpeed = sa.getNextSpeed();                    
+                    sa.setNextSpeed(sa.getNextSpeed());
+                    sb.setNextSpeed(tmpSpeed);
+                    
+                } else {
+                    //System.out.println("no collision");
+                //System.out.println("Collision between "+sa.getId()+" and "+sb.getId());
+                }
+            }else{
+//              System.out.println("no collision");
             }
         }
     }
