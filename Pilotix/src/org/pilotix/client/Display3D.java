@@ -332,11 +332,13 @@ public class Display3D {
      *            l'identifiant de la balle à modifier
      */
     private void updateBall(int aBallId) {
-        // Si la balle dans ClientArea existe...
+        // Si la balle dans ClientArea n'est pas nulle...
         if (! Environment.theClientArea.ballIsNull(aBallId)) {
             if (!ballsJ3D.isNull(aBallId)) {
                 // ...et le J3DBall non plus, on met simplement à jour la vue 3D
-                locale.addBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
+                Environment.theClientArea.getBall(aBallId).nextFrame();
+                ((J3DBall) ballsJ3D.get(aBallId)).setPosition(
+                      Environment.theClientArea.getBallPosition(aBallId));
             } else {
                 // ...sinon si seule la J3DBall est nulle, on ajoute cette balle
                 ballsJ3D.add(aBallId,
