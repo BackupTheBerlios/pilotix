@@ -3,7 +3,7 @@
 <PilotixArea height="65535" width="65535">
   <Obstacle>
       <UpLeftCorner X="10000" Y="20000"/>
-      <DownRightCorner X="20000" Y="10000"/>
+      <DownRightCorner X="40000" Y="10000"/>
   </Obstacle>
 </PilotixArea>
 
