@@ -22,6 +22,7 @@ package org.pilotix.common;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * This class aim to transport Object via the TCPSocket sendAnObject() methodes
@@ -59,6 +60,10 @@ public class MessageHandler {
         try {
             output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
             //System.out.println("Packet Send,"+ aMessage.getLengthInByte());
+        } catch (SocketException e) {
+          //pb le client ferme la socket avant que le serveur 
+          // fasse le necessaire pour l'enlever de sa list de broadcast
+          // pas tres grave...
         } catch (Exception e) {
             e.printStackTrace();
         }
