@@ -27,8 +27,8 @@ import java.net.SocketException;
 /**
  * This class aim to transport Object via the TCPSocket sendAnObject() methodes
  * transforme AnObject into byte[] and send it thru the socket
- * 
- * 
+ *
+ *
  * getAnObject() methodes get anObject previously received by receiveMessage()
  * as byte[]
  */
@@ -37,31 +37,30 @@ public class MessageHandler {
     private InputStream input;
     private OutputStream output;
 
-    private byte[] message;
-    private byte messageType;
+    //private byte[] message;
+    //private byte messageType;
 
-    private Command command = new Command();
-    private Information info = new Information();
+    //private Command command = new Command();
+    //private Information info = new Information();
 
-    private int nbShip;
-    private int byteLength;
-    private Object result;
-    private Area tmpArea;
+    //private int nbShip;
+    //private int byteLength;
+    //private Object result;
+    //private Area tmpArea;
 
     public MessageHandler(Socket aSocket) throws Exception {
         input = aSocket.getInputStream();
         output = aSocket.getOutputStream();
-        message = new byte[100];
-        tmpArea = new Area();
+        //message = new byte[100];
+        //tmpArea = new Area();
     }
 
     public void sendBytes(byte[] bytes) throws Exception{
-            output.write(bytes, 0, bytes.length);
+        output.write(bytes, 0, bytes.length);
     }
-    
- 
+
     public void sendOneByte(byte aByte) {
-        byte[] bytes = { aByte};        
+        byte[] bytes = { aByte};
         try {
             output.write(bytes, 0, 1);
         } catch (SocketException e) {
@@ -72,8 +71,8 @@ public class MessageHandler {
     }
 
     public byte receiveOneByte() throws Exception  {
-        byte[] result = new byte[1];        
-            input.read(result, 0, 1);        
+        byte[] result = new byte[1];
+        input.read(result, 0, 1);
         return result[0];
     }
 
@@ -85,6 +84,5 @@ public class MessageHandler {
             e.printStackTrace();
         }
         return result;
-
     }
 }
