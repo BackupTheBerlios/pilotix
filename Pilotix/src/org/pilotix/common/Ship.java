@@ -81,13 +81,13 @@ public class Ship extends PilotixElement implements Transferable{
         id = anId;
     }
 
-    public void setPosition(Vector aPosition) {
+    /*public void setPosition(Vector aPosition) {
         position = aPosition;
     }
 
     public void setDirection(Angle aDirection) {
         direction = aDirection;
-    }
+    }*/
 
     public void setStates(int theStates) {
         states = theStates;
