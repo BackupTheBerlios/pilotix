@@ -9,7 +9,7 @@
     </Description>
     <Interface l="640" h="400" />
     <Keymap>
-        <Action name="ACCELERATE">VK_UP</Action>
+        <Action name="ACCELERATE">VK_SHIFT</Action>
         <Action name="USE">VK_SPACE</Action>
         <Action name="LEFT">VK_LEFT</Action>
         <Action name="RIGHT">VK_RIGHT</Action>
