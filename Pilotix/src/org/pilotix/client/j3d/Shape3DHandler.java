@@ -60,11 +60,30 @@ public class Shape3DHandler {
      * Renvoie une instance de Shape3D correspondant aux données contenues dans
      * le fichier XML dont le nom est passé en paramètre et qui doit se trouver
      * dans le répertoire data/shapes.
+     * Vous ne pouvez utiliser cette méthode que si
      *
      * @param aShapeFile
      *            nom du fichier XML à traiter
+     * @return
+     *            l'objet Shape3D
      */
     public Shape3D getShape3DFromURL(String aShapeFile) {
+        return getShape3DFromURL(aShapeFile,null);
+    }
+
+    /**
+     * Renvoie une instance de Shape3D correspondant aux données contenues dans
+     * le fichier XML dont le nom est passé en paramètre et qui doit se trouver
+     * dans le répertoire data/shapes.
+     *
+     * @param aShapeFile
+     *            nom du fichier XML à traiter
+     * @param aDynamicColor
+     *            couleur à utiliser si l'attribut rgb="dynamic"
+     * @return
+     *            l'objet Shape3D
+     */
+    public Shape3D getShape3DFromURL(String aShapeFile, Color3f aDynamicColor) {
         document = Environment.theXMLHandler
                 .getDocumentFromURL(Environment.theRL.getResource(
                         ResourceLocator.SHAPE, aShapeFile));
@@ -96,9 +115,16 @@ public class Shape3DHandler {
         for (int i = 0; i < faceLists.getLength(); i++) {
             faceList = (Element) faceLists.item(i);
             //creation de la couleur associee :
-            color = new Color3f(Float.parseFloat(faceList.getAttribute("R")),
-                                Float.parseFloat(faceList.getAttribute("G")),
-                                Float.parseFloat(faceList.getAttribute("B")));
+            if (faceList.getAttribute("rgb").equals("dynamic")) {
+                color = aDynamicColor;
+            }
+            else {
+                java.util.StringTokenizer st = new java.util.StringTokenizer(faceList.getAttribute("rgb"), ";");
+                float r = Float.parseFloat(st.nextToken());
+                float g = Float.parseFloat(st.nextToken());
+                float b = Float.parseFloat(st.nextToken());
+                color = new Color3f(r,g,b);
+            }
             faces = faceList.getElementsByTagName("Face");
             for (int j = 0; j < faces.getLength(); j++) {
                 face = (Element) faces.item(j);
