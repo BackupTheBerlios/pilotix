@@ -31,11 +31,11 @@ import java.io.File;
 public class ResourceLocator {
     // chemins relatifs au repertoire data (implicitement)
     private String dataPath;
-	private String texturesPath;
-    private String shipsPath;
-    private String shapesPath;
-    private String areasPath;
-    private String pilotsPath;
+	private final static String texturesPath = "textures/";
+    private final static String shipsPath = "ships/";
+    private final static String shapesPath = "shapes/";
+    private final static String areasPath = "areas/";
+    private final static String pilotsPath = "pilots/";
 
     private ClassLoader thisClassLoader;
 
@@ -49,11 +49,6 @@ public class ResourceLocator {
     public ResourceLocator(String aDataPath) {
         thisClassLoader = this.getClass().getClassLoader();
         dataPath = new String(aDataPath);
-        texturesPath = dataPath +"textures/";
-        shipsPath = dataPath +"ships/";
-        shapesPath = dataPath +"shapes/";
-        areasPath = dataPath +"areas/";
-        pilotsPath = dataPath + "pilots/";
     }
 
     /**
@@ -76,8 +71,7 @@ public class ResourceLocator {
         case CONFIG:
             resURL = searchOnDisk("/" + dataPath + resourceName);
             if (resURL == null) {
-                resURL = thisClassLoader.getResource(
-                               dataPath + resourceName);
+                resURL = thisClassLoader.getResource(resourceName);
                 //if (Environment.debug) {
                     System.out.println("[ResourceLocator] Config dans Jar: "+resourceName);
                 //}
@@ -87,7 +81,7 @@ public class ResourceLocator {
             //}
             break;
         case TEXTURE:
-            resURL = searchOnDisk("/" + texturesPath + resourceName);
+            resURL = searchOnDisk("/" + dataPath + texturesPath + resourceName);
             if (resURL == null) {
                 resURL = thisClassLoader.getResource(texturesPath
                         + resourceName);
@@ -100,7 +94,7 @@ public class ResourceLocator {
             //}
             break;
         case SHIP:
-            resURL = searchOnDisk("/" + shipsPath + resourceName);
+            resURL = searchOnDisk("/" + dataPath + shipsPath + resourceName);
             if (resURL == null) {
                 resURL = thisClassLoader.getResource(shipsPath
                         + resourceName);
@@ -113,7 +107,7 @@ public class ResourceLocator {
             //}
             break;
         case SHAPE:
-            resURL = searchOnDisk("/" + shapesPath + resourceName);
+            resURL = searchOnDisk("/" + dataPath + shapesPath + resourceName);
             if (resURL == null) {
                 resURL = thisClassLoader.getResource(shapesPath
                         + resourceName);
@@ -126,7 +120,7 @@ public class ResourceLocator {
             //}
             break;
         case AREA:
-            resURL = searchOnDisk("/" + areasPath + resourceName);
+            resURL = searchOnDisk("/" + dataPath + areasPath + resourceName);
             if (resURL == null) {
                 resURL = thisClassLoader.getResource(areasPath + resourceName);
                 //if (Environment.debug) {
@@ -138,7 +132,7 @@ public class ResourceLocator {
             //}
             break;
         case PILOT:
-            resURL = searchOnDisk("/" + pilotsPath + resourceName);
+            resURL = searchOnDisk("/" + dataPath + pilotsPath + resourceName);
             if (resURL == null) {
                 resURL = thisClassLoader.getResource(pilotsPath + resourceName);
                 //if (Environment.debug) {
