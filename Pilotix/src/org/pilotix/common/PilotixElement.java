@@ -43,6 +43,13 @@ public abstract class PilotixElement {
     public Vector getPosition(){
         return position;
     }
+    
+    /**
+     * @param state The state to set.
+     */
+    public void setStates(int state) {
+        this.states = state;
+    }
 
     /*public abstract void setFromBytes(byte[] bytes);
 

@@ -116,6 +116,7 @@ public class Area implements Transferable {
                 byte[] b = new byte[1];
                 b[0] = bytes[index];
                 tmpBall.setFromBytes(b);
+                balls.remove(tmpBall.getId());
                 index++;
             }
         }
@@ -153,10 +154,21 @@ public class Area implements Transferable {
             }
             lengthInByte += Ship.lengthInByte;
         }
+        byteCoded[lengthInByte] = (byte) balls.size();
+        lengthInByte++;
+        for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
+            tmp = ((Ball) balls.cursor1next()).getAsBytes();
+            for (int j = 0; j < tmp.length; j++) {
+                byteCoded[lengthInByte + j] = tmp[j];
+            }
+            lengthInByte += tmp.length;
+        }
+        
         return byteCoded;
     }
 
     public int getLengthInByte() {
+        //System.out.println("taille total="+lengthInByte);
         return lengthInByte;
     }
 

@@ -82,6 +82,20 @@ public class MessageHandler {
             nbShip = firstByteRest;
             //getByteFromInput(message, 1, nbShip * 6);
             input.read(message, 1, nbShip * 6);
+            input.read(message, (1+nbShip * 6),1);
+            int index = (nbShip * 6)+2;
+            for(int i=0;i<message[1+nbShip * 6];i++){
+                input.read(message, index,1);
+                
+                if((message[index] & 1)==0){
+                    index++;
+                    input.read(message, index,5);
+                    index++;
+                }else{
+                    index++;
+                }
+                
+            }
         tmpArea.setFromBytes(message);
             result = (Object) tmpArea;
             break;

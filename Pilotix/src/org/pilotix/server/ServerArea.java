@@ -162,7 +162,7 @@ public class ServerArea extends Area {
             tmpBall = (ServerBall) balls.cursor1next();
             if (tmpBall.getState() == ServerBall.TO_DELETE) {
                 System.out.println("Ball "+tmpBall.getId()+" Deleted !");
-                tmpBall.setState(ServerBall.DELETE);
+                tmpBall.setStates(ServerBall.DELETE);
             }
             if (tmpBall.getState() == ServerBall.DELETE) {
                 balls.remove(tmpBall.getId());
@@ -249,7 +249,7 @@ public class ServerArea extends Area {
             || (returnedPosition.x > (right - radius))
             || (returnedPosition.y > (up - radius))
             || (returnedPosition.y < (down + radius))) {
-            s.setState(ServerBall.TO_DELETE);
+            s.setStates(ServerBall.TO_DELETE);
         }
     }
 
@@ -267,7 +267,7 @@ public class ServerArea extends Area {
                 && (returnedPosition.x < (right + radius))
                 && ((down - radius) < returnedPosition.y)
                 && (returnedPosition.y < (up + radius)))
-                    s.setState(ServerBall.TO_DELETE);
+                    s.setStates(ServerBall.TO_DELETE);
         }
 
     }
@@ -317,7 +317,7 @@ public class ServerArea extends Area {
                 tmpVector.set(aShip.getNextSpeed());
                 aShip.setNextSpeed(aBall.getSpeed());
                 //aBall.setNextSpeed(tmpVector);
-                aBall.setState(ServerBall.TO_DELETE);
+                aBall.setStates(ServerBall.TO_DELETE);
             } else {
                 //System.out.println("no collision");
             }

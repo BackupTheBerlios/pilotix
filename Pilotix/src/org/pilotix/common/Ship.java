@@ -96,9 +96,7 @@ public class Ship extends PilotixElement implements Transferable{
         direction = aDirection;
     }*/
 
-    public void setStates(int theStates) {
-        states = theStates;
-    }
+    
    
     /**
      * Retrieves the position of the Ship.

@@ -30,12 +30,7 @@ public class ServerBall extends Ball {
         return states;
     }
 
-    /**
-     * @param state The state to set.
-     */
-    public void setState(int state) {
-        this.states = state;
-    }
+    
 
     /**
      * 
