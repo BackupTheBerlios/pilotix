@@ -18,11 +18,11 @@
  */
 
 package org.pilotix.server;
-
+import org.pilotix.common.Ship;
 import org.pilotix.common.*;
 import java.util.LinkedList;
 
-public class ServerShip extends org.pilotix.common.Ship {
+public class ServerShip extends Ship {
 
     protected LinkedList forces;
     

@@ -38,8 +38,6 @@ public class ServerArea extends Area {
     private byte[] byteCoded;
     private int lengthInByte;
 
-
-
     Obstacle borders = new Obstacle(new Vector(0, 65535), new Vector(65535, 0));
 
     Vector currentPosition;
@@ -63,10 +61,11 @@ public class ServerArea extends Area {
         Element rootNode = document.getDocumentElement();
 
         borders.upLeftCorner.x = 0;
-        borders.upLeftCorner.y =  Integer.parseInt(rootNode.getAttribute("height"));
-        borders.downRightCorner.x = Integer.parseInt(rootNode.getAttribute("width"));
+        borders.upLeftCorner.y = Integer.parseInt(rootNode
+            .getAttribute("height"));
+        borders.downRightCorner.x = Integer.parseInt(rootNode
+            .getAttribute("width"));
         borders.downRightCorner.y = 0;
-           
 
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
 
@@ -76,14 +75,15 @@ public class ServerArea extends Area {
 
         for (int i = 0; i < theObstacles.getLength(); i++) {
             tmpXmlObstacle = (Element) theObstacles.item(i);
-            obstacles.add(new Obstacle(new Vector(Integer
-                    .parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
-                    Integer.parseInt(tmpXmlObstacle
-                            .getAttribute("upLeftCornerY"))), new Vector(
-                    Integer.parseInt(tmpXmlObstacle
-                            .getAttribute("downRightCornerX")), Integer
-                            .parseInt(tmpXmlObstacle
-                                    .getAttribute("downRightCornerY")))));
+            obstacles
+                .add(new Obstacle(
+                    new Vector(Integer.parseInt(tmpXmlObstacle
+                        .getAttribute("upLeftCornerX")), Integer
+                        .parseInt(tmpXmlObstacle.getAttribute("upLeftCornerY"))),
+                    new Vector(Integer.parseInt(tmpXmlObstacle
+                        .getAttribute("downRightCornerX")), Integer
+                        .parseInt(tmpXmlObstacle
+                            .getAttribute("downRightCornerY")))));
         }
     }
 
@@ -121,6 +121,10 @@ public class ServerArea extends Area {
             tmpShip = (ServerShip) theShips.get(i);
             tmpShip.computeSpeedFromForces();
         }
+        /*for (int i = 0; i < theShips.size(); i++) {
+            tmpShip = (ServerShip) theShips.get(i);
+            collideWithShips(tmpShip);
+        }*/
 
         //Ships/Wall collision : :
         for (int i = 0; i < theShips.size(); i++) {
@@ -205,4 +209,43 @@ public class ServerArea extends Area {
         }
 
     }
+
+    public void collideWithShips(ServerShip s1) {
+        for (int i = 0; i < theShips.size(); i++) {
+            tmpShip = (ServerShip) theShips.get(i);
+            if (tmpShip.getId() > s1.getId()) {
+                collideWithShip(s1, tmpShip);
+            }
+        }
+    }
+
+    public void collideWithShip(ServerShip sa, ServerShip sb) {
+        Vector va = sa.getNextPosition().less(sa.getPosition());
+        Vector vb = sb.getNextPosition().less(sb.getPosition());
+        Vector AB = sb.getPosition().less(sa.getPosition());
+        Vector vab = vb.less(va);
+        int rab = sa.getRadius() + sb.getRadius();
+        
+        if (AB.dot(AB) <= rab * rab) {
+            System.out.println("currently overlapping between "+sa.getId()+" and "+sb.getId());
+        } else {
+            int a = vab.dot(vab);
+            System.out.println("a"+a);
+            int b = 2 * vab.dot(AB);
+            System.out.println("b"+b);
+            int c = (AB.dot(AB)) - (rab * rab);
+            System.out.println("c"+c);
+            
+            int q = (b * b) - (4 * a * c);
+            if (q >= 0) {
+                double sq = Math.sqrt(q);
+                double d = 1 / (2 * a);
+                double r1 = (-b + sq) * d;
+                double r2 = (-b - sq) * d;
+
+                System.out.println("Collision between "+sa.getId()+" and "+sb.getId());
+            }
+        }
+    }
+
 }

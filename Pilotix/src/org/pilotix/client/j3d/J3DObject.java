@@ -19,15 +19,15 @@
 
 package org.pilotix.client.j3d;
 
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Matrix4f;
+
 import org.pilotix.client.Environment;
 import org.pilotix.common.Angle;
 import org.pilotix.common.Vector;
-
-import javax.media.j3d.BranchGroup;
-import javax.media.j3d.TransformGroup;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.Shape3D;
-import javax.vecmath.Matrix4f;
 
 /**
  * Classe mère de tous les objets en 3D du jeu.
@@ -94,7 +94,9 @@ public class J3DObject extends BranchGroup {
         }
         rotationTG.addChild(theObjectShape);
     }
-
+    
+    
+   
     /**
      * Définit la position de cet objet dans le plan horizontal sans modifier
      * l'altitude.

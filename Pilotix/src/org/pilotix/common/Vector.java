@@ -82,8 +82,26 @@ public class Vector {
      *            de multiplicateur aux composantes du
      *            vecteur courant
      */
-    public void dot(Vector b) {
+    public void setDot(Vector b) {
         x = x * b.x;
         y = y * b.y;
+    }
+    
+    public int dot(Vector b) {
+        return  x * b.x + y * b.y;
+    }
+    
+    public Vector plus(Vector b) {
+        Vector result = new Vector();
+        result.x = x + b.x;
+        result.y = y + b.y;
+        return result;
+    }
+    
+    public Vector less(Vector b) {
+        Vector result = new Vector();
+        result.x = x - b.x;
+        result.y = y - b.y;
+        return result;
     }
 }
