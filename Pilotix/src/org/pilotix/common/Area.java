@@ -53,7 +53,7 @@ public class Area implements Transferable {
     public Area() {
         byteCoded = new byte[5000];
         ships = new IterableArray(nbMaxShips);
-        balls = new IterableArray(nbMaxShips);
+        balls = new IterableArray(nbMaxShips); // LIMITE : 1 BALL PAR SHIP
         nbShips = 0;
         tmpShip = new Ship();
         tmpBall = new Ball();
@@ -62,6 +62,8 @@ public class Area implements Transferable {
     public void set(Area anArea) {
         nbShips = anArea.nbShips;
         ships = anArea.ships;
+        nbBalls = anArea.nbBalls;
+        balls = anArea.balls;
         lengthInByte = anArea.lengthInByte;
     }
 
@@ -92,7 +94,11 @@ public class Area implements Transferable {
         }
 
         nbBalls = bytes[index];
+        System.out.println("[Area.setFromBytes] nbBalls="+nbBalls);
         index++;
+        // NOTE DE GREG (22/09/2004) : LE PROGRAMME N'ENTRE
+        // JAMAIS DANS CETTE BOUCLE
+        // (nbBalls reste toujours à 0, pourquoi?)
         for (int i = 0; i < nbBalls; i++) {
             if ((bytes[index] & 1) == 0) {
                 tmpByte = new byte[Ball.lengthInByte];
@@ -159,5 +165,12 @@ public class Area implements Transferable {
      */
     public int getNbMaxShips() {
         return nbMaxShips;
+    }
+
+    /**
+     * @return le nombre de balles
+     */
+    public int getNbBalls() {
+        return nbBalls;
     }
 }
