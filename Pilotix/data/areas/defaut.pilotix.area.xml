@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--<!DOCTYPE PilotixArea SYSTEM "pilotix.area.dtd">-->
-<PilotixArea height="65535" width="65535">
-  <Obstacle texture="obstacle.jpg" height="2000" altitude="0"
-             upLeftCornerX="10000" upLeftCornerY="20000"
-             downRightCornerX="40000" downRightCornerY="10000"/>
-  <Obstacle texture="obstacle.jpg" height="500" altitude="0"
-             upLeftCornerX="10000" upLeftCornerY="30000"
-             downRightCornerX="20000" downRightCornerY="25000"/>
+<PilotixArea height="36864" width="65535">
+  <Obstacle topTexture="building-side.jpg" sideTexture="building-side.jpg"
+             height="1000" altitude="0"
+             upLeftCornerX="10000" upLeftCornerY="10000"
+             downRightCornerX="40000" downRightCornerY="7500"/>
+  <Obstacle topTexture="travaux.jpg" sideTexture="travaux.jpg"
+             height="2500" altitude="0"
+             upLeftCornerX="40000" upLeftCornerY="30000"
+             downRightCornerX="50000" downRightCornerY="20000"/>
 </PilotixArea>
