@@ -22,9 +22,7 @@ package org.pilotix.client;
 import java.io.IOException;
 import java.net.Socket;
 
-//import org.pilotix.common.Angle;
 import org.pilotix.common.Area;
-//import org.pilotix.common.Command;
 import org.pilotix.common.Information;
 import org.pilotix.common.MessageHandler;
 import org.pilotix.common.Ship;
@@ -104,30 +102,13 @@ public class ClientMainLoopThread extends Thread {
                     // GUIPanel
                     Environment.theGUI.getGUIPanel().update();
 
-                    // Puis on prend en compte les actions du joueur depuis la
-                    // dernière frame
-                    // --- à supprimer puisque c'est maintenant le role de ControlCommand
-                    /*tmpAngle.set(Environment.theControls.getMouseVariation().x);
-                    tmpCommand.setDirection(tmpAngle);
-                    int[] aks = Environment.theControls.getKeyStatus();
-                    if (aks[Environment.theControls.keyAccel] == Controls.PRESSED) {
-                        tmpCommand.setAcceleration(2);
-                    } else {
-                        tmpCommand.setAcceleration(0);
-                    }
-                    tmpCommand.setAccessory(0);
-                    tmpCommand.setProjectileId(0);
-                    Environment.controlCmd.setCommand(tmpCommand);*/
-
                     // Enfin, on envoie la commande au serveur
-                    //clientMessageHandler.sendCOMMANDMessage(tmpCommand);
                     clientMessageHandler.send(Environment.controlCmd.getCommand());
                 } else if (obj instanceof Information) {                    
                     switch (((Information) obj).code) {
                     case Information.OWN_SHIP_ID:
                         // On reçoit notre numéro de joueur
-                        Environment.theClientArea
-                            .setOwnShipId(((Information) obj).ownShipId);
+                        Environment.theClientArea.setOwnShipId(((Information) obj).ownShipId);
                         /*System.out
                             .println("[CMLT]!!!!!!!!!!!!!!!!!! OWN_SHIP_ID : "
                                     + ((Information) obj).ownShipId);*/
