@@ -59,7 +59,7 @@ public class ClientMainLoopThread extends Thread {
      */
     public ClientMainLoopThread() {
         if (Environment.debug) {
-            System.out.println("[ClientMainLoopThread] Constructeur");
+            System.out.println("[CMLT] Constructeur");
         }
         tmpCommand = new Command();
         tmpAngle = new Angle();
@@ -76,7 +76,7 @@ public class ClientMainLoopThread extends Thread {
             int port = Environment.theServerPort.intValue();
             socket = new Socket(ip, port);
             if (Environment.debug) {
-                System.out.println("[ClientMainLoopThread] Connecté à "
+                System.out.println("[CMLT] Connecté à "
                         + socket.getInetAddress() + ":" + socket.getPort());
             }
             clientMessageHandler = new MessageHandler(socket);
@@ -86,13 +86,12 @@ public class ClientMainLoopThread extends Thread {
             Environment.theClientArea.init();
 
             if (Environment.debug) {
-                System.out
-                        .println("[ClientMainLoopThread] Début de la boucle du thread");
+                System.out.println("[CMLT] Début boucle");
             }
             while (!quit) {
                 Object obj = clientMessageHandler.receive();
                 if (obj instanceof Area) {
-                    //                  On écrit le vaisseau reçu dans ClientArea
+                    // On écrit le vaisseau reçu dans ClientArea
                     Environment.theClientArea.set((Area) obj);
 
                     // On met à jour l'affichage 3D
@@ -122,8 +121,7 @@ public class ClientMainLoopThread extends Thread {
                     switch (((Information) obj).code) {
                     case Information.OWN_SHIP_ID:
                         if (Environment.debug) {
-                            System.out
-                                    .println("[ClientMainLoopThread] Reçu OWNSHIPINFO : "
+                            System.out.println("[CMLT] Reçu OWN_SHIP_ID : "
                                             + ((Information) obj).ownShipId);
                         }
                         Environment.theClientArea
@@ -136,26 +134,20 @@ public class ClientMainLoopThread extends Thread {
             }
 
             if (Environment.debug) {
-                System.out
-                        .println("[ClientMainLoopThread] Fin de la boucle et fin du thread");
-                System.out
-                        .println("[ClientMainLoopThread] Appel imminent de ClientArea.reset()");
+                System.out.println("[CMLT] Fin de la boucle");
+                System.out.println("[CMLT] ClientArea.reset()");
             }
             Environment.theClientArea.reset();
             socket.close();
             if (Environment.debug) {
-                System.out
-                        .println("[ClientMainLoopThread] La socket est fermée. Au revoir!");
-                System.out.println("------------------");
-                System.out.println("");
+                System.out.println("[CMLT] Socket fermée. A+\n-----\n");
             }
 
         } catch (IOException e) {
-            System.out
-                    .println("[ClientMainLoopThread] ERREUR - Connexion impossible au serveur.");
+            System.out.println("[CMLT] ERREUR de connexion au serveur.");
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("[ClientMainLoopThread] ERREUR. :-(");
+            System.out.println("[CMLT] ERREUR. :-(");
             e.printStackTrace();
         }
     }
@@ -169,14 +161,13 @@ public class ClientMainLoopThread extends Thread {
             info.code = Information.DECONNECT;
             clientMessageHandler.send(info);
             if (Environment.debug) {
-                System.out
-                        .println("[ClientMainLoopThread.endGame] Message SESSION(0) envoyé au serveur");
+                System.out.println("[CMLT.endGame] DECONNECT envoyé.");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (Environment.debug) {
-            System.out.println("[ClientMainLoopThread.endGame] Quit = true");
+            System.out.println("[CMLT.endGame] quit = true");
         }
         quit = true;
     }
