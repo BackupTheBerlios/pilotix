@@ -69,7 +69,7 @@ public class J3DArea extends J3DObject {
         tmpPoint3f.set(0.0f, aYMax, -1.0f);
         quadArray.setCoordinate(3, tmpPoint3f);
 
-        int nbPoints = 15;
+        int nbPoints = 8;
         float decalage = 15.0f;
         TexCoord2f tmpTexCoord2f = new TexCoord2f();
         tmpTexCoord2f.set(0.0f, 0.0f);
