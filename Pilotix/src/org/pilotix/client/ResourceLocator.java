@@ -21,89 +21,105 @@ package org.pilotix.client;
 import java.net.URL;
 import java.io.File;
 
+/**
+ * Cette classe sert à renvoyer l'URL d'un fichier à
+ * partir de son type (CONFIG, TEXTURE, SHAPE, etc),
+ * en cherchant d'abord sur le disque, puis dans le Jar.
+ */
 public class ResourceLocator {
 
     private ClassLoader thisClassLoader;
 
-    public final static int CONFIG = 0, TEXTURE = 1, SHIP = 2, SHAPE = 3,
-            AREA = 4;
+    public final static int CONFIG   = 0,
+                            TEXTURE  = 1,
+                            SHIP     = 2,
+                            SHAPE    = 3,
+                            AREA     = 4;
 
     public ResourceLocator() {
         thisClassLoader = this.getClass().getClassLoader();
     }
 
+    /**
+    * Cette méthode renvoie l'URL de la ressource dont le
+    * type et le nom sont fournis. La recherche est faites
+    * prioritairement sur le disque, puis en cas d'échec,
+    * dans le fichier Jar.
+    *
+    * @param resourceType
+    *          le type du fichier
+    * @param resourceName
+    *          le nom du fichier avec son extension
+    * @return
+    *          l'URL du fichier, ou null s'il est introuvable
+    */
     public URL getResource(int resourceType, String resourceName) {
         URL resURL = null;
+
         switch (resourceType) {
         case CONFIG:
-            System.out.println("CONFIG LOADING");
-            /*
-             * resURL = this.getClass().getResource(Environment.configPath +
-             * resourceName); if (resURL == null) resURL =
-             * this.getClass().getResource("/" + Environment.configPath +
-             * resourceName); if (resURL == null) resURL =
-             * ClassLoader.getSystemResource(Environment.configPath +
-             * resourceName); if (resURL == null) resURL =
-             * ClassLoader.getSystemResource("/" + Environment.configPath +
-             * resourceName); javax.swing.JOptionPane.showMessageDialog(null,
-             * "URL=" + resURL);
-             */
-            System.out.println(resourceName);
             resURL = searchOnDisk("/" + Environment.configPath + resourceName);
             if (resURL == null) {
-                System.out.println("SearchOndisk dont work");
-                resURL = thisClassLoader.getResource(Environment.configPath
-                        + resourceName);
-            } else {
-                System.out.println("SearchOndisk work");
+                resURL = thisClassLoader.getResource(
+                               Environment.configPath + resourceName);
+                if (Environment.debug) {
+                    System.out.println("[ResourceLocator] Config dans Jar: "+resourceName);
+                }
             }
-            //JOptionPane.showMessageDialog(null,"URL=" + resURL);
+            else if (Environment.debug) {
+                System.out.println("[ResourceLocator] Config sur disque: "+resourceName);
+            }
             break;
-
-        //return ClassLoader.getSystemResource(Environment.configPath +
-        // resourceName);
         case TEXTURE:
-            System.out.println("SHIP LOADING");           
             resURL = searchOnDisk("/" + Environment.texturesPath + resourceName);
             if (resURL == null) {
-                System.out.println("SearchOndisk dont work");
                 resURL = thisClassLoader.getResource(Environment.texturesPath
                         + resourceName);
-            } else {
-                System.out.println("SearchOndisk work");
+                if (Environment.debug) {
+                    System.out.println("[ResourceLocator] Texture dans Jar: "+resourceName);
+                }
+            }
+            else if (Environment.debug) {
+                System.out.println("[ResourceLocator] Texture sur disque: "+resourceName);
             }
             break;
         case SHIP:
-            System.out.println("SHIPE LOADING");           
             resURL = searchOnDisk("/" + Environment.shipsPath + resourceName);
             if (resURL == null) {
-                System.out.println("SearchOndisk dont work");
                 resURL = thisClassLoader.getResource(Environment.shipsPath
                         + resourceName);
-            } else {
-                System.out.println("SearchOndisk work");
-            }            
+                if (Environment.debug) {
+                    System.out.println("[ResourceLocator] Ship dans Jar: "+resourceName);
+                }
+            }
+            else if (Environment.debug) {
+                System.out.println("[ResourceLocator] Ship sur disque: "+resourceName);
+            }
             break;
         case SHAPE:
-            System.out.println("SHAPE LOADING");            
             resURL = searchOnDisk("/" + Environment.shapesPath + resourceName);
             if (resURL == null) {
-                System.out.println("SearchOndisk dont work");
                 resURL = thisClassLoader.getResource(Environment.shapesPath
                         + resourceName);
-            } else {
-                System.out.println("SearchOndisk work");
+                if (Environment.debug) {
+                    System.out.println("[ResourceLocator] Shape dans Jar: "+resourceName);
+                }
+            }
+            else if (Environment.debug) {
+                System.out.println("[ResourceLocator] Shape sur disque: "+resourceName);
             }
             break;
         case AREA:
-            System.out.println("AREA LOADING");          
             resURL = searchOnDisk("/" + Environment.areasPath + resourceName);
             if (resURL == null) {
-                System.out.println("SearchOndisk dont work");
                 resURL = thisClassLoader.getResource(Environment.areasPath
-                        + resourceName);                
-            } else {
-                System.out.println("SearchOndisk work");
+                        + resourceName);
+                if (Environment.debug) {
+                    System.out.println("[ResourceLocator] Area dans Jar: "+resourceName);
+                }
+            }
+            else if (Environment.debug) {
+                System.out.println("[ResourceLocator] Area sur disque: "+resourceName);
             }
             break;
         default:
@@ -116,13 +132,14 @@ public class ResourceLocator {
 
     private URL searchOnDisk(String filePath) {
         try {
-            //System.out.println("||||||"+System.getProperty("user.dir")+"|||||||");
             File fl = new File(System.getProperty("user.dir") + filePath);
             if (fl.exists())
                 return fl.toURL();
-            else
+            else {
                 return null;
+            }
         } catch (java.net.MalformedURLException e) {
+            e.printStackTrace();
             return null;
         }
     }
