@@ -27,6 +27,11 @@ import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.LineArray;
 import javax.media.j3d.Appearance;
+import javax.media.j3d.ImageComponent2D;
+import javax.media.j3d.Texture2D;
+import javax.media.j3d.Texture;
+import javax.media.j3d.QuadArray;
+import javax.media.j3d.GeometryArray;
 
 import javax.vecmath.Vector3f;
 import javax.vecmath.Color3f;
@@ -34,11 +39,6 @@ import javax.vecmath.Point3f;
 import javax.vecmath.Point3d;
 import javax.media.j3d.AmbientLight;
 import com.sun.j3d.utils.image.TextureLoader;
-import javax.media.j3d.ImageComponent2D;
-import javax.media.j3d.Texture2D;
-import javax.media.j3d.Texture;
-import javax.media.j3d.QuadArray;
-import javax.media.j3d.GeometryArray;
 import javax.vecmath.TexCoord2f;
 
 /**
@@ -91,7 +91,9 @@ public class J3DArea extends J3DObject {
         TextureLoader loader = new TextureLoader(url, Environment.theGUI);
         ImageComponent2D image = loader.getImage();
         Texture2D texture = new Texture2D(Texture.BASE_LEVEL,
-                Texture.INTENSITY, 256, 256);
+                                          Texture.RGB,
+                                          image.getWidth(),
+                                          image.getHeight());
         texture.setBoundaryModeS(Texture.WRAP);
         texture.setBoundaryModeT(Texture.WRAP);
         texture.setImage(0, image);
