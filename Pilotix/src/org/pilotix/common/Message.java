@@ -1,17 +1,16 @@
 package org.pilotix.common;
 
 /**
- * Pour etre transmis via le reseau, un object
- * doit etre convertis en un chaine de bit
+ * Pour être transmis par le réseau, un Object
+ * doit être converti en une chaîne de bits,
  * et inversement.
- * 
- * ces methodes sont utilises par MessageHandler
- * 
- * @see MessageHandler
  *
+ * Ces méthodes sont utilisées par MessageHandler
+ *
+ * @see MessageHandler
  */
 public interface Message {
-        
+
     //public byte[] byteCoded = null;
     public static final byte AREA = 1;
     public static final byte INFO = 2;
@@ -19,20 +18,23 @@ public interface Message {
     // message type for client to server
     public static final byte COMMAND = 8;
     public static final byte SESSION = 9;
+
     /**
-     * met a jour l'objet a partir d'une chaine d'octet
-     * @param bytes 
+     * Met à jour l'objet à partir d'une chaîne d'octets
+     * @param bytes
+     *         le tableau contenant l'objet
      */
     public abstract void setFromBytes(byte[] bytes);
-    
+
     /**
-     * retourne une chaine d'octet representant l'objet 
+     * Retourne une chaîne d'octets représentant l'objet
      */
-    public abstract byte[] getAsBytes();    
+    public abstract byte[] getAsBytes();
+
     /**
-     * retourne la taille en octet de la chaine de bit renvoye par
-     * getAsBytes
-     * 
+     * Retourne la taille en octets de la chaîne de bits
+     * renvoyée par <code>getAsBytes</code>
+     *
      */
     public abstract int getLengthInByte();
 }
