@@ -19,6 +19,7 @@
 
 package org.pilotix.client;
 
+import org.pilotix.common.ResourceLocator;
 import org.pilotix.common.XMLHandler;
 
 public class Environment {
@@ -34,21 +35,15 @@ public class Environment {
     public static XMLHandler theXMLConfigHandler = null;
     public static XMLHandler theXMLHandler = null;
     public static UserConfigHandler userConfig = null;
+    public static ClientConfigHandler clientConfig = null;
 
     public static String theServerIP = new String("localhost");
     public static Integer theServerPort = new Integer(9000);
 
-    public static String configPath = System.getProperty("pilotix.config.path")
-            + "/";
     public static String dataPath = System.getProperty("pilotix.data.path")
             + "/";
 
     public static String propertiesPath = "properties/";
-    // chemins relatifs au repertoire data (implicitement)
-    public static String texturesPath = dataPath +"textures/";
-    public static String shipsPath = dataPath +"ships/";
-    public static String shapesPath = dataPath +"shapes/";
-    public static String areasPath = dataPath +"areas/";
 
     public static final float u3d = 0.01f;
     public static boolean debug = true;

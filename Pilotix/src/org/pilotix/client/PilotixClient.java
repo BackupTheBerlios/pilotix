@@ -21,6 +21,7 @@ package org.pilotix.client;
 
 import javax.swing.UIManager;
 
+import org.pilotix.common.ResourceLocator;
 import org.pilotix.common.XMLHandler;
 
 /**
@@ -41,11 +42,12 @@ public class PilotixClient {
      * Crée tous les composants fondamentaux du client.
      */
     public PilotixClient() {
-        Environment.theRL = new ResourceLocator();
+        Environment.theRL = new ResourceLocator(Environment.dataPath);
 
-        Environment.theXMLConfigHandler = new XMLHandler(Environment.theRL
+        
+        /*Environment.theXMLConfigHandler = new XMLHandler(Environment.theRL
                 .getResource(ResourceLocator.CONFIG,
-                        "pilotix-client-config.xml"));
+                        "pilotix-client-config.xml"));*/
 
         Environment.theXMLHandler = new XMLHandler();
 
@@ -53,8 +55,10 @@ public class PilotixClient {
          * test du fonctionnement de UserConfigHandler à terme il faudra une
          * fenetre de selection de l'utilisateur avant de créer userConfig
          */
+        Environment.clientConfig = new ClientConfigHandler();
         Environment.userConfig = new UserConfigHandler("Florent");
-        System.out.println(Environment.userConfig.getBuiltInVars("keymap"));
+        //System.out.println(Environment.userConfig.getKeymap());
+        //System.out.println(Environment.userConfig.getPlugInVars("AutoPilot"));
 
         Environment.theClientArea = new ClientArea();
 
