@@ -246,7 +246,7 @@ public class Display3D {
      */
     private void setShip(int aShipId, Vector aPosition, Angle aDirection,
                           int aAltitude, int aState) {
-        if (objectsJ3D.get("ship"+aShipId) != null) {
+        if (objectsJ3D.containsKey("ship"+aShipId)) {
             ((J3DShip)objectsJ3D.get("ship"+aShipId)).setPosition(aPosition);
             ((J3DShip)objectsJ3D.get("ship"+aShipId)).setDirection(aDirection);
             ((J3DShip)objectsJ3D.get("ship"+aShipId)).setAltitude(aAltitude);
@@ -268,24 +268,24 @@ public class Display3D {
      */
     private void updateShip(int aShipId) {
         // Si le ship dans ClientArea n'est pas null...
-        if (Environment.theClientArea.getShip(aShipId) != null) {
-            if (objectsJ3D.get("ship"+aShipId) != null) {
+        if (! Environment.theClientArea.shipIsNull(aShipId)) {
+            if (objectsJ3D.containsKey("ship"+aShipId)) {
                 // ...et le J3DShip non plus, on met simplement à jour la vue 3D
                 setShip(aShipId,
-                        Environment.theClientArea.getShip(aShipId).getPosition(),
-                        Environment.theClientArea.getShip(aShipId).getDirection(),
+                        Environment.theClientArea.getShipPosition(aShipId),
+                        Environment.theClientArea.getShipDirection(aShipId),
                         100,
-                        Environment.theClientArea.getShip(aShipId).getStates());
+                        Environment.theClientArea.getShipStates(aShipId));
             }
             else {
                 // ...sinon si seul le J3DShip est null, on ajoute ce vaisseau
                 addShip(aShipId,
-                        Environment.theClientArea.getShip(aShipId).getPosition(),
-                        Environment.theClientArea.getShip(aShipId).getDirection(),
+                        Environment.theClientArea.getShipPosition(aShipId),
+                        Environment.theClientArea.getShipDirection(aShipId),
                         100);
             }
         }
-        else if (objectsJ3D.get("ship"+aShipId) != null) {
+        else if (objectsJ3D.containsKey("ship"+aShipId)) {
             // Sinon si le ship est null mais pas le shipJ3D,
             // il faut faire disparaître le shipJ3D
             removeShip(aShipId);
