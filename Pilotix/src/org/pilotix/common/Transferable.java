@@ -11,39 +11,24 @@ package org.pilotix.common;
  */
 public interface Transferable {
 
-    //public byte[] byteCoded = null;
     public static final byte AREA = 1;
     public static final byte SHIP = 3;
     public static final byte BALL = 4;
-    public static final byte INFO = 2;
-
-    // message type for client to server
-    public static final byte COMMAND = 8;
-    public static final byte SESSION = 9;
+    public static final byte INFO = 2;   
+    public static final byte COMMAND = 8;   
 
     /**
-     * Met à jour l'objet à partir d'une chaîne d'octets
-     * @param bytes
-     *         le tableau contenant l'objet
+     * Met à jour l'objet à partir d'une chaîne d'octets recupéré via un messageHandler
+     * 
      */
+    public abstract void read(MessageHandler messageHandler) throws Exception;
+
     //public abstract void setFromBytes(byte[] bytes);
 
     /**
-     * Retourne une chaîne d'octets représentant l'objet
+     * envoie des octets représentant l'objet par le bié d'un messageHandler
      */
+    public abstract void write(MessageHandler messageHandler) throws Exception;
     //public abstract byte[] getAsBytes();
 
-    /**
-     * Retourne la taille en octets de la chaîne de bits
-     * renvoyée par <code>getAsBytes</code>
-     *
-     */
-    //public abstract int getLengthInByte();
-    
-    //public abstract int flag();
-    
-    public abstract void read(MessageHandler messageHandler)throws Exception;
-
-    
-    public abstract void write(MessageHandler messageHandler)throws Exception;
 }

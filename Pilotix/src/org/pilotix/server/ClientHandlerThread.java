@@ -45,7 +45,6 @@ public class ClientHandlerThread extends Thread {
         Information info = new Information();
         info.code = Information.OWN_SHIP_ID;
         info.ownShipId = theClientId;
-        //messageHandler.send(info);
         info.write(messageHandler);
         state = READY;
         PilotixServer.theNewCHTs.add((Object) this);
@@ -57,7 +56,6 @@ public class ClientHandlerThread extends Thread {
             try {
                 int flag = messageHandler.receiveOneByte();
                 if (flag  == Transferable.COMMAND){
-                    //System.out.println("RECEIVE COMMAND");
                     Command com = new Command();
                     com.read(messageHandler);
                     ship.addCommand(com);
@@ -65,7 +63,6 @@ public class ClientHandlerThread extends Thread {
                     Information info = new Information();
                     info.read(messageHandler);
                     if (info.code == Information.DECONNECT){
-                        //System.out.println("RECEVE DECONNECTE");
                         state = WANTTOLEAVE;
                         active = false;
                         try {
@@ -76,20 +73,7 @@ public class ClientHandlerThread extends Thread {
                         }
                     }
                 }
-                
-                /*Object obj = messageHandler.receive();
-                if (obj instanceof Command) {
-                    ship.addCommand((Command) obj);
-                } else if (obj instanceof Information) {
-                    state = WANTTOLEAVE;
-                    active = false;
-                    try {
-                        PilotixServer.theIH.giveBackId(ship.getId());
-                    } catch (Exception f) {
-                        f.printStackTrace();
-                        System.out.println("ATTENTION PB ID NON RENDU");
-                    }
-                }*/
+
             } catch (Exception e) {
                 active = false;
                 System.out.println("[ClientHandlerThread]  Ship "
@@ -106,10 +90,7 @@ public class ClientHandlerThread extends Thread {
     }
 
     public void sendArea()throws Exception {
-            	
             PilotixServer.theSA.write(messageHandler);
-            //messageHandler.send(PilotixServer.theSA);
-        
     }
 
     public ServerShip getShip() {

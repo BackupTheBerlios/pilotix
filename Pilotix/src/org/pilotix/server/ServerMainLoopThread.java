@@ -24,7 +24,6 @@ import java.util.Iterator;
 public class ServerMainLoopThread extends Thread {
 
     private boolean newClientHandler = false;
-    //private LinkedList theShips = PilotixServer.theSA.getShips();
 
     public ServerMainLoopThread() throws Exception {
     }
@@ -32,7 +31,7 @@ public class ServerMainLoopThread extends Thread {
     public void run() {
 
         //Supression des Clients desirant partir de la list des client
-        for(int i=0;i<PilotixServer.theCHTs.size();i++){        
+        for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
             ClientHandlerThread CHT = (ClientHandlerThread) PilotixServer.theCHTs.get(i);
             int state = CHT.getState();
             switch (state) {
@@ -60,11 +59,11 @@ public class ServerMainLoopThread extends Thread {
         if (newClientHandler) {
             PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
             //Ajout des nouveaux ships             
-            for(Iterator iter = PilotixServer.theNewCHTs.iterator();iter.hasNext();){
-                ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();          
+            for (Iterator iter = PilotixServer.theNewCHTs.iterator(); iter.hasNext();) {
+                ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();
                 //theShips.add(newCHT.getShip());
                 PilotixServer.theSA.addShip(newCHT.getShip());
-                
+
             }
             //effacement de la liste temporaire
             PilotixServer.theNewCHTs.clear();
@@ -74,15 +73,13 @@ public class ServerMainLoopThread extends Thread {
                 + PilotixServer.theCHTs.size() + " player(s) ");
 
         }
-        
+
         PilotixServer.theSA.nextFrame();
         //envoye de la frame courante a tous les autre ships
-            for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
-        //Iterator iter3 = PilotixServer.theCHTs.iterator();
-       // while (iter3.hasNext()) {
-            ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
+        for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
+                        ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
             try {
-            	
+
                 CHT.sendArea();
             } catch (Exception e) {
                 //e.printStackTrace();

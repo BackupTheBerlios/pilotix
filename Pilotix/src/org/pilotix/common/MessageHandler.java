@@ -55,23 +55,7 @@ public class MessageHandler {
         tmpArea = new Area();
     }
 
-    /*
-     * Prochainement Obsolette
-     */
-    /*public void send(Transferable aMessage) {
-        try {
-            output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
-            //System.out.println("Packet Send,"+ aMessage.getLengthInByte());
-        } catch (SocketException e) {
-            //pb le client ferme la socket avant que le serveur 
-            // fasse le necessaire pour l'enlever de sa list de broadcast
-            // pas tres grave...
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-    
-    public void send(byte[] bytes) throws Exception{
+    public void sendBytes(byte[] bytes) throws Exception{
             output.write(bytes, 0, bytes.length);
     }
     
@@ -103,63 +87,4 @@ public class MessageHandler {
         return result;
 
     }
-
-    /*
-     * Prochainement Obsolette
-     */
-    /*public Object receive() throws Exception {
-
-        //getByteFromInput(message, 0, 1);
-        input.read(message, 0, 1);
-        byte firstByte = message[0];
-        byte messageType = (byte) ((firstByte & 240) >> 4);
-        byte firstByteRest = (byte) (firstByte & 15);
-
-        switch (messageType) {
-        case Transferable.AREA:
-            nbShip = firstByteRest;
-            //getByteFromInput(message, 1, nbShip * 6);
-            input.read(message, 1, nbShip * 6);
-            input.read(message, (1 + nbShip * 6), 1);
-            int index = (nbShip * 6) + 2;
-            //System.out.println("nb balls="+message[1+nbShip * 6]);
-            for (int i = 0; i < message[1 + nbShip * 6]; i++) {
-                input.read(message, index, 1);
-
-                if ((message[index] & 1) == 0) {
-                    index++;
-                    input.read(message, index, 8);
-                    index += 8;
-                } else {
-                    index++;
-                }
-
-            }
-            
-            Environment.theClientArea.setFromBytes(message);
-            //tmpArea.setFromBytes(message);
-            result = (Object) tmpArea;
-            break;
-        case Transferable.COMMAND:
-            input.read(message, 1, 2);
-            //getByteFromInput(message, 1, 2);
-            //Command aCommand = new Command();
-            command.setFromBytes(message);
-            result = (Object) command;
-            break;
-        case Transferable.INFO:
-            input.read(message, 1, 1);
-            //getByteFromInput(message, 1, 1);
-            //Command aCommand = new Command();
-            info.setFromBytes(message);
-            result = (Object) info;
-            break;
-        default:
-            System.out.println("[MessageHandler] Flag inconnu :" + messageType);
-            result = null;
-            break;
-        }
-        return result;
-
-    }*/
 }

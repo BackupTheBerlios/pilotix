@@ -53,8 +53,6 @@ public class ServerArea extends Area {
     public ServerArea(String aMapFile) {
         super();
         setMap(aMapFile);
-        //System.out.println("[Area Created]");
-
     }
 
     public void setMap(String aMapFile) {
@@ -173,7 +171,7 @@ public class ServerArea extends Area {
                 System.out.println("Ball " + tmpBall.getId() + " Removed !");
                 tmpBall.setStates(ServerBall.REMOVE);
             } else if (tmpBall.getStates() == ServerBall.REMOVE) {
-                System.out.println("Ball " + tmpBall.getId() + " Deleted !");
+                //System.out.println("Ball " + tmpBall.getId() + " Deleted !");
                 balls.remove(tmpBall.getId());
             }
         }
@@ -299,14 +297,6 @@ public class ServerArea extends Area {
         }
 
     }
-
-    /*private void collideWithBalls(ServerShip aShip) {
-     for (int i = 0; i < balls.size(); i++) {
-     tmpBall = (ServerBall) balls.get(i);
-     collideWithBall(tmpShip2, tmpBall);
-     }
-
-     }*/
 
     private void collideWithBall(ServerShip aShip, ServerBall aBall) {
         Vector va = aShip.getNextPosition().less(aShip.getPosition());

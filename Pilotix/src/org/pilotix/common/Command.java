@@ -29,17 +29,6 @@ public class Command implements Transferable {
      * </pre>
      */
     
-    
-    /**
-     * <pre>
-     * |   Octet 0   | Octet 1 |   Octet 2   |
-     * | 4bit | 4bit | 1 Octet | 4bit | 4bit |
-     * | Flag |Accele| Directi |ToolId|BallId|
-     * </pre>
-     */
-    
-    public static int lengthInByte = 3;
-    private byte[] byteCoded = new byte[lengthInByte];
     private Angle direction;
     private int acceleration;
     private int toolId;
@@ -91,28 +80,7 @@ public class Command implements Transferable {
         return ballId;
     }
     
-    /*public void setFromBytes(byte[] bytes) {
-        acceleration = (bytes[0] & 15);
-        direction.set(bytes[1] * 3);
-        toolId = ((bytes[2] & 240) >> 4);
-        ballId = ((bytes[3] & 15));
-    }
-
-    public byte[] getAsBytes() {        
-        byteCoded[0] = 0;
-        byteCoded[0] = (byte) (Transferable.COMMAND << 4);
-        byteCoded[0] |= (byte) acceleration;
-        byteCoded[1] = (byte) (direction.get() / 3);
-        byteCoded[2] = 0;
-        byteCoded[2] = (byte) (toolId << 4);
-        byteCoded[2] |= (byte) ballId;        
-        return byteCoded;
-    }
-    
-    public int getLengthInByte(){
-        return lengthInByte;
-    }
-    */
+   
     
     public void read(MessageHandler mh){
         
@@ -130,7 +98,7 @@ public class Command implements Transferable {
         bytes[2]=(byte) (direction.get() / 3);
         bytes[3]=(byte) toolId;
         bytes[4]=(byte) ballId;
-        mh.send(bytes);
+        mh.sendBytes(bytes);
     }
     
     

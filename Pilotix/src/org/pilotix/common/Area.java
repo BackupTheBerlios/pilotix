@@ -45,24 +45,6 @@ package org.pilotix.common;
  * </pre>
  */
 
-/**
- * Bientot obsolet
- * Contient les informations relatives à l'aire de jeu, et les méthodes
- * d'encapsulation pour les transferts sur le réseau.
- * 
- * <pre>
- * 
- *     |   Octet 0   | Octet 1- 6 | Octet 7-12 |...
- *     | 4bit | 4bit |  6 Octets  | 6 Octets   |
- *     | Flag |nbShip|   a Ship   |   a Ship   |...
- *  
- *  ...|   Octet  n  | Octet  n+1 |Octet n+2n+11|... 
- *     |   1 Octet   |  1  Octet  |   7 Octet   |
- *  ...|   nbBall    | DeleteBall |   NewBall   |...
- *  
- *  
- * </pre>
- */
 
 public class Area implements Transferable {
 
@@ -94,118 +76,7 @@ public class Area implements Transferable {
         lengthInByte = anArea.lengthInByte;
     }
 
-    /*public void setFromBytes(byte[] bytes) {
-
-     nbShips = (byte) (bytes[0] & 15);
-
-     int index = 1;
-     tmpByte = new byte[Ship.lengthInByte];
-     //ships.clear(); //TODO a supprimer !!! et a tester
-     for (int i = 0; i < nbShips; i++) {
-     tmpByte[0] = bytes[index];
-     tmpByte[1] = bytes[index + 1];
-     tmpByte[2] = bytes[index + 2];
-     tmpByte[3] = bytes[index + 3];
-     tmpByte[4] = bytes[index + 4];
-     tmpByte[5] = bytes[index + 5];
-
-     tmpShip.setFromBytes(tmpByte);
-     if (tmpShip.getStates() == Ship.REMOVE) {
-     ships.remove(tmpShip.getId());
-     } else if (ships.isNull(tmpShip.getId())) {
-     ships.add(tmpShip.getId(), new Ship(tmpShip));
-     } else {
-     ((Ship) ships.get(tmpShip.getId())).set(tmpShip);
-     }
-     index = index + Ship.lengthInByte;
-     }
-
-     
-     int nbBallUpdate=0;
-     nbBallUpdate = bytes[index];
-     
-     index++;
-     for (int i = 0; i < nbBallUpdate; i++) {
-     if ((bytes[index] & 1) == 0) {
-     tmpByte = new byte[Ball.lengthInByte];
-     tmpByte[0] = bytes[index];
-     tmpByte[1] = bytes[index + 1];
-     tmpByte[2] = bytes[index + 2];
-     tmpByte[3] = bytes[index + 3];
-     tmpByte[4] = bytes[index + 4];
-     tmpByte[5] = bytes[index + 5];
-     tmpByte[6] = bytes[index + 6];
-     tmpByte[7] = bytes[index + 7];
-     tmpByte[8] = bytes[index + 8];
-     tmpBall.setFromBytes(tmpByte);
-     System.out.println("Ajout de la balle d'id=" + tmpBall.getId());
-     nbBalls++;
-     if (balls.isNull(tmpBall.getId())) {
-     balls.add(tmpBall.getId(), tmpBall);
-     } else {
-     System.out.println("Pb tentative d'ajout a la meme place");
-     }
-     index = index + Ball.lengthInByte;
-     } else {
-     byte[] b = new byte[1];
-     b[0] = bytes[index];
-     tmpBall.setFromBytes(b);
-     balls.remove(tmpBall.getId());
-     index++;
-     nbBalls--;
-     }
-     }
-     //System.out.println("nb balls=" + nbBalls);
-
-     }
-
-
-
-     public byte[] getAsBytes() {
-
-     byte[] tmp;
-     byteCoded[0] = 0;
-     byteCoded[0] = (byte) (Transferable.AREA << 4);
-     byteCoded[0] |= (byte) ships.size();
-     lengthInByte = 1;
-     for (ships.setCursor1OnFirst(); ships.cursor1hasNext();) {
-     tmp = ((Ship) ships.cursor1next()).getAsBytes();
-     for (int j = 0; j < Ship.lengthInByte; j++) {
-     byteCoded[lengthInByte + j] = tmp[j];
-     }
-     lengthInByte += Ship.lengthInByte;
-     }
-
-     int shipToAdd = 0;
-     for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-     int state = ((ServerBall) (balls.cursor1next())).getStates();
-     if ((state == ServerBall.ADD) || (state == ServerBall.REMOVE)) {
-     shipToAdd++;
-     }
-
-     }
-     byteCoded[lengthInByte] = (byte) shipToAdd;
-     lengthInByte++;
-     if (shipToAdd != 0) {
-     for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
-     tmp = ((Ball) balls.cursor1next()).getAsBytes();
-     if (tmp != null) {
-     for (int j = 0; j < tmp.length; j++) {
-     byteCoded[lengthInByte + j] = tmp[j];
-     }
-     lengthInByte += tmp.length;
-     }
-     }
-     }
-     
-
-     return byteCoded;
-     }
-
-     public int getLengthInByte() {
-     //System.out.println("taille total="+lengthInByte);
-     return lengthInByte;
-     }*/
+    
 
     /**
      * @return Returns the nbMaxShips.

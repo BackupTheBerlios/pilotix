@@ -27,44 +27,24 @@ public class ServerBall extends Ball {
  * supprime n'est pas un état mais la suppresion reel de la ball. 
  */
     
-    
     public static final int NEW = 0;
     //public static final int ADD = 1;
     public static final int NORMAL = 2;
     public static final int TO_REMOVE = 3;
     //public static final int REMOVE = 4;
-    
    
     private Vector nextPosition = new Vector();
-    
-    //private Vector nextSpeed = new Vector();
-    
-    /**
-     * @param aPosition
-     * @param aSpeed
-     * @param id TODO
-     */
+
     public ServerBall( int id,Vector aPosition, Vector aSpeed) {
         super(id, aPosition, aSpeed);
         states = NEW;
     }
 
-    
-
     public void computeSpeedFromForces() {
         nextPosition.set(position.plus(speed));        
     }
 
-    
-      
     public Vector getNextPosition() {        
         return nextPosition;
     }
-
-   
-
- 
-   
-
-    
 }

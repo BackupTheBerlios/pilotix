@@ -73,7 +73,7 @@ public class ServerShip extends Ship {
         command.setDirection(tmpAngle);
         command.setAcceleration(aCommand.getAcceleration());
         command.setToolId(aCommand.getToolId());
-        //command.SetProjectileId(aCommand.getProjectileId());
+        command.setBallId(aCommand.getBallId());
     }
 
     public void computeSpeedFromForces() {
@@ -81,13 +81,8 @@ public class ServerShip extends Ship {
         tmpVector.set(
             (int) (((ServerAngle) direction).getX() * command.getAcceleration() * 10),
             (int) (((ServerAngle) direction).getY() * command.getAcceleration() * 10));
-        //System.out.println("[ServerShip] Ship "+id+" Deg "+direction.get());
-        //System.out.println("[ServerShip] Ship "+id+" F "+tmpVector);
         nextSpeed.set(speed.x + tmpVector.x, speed.y + tmpVector.y);
-        //System.out.println("[ServerShip] Ship "+id+" V "+nextSpeed);
-        //System.out.println(currentPosition);
         nextPosition.set(position.x + nextSpeed.x, position.y + nextSpeed.y);
-        //System.out.println("[ServerShip] Ship "+id+" X "+nextPosition);
         command.setAcceleration(0);
         tmpAngle.set(0);
         command.setDirection(tmpAngle);
@@ -119,10 +114,6 @@ public class ServerShip extends Ship {
         nextSpeed.set(aSpeed);
     }
 
-    public Angle getDirection() {
-        return direction;
-    }
-
     public int getAcceleration() {
         return command.getAcceleration();
     }
@@ -135,9 +126,6 @@ public class ServerShip extends Ship {
         if (command.getToolId() == 1) {
             command.setToolId(0);
             if (balls.isNull(id)) {
-                //System.out.println("Ball "+id+" Created !");
-                //System.out.println("@"+(int) (((ServerAngle) direction).getX() * (double) 500));
-                //System.out.println("@"+(int) (((ServerAngle) direction).getY() * (double) 500));
                 balls.add(
                     id,
                     new ServerBall(
@@ -147,14 +135,10 @@ public class ServerShip extends Ship {
                             (int) (((ServerAngle) direction).getY() * (double) radius)),
                         speed.plus(
                             (int) (((ServerAngle) direction).getX() * (double) 200),
-                            (int) (((ServerAngle) direction).getY() * (double) 200))
-                        ));
-
+                            (int) (((ServerAngle) direction).getY() * (double) 200))));
             } else {
 
             }
-            //System.out.println("Balls!");
-
         }
 
     }

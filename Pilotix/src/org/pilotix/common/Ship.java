@@ -35,12 +35,6 @@ package org.pilotix.common;
  * </pre>
  * 
  *
- *obsolet
- * <pre>
- * |   Octet 0   | Octet1-2| Octet3-4| Octet 5 |
- * | 4bit | 4bit | 2Octets | 2Octets | 1Octet  |
- * |  Id  |States|    X    |    Y    |Direction|
- * </pre>
  */
 public class Ship extends PilotixElement implements Transferable {
 
@@ -50,13 +44,11 @@ public class Ship extends PilotixElement implements Transferable {
     public final static int HIT = 3;
     public final static int ACCELERATING = 4;
 
-    public static int lengthInByte = 6;
-
+    
     protected Vector speed;
     protected Angle direction;
     protected int radius = 400;
 
-    //private byte[] byteCoded = new byte[lengthInByte];
 
     public Ship() {
         super();
@@ -92,21 +84,15 @@ public class Ship extends PilotixElement implements Transferable {
         id = anId;
     }
 
-    /*public void setPosition(Vector aPosition) {
-     position = aPosition;
-     }
 
-     public void setDirection(Angle aDirection) {
+
+     /*public void setDirection(Angle aDirection) {
      direction = aDirection;
      }*/
-
-    /**
-     * Retrieves the position of the Ship.
-     * 
-     * @return the current position of the Ship
-     */
-    public Vector getPosition() {
-        return position;
+   
+    
+    public int getRadius() {
+        return radius;
     }
 
     /**
@@ -120,55 +106,7 @@ public class Ship extends PilotixElement implements Transferable {
 
 
 
-    /*public void setFromBytes(byte[] bytes) {
-        //flag = (byte)((bytes[0] & 240) >> 4);
-        id = (byte) ((bytes[0] & 240) >> 4);
-        states = (byte) (bytes[0] & 15);
-
-        position.x = 0;
-        position.y = 0;
-
-        int inc = 1;
-        for (int i = 0; i < 8; i++) {
-            position.x += ((byte) (bytes[2] >> i) & 0x01) * inc;
-            position.y += ((byte) (bytes[4] >> i) & 0x01) * inc;
-            inc = inc << 1;
-        }
-        inc = 256;
-        for (int i = 0; i < 8; i++) {
-            position.x += ((byte) (bytes[1] >> i) & 0x01) * inc;
-            position.y += ((byte) (bytes[3] >> i) & 0x01) * inc;
-            inc = inc << 1;
-        }
-
-        inc = 1;
-        int deg = 0;
-        for (int i = 0; i < 8; i++) {
-            deg += ((byte) (bytes[5] >> i) & 0x01) * inc;
-            inc = inc << 1;
-        }
-        direction.set(deg * 2);
-    }
-
-    public byte[] getAsBytes() {
-
-        byteCoded[0] = 0;
-        byteCoded[0] = (byte) (id << 4);
-        byteCoded[0] |= (byte) states;
-
-        byteCoded[1] = (byte) (position.x / 256);
-        byteCoded[2] = (byte) position.x;
-        byteCoded[3] = (byte) (position.y / 256);
-        byteCoded[4] = (byte) position.y;
-        byteCoded[5] = (byte) (direction.get() / 2);
-
-        return byteCoded;
-    }
-
-
-    public int getLengthInByte() {
-        return lengthInByte;
-    }*/
+  
 
     public void read(MessageHandler mh) {
         byte[] bytes = mh.receiveNBytes(7);
@@ -213,14 +151,9 @@ public class Ship extends PilotixElement implements Transferable {
         bytes[7] = (byte) (direction.get() / 2);
 
 
-        mh.send(bytes);
+        mh.sendBytes(bytes);
     }
     
-    public String toString(){
-        return "[Ship] pos="+position;
-    }
-
-    public int getRadius() {
-        return radius;
-    }
+   
+   
 }

@@ -26,48 +26,39 @@ package org.pilotix.common;
  */
 public abstract class PilotixElement {
 
-    protected int id;    
+    protected int id;
     protected int states;
     protected Vector position = new Vector();
 
-
-    //byte[] byteCoded = null;
-    //public static int lengthInByte = 0;
-
-    public PilotixElement(){};
-    
-    public PilotixElement(int id,int states,Vector position){
-    this.id = id;
-    this.states = states;
-    this.position.set(position);
+    public PilotixElement() {
     };
-    
-    
+
+    public PilotixElement(int id, int states, Vector position) {
+        this.id = id;
+        this.states = states;
+        this.position.set(position);
+    };
+
     public int getId() {
         return id;
     }
-    
-    public Vector getPosition(){
+
+    public Vector getPosition() {
         return position;
     }
-    
+
     /**
      * @param state The state to set.
      */
     public void setStates(int state) {
         this.states = state;
     }
-    
+
     /**
      * @return Returns the state.
      */
     public int getStates() {
         return states;
     }
-
-    /*public abstract void setFromBytes(byte[] bytes);
-
-    public abstract byte[] getAsBytes();    
-
-    public abstract int getLengthInByte();*/
+  
 }
