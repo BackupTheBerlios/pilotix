@@ -88,7 +88,7 @@ public class ClientMainLoopThread extends Thread {
             }
             while (!quit) {
 
-                
+
                 int flag = clientMessageHandler.receiveOneByte();
 
                 if (flag == Transferable.AREA) {
@@ -96,9 +96,8 @@ public class ClientMainLoopThread extends Thread {
                     Environment.theClientArea.read(clientMessageHandler);
                     //effectue les calcul coté client
                     Environment.theClientArea.nextFrame();
-                    // On met à jour l'affichage 3D                    
-                    Environment.theDisplay3D.update2();
-                    // Environment.theDisplay3D.update();
+                    // On met à jour l'affichage 3D
+                    Environment.theDisplay3D.update();
 
                     // On met à jour la liste des joueurs présents
                     Environment.theGUI.getGUIPanel().update();

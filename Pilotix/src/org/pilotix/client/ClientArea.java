@@ -90,8 +90,7 @@ public class ClientArea extends org.pilotix.common.Area {
         if (Environment.debug) {
             System.out.println("[ClientArea.init] Appel imminent de Display3D.init()");
         }
-        Environment.theDisplay3D.init2();
-        //        Environment.theDisplay3D.init();
+        Environment.theDisplay3D.init();
     }
 
     /**
@@ -104,8 +103,7 @@ public class ClientArea extends org.pilotix.common.Area {
         if (Environment.debug) {
             System.out.println("[ClientArea.reset] Appel imminent de Display3D.reset()");
         }
-        Environment.theDisplay3D.reset2();
-        //        Environment.theDisplay3D.reset();
+        Environment.theDisplay3D.reset();
     }
 
     /**
