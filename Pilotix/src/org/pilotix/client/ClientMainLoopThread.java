@@ -123,6 +123,7 @@ public class ClientMainLoopThread extends Thread {
                         // On reçoit notre numéro de joueur
                         Environment.theClientArea
                                 .setOwnShipId(((Information) obj).ownShipId);
+                        System.out.println("[CMLT] OWN_SHIP_ID : "+ ((Information) obj).ownShipId);
                         break;
                     default:
                         break;
