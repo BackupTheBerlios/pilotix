@@ -63,8 +63,8 @@ public class ServerArea extends Area {
         Element rootNode = document.getDocumentElement();
 
         borders.upLeftCorner.x = 0;
-        borders.upLeftCorner.y =  Integer.parseInt(rootNode.getAttribute("width"));
-        borders.downRightCorner.x = Integer.parseInt(rootNode.getAttribute("height"));
+        borders.upLeftCorner.y =  Integer.parseInt(rootNode.getAttribute("height"));
+        borders.downRightCorner.x = Integer.parseInt(rootNode.getAttribute("width"));
         borders.downRightCorner.y = 0;
            
 
