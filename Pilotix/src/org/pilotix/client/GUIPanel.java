@@ -160,8 +160,8 @@ public class GUIPanel extends JPanel implements ActionListener {
     public void update() {
         // On teste si le joueur a stoppé la partie car si c'est le cas,
         // il faut effacer toutes les lignes du tableau et non une seule.
-        boolean playerHasQuit = (null == Environment.theClientArea.getShip(
-                                  Environment.theClientArea.getOwnShipId()));
+        boolean playerHasQuit = Environment.theClientArea.shipIsNull(
+                                  Environment.theClientArea.getOwnShipId());
 
         // Petite optimisation possible : ne mettre à jour que jusqu'au numéro
         // le plus grand alloué à un joueur (si on a eu au plus 4 joueurs, il
@@ -170,8 +170,7 @@ public class GUIPanel extends JPanel implements ActionListener {
         // le joueur dont le numéro est le plus grand n'est pas forcément le
         // premier à partir.
         for (int i = 0; i < 15; i++) {
-            Ship tmpShip = Environment.theClientArea.getShip(i);
-            if (playerHasQuit || tmpShip == null) {
+            if (Environment.theClientArea.shipIsNull(i) || playerHasQuit) {
                 infoPlayers.setValueAt("", i, 0);
                 infoPlayers.setValueAt("", i, 1);
                 infoPlayers.setValueAt("", i, 2);
@@ -179,12 +178,15 @@ public class GUIPanel extends JPanel implements ActionListener {
                 infoPlayers.setValueAt("", i, 4);
             } else {
                 infoPlayers.setValueAt(String.valueOf(i), i, 0);
-                infoPlayers.setValueAt(String.valueOf(tmpShip.getPosition().x),
-                        i, 1);
-                infoPlayers.setValueAt(String.valueOf(tmpShip.getPosition().y),
-                        i, 2);
-                infoPlayers.setValueAt(String.valueOf(tmpShip.getDirection()
-                        .get()), i, 3);
+                infoPlayers.setValueAt(
+                      String.valueOf(Environment.theClientArea.getShipPosition(i).x),
+                      i, 1);
+                infoPlayers.setValueAt(
+                      String.valueOf(Environment.theClientArea.getShipPosition(i).y),
+                      i, 2);
+                infoPlayers.setValueAt(
+                      String.valueOf(Environment.theClientArea.getShipDirection(i).get()),
+                      i, 3);
                 //infoPlayers.setValueAt(String.valueOf(tmpShip.getSpeed()),i,4);
             }
         }
