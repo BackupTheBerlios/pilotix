@@ -36,7 +36,7 @@ import javax.vecmath.TexCoord2f;
 import javax.vecmath.Vector3f;
 
 import org.pilotix.client.Environment;
-import org.pilotix.client.ResourceLocator;
+import org.pilotix.common.ResourceLocator;
 
 import com.sun.j3d.utils.image.TextureLoader;
 

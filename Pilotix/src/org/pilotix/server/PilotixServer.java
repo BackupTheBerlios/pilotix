@@ -20,6 +20,7 @@
 package org.pilotix.server;
 
 import org.pilotix.common.XMLHandler;
+import org.pilotix.common.ResourceLocator;
 //import org.pilotix.common.*;
 import java.util.LinkedList;
 
@@ -42,12 +43,15 @@ public class PilotixServer {
     public static ConnexionHandlerThread theCHT;
     public static XMLHandler theXH;
     
+    
     public static boolean newCHTs;
     public static LinkedList theNewCHTs = new LinkedList();
     public static LinkedList theCHTs = new LinkedList();
     
     public static String dataPath = System.getProperty("pilotix.data.path")
     + "/";
+    public static ResourceLocator theRL = new ResourceLocator(dataPath);
+
     /**
      * Lance le serveur du jeu
      * 
@@ -63,7 +67,7 @@ public class PilotixServer {
         theIH = new IdHandler(nbMaxPlayer);
         theXH = new XMLHandler();
         theSA = new ServerArea();
-        theSA.setMap(dataPath+"areas/defaut.pilotix.area.xml");
+        theSA.setMap("defaut.pilotix.area.xml");
         theSMLT = new ServerMainLoopThread();
         theCHT = new ConnexionHandlerThread(port);
         theCT = new ClockerThread(fps,theSMLT);

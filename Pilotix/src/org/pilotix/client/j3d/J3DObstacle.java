@@ -19,9 +19,9 @@
 
 package org.pilotix.client.j3d;
 
+import org.pilotix.common.ResourceLocator;
 import org.pilotix.common.Vector;
 import org.pilotix.client.Environment;
-import org.pilotix.client.ResourceLocator;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.ImageComponent2D;

@@ -57,7 +57,8 @@ public class ServerArea extends Area {
 
     public void setMap(String aMapFile) {
 
-        Document document = XMLHandler.getDocumentFromFile(aMapFile);
+        Document document = PilotixServer.theXH.getDocumentFromURL(
+        		PilotixServer.theRL.getResource(ResourceLocator.AREA, aMapFile));
         Element rootNode = document.getDocumentElement();
 
         borders.upLeftCorner.x = 0;
