@@ -94,11 +94,7 @@ public class Area implements Transferable {
         }
 
         nbBalls = bytes[index];
-        System.out.println("[Area.setFromBytes] nbBalls="+nbBalls);
         index++;
-        // NOTE DE GREG (22/09/2004) : LE PROGRAMME N'ENTRE
-        // JAMAIS DANS CETTE BOUCLE
-        // (nbBalls reste toujours à 0, pourquoi?)
         for (int i = 0; i < nbBalls; i++) {
             if ((bytes[index] & 1) == 0) {
                 tmpByte = new byte[Ball.lengthInByte];
@@ -110,6 +106,7 @@ public class Area implements Transferable {
                 tmpByte[5] = bytes[index + 5];
                 tmpByte[6] = bytes[index + 6];
                 tmpBall.setFromBytes(tmpByte);
+                System.out.println("Ajout de la balle d'id="+tmpBall.getId());
                 balls.add(tmpBall.getId(), tmpBall);
                 index = index + Ball.lengthInByte;
             } else {
