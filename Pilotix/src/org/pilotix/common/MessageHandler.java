@@ -92,18 +92,18 @@ public class MessageHandler {
                 
                 if((message[index] & 1)==0){
                     index++;
-                    input.read(message, index,6);
-                    index+=6;
+                    input.read(message, index,8);
+                    index+=8;
                 }else{
                     index++;
                 }
                 
             }
-                System.out.print("Message[");
+                /*System.out.print("Message[");
             for(int i=0;i<index;i++){
                 System.out.print(message[i]+",");
             }
-             System.out.println("]");
+             System.out.println("]");*/
              Environment.theClientArea.setFromBytes(message);
         //tmpArea.setFromBytes(message);
             result = (Object) tmpArea;

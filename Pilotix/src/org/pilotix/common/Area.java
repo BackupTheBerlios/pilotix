@@ -110,6 +110,8 @@ public class Area implements Transferable {
                 tmpByte[4] = bytes[index + 4];
                 tmpByte[5] = bytes[index + 5];
                 tmpByte[6] = bytes[index + 6];
+                tmpByte[7] = bytes[index + 7];
+                tmpByte[8] = bytes[index + 8];
                 tmpBall.setFromBytes(tmpByte);
                 System.out.println("Ajout de la balle d'id=" + tmpBall.getId());
                 nbBalls++;
@@ -128,7 +130,7 @@ public class Area implements Transferable {
                 nbBalls--;
             }
         }
-        System.out.println("nb balls=" + nbBalls);
+        //System.out.println("nb balls=" + nbBalls);
 
     }
 

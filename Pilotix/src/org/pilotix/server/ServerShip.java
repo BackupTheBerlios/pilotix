@@ -28,7 +28,7 @@ import org.pilotix.common.Ship;
 import org.pilotix.common.Vector;
 
 public class ServerShip extends Ship {
-    
+
     protected LinkedList forces;
 
     protected Vector nextPosition;
@@ -134,19 +134,25 @@ public class ServerShip extends Ship {
     public void commandPilotixElement(IterableArray balls) {
         if (command.getToolId() == 1) {
             command.setToolId(0);
-            if(balls.isNull(id)){                
-            //System.out.println("Ball "+id+" Created !");
-            
-            balls.add(id,new ServerBall(position.plus(
-                (int) ((ServerAngle) direction).getX() * radius,
-                (int) ((ServerAngle) direction).getY() * radius), speed.plus(
-                (int) (((ServerAngle) direction).getX() * (double)500),
-                (int) (((ServerAngle) direction).getY() * (double)500))));}
-            else{
+            if (balls.isNull(id)) {
+                //System.out.println("Ball "+id+" Created !");
+                //System.out.println("@"+(int) (((ServerAngle) direction).getX() * (double) 500));
+                //System.out.println("@"+(int) (((ServerAngle) direction).getY() * (double) 500));
+                balls.add(
+                    id,
+                    new ServerBall(
+                        position.plus((int)( ((ServerAngle) direction).getX()
+                            * (double)radius), (int) (((ServerAngle) direction).getY()
+                            * (double)radius)),
+                        speed.plus(
+                            (int) (((ServerAngle) direction).getX() * (double) 200),
+                            (int) (((ServerAngle) direction).getY() * (double) 200))));
                 
+            } else {
+
             }
             //System.out.println("Balls!");
-            
+
         }
 
     }

@@ -30,9 +30,9 @@ public class Ball extends PilotixElement implements Transferable {
     /**
      * Message de creation de Ball
      * <pre>
-     * |      Octet   0     | Octet1-2| Octet3-4| Octet 5 | Octet 6 |
-     * | 4bit | 3bit | 1bit | 2Octets | 2Octets | 1 Octet | 1 Octet |
-     * |ShipID|BallID|   0  |    X    |    Y    |Vitesse X|Vitesse Y|
+     * |      Octet   0     | Octet1-2| Octet3-4| Octet5-6 | Octet7-8 |
+     * | 4bit | 3bit | 1bit | 2Octets | 2Octets | 2 Octet  | 2 Octet  |
+     * |ShipID|BallID|   0  |    X    |    Y    |Vitesse X |Vitesse Y |
      * </pre>
      */
     public static final int ADD = 1;
@@ -49,7 +49,7 @@ public class Ball extends PilotixElement implements Transferable {
     public static final int REMOVE = 4;
 
     protected Vector speed = new Vector();
-    public static int lengthInByte = 7;
+    public static int lengthInByte = 9;
     private byte[] byteCoded = new byte[lengthInByte];
     private int radius = 100;
 
@@ -89,10 +89,28 @@ public class Ball extends PilotixElement implements Transferable {
             }
 
             inc = 1;
+            
+            speed.x = 0;
+            speed.y = 0;
             for (int i = 0; i < 8; i++) {
-                speed.x += ((byte) (bytes[5] >> i) & 0x01) * inc;
-                speed.y += ((byte) (bytes[6] >> i) & 0x01) * inc;
+                speed.x += ((byte) (bytes[6] >> i) & 0x01) * inc;
+                speed.y += ((byte) (bytes[8] >> i) & 0x01) * inc;
                 inc = inc << 1;
+            }
+            
+            inc = 256;
+            for (int i = 0; i < 7; i++) {
+                speed.x += ((byte) (bytes[5] >> i) & 0x01) * inc;
+                speed.y += ((byte) (bytes[7] >> i) & 0x01) * inc;
+                inc = inc << 1;
+            }
+            
+            if(((byte) (bytes[5] >> 7) & 0x01)==1){
+                speed.x *=-1;
+            }
+            
+            if(((byte) (bytes[7] >> 7) & 0x01)==1){
+                speed.y *=-1;
             }
         }
     }
@@ -109,9 +127,19 @@ public class Ball extends PilotixElement implements Transferable {
             byteCoded[3] = (byte) (position.y / 256);
             byteCoded[4] = (byte) position.y;
 
-            byteCoded[5] = (byte) speed.x;
-            byteCoded[6] = (byte) speed.y;
-
+            
+            byteCoded[5] = (byte) (Math.abs(speed.x)/256);
+            byteCoded[6] = (byte) (Math.abs(speed.x) % 256);            
+            byteCoded[7] = (byte) (Math.abs(speed.y)/256);
+            byteCoded[8] = (byte) (Math.abs(speed.y) % 256);
+            
+            if(speed.x<0){
+                byteCoded[5]|= 0x80;                
+            }
+            if(speed.y<0){
+                byteCoded[7]|= 0x80;                
+            }
+           
             return byteCoded;
         } else if (states == REMOVE) {
             return new byte[] { (byte) ((id << 3) + 1)};
@@ -124,9 +152,9 @@ public class Ball extends PilotixElement implements Transferable {
         return lengthInByte;
     }
 
-    public void nextFrame() {
+    public void nextFrame() {        
         position.set(position.plus(speed));
-        System.out.println("position Ball " + position);
+        //System.out.println("position Ball=" + position+" Speed="+speed);
     }
 
     /**
