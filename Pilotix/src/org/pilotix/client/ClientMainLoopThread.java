@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.pilotix.common.Angle;
+import org.pilotix.common.Area;
 import org.pilotix.common.Command;
 import org.pilotix.common.Information;
-import org.pilotix.common.Message;
 import org.pilotix.common.MessageHandler;
 import org.pilotix.common.Ship;
 
@@ -89,12 +89,10 @@ public class ClientMainLoopThread extends Thread {
                         .println("[ClientMainLoopThread] Début de la boucle du thread");
             }
             while (!quit) {
-                switch (clientMessageHandler.receiveMessage()) {
-                case Message.AREA:
-
-                    // On écrit le vaisseau reçu dans ClientArea
-                    Environment.theClientArea.setFromBytes(clientMessageHandler
-                            .receiveBytes());
+                Object obj = clientMessageHandler.receive();
+                if (obj instanceof Area) {
+                    //                  On écrit le vaisseau reçu dans ClientArea
+                    Environment.theClientArea.set((Area) obj);
 
                     // On met à jour l'affichage 3D
                     Environment.theDisplay3D.update();
@@ -116,24 +114,23 @@ public class ClientMainLoopThread extends Thread {
                     tmpCommand.setAccessory(0);
                     tmpCommand.setProjectileId(0);
 
-                    /* Enfin, on envoie la commande au serveur */
+                    // Enfin, on envoie la commande au serveur
                     //clientMessageHandler.sendCOMMANDMessage(tmpCommand);
                     clientMessageHandler.send(tmpCommand);
-                    break;
-                case Message.INFO:
-                    int id = clientMessageHandler.getOwnShipId();
-                    if (Environment.debug) {
-                        System.out
-                                .println("[ClientMainLoopThread] Reçu OWNSHIPINFO : "
-                                        + id);
+                } else if (obj instanceof Information) {
+                    switch (((Information) obj).code) {
+                    case Information.OWN_SHIP_ID:
+                        if (Environment.debug) {
+                            System.out
+                                    .println("[ClientMainLoopThread] Reçu OWNSHIPINFO : "
+                                            + ((Information) obj).ownShipId);
+                        }
+                        Environment.theClientArea
+                                .setOwnShipId(((Information) obj).ownShipId);
+                        break;
+                    default:
+                        break;
                     }
-                    Environment.theClientArea.setOwnShipId(id);
-                    break;
-                default:
-                    System.out
-                            .println("[ClientMainLoopThread] ALERTE! Type de message "
-                                    + clientMessageHandler.getFrameInfoCode()
-                                    + " inconnu.");
                 }
             }
 

@@ -45,6 +45,13 @@ public class Area implements Message {
         nbShips = 0;
     }
     
+    public void set(Area anArea){
+        nbShips = anArea.nbShips;
+        ships = anArea.ships;
+        lengthInByte = anArea.lengthInByte;
+        
+    }
+    
    
     public void setFromBytes(byte[] bytes) {
         
