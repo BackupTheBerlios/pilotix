@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- !DOCTYPE PilotixShape SYSTEM "pilotix.pilot.dtd"> -->
+<!-- !DOCTYPE PilotixPilot SYSTEM "pilotix.pilot.dtd"> -->
 <PilotixPilot PilotixVersion="0.5">
     <Description>
         <FirstName>Florent</FirstName>
-        <LastName>Sithimolada </LastName>
+        <FamilyName>Sithimolada </FamilyName>
         <Photo>florent.sithimolada.free.fr/Photo.jpg</Photo>
         <Comment>Oui je suis une quiche :)</Comment>
     </Description>
