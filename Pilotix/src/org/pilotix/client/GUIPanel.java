@@ -19,8 +19,6 @@
 
 package org.pilotix.client;
 
-//import org.pilotix.common.Angle;
-//import org.pilotix.common.Vector;
 import org.pilotix.common.Ship;
 
 import java.util.ResourceBundle;

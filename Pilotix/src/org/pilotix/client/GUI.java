@@ -21,8 +21,6 @@ package org.pilotix.client;
 
 import java.util.ResourceBundle;
 import java.awt.BorderLayout;
-//import java.awt.event.WindowAdapter;
-//import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.awt.Dimension;
