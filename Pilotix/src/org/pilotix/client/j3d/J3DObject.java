@@ -83,7 +83,7 @@ public class J3DObject extends BranchGroup {
      * qui est recherché dans le répertoire pilotix.config.path/shapes
      * (par défaut ce répertoire est data/shapes/).
      *
-     * @param shapeURL
+     * @param aShapeURL
      *        le nom d'un fichier ".pilotix.shape.xml" dans "data/shapes"
      * @param aDynamicColor
      *        la couleur à utiliser si l'attribut rgb="dynamic" dans le fichier XML
