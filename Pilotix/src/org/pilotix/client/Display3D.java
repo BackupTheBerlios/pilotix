@@ -103,7 +103,7 @@ public class Display3D {
      */
     public void init() {
         // Création du conteneur pour les J3DBalls
-        ballsJ3D = new IterableArray(Environment.theClientArea.getNbBalls());
+        ballsJ3D = new IterableArray(Environment.theClientArea.getNbMaxShips());
 
         // Création du conteneur pour les J3DObject
         objectsJ3D = new IterableArray(nbMaxObjectsJ3D);
@@ -345,21 +345,16 @@ public class Display3D {
                             100));
                 locale.addBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
             }
-        } else {
-            if (!ballsJ3D.isNull(aBallId)) {
+        } else if (!ballsJ3D.isNull(aBallId)) {
                 // Sinon si la balle est nulle mais pas la J3DBall,
                 // il faut faire disparaître la J3DBall.
                 // On retire une branche de la locale.
                 locale.removeBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
                 // On retire la balle de la liste des balles
                 ballsJ3D.remove(aBallId);
-            }
-            else {
-                // Si la balle est nulle dans ClientArea et dans ballsJ3D,
-                // on ajoute la balle dans ClientArea
-
-            }
         }
+        // Si la balle est nulle dans ClientArea et dans ballsJ3D,
+        // on ne fait rien
     }
 
     /**
@@ -368,7 +363,7 @@ public class Display3D {
      * ClientMainLoopThread.
      */
     public void update() {
-        for (int i = 0; i < Environment.theClientArea.getNbBalls(); i++) {
+        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
             updateBall(i);
         }
         for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {

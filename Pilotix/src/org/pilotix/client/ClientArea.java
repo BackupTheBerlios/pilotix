@@ -227,7 +227,13 @@ public class ClientArea extends org.pilotix.common.Area {
      * @return vrai si la balle existe, faux sinon
      */
     public final boolean ballIsNull(int aBallId) {
-        return balls.get(aBallId) == null;
+//        if (aBallId >= 0 && aBallId < getNbBalls()) {
+            return balls.get(aBallId) == null;
+/*        }
+        else {
+            return false;
+        }
+*/
     }
 
 
