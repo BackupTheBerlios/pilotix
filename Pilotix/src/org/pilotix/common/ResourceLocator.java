@@ -31,7 +31,7 @@ import java.io.File;
 public class ResourceLocator {
     // chemins relatifs au repertoire data (implicitement)
     private String dataPath;
-	private final static String texturesPath = "textures/";
+    private final static String texturesPath = "textures/";
     private final static String shipsPath = "ships/";
     private final static String shapesPath = "shapes/";
     private final static String areasPath = "areas/";
@@ -44,7 +44,7 @@ public class ResourceLocator {
                             SHIP     = 2,
                             SHAPE    = 3,
                             AREA     = 4,
-							PILOT    = 5;
+                            PILOT    = 5;
 
     public ResourceLocator(String aDataPath) {
         thisClassLoader = this.getClass().getClassLoader();
