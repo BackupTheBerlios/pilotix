@@ -78,7 +78,7 @@
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="org.pilotix.server.PilotixServer"/>
-        <attribute name="Class-Path" value="PilotixCommon.jar"/>
+        <attribute name="Class-Path" value="PilotixCommon.jar PilotixData.jar"/>
       </manifest>
     </jar>
     <jar jarfile="${dist}/PilotixData.jar">
