@@ -24,6 +24,7 @@ import org.pilotix.common.Vector;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import java.net.URL;
 
 /**
  * <p>
@@ -45,44 +46,34 @@ import org.w3c.dom.Element;
  * @see Display3D
  * @see ClientMainLoopThread
  * @see Ship
+ * @see org.pilotix.common.Area
  * @see org.pilotix.server.ServerArea
- * 
+ *
  * @author Grégoire Colbert
  * @author Florent Sithimolada
  */
-public class ClientArea  extends org.pilotix.common.Area { // pour plus tard
-                         // (peut-etre)
+public class ClientArea  extends org.pilotix.common.Area {
 
-    //private Ship[] ships;
-    //private int nbShips;
     private Obstacle[] obstacles;
     private int ownShipId;
     private float xMax = 100.00f; // Valeur par défaut, écrasée par setArea()
     private float yMax = 100.00f; // Valeur par défaut, écrasée par setArea()
-    private byte[] tmpByte;
-    private int index;
-    private ClientShip tmpClientShip;
-
 
     /**
      * Ce constructeur crée un tableau pour conserver une copie locale des
      * vaisseaux actuellement sur le serveur.
      */
     public ClientArea() {
-        //super();
+        super();
         if (Environment.debug) {
             System.out.println("[ClientArea] Constructeur");
         }
-        tmpByte = new byte[6];
-        tmpClientShip = new ClientShip();
     }
 
     /**
      * Initialise le tableau des vaisseaux locaux
      */
     public void init() {
-        // Création de la liste pour les org.pilotix.common.Ship
-        ships = new Ship[15];
         // Réinitialisation de la liste des Ships
         for (int i = 0; i < ships.length; i++) {
             ships[i] = null;
@@ -128,13 +119,12 @@ public class ClientArea  extends org.pilotix.common.Area { // pour plus tard
         Document document = Environment.theXMLHandler.getDocumentFromURL(
                              Environment.theRL.getResource(
                                           ResourceLocator.AREA, aAreaFile));
-        Element rootNode =null;
+        Element rootNode=null;
         try {
             rootNode = document.getDocumentElement();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
 
         // Définition des limites externes de l'aire de jeu
         xMax = Integer.parseInt(rootNode.getAttribute("width"))*Environment.u3d;
@@ -142,36 +132,37 @@ public class ClientArea  extends org.pilotix.common.Area { // pour plus tard
 
         // Définition des limites internes de l'aire de jeu (obstacles)
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
-        NodeList tmp;
-        Element upLeftCorner;
-        Element downRightCorner;
-
         obstacles = new Obstacle[theObstacles.getLength()];
-
+        Element tmpXmlObstacle = null;
         for (int i = 0; i < theObstacles.getLength(); i++) {
-            tmp = ((Element) theObstacles.item(i))
-                      .getElementsByTagName("UpLeftCorner");
-            upLeftCorner = (Element) tmp.item(0);
-            tmp = ((Element) theObstacles.item(i))
-                      .getElementsByTagName("DownRightCorner");
-            downRightCorner = (Element) tmp.item(0);
+            tmpXmlObstacle = (Element) theObstacles.item(i);
             obstacles[i] = new Obstacle(
                    new Vector(
-                      Integer.parseInt(upLeftCorner.getAttribute("X")),
-                      Integer.parseInt(upLeftCorner.getAttribute("Y"))),
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerY"))),
                    new Vector(
-                      Integer.parseInt(downRightCorner.getAttribute("X")),
-                      Integer.parseInt(downRightCorner.getAttribute("Y"))));
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerX")),
+                      Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerY"))),
+                   Integer.parseInt(tmpXmlObstacle.getAttribute("height")),
+                   Integer.parseInt(tmpXmlObstacle.getAttribute("altitude")),
+                   tmpXmlObstacle.getAttribute("texture"));
         }
     }
 
     public class Obstacle {
         public Vector upLeftCorner;
         public Vector downRightCorner;
+        public int altitude;
+        public int height;
+        public String texture;
 
-        public Obstacle(Vector upLeftCorner, Vector downRightCorner) {
+        public Obstacle(Vector upLeftCorner, Vector downRightCorner,
+                         int height, int altitude, String texture) {
             this.upLeftCorner = upLeftCorner;
             this.downRightCorner = downRightCorner;
+            this.height = height;
+            this.altitude = altitude;
+            this.texture = texture;
         }
     }
 
@@ -200,8 +191,6 @@ public class ClientArea  extends org.pilotix.common.Area { // pour plus tard
             return (Obstacle) obstacles[i];
         }
     }
-
-    
 
     /**
      * Renvoie le vaisseau dont l'identificateur est fourni.
@@ -269,72 +258,4 @@ public class ClientArea  extends org.pilotix.common.Area { // pour plus tard
     public final float getYMax() {
         return yMax;
     }
-
-    /*public void update(byte[] bytes) {        
-        //  | Octet 0 | Octet 1- 6 | Octet 7-12 |... | 4bit | 4bit | | | |
-        //  Flag4|nbShip| aShip | aShip |...        
-        //Flag = (byte)((bytes[0] & 240) >> 4);
-        nbShips = (byte) (bytes[0] & 15);
-
-        index = 1;
-        //System.out.println("nbShip :"+nbShips);
-        for (int i = 0; i < nbShips; i++) {
-            tmpByte[0] = bytes[index];
-            tmpByte[1] = bytes[index + 1];
-            tmpByte[2] = bytes[index + 2];
-            tmpByte[3] = bytes[index + 3];
-            tmpByte[4] = bytes[index + 4];
-            tmpByte[5] = bytes[index + 5];
-
-            tmpClientShip.setFromBytes(tmpByte);
-            //setShip(tmpClientShip);
-            
-            if (tmpClientShip.getStates() == Ship.REMOVE) {
-                if (Environment.debug) {
-                    System.out
-                            .println("[ClientArea.setShip] REMOVE ====> ships[id="
-                                    + tmpClientShip.getId() + "]=null");
-                }
-                ships[tmpClientShip.getId()] = null;
-            } else {
-                if (ships[tmpClientShip.getId()] == null) {
-                    ships[tmpClientShip.getId()] = new Ship();
-                }
-                ships[tmpClientShip.getId()].set((Ship) tmpClientShip);
-                //System.out.println("Ship id maj :" +aShip.getId());
-            }
-            
-            index = index + 6;
-        }
-    }*/
-    
-    /**
-     * Cette méthode met à jour la zone locale avec le vaisseau (Ship) fourni
-     * en paramètre. L'action effectuée dépend du champ <code>states</code>
-     * du vaisseau. Cette méthode est appelée par ClientMainLoopThread sur
-     * réception d'un message de type "SHIP".
-     *
-     * @param aShip
-     *            le vaisseau à ajouter, à enlever ou à mettre à jour
-     */
-    /*public void setShip(Ship aShip) {
-        
-         //Si le vaisseau doit être enlevé, on le met à null dans le tableau
-         //ships[]
-         
-        if (aShip.getStates() == Ship.REMOVE) {
-            if (Environment.debug) {
-                System.out
-                        .println("[ClientArea.setShip] REMOVE ====> ships[id="
-                                + aShip.getId() + "]=null");
-            }
-            ships[aShip.getId()] = null;
-        } else {
-            if (ships[aShip.getId()] == null) {
-                ships[aShip.getId()] = new Ship();
-            }
-            ships[aShip.getId()].set((Ship) aShip);
-            //System.out.println("Ship id maj :" +aShip.getId());
-        }
-    }*/
 }
