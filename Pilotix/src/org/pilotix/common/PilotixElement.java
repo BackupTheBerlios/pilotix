@@ -44,11 +44,6 @@ public abstract class PilotixElement {
         return position;
     }
 
-    public Vector getPosition() {
-        return position;
-    }
-
-
     /*public abstract void setFromBytes(byte[] bytes);
 
     public abstract byte[] getAsBytes();    
