@@ -114,7 +114,8 @@ public class ClientMainLoopThread extends Thread {
                     tmpCommand.setProjectileId(0);
 
                     /* Enfin, on envoie la commande au serveur */
-                    clientMessageHandler.sendCOMMANDMessage(tmpCommand);
+                    //clientMessageHandler.sendCOMMANDMessage(tmpCommand);
+                    clientMessageHandler.send(tmpCommand);
                     break;
                 case MessageHandler.OWNSHIPINFO:
                     int id = clientMessageHandler.getOwnShipId();
