@@ -9,7 +9,7 @@ package org.pilotix.common;
  *
  * @see MessageHandler
  */
-public interface Message {
+public interface Transferable {
 
     //public byte[] byteCoded = null;
     public static final byte AREA = 1;

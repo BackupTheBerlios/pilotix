@@ -31,13 +31,13 @@ package org.pilotix.common;
  * </pre>
  */
 
-public class Area implements Message {
+public class Area implements Transferable {
 
     protected int nbShips;
     protected Ship[] ships;
     private int lengthInByte;
     private Ship tmpShip;
-
+    private byte[] tmpByte;
     private byte[] byteCoded = null;
 
     public Area(){
@@ -57,7 +57,7 @@ public class Area implements Message {
         nbShips = (byte) (bytes[0] & 15);
 
         int index = 1;
-        byte[] tmpByte = new byte[Ship.lengthInByte];
+        tmpByte = new byte[Ship.lengthInByte];
 
         for (int i = 0; i < nbShips; i++) {
             tmpByte[0] = bytes[index];
@@ -84,7 +84,7 @@ public class Area implements Message {
                         
         byte[] tmp;
         byteCoded[0] = 0;
-        byteCoded[0] = (byte) (Message.AREA << 4);
+        byteCoded[0] = (byte) (Transferable.AREA << 4);
         byteCoded[0] |= (byte) nbShips;
         lengthInByte = 1;
        

@@ -54,7 +54,7 @@ public class MessageHandler {
         tmpArea = new Area();
     }
 
-    public void send(Message aMessage) {
+    public void send(Transferable aMessage) {
         try {
             output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
         } catch (Exception e) {
@@ -70,13 +70,13 @@ public class MessageHandler {
         byte firstByteRest = (byte) (firstByte & 15);
 
         switch (messageType) {
-        case Message.AREA:
+        case Transferable.AREA:
             nbShip = firstByteRest;
             getByteFromInput(message, 1, nbShip * 6);
             tmpArea.setFromBytes(message);
             result = (Object) tmpArea;
             break;
-        case Message.COMMAND:
+        case Transferable.COMMAND:
             getByteFromInput(message, 1, 2);
             //Command aCommand = new Command();
             command.setFromBytes(message);

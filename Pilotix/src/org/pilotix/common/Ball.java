@@ -30,7 +30,7 @@ package org.pilotix.common;
  * |  Id  |States|    X    |    Y    |Vitesse X|Vitesse Y|
  * </pre>
  */
-public class Ball extends PilotixElement implements Message{
+public class Ball extends PilotixElement implements Transferable{
 
     Vector speed;
     public static int lengthInByte = 7;

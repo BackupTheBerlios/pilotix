@@ -2,7 +2,7 @@
  Pilotix : a multiplayer piloting game.
  Copyright (C) 2003 Pilotix.Org
 
- This program is free software; you can redistribute it and/or
+ This program is isFree software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
  of the License, or (at your option) any later version.
@@ -20,7 +20,7 @@
 package org.pilotix.common;
 
 /**
- * This class is an array where all non-free box are linked and can be itered
+ * This class is an array where all non-isFree box are linked and can be itered
  * like a LinkedList.
  * 
  * @author Florent Sithimolada
@@ -29,7 +29,7 @@ package org.pilotix.common;
 public class IterableArray {
 
     private Object[] objects;
-    private boolean[] free;
+    private boolean[] isFree;
     private int[] prev;
     private int[] next;
     private int nb;
@@ -44,11 +44,11 @@ public class IterableArray {
      */
     public IterableArray(int nbmax) {
         objects = new Object[nbmax];
-        free = new boolean[nbmax];
+        isFree = new boolean[nbmax];
         prev = new int[nbmax];
         next = new int[nbmax];
         for (int i = 0; i < nbmax; i++) {
-            free[i] = true;
+            isFree[i] = true;
             prev[i] = i - 1;
             next[i] = i + 1;
         }
@@ -66,13 +66,11 @@ public class IterableArray {
      * @return address where the object as been inserted
      */
     public synchronized int add(Object obj) throws Exception {
-        if (nb >= max) {
-            System.out.println("Array Full !!!!");
-            Exception e = new Exception();
-            throw e;
+        if (nb >= max) {         
+            throw new Exception("IterrableArray Full");
         } else {
             objects[nextFree] = obj;
-            free[nextFree] = false;
+            isFree[nextFree] = false;
             nb++;
             if (lastInserted == -1) {
                 lastInserted = nextFree;
@@ -103,12 +101,12 @@ public class IterableArray {
             Exception e = new Exception();
             throw e;
         }
-        if (free[indice] == true) {
-            System.out.println("indice already free !!!");
+        if (isFree[indice] == true) {
+            System.out.println("indice already isFree !!!");
             Exception e = new Exception();
             throw e;
         }
-        free[indice] = true;
+        isFree[indice] = true;
         objects[indice] = null;
         if ((prev[indice] == -1) && (next[indice] == -1)) {
             lastInserted = -1;
@@ -130,12 +128,12 @@ public class IterableArray {
     }
 
     /**
-     * @param indice
+     * @param index
      *            the Object to get
      * @return the Object
      */
-    public Object get(int indice) {
-        return objects[indice];
+    public Object get(int index) {
+        return objects[index];
     }
 
     /**
@@ -173,4 +171,9 @@ public class IterableArray {
     public void reset() {
         current = lastInserted;
     }
+    
+    public boolean isNull(int index) {
+        return objects[index] != null;
+    }
+    
 }

@@ -4,7 +4,7 @@ package org.pilotix.common;
  * Classe servant à véhiculer diverses informations
  * entre le client et le serveur.
  */
-public class Information implements Message {
+public class Information implements Transferable {
 
     /**
      * <pre>
@@ -61,7 +61,7 @@ public class Information implements Message {
     public byte[] getAsBytes() {
         byteCoded = new byte[getLengthInByte()];
         byteCoded[0] = 0;
-        byteCoded[0] = (byte) (Message.INFO << 4);
+        byteCoded[0] = (byte) (Transferable.INFO << 4);
         byteCoded[0] |= (byte) code;
         switch (code) {
         case OWN_SHIP_ID:

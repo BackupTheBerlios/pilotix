@@ -33,7 +33,7 @@ package org.pilotix.common;
  * |  Id  |States|    X    |    Y    |Direction|
  * </pre>
  */
-public class Ship extends PilotixElement implements Message{
+public class Ship extends PilotixElement implements Transferable{
 
     public final static int ADD = 0;
     public final static int REMOVE = 1;

@@ -19,7 +19,7 @@
 
 package org.pilotix.common;
 
-public class Command implements Message {
+public class Command implements Transferable {
 
     public static int lengthInByte = 3;
     private byte[] byteCoded = new byte[lengthInByte];
@@ -133,7 +133,7 @@ public class Command implements Message {
     public byte[] getAsBytes() {
         
         byteCoded[0] = 0;
-        byteCoded[0] = (byte) (Message.COMMAND << 4);
+        byteCoded[0] = (byte) (Transferable.COMMAND << 4);
         byteCoded[0] |= (byte) acceleration;
         byteCoded[1] = (byte) (direction.get() / 3);
         byteCoded[2] = 0;
