@@ -19,6 +19,7 @@
 
 package org.pilotix.client;
 
+import org.pilotix.common.ResourceLocator;
 import org.pilotix.common.Ship;
 import org.pilotix.common.Vector;
 import org.pilotix.common.Angle;
