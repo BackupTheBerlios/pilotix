@@ -35,6 +35,16 @@ public class Angle {
     }
 
     /**
+     * Crée un angle avec la valeur d'un autre angle en paramètre.
+     *
+     * @param anAngle
+     *            un angle
+     */
+    public Angle(Angle anAngle) {
+        set(anAngle.degree);
+    }
+    
+    /**
      * Crée un angle avec la valeur passée en paramètre.
      *
      * @param aDegree

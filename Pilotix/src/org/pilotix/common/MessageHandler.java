@@ -57,9 +57,11 @@ public class MessageHandler {
 
     public void send(Transferable aMessage) {
         try {
+        	
             output.write(aMessage.getAsBytes(), 0, aMessage.getLengthInByte());
+            //System.out.println("Packet Send,"+ aMessage.getLengthInByte());
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

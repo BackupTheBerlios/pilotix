@@ -25,7 +25,7 @@ import java.util.LinkedList;
 public class ServerMainLoopThread extends Thread {
 
     private boolean newClientHandler = false;
-    private LinkedList theShips = PilotixServer.theSA.getShips();
+    //private LinkedList theShips = PilotixServer.theSA.getShips();
 
     public ServerMainLoopThread() throws Exception {
     }
@@ -47,7 +47,8 @@ public class ServerMainLoopThread extends Thread {
                 break;
             // Supression du client ayant quite
             case ClientHandlerThread.TOBEKILL:
-                theShips.remove(CHT.getShip());
+                //theShips.remove(CHT.getShip());
+                PilotixServer.theSA.removeShip(CHT.getShip());
                 Object toto = CHT;
                 PilotixServer.theCHTs.remove(toto);
                 System.out.println("[ServerMainLoopThread] is Now Running with "
@@ -59,11 +60,12 @@ public class ServerMainLoopThread extends Thread {
         //a la liste des Client principale,
         if (newClientHandler) {
             PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
-            //Ajout des nouveaux ships 
-            //et affectation et envoie au clients des numero de ship
+            //Ajout des nouveaux ships             
             for(Iterator iter = PilotixServer.theNewCHTs.iterator();iter.hasNext();){
                 ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();          
-                theShips.add(newCHT.getShip());
+                //theShips.add(newCHT.getShip());
+                PilotixServer.theSA.addShip(newCHT.getShip());
+                
             }
             //effacement de la liste temporaire
             PilotixServer.theNewCHTs.clear();
@@ -81,6 +83,7 @@ public class ServerMainLoopThread extends Thread {
        // while (iter3.hasNext()) {
             ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
             try {
+            	
                 CHT.sendArea();
             } catch (Exception e) {
                 //e.printStackTrace();

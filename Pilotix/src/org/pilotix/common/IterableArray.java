@@ -81,9 +81,10 @@ public class IterableArray {
 	 * @throws Exception
 	 *             quand l'array est pleine
 	 */
-	public synchronized void add(int index, Object obj) throws Exception {
+	public synchronized void add(int index, Object obj)  {
 		if (nb == max) {
-			throw new Exception("IterableArray2 Full");
+			//throw new Exception("IterableArray Full");
+			System.out.println("IterableArray Full");
 		} else if (nb == 0) { // premiere insertion
 			//System.out.println("insert Tete");
 			first = last = current = index;
@@ -130,15 +131,33 @@ public class IterableArray {
 		return objects[index];
 	}
 	/**
+	 * modifie la donne stoque
+	 * 
+	 * @param index
+	 *            numero de la case a modifier
+	 * @return l'objet stoque
+	 */
+	public void set(int index,Object obj) {//throws Exception {		
+		objects[index] = obj;
+	}
+	/**
+	 * retourne le nombre de case non vide
+	 * @return
+	 */
+	public int size(){
+		return nb;
+	}
+	/**
 	 * 
 	 * @param index
 	 *            numero de la case a supprimer
 	 * @throws Exception
 	 *             si l'array est deja vide
 	 */
-	public synchronized void remove(int index) throws Exception {
+	public synchronized void remove(int index) {
 		if (nb == 0) {
-			throw new Exception("IterableArray2 already empty");
+			//throw new Exception("IterableArray already empty");
+			System.out.println("IterableArray already empty");
 		} else if (index == first) {
 			if (nb == 1) {
 				first = -1;

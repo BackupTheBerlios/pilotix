@@ -19,13 +19,13 @@
 
 package org.pilotix.client;
 
+import org.pilotix.common.Angle;
 import org.pilotix.common.ResourceLocator;
 import org.pilotix.common.Ship;
 import org.pilotix.common.Vector;
-import org.pilotix.common.Angle;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * <p>
@@ -35,8 +35,8 @@ import org.w3c.dom.Element;
  * 
  * <p>
  * La boucle principale (ClientMainLoopThread) récupère les informations du
- * serveur puis met à jour cette classe. Ensuite ClientArea met à jour
- * Display3D (si nécessaire).
+ * serveur puis met à jour cette classe. Ensuite ClientArea met à jour Display3D
+ * (si nécessaire).
  * </p>
  * 
  * <p>
@@ -49,267 +49,274 @@ import org.w3c.dom.Element;
  * @see Ship
  * @see org.pilotix.common.Area
  * @see org.pilotix.server.ServerArea
- *
+ * 
  * @author Grégoire Colbert
  * @author Florent Sithimolada
  */
-public class ClientArea  extends org.pilotix.common.Area {
+public class ClientArea extends org.pilotix.common.Area {
 
-    private Obstacle[] obstacles;
-    private int ownShipId;
-    private float xMax = 100.00f; // Valeur par défaut, écrasée par setArea()
-    private float yMax = 100.00f; // Valeur par défaut, écrasée par setArea()
+	private Obstacle[] obstacles;
+	private int ownShipId;
+	private float xMax = 100.00f; // Valeur par défaut, écrasée par setArea()
+	private float yMax = 100.00f; // Valeur par défaut, écrasée par setArea()
 
-    /**
-     * Ce constructeur crée un tableau pour conserver une copie locale des
-     * vaisseaux actuellement sur le serveur.
-     */
-    public ClientArea() {
-        super();
-        if (Environment.debug) {
-            System.out.println("[ClientArea] Constructeur");
-        }
-    }
+	/**
+	 * Ce constructeur crée un tableau pour conserver une copie locale des
+	 * vaisseaux actuellement sur le serveur.
+	 */
+	public ClientArea() {
+		super();
+		if (Environment.debug) {
+			System.out.println("[ClientArea] Constructeur");
+		}
+	}
 
-    /**
-     * Initialise le tableau des vaisseaux locaux
-     */
-    public void init() {
-        // Réinitialisation de la liste des Ships
-        for (int i = 0; i < ships.length; i++) {
-            ships[i] = null;
-        }
-        this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE ENVOYE PAR LE SERVEUR
-        if (Environment.debug) {
-            System.out
-                    .println("[ClientArea.init] Appel imminent de Display3D.init()");
-        }
-        Environment.theDisplay3D.init();
-    }
+	/**
+	 * Initialise le tableau des vaisseaux locaux
+	 */
+	public void init() {
+		// Réinitialisation de la liste des Ships
+		for (int i = 0; i < ships.length; i++) {
+			ships[i] = null;
+		}
+		//_ships.clear();
+		this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE
+												 // ENVOYE PAR LE SERVEUR
+		if (Environment.debug) {
+			System.out
+					.println("[ClientArea.init] Appel imminent de Display3D.init()");
+		}
+		Environment.theDisplay3D.init();
+	}
 
-    /**
-     * Réinitialise ce ClientArea (appelé par ClientMainLoopThread quand on
-     * quitte)
-     */
-    public void reset() {
-        for (int i = 0; i < ships.length; i++) {
-            if (ships[i] != null) {
-                if (Environment.debug) {
-                    System.out
-                            .println("[ClientArea.reset] Mise à null de ships["
-                                    + i + "]");
-                }
-                ships[i] = null;
-            }
-        }
-        if (Environment.debug) {
-            System.out
-                    .println("[ClientArea.reset] Appel imminent de Display3D.reset()");
-        }
-        Environment.theDisplay3D.reset();
-    }
+	/**
+	 * Réinitialise ce ClientArea (appelé par ClientMainLoopThread quand on
+	 * quitte)
+	 */
+	public void reset() {
+		for (int i = 0; i < ships.length; i++) {
+			if (ships[i] != null) {
+				if (Environment.debug) {
+					System.out
+							.println("[ClientArea.reset] Mise à null de ships["
+									+ i + "]");
+				}
+				ships[i] = null;
+			}
+		}
+		//_ships.clear();
+		if (Environment.debug) {
+			System.out
+					.println("[ClientArea.reset] Appel imminent de Display3D.reset()");
+		}
+		Environment.theDisplay3D.reset();
+	}
 
-    /**
-     * Cette méthode sert à définir quel est le fichier d'aire de jeu à
-     * utiliser, et met à jour ClientArea avec les informations qu'il contient.
-     *
-     * @param aAreaFile
-     *            le nom du fichier ".pilotix.area.xml" à utiliser
-     */
-    public void setArea(String aAreaFile) {
-        Document document = Environment.theXMLHandler.getDocumentFromURL(
-                             Environment.theRL.getResource(
-                                          ResourceLocator.AREA, aAreaFile));
-        Element rootNode=null;
-        try {
-            rootNode = document.getDocumentElement();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	/**
+	 * Cette méthode sert à définir quel est le fichier d'aire de jeu à
+	 * utiliser, et met à jour ClientArea avec les informations qu'il contient.
+	 * 
+	 * @param aAreaFile
+	 *            le nom du fichier ".pilotix.area.xml" à utiliser
+	 */
+	public void setArea(String aAreaFile) {
+		Document document = Environment.theXMLHandler
+				.getDocumentFromURL(Environment.theRL.getResource(
+						ResourceLocator.AREA, aAreaFile));
+		Element rootNode = null;
+		try {
+			rootNode = document.getDocumentElement();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        // Définition des limites externes de l'aire de jeu
-        xMax = Integer.parseInt(rootNode.getAttribute("width"))*Environment.u3d;
-        yMax = Integer.parseInt(rootNode.getAttribute("height"))*Environment.u3d;
+		// Définition des limites externes de l'aire de jeu
+		xMax = Integer.parseInt(rootNode.getAttribute("width"))
+				* Environment.u3d;
+		yMax = Integer.parseInt(rootNode.getAttribute("height"))
+				* Environment.u3d;
 
-        // Définition des limites internes de l'aire de jeu (obstacles)
-        NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
-        obstacles = new Obstacle[theObstacles.getLength()];
-        Element tmpXmlObstacle = null;
-        for (int i = 0; i < theObstacles.getLength(); i++) {
-            tmpXmlObstacle = (Element) theObstacles.item(i);
-            obstacles[i] = new Obstacle(
-                   new Vector(
-                      Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
-                      Integer.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerY"))),
-                   new Vector(
-                      Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerX")),
-                      Integer.parseInt(tmpXmlObstacle.getAttribute("downRightCornerY"))),
-                   Integer.parseInt(tmpXmlObstacle.getAttribute("height")),
-                   Integer.parseInt(tmpXmlObstacle.getAttribute("altitude")),
-                   tmpXmlObstacle.getAttribute("topTexture"),
-                   tmpXmlObstacle.getAttribute("sideTexture"));
-        }
-    }
+		// Définition des limites internes de l'aire de jeu (obstacles)
+		NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
+		obstacles = new Obstacle[theObstacles.getLength()];
+		Element tmpXmlObstacle = null;
+		for (int i = 0; i < theObstacles.getLength(); i++) {
+			tmpXmlObstacle = (Element) theObstacles.item(i);
+			obstacles[i] = new Obstacle(new Vector(Integer
+					.parseInt(tmpXmlObstacle.getAttribute("upLeftCornerX")),
+					Integer.parseInt(tmpXmlObstacle
+							.getAttribute("upLeftCornerY"))), new Vector(
+					Integer.parseInt(tmpXmlObstacle
+							.getAttribute("downRightCornerX")), Integer
+							.parseInt(tmpXmlObstacle
+									.getAttribute("downRightCornerY"))),
+					Integer.parseInt(tmpXmlObstacle.getAttribute("height")),
+					Integer.parseInt(tmpXmlObstacle.getAttribute("altitude")),
+					tmpXmlObstacle.getAttribute("topTexture"), tmpXmlObstacle
+							.getAttribute("sideTexture"));
+		}
+	}
 
-    public class Obstacle {
-        public Vector upLeftCorner;
-        public Vector downRightCorner;
-        public int altitude;
-        public int height;
-        public String topTexture;
-        public String sideTexture;
+	public class Obstacle {
+		public Vector upLeftCorner;
+		public Vector downRightCorner;
+		public int altitude;
+		public int height;
+		public String topTexture;
+		public String sideTexture;
 
-        public Obstacle(Vector upLeftCorner, Vector downRightCorner,
-                         int height, int altitude,
-                         String topTexture, String sideTexture) {
-            this.upLeftCorner = upLeftCorner;
-            this.downRightCorner = downRightCorner;
-            this.height = height;
-            this.altitude = altitude;
-            this.topTexture = topTexture;
-            this.sideTexture = sideTexture;
-        }
-    }
+		public Obstacle(Vector upLeftCorner, Vector downRightCorner,
+				int height, int altitude, String topTexture, String sideTexture) {
+			this.upLeftCorner = upLeftCorner;
+			this.downRightCorner = downRightCorner;
+			this.height = height;
+			this.altitude = altitude;
+			this.topTexture = topTexture;
+			this.sideTexture = sideTexture;
+		}
+	}
 
-    /**
-     * Renvoie l'ensemble des obstacles dans un tableau.
-     *
-     * @return le tableau des obstacles
-     */
-    public Obstacle[] getObstacles() {
-        return obstacles;
-    }
+	/**
+	 * Renvoie l'ensemble des obstacles dans un tableau.
+	 * 
+	 * @return le tableau des obstacles
+	 */
+	public Obstacle[] getObstacles() {
+		return obstacles;
+	}
 
-    /**
-     * Renvoie l'obstacle dont le numéro est fourni.
-     *
-     * @param i
-     *            l'identification du vaisseau à renvoyer
-     * @return une instance de Obstacle,
-     *         ou null si l'identifiant fourni n'est pas celui d'un vaisseau
-     */
-    public Obstacle getObstacle(int i) {
-        if (i > obstacles.length) {
-            return null;
-        }
-        else {
-            return (Obstacle) obstacles[i];
-        }
-    }
+	/**
+	 * Renvoie l'obstacle dont le numéro est fourni.
+	 * 
+	 * @param i
+	 *            l'identification du vaisseau à renvoyer
+	 * @return une instance de Obstacle, ou null si l'identifiant fourni n'est
+	 *         pas celui d'un vaisseau
+	 */
+	public Obstacle getObstacle(int i) {
+		if (i > obstacles.length) {
+			return null;
+		} else {
+			return (Obstacle) obstacles[i];
+		}
+	}
 
-    /**
-     * Teste si le vaisseau indiqué existe.
-     *
-     * @param aShipId
-     *         le vaisseau dont l'existence doit être testée
-     * @return
-     *         vrai si le vaisseau existe, faux sinon
-     */
-    public final boolean shipIsNull(int aShipId) {
-        return (ships[aShipId]==null) ? true : false;
-    }
+	/**
+	 * Teste si le vaisseau indiqué existe.
+	 * 
+	 * @param aShipId
+	 *            le vaisseau dont l'existence doit être testée
+	 * @return vrai si le vaisseau existe, faux sinon
+	 */
+	public final boolean shipIsNull(int aShipId) {
+		//return _ships.get(aShipId) == null;
+		return (ships[aShipId]==null) ? true : false;
+	}
 
-    /**
-     * Renvoie la position du vaisseau dont l'identifiant est passé en paramètre.
-     *
-     * @param aShipId
-     *         le vaisseau dont la position doit être renvoyée
-     * @return
-     *         la position du vaisseau
-     */
-    public final Vector getShipPosition(int aShipId) {
-        return ships[aShipId].getPosition();
-    }
+	/**
+	 * Renvoie la position du vaisseau dont l'identifiant est passé en
+	 * paramètre.
+	 * 
+	 * @param aShipId
+	 *            le vaisseau dont la position doit être renvoyée
+	 * @return la position du vaisseau
+	 */
+	public final Vector getShipPosition(int aShipId) {
+		//return ((Ship)_ships.get(aShipId)).getPosition();
+		return ships[aShipId].getPosition();
+	}
 
-    /**
-     * Renvoie la direction du vaisseau dont l'identifiant est passé en paramètre.
-     *
-     * @param aShipId
-     *         le vaisseau dont la direction doit être renvoyée
-     * @return
-     *         la direction du vaisseau
-     */
-    public final Angle getShipDirection(int aShipId) {
-        return ships[aShipId].getDirection();
-    }
+	/**
+	 * Renvoie la direction du vaisseau dont l'identifiant est passé en
+	 * paramètre.
+	 * 
+	 * @param aShipId
+	 *            le vaisseau dont la direction doit être renvoyée
+	 * @return la direction du vaisseau
+	 */
+	public final Angle getShipDirection(int aShipId) {
+		//return ((Ship)_ships.get(aShipId)).getDirection();
+		return ships[aShipId].getDirection();
+	}
 
-    /**
-     * Renvoie l'état du vaisseau dont l'identifiant est passé en paramètre.
-     *
-     * @param aShipId
-     *         le vaisseau dont l'état doit être renvoyé
-     * @return
-     *         l'état du vaisseau
-     */
-    public final int getShipStates(int aShipId) {
-        return ships[aShipId].getStates();
-    }
+	/**
+	 * Renvoie l'état du vaisseau dont l'identifiant est passé en paramètre.
+	 * 
+	 * @param aShipId
+	 *            le vaisseau dont l'état doit être renvoyé
+	 * @return l'état du vaisseau
+	 */
+	public final int getShipStates(int aShipId) {
+		//return ((Ship)_ships.get(aShipId)).getStates();
+		return ships[aShipId].getStates();
+	}
 
-    /**
-     * Renvoie le vaisseau dont l'identificateur est fourni.
-     *
-     * @param shipID
-     *            l'identification du vaisseau à renvoyer
-     * @return une instance de Ship, ou null si l'identifiant fourni n'est pas
-     *         celui d'un vaisseau
-     */
-/*
-    public Ship getShip(int shipID) {
-        return (Ship) ships[shipID];
-    }
-*/
-    /**
-     * Renvoie l'ensemble des vaisseaux dans un tableau.
-     *
-     * @return le tableau des vaisseaux
-     */
-    public Ship[] getShips() {
-        return ships;
-    }
+	/**
+	 * Renvoie le vaisseau dont l'identificateur est fourni.
+	 * 
+	 * @param shipID
+	 *            l'identification du vaisseau à renvoyer
+	 * @return une instance de Ship, ou null si l'identifiant fourni n'est pas
+	 *         celui d'un vaisseau
+	 */
+	/*
+	 * public Ship getShip(int shipID) { return (Ship) ships[shipID]; }
+	 */
+	/**
+	 * Renvoie l'ensemble des vaisseaux dans un tableau.
+	 * 
+	 * @return le tableau des vaisseaux
+	 */
+	public Ship[] getShips() {
+		return ships;
+	}
+	/*public IterableArray getShips(){
+		return _ships;
+	}*/
 
-    /**
-     * Renvoie l'identifiant du vaisseau du joueur
-     * 
-     * @return l'identifiant du vaisseau du joueur
-     */
-    public int getOwnShipId() {
-        return ownShipId;
-    }
+	/**
+	 * Renvoie l'identifiant du vaisseau du joueur
+	 * 
+	 * @return l'identifiant du vaisseau du joueur
+	 */
+	public int getOwnShipId() {
+		return ownShipId;
+	}
 
-    /**
-     * Renvoie le nombre de vaisseaux actuellement dans la partie
-     * 
-     * @return le nombre de vaisseaux
-     */
-    public int getNbShips() {
-        return nbShips;
-    }
+	/**
+	 * Renvoie le nombre de vaisseaux actuellement dans la partie
+	 * 
+	 * @return le nombre de vaisseaux
+	 */
+	public int getNbShips() {
+		return nbShips;
+	}
 
-    /**
-     * Définit l'identifiant du vaisseau du joueur
-     * 
-     * @param shipId
-     *            l'identifiant du vaisseau tel que fourni par le serveur
-     */
-    public void setOwnShipId(int shipId) {
-        ownShipId = shipId;
-    }
+	/**
+	 * Définit l'identifiant du vaisseau du joueur
+	 * 
+	 * @param shipId
+	 *            l'identifiant du vaisseau tel que fourni par le serveur
+	 */
+	public void setOwnShipId(int shipId) {
+		ownShipId = shipId;
+	}
 
-    /**
-     * Renvoie la valeur maximale de X pour l'aire de jeu en cours.
-     * 
-     * @return la valeur maximale de X
-     */
-    public final float getXMax() {
-        return xMax;
-    }
+	/**
+	 * Renvoie la valeur maximale de X pour l'aire de jeu en cours.
+	 * 
+	 * @return la valeur maximale de X
+	 */
+	public final float getXMax() {
+		return xMax;
+	}
 
-    /**
-     * Renvoie la valeur maximale de Y pour l'aire de jeu en cours.
-     *
-     * @return la valeur maximale de Y
-     */
-    public final float getYMax() {
-        return yMax;
-    }
+	/**
+	 * Renvoie la valeur maximale de Y pour l'aire de jeu en cours.
+	 * 
+	 * @return la valeur maximale de Y
+	 */
+	public final float getYMax() {
+		return yMax;
+	}
 }

@@ -66,8 +66,8 @@ public class PilotixServer {
         //nbMaxPlayer = 4;
         theIH = new IdHandler();
         theXH = new XMLHandler();
-        theSA = new ServerArea();
-        theSA.setMap("defaut.pilotix.area.xml");
+        theSA = new ServerArea("defaut.pilotix.area.xml");
+        //theSA.setMap("defaut.pilotix.area.xml");
         theIH.setNbMaxIds(theSA.getNbMaxShips());
         theSMLT = new ServerMainLoopThread();
         theCHT = new ConnexionHandlerThread(port);

@@ -83,10 +83,10 @@ public class ClientHandlerThread extends Thread {
     }
 
     public void sendArea() {
-        try {
+        try {        	
             messageHandler.send(PilotixServer.theSA);
         } catch (Exception e) {
-            //e.printStackTrace();            
+            e.printStackTrace();            
         }
     }
 

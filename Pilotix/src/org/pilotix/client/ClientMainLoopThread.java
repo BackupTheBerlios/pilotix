@@ -92,7 +92,7 @@ public class ClientMainLoopThread extends Thread {
                 System.out.println("[CMLT] Début de la boucle");
             }
             while (!quit) {
-                Object obj = clientMessageHandler.receive();
+                Object obj = clientMessageHandler.receive();                 
                 if (obj instanceof Area) {
                     // On écrit le vaisseau reçu dans ClientArea
                     Environment.theClientArea.set((Area) obj);

@@ -47,6 +47,19 @@ public class Vector {
         x = px;
         y = py;
     }
+    
+    /**
+     * Crée un vecteur avec les valeurs fournies.
+     *
+     * @param px
+     *            valeur de x
+     * @param py
+     *            valeur de y
+     */
+    public Vector(Vector aVector){
+    	x = aVector.x;
+    	y = aVector.y;
+    }
 
     /**
      * Met à jour un vecteur avec les valeurs fournies.
