@@ -51,7 +51,7 @@
     <javac srcdir="${src}"
             destdir="${build}"
             encoding="ISO-8859-1"
-            optimize="no"
+            optimize="yes"
             debug="yes" />
   </target>
 
