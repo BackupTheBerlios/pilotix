@@ -22,9 +22,9 @@ package org.pilotix.client;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.pilotix.common.Angle;
+//import org.pilotix.common.Angle;
 import org.pilotix.common.Area;
-import org.pilotix.common.Command;
+//import org.pilotix.common.Command;
 import org.pilotix.common.Information;
 import org.pilotix.common.MessageHandler;
 import org.pilotix.common.Ship;
@@ -50,8 +50,8 @@ public class ClientMainLoopThread extends Thread {
     private ClientArea clientArea = null;
     private MessageHandler clientMessageHandler = null;
     private Socket socket = null;
-    private Command tmpCommand = null;
-    private Angle tmpAngle = null;
+    //private Command tmpCommand = null;
+    //private Angle tmpAngle = null;
     private Ship tmpShip = null;
 
     /**
@@ -61,8 +61,8 @@ public class ClientMainLoopThread extends Thread {
         if (Environment.debug) {
             System.out.println("[CMLT] Constructeur");
         }
-        tmpCommand = new Command();
-        tmpAngle = new Angle();
+        //tmpCommand = new Command();
+        //tmpAngle = new Angle();
     }
 
     /**
@@ -106,7 +106,8 @@ public class ClientMainLoopThread extends Thread {
 
                     // Puis on prend en compte les actions du joueur depuis la
                     // dernière frame
-                    tmpAngle.set(Environment.theControls.getMouseVariation().x);
+                    // --- à supprimer puisque c'est maintenant le role de ControlCommand
+                    /*tmpAngle.set(Environment.theControls.getMouseVariation().x);
                     tmpCommand.setDirection(tmpAngle);
                     int[] aks = Environment.theControls.getKeyStatus();
                     if (aks[Environment.theControls.keyAccel] == Controls.PRESSED) {
@@ -116,10 +117,11 @@ public class ClientMainLoopThread extends Thread {
                     }
                     tmpCommand.setAccessory(0);
                     tmpCommand.setProjectileId(0);
+                    Environment.controlCmd.setCommand(tmpCommand);*/
 
                     // Enfin, on envoie la commande au serveur
                     //clientMessageHandler.sendCOMMANDMessage(tmpCommand);
-                    clientMessageHandler.send(tmpCommand);
+                    clientMessageHandler.send(Environment.controlCmd.getCommand());
                 } else if (obj instanceof Information) {                    
                     switch (((Information) obj).code) {
                     case Information.OWN_SHIP_ID:
