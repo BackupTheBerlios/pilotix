@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE pilotix-client-config SYSTEM "pilotix-client-config.dtd">-->
+<PilotixClientConfig>
+  <colors>
+    <pilot id="0" rgb="1.0;0.0;0.0" />
+    <pilot id="1" rgb="1.0;1.0;0.0" />
+    <pilot id="2" rgb="0.0;0.0;1.0" />
+    <pilot id="3" rgb="0.0;1.0;0.0" />
+    <pilot id="4" rgb="1.0;0.0;1.0" />
+    <pilot id="5" rgb="0.0;1.0;1.0" />
+  </colors>
+</PilotixClientConfig>

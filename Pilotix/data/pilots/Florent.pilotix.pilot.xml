@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PilotixShape SYSTEM "pilotix.pilot.dtd">
-<PilotixPilot Login="florent" PilotixVersion="0.5">
+<!-- !DOCTYPE PilotixShape SYSTEM "pilotix.pilot.dtd"> -->
+<PilotixPilot PilotixVersion="0.5">
     <Description>
         <FirstName>Florent</FirstName>
-        <Name>Sithimolada </Name>
+        <LastName>Sithimolada </LastName>
         <Photo>florent.sithimolada.free.fr/Photo.jpg</Photo>
-        <Comment>Oui je suis un Boss</Comment>
+        <Comment>Oui je suis une quiche :)</Comment>
     </Description>
-    <Game Date="12:13 20/11/2003" Map="Basic" Ship="BlackEagle" Score="103"/>
+    <Interface l="640" h="400" />
+    <Keymap>
+        <Action name="ACCELERATE">VK_UP</Action>
+        <Action name="USE">VK_SPACE</Action>
+        <Action name="LEFT">VK_LEFT</Action>
+        <Action name="RIGHT">VK_RIGHT</Action>
+    </Keymap>
+    <Ship name="SimpleShip" />
+    
+    <PlugIn name="AutoPilot" version="0.5" enable="true">
+        <Var name="ON_AT_START">true</Var>
+        <Var name="SPEED_ALLOWED">10</Var>
+        <Var name="ICON_PATH">autopilot.jpg</Var>
+    </PlugIn>
 </PilotixPilot>
