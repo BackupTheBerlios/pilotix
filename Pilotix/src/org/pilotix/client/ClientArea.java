@@ -78,11 +78,6 @@ public class ClientArea extends org.pilotix.common.Area {
      */
     public void init() {
         // Réinitialisation de la liste des Ships
-        /*
-         for (int i = 0; i < ships.length; i++) {
-         ships[i] = null;
-         }
-         */
         ships.clear();
         balls.clear();
         this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE
@@ -109,7 +104,7 @@ public class ClientArea extends org.pilotix.common.Area {
     /**
      * Cette méthode sert à définir quel est le fichier d'aire de jeu à
      * utiliser, et met à jour ClientArea avec les informations qu'il contient.
-     * 
+     *
      * @param aAreaFile
      *            le nom du fichier ".pilotix.area.xml" à utiliser
      */
@@ -190,18 +185,8 @@ public class ClientArea extends org.pilotix.common.Area {
      *         pas celui d'un vaisseau
      */
     public Obstacle getObstacle(int i) {
-        /*if (i > obstacles.length) {
-         return null;
-         } else {
-         return (Obstacle) obstacles[i];
-         }*/
-
         return (Obstacle) obstacles.get(i);
     }
-
-    /*public IterrableArray getObstacles2() {
-     return obstacles;
-     }*/
 
     /**
      * Renvoie la position de la balle dont le numéro est fourni.
@@ -366,8 +351,14 @@ public class ClientArea extends org.pilotix.common.Area {
         return yMax;
     }
 
+    /**
+     * Met à jour la position de certains éléments qui ne sont pas
+     * mis à jour à chaque frame par le serveur (position des balles
+     * par exemple).
+     */
     public void nextFrame() {
-        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull(); balls.cursor1Next())
+        for (balls.cursor1OnFirst(); balls.cursor1IsNotNull(); balls.cursor1Next()) {
             ((Ball) balls.cursor1Get()).nextFrame();
+        }
     }
 }
