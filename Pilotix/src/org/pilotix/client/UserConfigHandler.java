@@ -96,7 +96,7 @@ public class UserConfigHandler {
     }
 
     public String getFirstName() {
-    	return firstName;
+        return firstName;
     }
     
     public void setFirstName(String name) {
@@ -126,12 +126,12 @@ public class UserConfigHandler {
      * @return la hauteur de l'interface, en pixels
      */
     public int getInterfaceHeight() {
-    	return interfaceHeight;
+        return interfaceHeight;
     }
     
     public void setInterfaceDimensions(int length, int height) {
-    	interfaceLength = length;
-    	interfaceHeight = height;
+        interfaceLength = length;
+        interfaceHeight = height;
     }
     
     public String getFavoriteShipName() {
@@ -147,7 +147,7 @@ public class UserConfigHandler {
     }
     
     public void setKeymap(HashMap aKeymap) {
-    	keymap = aKeymap;
+        keymap = aKeymap;
     }
 
  
@@ -181,17 +181,17 @@ public class UserConfigHandler {
     public HashMap getPlugInVars(String plugInName) {
         NodeList nl = documentElement.getElementsByTagName(plugInString);
         if (nl.getLength() == 0)
-        	return null;
+            return null;
         else {
-        	Element elt = null;
-        	int i = 0;
-        	while (i < nl.getLength()) {
-        		elt = (Element) nl.item(i);
-        		if (elt.getAttribute("name").equals(plugInName))
-        			return getValuesFromElements(elt, "Var");
-        		i++;
-        	}
-        	return null;
+            Element elt = null;
+            int i = 0;
+            while (i < nl.getLength()) {
+                elt = (Element) nl.item(i);
+                if (elt.getAttribute("name").equals(plugInName))
+                    return getValuesFromElements(elt, "Var");
+                i++;
+            }
+            return null;
         }
     }
 
