@@ -13,10 +13,10 @@
     <all-permissions/>
   </security>
   <resources>
-    <j2se version="1.4+"/>
-    <jar href="root/Pilotix/dist/PilotixServer.jar" main="true" download="eager" />
-    <jar href="root/Pilotix/dist/PilotixCommon.jar" download="eager" />
-    <jar href="root/Pilotix/dist/PilotixData.jar" download="eager" />
+    <j2se version="1.4+" />
+    <jar href="root/Pilotix/dist/PilotixServer.jar" main="true" />
+    <jar href="root/Pilotix/dist/PilotixCommon.jar" />
+    <jar href="root/Pilotix/dist/PilotixData.jar" />
     <property name="pilotix.data.path" value="data" />
   </resources>
   <application-desc main-class="org.pilotix.server.PilotixServer" />
