@@ -39,107 +39,100 @@ package org.pilotix.common;
 
 public class Area implements Transferable {
 
-	protected int nbMaxShips = 8; // a recuperer dans la map
-	protected int nbShips;
-	protected int nbBalls;
-	protected Ship[] ships;
-	protected IterableArray _ships;
-	protected IterableArray balls;
-	private int lengthInByte;
-	private Ship tmpShip;
-	private Ball tmpBall;
-	private byte[] tmpByte;
-	private byte[] byteCoded = null;
+    protected int nbMaxShips = 8; // a recuperer dans la map
+    protected int nbShips;
+    protected int nbBalls;
+    protected IterableArray ships;
+    protected IterableArray balls;
+    private int lengthInByte;
+    private Ship tmpShip;
+    private Ball tmpBall;
+    private byte[] tmpByte;
+    private byte[] byteCoded = null;
 
-	public Area() {
-		byteCoded = new byte[5000];
-		ships = new Ship[16];
-		nbShips = 0;
-		tmpShip = new Ship();
-		_ships = new IterableArray(8); // a changer en fonction de la map
-	}
+    public Area() {
+        byteCoded = new byte[5000];
+        ships = new IterableArray(nbMaxShips);
+        nbShips = 0;
+        tmpShip = new Ship();
+    }
 
-	public void set(Area anArea) {
-		nbShips = anArea.nbShips;
-		ships = anArea.ships;
-		lengthInByte = anArea.lengthInByte;
-	}
+    public void set(Area anArea) {
+        nbShips = anArea.nbShips;
+        ships = anArea.ships;
+        lengthInByte = anArea.lengthInByte;
+    }
 
-	public void setFromBytes(byte[] bytes) {
+    public void setFromBytes(byte[] bytes) {
 
-		nbShips = (byte) (bytes[0] & 15);
+        nbShips = (byte) (bytes[0] & 15);
 
-		int index = 1;
-		tmpByte = new byte[Ship.lengthInByte];
-		_ships.clear();
-		for (int i = 0; i < nbShips; i++) {
-			tmpByte[0] = bytes[index];
-			tmpByte[1] = bytes[index + 1];
-			tmpByte[2] = bytes[index + 2];
-			tmpByte[3] = bytes[index + 3];
-			tmpByte[4] = bytes[index + 4];
-			tmpByte[5] = bytes[index + 5];
+        int index = 1;
+        tmpByte = new byte[Ship.lengthInByte];
+        ships.clear();
+        for (int i = 0; i < nbShips; i++) {
+            tmpByte[0] = bytes[index];
+            tmpByte[1] = bytes[index + 1];
+            tmpByte[2] = bytes[index + 2];
+            tmpByte[3] = bytes[index + 3];
+            tmpByte[4] = bytes[index + 4];
+            tmpByte[5] = bytes[index + 5];
 
-			tmpShip.setFromBytes(tmpByte);
-			if (tmpShip.getStates() == Ship.REMOVE) {
-				_ships.remove(tmpShip.getId());
-				ships[tmpShip.getId()] = null;
-			} else {
-				if (_ships.get(tmpShip.getId()) == null) {
-					_ships.add(tmpShip.getId(), new Ship(tmpShip));
-					ships[tmpShip.getId()] = new Ship();
+            tmpShip.setFromBytes(tmpByte);
+            if (tmpShip.getStates() == Ship.REMOVE) {
+                ships.remove(tmpShip.getId());
+            } else {
+                if (ships.get(tmpShip.getId()) == null) {
+                    ships.add(tmpShip.getId(), new Ship(tmpShip));
+                }
+                ((Ship) ships.get(tmpShip.getId())).set(tmpShip);
+            }
+            index = index + Ship.lengthInByte;
+        }
+    }
 
-				}
-				ships[tmpShip.getId()].set(tmpShip);
-				((Ship) _ships.get(tmpShip.getId())).set(tmpShip);
+    /*
+     * public void setFromBytes(byte[] bytes) {
+     *
+     * nbShips = (byte) (bytes[0] & 15);
+     *
+     * int index = 1; tmpByte = new byte[Ship.lengthInByte];
+     *
+     * for (int i = 0; i < nbShips; i++) { tmpByte[0] = bytes[index]; tmpByte[1] =
+     * bytes[index + 1]; tmpByte[2] = bytes[index + 2]; tmpByte[3] = bytes[index +
+     * 3]; tmpByte[4] = bytes[index + 4]; tmpByte[5] = bytes[index + 5];
+     *
+     * tmpShip.setFromBytes(tmpByte); if (tmpShip.getStates() == Ship.REMOVE) {
+     * ships[tmpShip.getId()] = null; } else { if (ships[tmpShip.getId()] ==
+     * null) { ships[tmpShip.getId()] = new Ship(); }
+     * ships[tmpShip.getId()].set(tmpShip); } index = index + Ship.lengthInByte; } }
+     */
 
-			}
-			index = index + Ship.lengthInByte;
-		}
-	}
+    public byte[] getAsBytes() {
 
-	/*
-	 * public void setFromBytes(byte[] bytes) {
-	 * 
-	 * nbShips = (byte) (bytes[0] & 15);
-	 * 
-	 * int index = 1; tmpByte = new byte[Ship.lengthInByte];
-	 * 
-	 * for (int i = 0; i < nbShips; i++) { tmpByte[0] = bytes[index]; tmpByte[1] =
-	 * bytes[index + 1]; tmpByte[2] = bytes[index + 2]; tmpByte[3] = bytes[index +
-	 * 3]; tmpByte[4] = bytes[index + 4]; tmpByte[5] = bytes[index + 5];
-	 * 
-	 * tmpShip.setFromBytes(tmpByte); if (tmpShip.getStates() == Ship.REMOVE) {
-	 * ships[tmpShip.getId()] = null; } else { if (ships[tmpShip.getId()] ==
-	 * null) { ships[tmpShip.getId()] = new Ship(); }
-	 * ships[tmpShip.getId()].set(tmpShip); } index = index + Ship.lengthInByte; } }
-	 */
+        byte[] tmp;
+        byteCoded[0] = 0;
+        byteCoded[0] = (byte) (Transferable.AREA << 4);
+        byteCoded[0] |= (byte) ships.size();
+        lengthInByte = 1;
+        for (ships.setCursorOnFirst(); ships.hasNext();) {
+            tmp = ((Ship) ships.next()).getAsBytes();
+            for (int j = 0; j < Ship.lengthInByte; j++) {
+                byteCoded[lengthInByte + j] = tmp[j];
+            }
+            lengthInByte += Ship.lengthInByte;
+        }
+        return byteCoded;
+    }
 
-	public byte[] getAsBytes() {
+    public int getLengthInByte() {
+        return lengthInByte;
+    }
 
-		byte[] tmp;
-		byteCoded[0] = 0;
-		byteCoded[0] = (byte) (Transferable.AREA << 4);
-		byteCoded[0] |= (byte) _ships.size();
-		lengthInByte = 1;
-		for (_ships.setCursorOnFirst(); _ships.hasNext();) {
-			tmp = ((Ship) _ships.next()).getAsBytes();
-			for (int j = 0; j < Ship.lengthInByte; j++) {
-				byteCoded[lengthInByte + j] = tmp[j];
-			}
-			lengthInByte += Ship.lengthInByte;
-		}
-		return byteCoded;
-	}
-
-	public int getLengthInByte() {
-		return lengthInByte;
-	}
-
-	/**
-	 * @return Returns the nbMaxShips.
-	 */
-	public int getNbMaxShips() {
-		return nbMaxShips;
-	}
+    /**
+     * @return Returns the nbMaxShips.
+     */
+    public int getNbMaxShips() {
+        return nbMaxShips;
+    }
 }
