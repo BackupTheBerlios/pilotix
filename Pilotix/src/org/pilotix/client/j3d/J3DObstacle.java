@@ -32,14 +32,14 @@ import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.TransparencyAttributes;
-import javax.media.j3d.PolygonAttributes;
+//import javax.media.j3d.PolygonAttributes;
 import javax.vecmath.TexCoord2f;
 import javax.vecmath.Point3f;
 import javax.vecmath.Color3f;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
-import com.sun.j3d.utils.geometry.Stripifier;
+//import com.sun.j3d.utils.geometry.Stripifier;
 
 /**
  * <p>
