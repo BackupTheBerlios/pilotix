@@ -64,6 +64,7 @@ public class PilotixClient {
 
         Environment.theControls = new Controls();
         Environment.theControls.setMainFrame(Environment.theGUI);
+        Environment.controlCmd = new ControlCommand();
 
     }
 
