@@ -177,7 +177,7 @@ public class IterableArray {
         //System.out.println("[IterrableArray] remove"+index);
         if (nb == 0) {
             //throw new Exception("IterableArray already empty");
-            System.out.println("IterableArray already empty");
+            System.out.println("[IterableArray] already empty "+index);
         } else if (index == first) {
             if (nb == 1) {
                 first = -1;

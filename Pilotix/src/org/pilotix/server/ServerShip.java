@@ -141,13 +141,15 @@ public class ServerShip extends Ship {
                 balls.add(
                     id,
                     new ServerBall(
-                        position.plus((int)( ((ServerAngle) direction).getX()
-                            * (double)radius), (int) (((ServerAngle) direction).getY()
-                            * (double)radius)),
+                        id,
+                        position.plus(
+                            (int) (((ServerAngle) direction).getX() * (double) radius),
+                            (int) (((ServerAngle) direction).getY() * (double) radius)),
                         speed.plus(
                             (int) (((ServerAngle) direction).getX() * (double) 200),
-                            (int) (((ServerAngle) direction).getY() * (double) 200))));
-                
+                            (int) (((ServerAngle) direction).getY() * (double) 200))
+                        ));
+
             } else {
 
             }

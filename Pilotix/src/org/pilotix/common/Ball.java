@@ -53,11 +53,12 @@ public class Ball extends PilotixElement implements Transferable {
     private byte[] byteCoded = new byte[lengthInByte];
     private int radius = 100;
 
-    public Ball(Vector aPosition, Vector aSpeed) {
+    public Ball( int id, Vector aPosition, Vector aSpeed) {
         super();
         position.set(aPosition);
         speed.set(aSpeed);
         states = ADD;
+        this.id = id;
     }
 
     public Ball() {

@@ -42,9 +42,10 @@ public class ServerBall extends Ball {
     /**
      * @param aPosition
      * @param aSpeed
+     * @param id TODO
      */
-    public ServerBall(Vector aPosition, Vector aSpeed) {
-        super(aPosition, aSpeed);
+    public ServerBall( int id,Vector aPosition, Vector aSpeed) {
+        super(id, aPosition, aSpeed);
         states = NEW;
     }
 

@@ -163,16 +163,17 @@ public class ServerArea extends Area {
         for (balls.setCursor1OnFirst(); balls.cursor1hasNext();) {
             tmpBall = (ServerBall) balls.cursor1next();
             if (tmpBall.getState() == ServerBall.NEW) {
-                System.out.println("Ball " + tmpBall.getId() + " Created !");
+                System.out.println("Ball " + tmpBall.getId() + " Added !");
                 tmpBall.setStates(ServerBall.ADD);
             } else if (tmpBall.getState() == ServerBall.ADD) {
                 tmpBall.setStates(ServerBall.NORMAL);
                 //System.out.println("Ball id=" + tmpBall.getId() + " state="
                 //    + tmpBall.getState());
             } else if (tmpBall.getState() == ServerBall.TO_REMOVE) {
-                System.out.println("Ball " + tmpBall.getId() + " Deleted !");
+                System.out.println("Ball " + tmpBall.getId() + " Removed !");
                 tmpBall.setStates(ServerBall.REMOVE);
             } else if (tmpBall.getState() == ServerBall.REMOVE) {
+                System.out.println("Ball " + tmpBall.getId() + " Deleted !");
                 balls.remove(tmpBall.getId());
             }
         }
@@ -197,17 +198,17 @@ public class ServerArea extends Area {
 
         if (returnedPosition.x < (left + radius)) {
             returnedPosition.x = left + radius;
-            returnedSpeed.x = 0;
+            returnedSpeed.x = -(returnedSpeed.x/2);
         } else if (returnedPosition.x > (right - radius)) {
             returnedPosition.x = right - radius;
-            returnedSpeed.x = 0;
+            returnedSpeed.x = -(returnedSpeed.x/2);
         }
         if (returnedPosition.y > (up - radius)) {
             returnedPosition.y = up - radius;
-            returnedSpeed.y = 0;
+            returnedSpeed.y = -(returnedSpeed.y/2);
         } else if (returnedPosition.y < (down + radius)) {
             returnedPosition.y = down + radius;
-            returnedSpeed.y = 0;
+            returnedSpeed.y = -(returnedSpeed.y/2);
         }
     }
 
@@ -226,17 +227,18 @@ public class ServerArea extends Area {
                 && ((down - radius) < returnedPosition.y)
                 && (returnedPosition.y < (up + radius))) {
                 if (currentPosition.x < left) {
-                    returnedSpeed.x = 0;
+                    
+                    returnedSpeed.x = -(returnedSpeed.x/2);
                     returnedPosition.x = left - radius;
                 } else if (right < currentPosition.x) {
-                    returnedSpeed.x = 0;
+                    returnedSpeed.x = -(returnedSpeed.x/2);
                     returnedPosition.x = right + radius;
                 }
                 if (currentPosition.y < down) {
-                    returnedSpeed.y = 0;
+                    returnedSpeed.y = -(returnedSpeed.y/2);
                     returnedPosition.y = down - radius;
                 } else if (up < currentPosition.y) {
-                    returnedSpeed.y = 0;
+                    returnedSpeed.y = -(returnedSpeed.y/2);
                     returnedPosition.y = up + radius;
                 }
             }
