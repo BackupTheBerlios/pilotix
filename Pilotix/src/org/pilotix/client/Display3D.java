@@ -67,6 +67,7 @@ public class Display3D {
     private J3DCamera ownShip3DCamera = null;
     private Canvas3D mainCanvas3D = null;
     private Canvas3D minimapCanvas3D = null;
+    private J3DArea areaJ3D = null;
 
     private IterableArray shipsJ3D = new IterableArray(
         Environment.theClientArea.getNbMaxShips());
@@ -113,7 +114,8 @@ public class Display3D {
         minimapCanvas3D.setSize((int) w, (int) (w * (yMax / xMax)));
 
         // Ajout du J3DArea dans objectsJ3D
-        locale.addBranchGraph(new J3DArea(xMax, yMax));
+        areaJ3D = new J3DArea(xMax, yMax);
+        locale.addBranchGraph(areaJ3D);
 
         // Ajout des obstacles dans objectsJ3D (définis dans ClientArea)
         J3DObstacle tmpObstacleJ3D;
@@ -149,10 +151,18 @@ public class Display3D {
             ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
             ownShip3DCamera = null;
         }
-
+        if (areaJ3D != null) {
+            locale.removeBranchGraph(areaJ3D);
+        }
         obstaclesJ3D.clear();
         shipsJ3D.clear();
         ballsJ3D.clear();
+
+        for (java.util.Enumeration bgs = locale.getAllBranchGraphs(); bgs.hasMoreElements() ;) {
+            BranchGroup bg = (BranchGroup) bgs.nextElement();
+            System.out.println("Display3D.reset() - suppression de la Locale:"+bg);
+            locale.removeBranchGraph(bg);
+        }
     }
 
     /**
