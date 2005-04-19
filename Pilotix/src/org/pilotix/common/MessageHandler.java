@@ -55,6 +55,16 @@ public class MessageHandler {
         //tmpArea = new Area();
     }
 
+    public void close() {
+        try {
+            input.close();
+            output.close();
+        }
+        catch (Exception e) {
+            System.out.println("MessageHandler.close() - EXCEPTION");
+        }
+    }
+
     public void sendBytes(byte[] bytes) throws Exception{
         output.write(bytes, 0, bytes.length);
     }
