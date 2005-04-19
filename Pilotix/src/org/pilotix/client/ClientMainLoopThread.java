@@ -88,24 +88,17 @@ public class ClientMainLoopThread extends Thread {
             }
 
             while (!quit) {
-                System.out.println("[CMLT.boucle] On va lire flag dans clientMessageHandler");
                 int flag = clientMessageHandler.receiveOneByte();
-                System.out.println("[CMLT.boucle] On a lu flag");
 
                 if (flag == Transferable.AREA) {
-                    //System.out.println("[CMLT.boucle] On lit ClientArea");
                     Environment.theClientArea.read(clientMessageHandler);
                     // Effectue les calculs coté client
-                    //System.out.println("[CMLT.boucle] On appelle ClientArea.nextFrame()");
                     Environment.theClientArea.nextFrame();
                     // On met à jour l'affichage 3D
-                    //System.out.println("[CMLT.boucle] On appelle Display3D.update()");
                     Environment.theDisplay3D.update();
                     // On met à jour la liste des joueurs présents
-                    //System.out.println("[CMLT.boucle] On appelle GUIPanel.update()");
                     Environment.theGUI.getGUIPanel().update();
                     // On prend en compte l'action du joueur
-                    //System.out.println("[CMLT.boucle] On écrit la commande");
                     (Environment.controlCmd.getCommand()).write(clientMessageHandler);
                 } else if (flag == Transferable.INFO) {
                     int isOwnShip = clientMessageHandler.receiveOneByte();
@@ -171,15 +164,12 @@ public class ClientMainLoopThread extends Thread {
             Information info = new Information();
             info.code = Information.DECONNECT;
             info.write(clientMessageHandler);
-            //clientMessageHandler.send(info);
             if (Environment.debug) {
                 System.out.println("[CMLT.endGame] DECONNECT envoyé.");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("[CMLT] QUIT va valloir vrai");
         quit = true;
-        System.out.println("[CMLT] QUIT == vrai");
     }
 }
