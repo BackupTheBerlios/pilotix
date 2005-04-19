@@ -66,6 +66,7 @@ public class ClientHandlerThread extends Thread {
                         //state = WANTTOLEAVE;
                         state = TOBEKILL;
                         active = false;
+                        messageHandler.close();
                         try {
                             PilotixServer.theIH.giveBackId(ship.getId());
                         } catch (Exception f) {
