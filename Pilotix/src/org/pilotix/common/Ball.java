@@ -29,20 +29,26 @@ public class Ball extends PilotixElement implements Transferable {
 
     /**
      * Message de creation de Ball
+     *
      * <pre>
+     *
      * | Octet 0 |  Octet1  | Octet2  | Octet3  | Octet4-5 | Octet6-7 | Octet8-9  | Octet10-11|
      * | 1 Octet |  1 Octet | 1 Octet | 1 Octet | 2Octets  | 2Octets  | 2 Octet   | 2 Octet   |
      * |flag BALL|states ADD| ShipID  | BallID  |    X     |    Y     | Vitesse X | Vitesse Y |
+     *
      * </pre>
      */
     public static final int ADD = 1;
 
     /**
      * Message de destruction de Ball
+     *
      * <pre>
+     *
      * | Octet 0 |    Octet1    | Octet2  | Octet3  |
      * | 1 Octet |    1 Octet   | 1 Octet | 1 Octet |
      * |flag BALL|states REMOVE | ShipID  | BallID  |
+     *
      * </pre>
      */
     public static final int REMOVE = 4;
