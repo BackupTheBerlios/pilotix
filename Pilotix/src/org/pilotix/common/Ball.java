@@ -20,36 +20,34 @@
 package org.pilotix.common;
 
 /**
- * Contient les informations relatives à une balle,
- * et les méthodes d'encapsulation pour les transferts
- * sur le réseau.
- *
- */
+  * Contient les informations relatives à une balle,
+  * et les méthodes d'encapsulation pour les transferts
+  * sur le réseau.
+  *
+  * <br />
+  * Message ADD : utilisé pour la création d'une balle
+  * <pre>
+  * | Octet0  |  Octet1  | Octet2  | Octet3  | Octet4-5 | Octet6-7 | Octet8-9  | Octet10-11|
+  * | 1 Octet |  1 Octet | 1 Octet | 1 Octet | 2 Octets | 2 Octets | 2 Octets  | 2 Octets  |
+  * |flag BALL|states ADD| ShipID  | BallID  |    X     |    Y     | Vitesse X | Vitesse Y |
+  * </pre>
+  *
+  * Message REMOVE : utilisé pour la destruction d'une balle
+  * <pre>
+  * | Octet 0 |    Octet1    | Octet2  | Octet3  |
+  * | 1 Octet |    1 Octet   | 1 Octet | 1 Octet |
+  * |flag BALL|states REMOVE | ShipID  | BallID  |
+  * </pre>
+  */
 public class Ball extends PilotixElement implements Transferable {
 
     /**
-     * Message de creation de Ball
-     *
-     * <pre>
-     *
-     * | Octet 0 |  Octet1  | Octet2  | Octet3  | Octet4-5 | Octet6-7 | Octet8-9  | Octet10-11|
-     * | 1 Octet |  1 Octet | 1 Octet | 1 Octet | 2Octets  | 2Octets  | 2 Octet   | 2 Octet   |
-     * |flag BALL|states ADD| ShipID  | BallID  |    X     |    Y     | Vitesse X | Vitesse Y |
-     *
-     * </pre>
+     * Message de creation d'une balle (voir la description de la classe)
      */
     public static final int ADD = 1;
 
     /**
-     * Message de destruction de Ball
-     *
-     * <pre>
-     *
-     * | Octet 0 |    Octet1    | Octet2  | Octet3  |
-     * | 1 Octet |    1 Octet   | 1 Octet | 1 Octet |
-     * |flag BALL|states REMOVE | ShipID  | BallID  |
-     *
-     * </pre>
+     * Message de destruction d'une balle (voir la description de la classe)
      */
     public static final int REMOVE = 4;
     
