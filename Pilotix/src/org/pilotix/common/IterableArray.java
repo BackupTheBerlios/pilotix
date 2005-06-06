@@ -354,53 +354,49 @@ public class IterableArray {
         System.out.println();
     }
 
-    public void copyInto(IterableArray other, Action action) {
-
+    public void copyInto(IterableArray cible, Action action) {
+        // Initialisation des curseurs dans la source et dans la cible
         this.cursor1OnFirst();
-        other.cursor1OnFirst();
-        while (this.cursor1IsNotNull()||other.cursor1IsNotNull()) {
-
-            if (other.cursor1IsNull()) {
-                //ajout d'un nouvel objet
-                //System.out.println("first add");
-                other.add(current, action.add(objects[current]));
-                other.cursor1SetIndexAfter(current);
+        cible.cursor1OnFirst();
+        while (this.cursor1IsNotNull() || cible.cursor1IsNotNull()) {
+            if (cible.cursor1IsNull()) {
+                // Le cas où la cible est vide (et donc la source ne l'est pas,
+                // car dans le cas contraire on serait sorti du "while")
+                // => ajout de la source dans la cible
+                cible.add(current, action.add(objects[current]));
+                cible.cursor1SetIndexAfter(current);
                 this.cursor1Next();
-                //System.out.println("fin de first add:"+current+" "+other.current);
             } else {
-
+                // Les cas où la cible n'est pas vide...
                 if (this.cursor1IsNull()) {
-                    //System.out.println("remove on null");
-                    //suppression de l'objet
-                    action.remove(other.get(other.current));
-                    //int index = other.cursor1GetIndex();
-                    other.remove(other.current);
-                    other.cursor1Next();
-                } else if (other.current < current) {
+                    // Si la source est vide
+                    // => suppression de l'objet dans la cible
+                    action.remove(cible.get(cible.current));
+                    //int index = cible.cursor1GetIndex();
+                    cible.remove(cible.current);
+                    cible.cursor1Next();
+                } else if (cible.current < current) {
                     //System.out.println("remove on leser");
                     //  suppression de l'objet
-                    action.remove(other.get(other.current));
-                    //int index = other.cursor1GetIndex();
-                    other.remove(other.current);
-                    other.cursor1Next();
+                    action.remove(cible.get(cible.current));
+                    //int index = cible.cursor1GetIndex();
+                    cible.remove(cible.current);
+                    cible.cursor1Next();
                     this.cursor1Next();
-                } else if (other.current > current) {
+                } else if (cible.current > current) {
                     //ajout d'un nouvel objet                    
                     //System.out.println("new add");
-                    other.add(current, action.add(objects[current]));
+                    cible.add(current, action.add(objects[current]));
                     this.cursor1Next();
-                } else if (other.current == current) {
+                } else if (cible.current == current) {
                     //System.out.println("update");
                     //mise a jour de objet
-                    action.update(objects[current], other.get(other.current));
-                    other.cursor1Next();
+                    action.update(objects[current], cible.get(cible.current));
+                    cible.cursor1Next();
                     this.cursor1Next();
                 } 
-
             }
-            
         }
-
     }
 
 
