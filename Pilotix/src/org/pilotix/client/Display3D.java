@@ -78,6 +78,63 @@ public class Display3D {
 
     private J3DMinimap minimapJ3D;
 
+    // L'interface Action est definie dans IterableArray
+    private Action actionShips = new Action() {
+
+        public Object add(Object aShip) {
+            Ship ship = (Ship) aShip;
+            System.out.println("[Display3D] New Ship id="+ship.getId());
+
+            J3DShip shipJ3D = new J3DShip(
+                "wipeout.pilotix.shape.xml",
+                Environment.clientConfig.getColorFromId(ship.getId()));
+            shipJ3D.setPosition(ship.getPosition());
+            shipJ3D.setDirection(ship.getDirection());
+
+            /*J3DObject shipJ3D = new J3DObject(
+             "wipeout.pilotix.shape.xml",
+             Environment.clientConfig.getColorFromId(ship.getId()),
+             ship.getPosition(),
+             ship.getDirection());*/
+
+            if (ship.getId() == Environment.theClientArea.getOwnShipId()) {
+                shipJ3D.addCamera(ownShip3DCamera);
+            }
+            locale.addBranchGraph(shipJ3D);
+            return shipJ3D;
+        }
+
+        public void update(Object modele, Object modifie) {
+            ((J3DShip) modifie).setPosition(((Ship) modele).getPosition());
+            ((J3DShip) modifie).setDirection(((Ship) modele).getDirection());
+        }
+
+        public void remove(Object object){
+            locale.removeBranchGraph((J3DShip)object);
+            System.out.println("[Display3D] Remove Ship");
+        }
+    };
+
+    private Action actionBalls = new Action() {
+
+        public Object add(Object aBall) {
+            Ball ball = (Ball) aBall;
+            System.out.println("[Display3D] Add Ball id="+ball.getId());
+            J3DBall ballJ3D = new J3DBall(ball.getPosition(), 10);
+            locale.addBranchGraph(ballJ3D);
+            return ballJ3D;
+        }
+
+        public void update(Object modele, Object modifie) {
+            ((J3DBall) modifie).setPosition(((Ball) modele).getPosition());
+        }
+
+        public void remove(Object object){
+            locale.removeBranchGraph((J3DBall)object);
+            System.out.println("[Display3D] Remove Ball");
+        }
+    };
+    
     /**
      * Crée un VirtualUniverse, une Locale, et deux Canvas3D. Le premier canvas
      * est pour le rendu de la vue principale. Le second canvas est pour le
@@ -144,25 +201,35 @@ public class Display3D {
     public void reset() {
         // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
         if (minimapJ3D != null) {
-            //System.out.println("[Display3D.reset()] Suppression de la J3DMinimap");
+            System.out.println("[Display3D.reset()] Suppression de la Camera de la minimap");
             minimapJ3D.getCamera().getView().removeCanvas3D(minimapCanvas3D);
+            locale.removeBranchGraph(minimapJ3D);
+            minimapJ3D = null;
         }
+        // Si la camera du joueur actif n'est pas nulle, on la détache du Canvas3D
         if (ownShip3DCamera != null) {
+            System.out.println("[Display3D.reset()] Suppression de la Camera principale");
             ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
             ownShip3DCamera = null;
         }
         if (areaJ3D != null) {
+            System.out.println("[Display3D.reset()] Suppression de la J3DArea");
             locale.removeBranchGraph(areaJ3D);
         }
+
+        // ON AFFICHE TOUT LE CONTENU DE LA LOCALE
+        for (java.util.Enumeration bgs = locale.getAllBranchGraphs(); bgs.hasMoreElements() ;) {
+            System.out.println("Display3D.reset() - Locale contient:"+bgs.nextElement());
+        }
+        
+        // ON VOIT QUE CA CHIE DANS LA COLLE, IL NE SUPPRIME PAS TOUT!!! ARRRRRRRR!!!
+        for (java.util.Enumeration bgs = locale.getAllBranchGraphs(); bgs.hasMoreElements() ;) {
+            locale.removeBranchGraph((BranchGroup) bgs.nextElement());
+        }
+
         obstaclesJ3D.clear();
         shipsJ3D.clear();
         ballsJ3D.clear();
-
-        for (java.util.Enumeration bgs = locale.getAllBranchGraphs(); bgs.hasMoreElements() ;) {
-            BranchGroup bg = (BranchGroup) bgs.nextElement();
-            System.out.println("Display3D.reset() - suppression de la Locale:"+bg);
-            locale.removeBranchGraph(bg);
-        }
     }
 
     /**
@@ -198,62 +265,6 @@ public class Display3D {
         IterableArray balls = Environment.theClientArea.getBalls();
         balls.copyInto(ballsJ3D, actionBalls);
     }
-
-    Action actionShips = new Action() {
-
-        public Object add(Object aShip) {
-            Ship ship = (Ship) aShip;
-            System.out.println("[Display3D] New Ship id="+ship.getId());
-
-            J3DShip shipJ3D = new J3DShip(
-                "wipeout.pilotix.shape.xml",
-                Environment.clientConfig.getColorFromId(ship.getId()));
-            shipJ3D.setPosition(ship.getPosition());
-            shipJ3D.setDirection(ship.getDirection());
-
-            /*J3DObject shipJ3D = new J3DObject(
-             "wipeout.pilotix.shape.xml",
-             Environment.clientConfig.getColorFromId(ship.getId()),
-             ship.getPosition(),
-             ship.getDirection());*/
-
-            if (ship.getId() == Environment.theClientArea.getOwnShipId()) {
-                shipJ3D.addCamera(ownShip3DCamera);
-            }
-            locale.addBranchGraph(shipJ3D);
-            return shipJ3D;
-        }
-
-        public void update(Object modele, Object modifie) {
-            ((J3DShip) modifie).setPosition(((Ship) modele).getPosition());
-            ((J3DShip) modifie).setDirection(((Ship) modele).getDirection());
-        }
-
-        public void remove(Object object){
-            locale.removeBranchGraph((J3DShip)object);
-            System.out.println("[Display3D] Remove Ship");
-        }
-    };
-
-    Action actionBalls = new Action() {
-
-        public Object add(Object aBall) {
-            Ball ball = (Ball) aBall;
-            System.out.println("[Display3D] Add Ball id="+ball.getId());
-            J3DBall ballJ3D = new J3DBall(ball.getPosition(), 10);
-            locale.addBranchGraph(ballJ3D);
-            return ballJ3D;
-        }
-
-        public void update(Object modele, Object modifie) {
-            ((J3DBall) modifie).setPosition(((Ball) modele).getPosition());
-        }
-
-        public void remove(Object object){
-            locale.removeBranchGraph((J3DBall)object);
-            System.out.println("[Display3D] Remove Ball");
-        }
-    };
 }
 
     /********************************************************************/
