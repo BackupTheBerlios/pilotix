@@ -80,8 +80,7 @@ public class ClientArea extends org.pilotix.common.Area {
         // Réinitialisation de la liste des Ships
         ships.clear();
         balls.clear();
-        this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE
-        // ENVOYE PAR LE SERVEUR
+        this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE ENVOYE PAR LE SERVEUR
         if (Environment.debug) {
             System.out.println("[ClientArea.init] Appel imminent de Display3D.init()");
         }
@@ -95,6 +94,7 @@ public class ClientArea extends org.pilotix.common.Area {
     public void reset() {
         ships.clear();
         balls.clear();
+        obstacles.clear();
         if (Environment.debug) {
             System.out.println("[ClientArea.reset] Appel imminent de Display3D.reset()");
         }
@@ -102,8 +102,11 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Cette méthode sert à définir quel est le fichier d'aire de jeu à
-     * utiliser, et met à jour ClientArea avec les informations qu'il contient.
+     * Cette méthode sert à :
+     * <ul>
+     * <li>définir quel est le fichier d'aire de jeu à utiliser</li>
+     * <li>mettre à jour ClientArea avec les informations de ce fichier</li>
+     * </ul>
      *
      * @param aAreaFile
      *            le nom du fichier ".pilotix.area.xml" à utiliser
@@ -277,7 +280,6 @@ public class ClientArea extends org.pilotix.common.Area {
      */
     public final int getShipStates(int aShipId) {
         return ((Ship) ships.get(aShipId)).getStates();
-        //return ships[aShipId].getStates();
     }
 
     /**
