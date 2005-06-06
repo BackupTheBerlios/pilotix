@@ -22,43 +22,39 @@ package org.pilotix.server;
 import java.util.Iterator;
 
 public class ServerMainLoopThread extends Thread {
-
+  
     private boolean newClientHandler = false;
 
     public ServerMainLoopThread() throws Exception {
     }
 
     public void run() {
-
-        //Supression des Clients desirant partir de la list des client
+        //Supression des clients désirant partir
         for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
             ClientHandlerThread CHT = (ClientHandlerThread) PilotixServer.theCHTs.get(i);
             int state = CHT.getState();
             switch (state) {
-            // Le client a quite la partie sortir
+            // Le client veut quitter la partie => sortir
             case ClientHandlerThread.WANTTOLEAVE:
                 CHT.setState(ClientHandlerThread.TOBEKILL);
                 break;
-            // Le client a quitte violament
+            // Le client a quitté violemment
             case ClientHandlerThread.DECONNECTED:
                 CHT.setState(ClientHandlerThread.TOBEKILL);
                 break;
-            // Supression du client ayant quite
+            // Supression du client ayant quitté
             case ClientHandlerThread.TOBEKILL:
-                //theShips.remove(CHT.getShip());
                 PilotixServer.theSA.removeShip(CHT.getShip());
-                //Object toto = CHT;
                 PilotixServer.theCHTs.remove(CHT);
                 System.out.println("[ServerMainLoopThread]Running with "
                     + PilotixServer.theCHTs.size() + " player(s) ");
                 break;
             }
         }
-        //Ajout des nouveaux clients en attente sur la liste temporaire,
-        //a la liste des Client principale,
+        // Ajout des nouveaux clients (en attente sur la liste temporaire)
         if (newClientHandler) {
             PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
-            //Ajout des nouveaux ships             
+            //Ajout des nouveaux vaisseaux
             for (Iterator iter = PilotixServer.theNewCHTs.iterator(); iter.hasNext();) {
                 ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();
                 //theShips.add(newCHT.getShip());
@@ -77,12 +73,11 @@ public class ServerMainLoopThread extends Thread {
         PilotixServer.theSA.nextFrame();
         //envoye de la frame courante a tous les autre ships
         for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
-                        ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
+            ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
             try {
-
                 CHT.sendArea();
             } catch (Exception e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
