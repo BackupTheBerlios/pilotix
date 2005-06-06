@@ -31,7 +31,7 @@ import org.pilotix.common.Transferable;
  * Cette classe est utilisée pour recevoir des messages
  * du serveur et pour mettre à jour ClientArea, Display3D
  * et le tableau des joueurs dans GUIPanel, en fonction
- * de ceux-ci.
+ * de ces messages.
  *
  * @see MessageHandler
  * @see ClientArea
@@ -48,9 +48,6 @@ public class ClientMainLoopThread extends Thread {
     private ClientArea clientArea = null;
     private MessageHandler clientMessageHandler = null;
     private Socket socket = null;
-    //private Command tmpCommand = null;
-    //private Angle tmpAngle = null;
-    //private Ship tmpShip = null;
 
     /**
      * Constructeur.
@@ -59,8 +56,6 @@ public class ClientMainLoopThread extends Thread {
         if (Environment.debug) {
             System.out.println("[CMLT] Constructeur");
         }
-        //tmpCommand = new Command();
-        //tmpAngle = new Angle();
     }
 
     /**
@@ -82,6 +77,7 @@ public class ClientMainLoopThread extends Thread {
             // A ce niveau, on sait que le serveur fonctionne
             // Il est donc judicieux d'initialiser maintenant l'aire locale
             Environment.theClientArea.init();
+            Environment.theGUI.getGUIPanel().beginGame();
 
             if (Environment.debug) {
                 System.out.println("[CMLT] Début de la boucle");
@@ -92,7 +88,7 @@ public class ClientMainLoopThread extends Thread {
 
                 if (flag == Transferable.AREA) {
                     Environment.theClientArea.read(clientMessageHandler);
-                    // Effectue les calculs coté client
+                    // Effectue les calculs côté client
                     Environment.theClientArea.nextFrame();
                     // On met à jour l'affichage 3D
                     Environment.theDisplay3D.update();
@@ -104,38 +100,12 @@ public class ClientMainLoopThread extends Thread {
                     int isOwnShip = clientMessageHandler.receiveOneByte();
                     // On reçoit notre numéro de joueur
                     if (isOwnShip == Information.OWN_SHIP_ID) {
-                        System.out.println("Package OWN_SHIP_ID");
+                        System.out.println("[CMLT] Réception OWN_SHIP_ID");
                         Environment.theClientArea.setOwnShipId(clientMessageHandler.receiveOneByte());
                     }
                 } else {
-                    System.out.println("Paquet Inconnue = "+flag);
+                    System.out.println("Paquet inconnu = "+flag);
                 }
-
-                /* Object obj = clientMessageHandler.receive();
-                 if (obj instanceof Area) {
-                 // On écrit l'aire de jeu reçue dans ClientArea
-                 //Environment.theClientArea.set((Area) obj);
-
-                 // On met à jour l'affichage 3D
-                 Environment.theDisplay3D.update();
-
-                 // On met à jour la liste des joueurs présents
-                 Environment.theGUI.getGUIPanel().update();
-
-                 // Enfin, on envoie la commande au serveur
-                 clientMessageHandler.send(Environment.controlCmd.getCommand());
-                 } else if (obj instanceof Information) {
-                 switch (((Information) obj).code) {
-                 case Information.OWN_SHIP_ID:
-                 // On reçoit notre numéro de joueur
-                 Environment.theClientArea.setOwnShipId(((Information) obj).ownShipId);
-                 break;
-                 default:
-                 break;
-                 }
-                 } else{
-                 System.out.println("Paquet Inconnue");
-                 }*/
             }
 
             if (Environment.debug) {
@@ -148,8 +118,8 @@ public class ClientMainLoopThread extends Thread {
             }
 
         } catch (IOException e) {
-            System.out.println("[CMLT] ERREUR de connexion au serveur.");
-            e.printStackTrace();
+            System.out.println("[CMLT] ERREUR : connexion refusée.");
+            Environment.theGUI.getGUIPanel().displayMessageConnectionRefused();
         } catch (Exception e) {
             System.out.println("[CMLT] ERREUR. :-(");
             e.printStackTrace();

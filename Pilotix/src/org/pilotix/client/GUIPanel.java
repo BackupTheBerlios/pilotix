@@ -255,33 +255,76 @@ public class GUIPanel extends JPanel implements ActionListener {
         if (str.equals("quit")) {
             System.exit(0);
         } else if (str.equals("newgame")) {
-            beginGame();
+            askForConnectionParameters();
         } else if (str.equals("endgame")) {
             endGame();
         }
     }
 
     /**
-     * Démarrer la partie. Appelé par l'écouteur de boutons, actionPerformed().
+     * Ouvre les boîtes de dialogue pour se connecter au serveur,
+     * puis si les paramètres sont potentiellement bons (port entier positif),
+     * lance ClientMainLoopThread.
      */
-    private void beginGame() {
+    private void askForConnectionParameters() {
+        // Boîtes de dialogue pour la connexion au serveur
+        Environment.theServerIP = JOptionPane.showInputDialog(
+                      ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
+                                    .getString("enterServerIPMessage"),
+                      Environment.theServerIP);
+        
+        String tmpStringServerPort = null;                
+        tmpStringServerPort = JOptionPane.showInputDialog(
+                      ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
+                                    .getString("enterServerPortMessage"),
+                      Environment.theServerPort);               
+                              
+        try {
+            Environment.theServerPort = new Integer(tmpStringServerPort); // -> Exception
+        
+            // Lance la boucle de réception des messages du serveur
+            Environment.theClientMainLoopThread = new ClientMainLoopThread();
+            Environment.theClientMainLoopThread.start();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                  Environment.theGUI,
+                  ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
+                                .getString("error_portNotInteger"),
+                  ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
+                                .getString("error"),
+                  JOptionPane.ERROR_MESSAGE);                    
+        }
+    }
+
+    /**
+     * Affiche une boîte de dialogue indiquant que la connexion au serveur a échoué.
+     * Cette procédure est appelée par ClientMainLoopThread.
+     */
+    public void displayMessageConnectionRefused() {
+        JOptionPane.showMessageDialog(
+              Environment.theGUI,
+              ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
+                            .getString("error_cannotConnectToServer"),
+              ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
+                            .getString("error"),
+              JOptionPane.ERROR_MESSAGE);
+    }
+    
+    /**
+     * Démarrer la partie. Est appelé par ClientMainLoopThread lorsque la connexion
+     * avec le serveur est établie.
+     */
+    public void beginGame() {
         // Mise à jour de l'interface
-        newgameMenuItem.setEnabled(false);
-        endgameMenuItem.setEnabled(true);
         centerPanel.add("Center", Environment.theDisplay3D.getMainCanvas3D());
         eastPanel.add(Environment.theDisplay3D.getMinimapCanvas3D());
         //Environment.theDisplay3D.getMinimapCanvas3D().setSize(100,100);
         this.validate();
-
-        // Boîtes de dialogue pour la connexion au serveur
-        Environment.theServerIP = JOptionPane.showInputDialog(ResourceBundle
-                .getBundle(Environment.propertiesPath + "i18nClient")
-                .getString("enterServerIPMessage"), Environment.theServerIP);
-        Environment.theServerPort = new Integer(JOptionPane.showInputDialog(
-                ResourceBundle.getBundle(
-                        Environment.propertiesPath + "i18nClient").getString(
-                        "enterServerPortMessage"), Environment.theServerPort));
-
+    
+        // Mise à jour du menu
+        newgameMenuItem.setEnabled(false);
+        endgameMenuItem.setEnabled(true);
+          
         // Association du Canvas3D principal avec la class Controls pour la
         // souris
         Environment.theControls.setMouseComponent(Environment.theDisplay3D
@@ -289,10 +332,6 @@ public class GUIPanel extends JPanel implements ActionListener {
 
         // Activation de la récupération d'évènements clavier par Controls
         Environment.theControls.active(true);
-
-        // Lance la boucle de réception des messages du serveur
-        Environment.theClientMainLoopThread = new ClientMainLoopThread();
-        Environment.theClientMainLoopThread.start();
 
         // Ecouteur pour redimensionner la minimap si on redimensionne la
         // fenêtre
