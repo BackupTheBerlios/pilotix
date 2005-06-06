@@ -61,21 +61,21 @@ public class ClientHandlerThread extends Thread {
                     ship.addCommand(com);
                 }else if (flag == Transferable.INFO){
                     Information info = new Information();
-                    info.read(messageHandler);
+                    info.read(messageHandler); // Je vois pas trop l'intérêt
+                                               // de passer par Information.read()
                     if (info.code == Information.DECONNECT){
-                        //state = WANTTOLEAVE;
-                        state = TOBEKILL;
                         active = false;
-                        messageHandler.close();
                         try {
                             PilotixServer.theIH.giveBackId(ship.getId());
                         } catch (Exception f) {
                             f.printStackTrace();
                             System.out.println("ATTENTION PB ID NON RENDU");
                         }
+//                        messageHandler.close(); // Entraine une exception "Socket closed"
+                                                  // dans le serveur
+                        state = WANTTOLEAVE;
                     }
                 }
-
             } catch (Exception e) {
                 active = false;
                 System.out.println("[ClientHandlerThread]  Ship "
