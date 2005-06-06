@@ -57,7 +57,7 @@ public class J3DCamera extends TransformGroup {
      * Crée un TransformGroup et le remplit avec une ViewPlatform, une View et
      * une matrice Transform3D qui sert à stocker la position de la caméra.
      * Nous appelons finalement la méthode setCoordinates avec x=0.0f, y=0.0f
-     * et z=150.0f ce qui place la caméra au dessus des objets du BranchGroup
+     * et z=200.0f ce qui place la caméra au dessus des objets du BranchGroup
      * où ce TransformGroup est ajouté (le x et le y sont relatifs au
      * BranchGroup).
      * 
