@@ -25,34 +25,16 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * This class aim to transport Object via the TCPSocket sendAnObject() methodes
- * transforme AnObject into byte[] and send it thru the socket
- *
- *
- * getAnObject() methodes get anObject previously received by receiveMessage()
- * as byte[]
+ * Commentaire à refaire.
  */
 public class MessageHandler {
 
     private InputStream input;
     private OutputStream output;
-
-    //private byte[] message;
-    //private byte messageType;
-
-    //private Command command = new Command();
-    //private Information info = new Information();
-
-    //private int nbShip;
-    //private int byteLength;
-    //private Object result;
-    //private Area tmpArea;
-
+    
     public MessageHandler(Socket aSocket) throws Exception {
         input = aSocket.getInputStream();
         output = aSocket.getOutputStream();
-        //message = new byte[100];
-        //tmpArea = new Area();
     }
 
     public void close() {
@@ -74,6 +56,7 @@ public class MessageHandler {
         try {
             output.write(bytes, 0, 1);
         } catch (SocketException e) {
+            System.out.println("[MessageHandler.sendOneByte() - EXCEPTION SOCKET");
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +68,7 @@ public class MessageHandler {
         input.read(result, 0, 1);
         return result[0];
     }
-
+    
     public byte[] receiveNBytes(int nbByte) {
         byte[] result = new byte[nbByte];
         try {
