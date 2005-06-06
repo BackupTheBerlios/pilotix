@@ -118,7 +118,16 @@ public class Area implements Transferable {
         return balls;
     }
 
-    public void read(MessageHandler mh) throws Exception {
+    /**
+     * Lit les messages dans le MessageHandler et met à jour
+     * l'aire de jeu (vaisseaux et balles);
+     * le message Transferable.AREA sert de délimiteur :
+     * une fois qu'on a trouvé un message AREA,
+     * on lit la série de messages BALL et SHIP qui
+     * le suivent, jusqu'à trouver un autre message AREA;
+     * alors on arrête la lecture et on sort de cette fonction.
+     */
+     public void read(MessageHandler mh) throws Exception {
         byte flag = mh.receiveOneByte();
         while (flag != Transferable.AREA) {
             if (flag == Transferable.BALL) {
@@ -130,10 +139,11 @@ public class Area implements Transferable {
                     balls.remove(tmpBall.getId());
                     nbBalls--;
                 }
-
-            } else if (flag == Transferable.SHIP) {
+            }
+            else if (flag == Transferable.SHIP) {
                 tmpShip.read(mh);
                 if (tmpShip.getStates() == Ship.REMOVE) {
+                    //System.out.println("Area.read() => Remove du ship n°"+tmpShip.getId());
                     ships.remove(tmpShip.getId());
                 } else if (ships.isNull(tmpShip.getId())) {
                     ships.add(tmpShip.getId(), new Ship(tmpShip));
