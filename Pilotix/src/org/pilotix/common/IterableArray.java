@@ -174,7 +174,7 @@ public class IterableArray {
      *             si le tableau est déjà vide
      */
     public synchronized void remove(int index) {
-        //System.out.println("[IterrableArray] remove"+index);
+        System.out.println("[IterrableArray.remove(index="+index+") nb="+nb);
         if (nb == 0) {
             //throw new Exception("IterableArray already empty");
             System.out.println("[IterableArray] already empty " + index);
@@ -184,8 +184,15 @@ public class IterableArray {
                 last = -1;
                 nb = 0;
             } else {
+                System.out.println("[IterableArray.remove()] Cas index==first et index!=1, first=next[index]="+next[index]);
                 first = next[index];
                 prev[first] = -1;
+                // *****************************************************************
+                // nb-- : AJOUTE PAR GREGOIRE LE 01/08/2005, MERCI DE VERIFIER QUE
+                // CETTE INSTRUCTION ETAIT BIEN MANQUANTE CAR J'EN SUIS PAS SUR
+                // (MAIS CE QUI EST SUR C'EST QUE CA PLANTAIT AVANT QUE JE L'AJOUTE)
+                // *****************************************************************
+                nb--;
             }
         } else if (index == last) {
             if (nb == 1) {
