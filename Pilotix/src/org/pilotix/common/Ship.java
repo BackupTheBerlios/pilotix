@@ -84,6 +84,9 @@ public class Ship extends PilotixElement implements Transferable {
         id = anId;
     }
 
+    public int getId() {
+        return id;
+    }
 
 
      /*public void setDirection(Angle aDirection) {
