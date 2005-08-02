@@ -111,7 +111,7 @@ public class Display3D {
 
         public void remove(Object object){
             locale.removeBranchGraph((J3DShip)object);
-            System.out.println("[Display3D] Remove Ship");
+            System.out.println("[Display3D] Remove J3DShip:"+object);
         }
     };
 
@@ -131,7 +131,7 @@ public class Display3D {
 
         public void remove(Object object){
             locale.removeBranchGraph((J3DBall)object);
-            System.out.println("[Display3D] Remove Ball");
+            System.out.println("[Display3D] Remove J3DBall");
         }
     };
     
@@ -201,30 +201,25 @@ public class Display3D {
     public void reset() {
         // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
         if (minimapJ3D != null) {
-            System.out.println("[Display3D.reset()] Suppression de la Camera de la minimap");
             minimapJ3D.getCamera().getView().removeCanvas3D(minimapCanvas3D);
             locale.removeBranchGraph(minimapJ3D);
             minimapJ3D = null;
         }
         // Si la camera du joueur actif n'est pas nulle, on la détache du Canvas3D
         if (ownShip3DCamera != null) {
-            System.out.println("[Display3D.reset()] Suppression de la Camera principale");
             ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
             ownShip3DCamera = null;
         }
-        if (areaJ3D != null) {
-            System.out.println("[Display3D.reset()] Suppression de la J3DArea");
-            locale.removeBranchGraph(areaJ3D);
-        }
 
-        // ON AFFICHE TOUT LE CONTENU DE LA LOCALE
+        // On vide la Locale (oui, deux boucles sont necessaires)
+        BranchGroup array_branchgroups[] = new BranchGroup[locale.numBranchGraphs()];
+        int i = 0;
         for (java.util.Enumeration bgs = locale.getAllBranchGraphs(); bgs.hasMoreElements() ;) {
-            System.out.println("Display3D.reset() - Locale contient:"+bgs.nextElement());
+            array_branchgroups[i] = (BranchGroup)bgs.nextElement();
+            i++;
         }
-        
-        // ON VOIT QUE CA CHIE DANS LA COLLE, IL NE SUPPRIME PAS TOUT!!! ARRRRRRRR!!!
-        for (java.util.Enumeration bgs = locale.getAllBranchGraphs(); bgs.hasMoreElements() ;) {
-            locale.removeBranchGraph((BranchGroup) bgs.nextElement());
+        for (int j=0; j < i; j++) {
+            locale.removeBranchGraph((BranchGroup) array_branchgroups[j]);        
         }
 
         obstaclesJ3D.clear();
