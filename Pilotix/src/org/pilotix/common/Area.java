@@ -143,10 +143,20 @@ public class Area implements Transferable {
             else if (flag == Transferable.SHIP) {
                 tmpShip.read(mh);
                 if (tmpShip.getStates() == Ship.REMOVE) {
-                    //System.out.println("Area.read() => Remove du ship n°"+tmpShip.getId());
+                    System.out.println("Area.read() => Remove du Ship n°"+tmpShip.getId());
                     ships.remove(tmpShip.getId());
+                // *****************************************************************
+                // nbShips-- : AJOUTE PAR GREGOIRE LE 01/08/2005, MERCI DE VERIFIER QUE
+                // CETTE INSTRUCTION ETAIT BIEN MANQUANTE CAR J'EN SUIS PAS SUR
+                // *****************************************************************
+                    nbShips--;
                 } else if (ships.isNull(tmpShip.getId())) {
                     ships.add(tmpShip.getId(), new Ship(tmpShip));
+                // *****************************************************************
+                // nbShips++ : AJOUTE PAR GREGOIRE LE 01/08/2005, MERCI DE VERIFIER QUE
+                // CETTE INSTRUCTION ETAIT BIEN MANQUANTE CAR J'EN SUIS PAS SUR
+                // *****************************************************************
+                    nbShips++;
                 } else {
                     ((Ship) ships.get(tmpShip.getId())).set(tmpShip);
                 }
