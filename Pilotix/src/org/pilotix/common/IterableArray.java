@@ -184,7 +184,7 @@ public class IterableArray {
                 last = -1;
                 nb = 0;
             } else {
-                System.out.println("[IterableArray.remove()] Cas index==first et index!=1, first=next[index]="+next[index]);
+                System.out.println("[IterableArray.remove()] Cas index==first et nb!=1, first=next[index]="+next[index]);
                 first = next[index];
                 prev[first] = -1;
                 // *****************************************************************
