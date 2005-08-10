@@ -174,7 +174,7 @@ public class IterableArray {
      *             si le tableau est déjà vide
      */
     public synchronized void remove(int index) {
-        System.out.println("[IterrableArray.remove(index="+index+") nb="+nb);
+        //System.out.println("[IterrableArray.remove(index="+index+") nb="+nb);
         if (nb == 0) {
             //throw new Exception("IterableArray already empty");
             System.out.println("[IterableArray] already empty " + index);
@@ -184,14 +184,9 @@ public class IterableArray {
                 last = -1;
                 nb = 0;
             } else {
-                System.out.println("[IterableArray.remove()] Cas index==first et nb>1, first=next[index]="+next[index]);
+                //System.out.println("[IterableArray.remove()] Cas index==first et nb>1, first:=next[index]:="+next[index]);
                 first = next[index];
                 prev[first] = -1;
-                // *****************************************************************
-                // nb-- : AJOUTE PAR GREGOIRE LE 01/08/2005, MERCI DE VERIFIER QUE
-                // CETTE INSTRUCTION ETAIT BIEN MANQUANTE CAR J'EN SUIS PAS SUR
-                // (MAIS CE QUI EST SUR C'EST QUE CA PLANTAIT AVANT QUE JE L'AJOUTE)
-                // *****************************************************************
                 nb--;
             }
         } else if (index == last) {
@@ -202,6 +197,7 @@ public class IterableArray {
             } else {
                 last = prev[index];
                 next[last] = -1;
+                nb--;
             }
         } else {
             int save = prev[index];
@@ -378,20 +374,22 @@ public class IterableArray {
                 if (this.cursor1IsNull()) {
                     // Si la source est vide
                     // => suppression de l'objet dans la cible
+                    //System.out.println("Début du cas cible pas vide et source vide, cursor1="+current);
                     action.remove(cible.get(cible.current));
-                    //int index = cible.cursor1GetIndex();
                     cible.remove(cible.current);
                     cible.cursor1Next();
+                    //System.out.println("Fin du cas cible pas vide et source vide, cursor1:="+current);
                 } else if (cible.current < current) {
                     //System.out.println("remove on leser");
                     //  suppression de l'objet
+                    //System.out.println("Début du cas cible.current="+cible.current+" < current="+current);
                     action.remove(cible.get(cible.current));
-                    //int index = cible.cursor1GetIndex();
                     cible.remove(cible.current);
-                    cible.cursor1Next();
+                    cible.cursor1SetIndexAfter(current);
                     this.cursor1Next();
+                    //System.out.println("Fin du cas -> cible.current:="+cible.current+" et current:="+current);
                 } else if (cible.current > current) {
-                    //ajout d'un nouvel objet                    
+                    //ajout d'un nouvel objet
                     //System.out.println("new add");
                     cible.add(current, action.add(objects[current]));
                     this.cursor1Next();
