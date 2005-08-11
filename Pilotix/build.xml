@@ -156,7 +156,7 @@
   <!-- Lance le serveur à partir du Jar -->
   <target name="server" description="Lancer le serveur à partir du Jar">
     <java jar="${dist}/PilotixServer.jar" fork="true">
-      <!--<arg value="gui"/>-->
+      <arg value="gui"/>
       <sysproperty key="pilotix.data.path" value="data"/>
     </java>
   </target>
