@@ -51,7 +51,8 @@
             destdir="${class}"
             encoding="ISO-8859-1"
             optimize="yes"
-            debug="yes" />
+            debug="yes"
+            deprecation="yes"/>
   </target>
 
   <!-- Archives -->
