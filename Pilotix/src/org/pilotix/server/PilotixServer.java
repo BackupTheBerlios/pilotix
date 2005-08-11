@@ -21,7 +21,6 @@ package org.pilotix.server;
 
 import org.pilotix.common.XMLHandler;
 import org.pilotix.common.ResourceLocator;
-//import org.pilotix.common.*;
 import java.util.LinkedList;
 
 
@@ -42,26 +41,25 @@ public class PilotixServer {
     public static ClockerThread theCT;
     public static ConnexionHandlerThread theCHT;
     public static XMLHandler theXH;
-    
-    
+
     public static boolean newCHTs;
     public static LinkedList theNewCHTs = new LinkedList();
     public static LinkedList theCHTs = new LinkedList();
     
     public static String dataPath = System.getProperty("pilotix.data.path")
     + "/";
+
     public static ResourceLocator theRL = new ResourceLocator(dataPath);
 
     /**
      * Lance le serveur du jeu
-     * 
+     *
      * @param port
      *            port TCP sur lequel le serveur doit écouter
      * @param fps
      *            nombre d'images par seconde demandé (le serveur lui, fait se
      *            qu'il peut !)
      */
-
     public PilotixServer(int port, int fps) throws Exception {
         //nbMaxPlayer = 4;
         theIH = new IdHandler();
@@ -80,10 +78,36 @@ public class PilotixServer {
     }
 
     /**
-     * Main du serveur, instancie un nouveau PilotixServer. N'utilise aucun
-     * paramètre pour l'instant.
+     * Arrête le serveur
+     */
+    public void stop() {
+        // Compléter cette méthode pour arrêter proprement SMLT
+        // et réinitialiser tout ce qui doit l'être
+        System.out.println("[PilotixServer.stop()] METHODE A COMPLETER");
+    }
+
+    /**
+     * Main du serveur, instancie un nouveau PilotixServer.
+     * La présence de l'option "-gui" permet de lancer l'interface
+     * graphique (classe ServerGUI).
      */
     public static void main(String[] args) throws Exception {
-        PilotixServer server = new PilotixServer(9000, 30);
+        // Gestion des options en ligne de commande
+        boolean withGui = false;
+        for (int i=0; i<args.length; i++) {
+            System.out.println(args[i]);
+            if (args[i].equals("gui")) {
+                withGui = true;
+            }
+        }
+
+        // Lancement du serveur
+        if (withGui) {
+            System.out.println("[PilotixServer.main()] - withGui = true");
+            ServerGUI serverGUI = new ServerGUI();
+        } else {
+            System.out.println("[PilotixServer.main()] - withGui = false");
+            PilotixServer server = new PilotixServer(9000, 30);
+        }
     }
 }
