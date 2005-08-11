@@ -43,7 +43,7 @@ public class ServerGUI extends JFrame implements ActionListener {
     private JButton startStopButton = null;
 
     /**
-     * Crée une JFrame avec en paramètre le PilotixServer à démarrer
+     * Crée une JFrame
      */
     public ServerGUI() {
         setTitle(ResourceBundle.getBundle(
@@ -51,6 +51,7 @@ public class ServerGUI extends JFrame implements ActionListener {
                          .getString("server_FrameTitle"));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
+        setSize(200,100);
 
         // Bouton permettant de démarrer/arrêter le serveur
         startStopButton = new JButton(ResourceBundle.getBundle(
