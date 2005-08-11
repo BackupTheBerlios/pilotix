@@ -19,5 +19,7 @@
     <jar href="root/Pilotix/dist/PilotixData.jar" />
     <property name="pilotix.data.path" value="data" />
   </resources>
-  <application-desc main-class="org.pilotix.server.PilotixServer" />
+  <application-desc main-class="org.pilotix.server.PilotixServer">
+    <argument>gui</argument>
+  </application-desc>
 </jnlp>
