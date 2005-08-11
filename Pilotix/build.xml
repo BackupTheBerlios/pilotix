@@ -74,7 +74,7 @@
     </jar>
     <jar jarfile="${dist}/PilotixServer.jar">
       <fileset dir="${class}" includes="org/pilotix/server/**"/>
-      <fileset dir="${properties}" includes="*Server*"/>
+      <fileset dir="." includes="properties/*Server*"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="org.pilotix.server.PilotixServer"/>
@@ -155,6 +155,7 @@
   <!-- Lance le serveur à partir du Jar -->
   <target name="server" description="Lancer le serveur à partir du Jar">
     <java jar="${dist}/PilotixServer.jar" fork="true">
+      <arg value="gui"/>
       <sysproperty key="pilotix.data.path" value="data"/>
     </java>
   </target>
@@ -162,6 +163,7 @@
   <!-- Lance le serveur sans utiliser le Jar -->
   <target name="servernojar" depends="compile" description="Lancer le serveur sans utiliser le Jar">
     <java classname="org.pilotix.server.PilotixServer" fork="true">
+      <!--<arg value="gui"/>-->
       <classpath>
         <pathelement location="${class}"/>
         <pathelement location="."/>
