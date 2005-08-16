@@ -98,7 +98,7 @@ public class Shape3DHandler {
             count = count + faces.getLength();
         }
         if (Environment.debug) {
-            System.out.println("[Shape3DLoader] Total faces : " + count);
+            System.out.println("[Shape3DHandler.getShape3DFromURL("+aShapeFile+")] Total faces : " + count);
         }
         TriangleArray triangleArray = new TriangleArray(count * 3,
                 GeometryArray.COORDINATES
@@ -152,6 +152,7 @@ public class Shape3DHandler {
         Appearance appearance = new Appearance();
         Material material = new Material();
         material.setColorTarget(Material.EMISSIVE);
+        material.setShininess(100.0f);
         appearance.setMaterial(material);
 
         Shape3D theShape3D = new Shape3D();
