@@ -21,6 +21,8 @@ package org.pilotix.client;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
@@ -28,6 +30,7 @@ import javax.media.j3d.GraphicsConfigTemplate3D;
 import javax.media.j3d.Locale;
 import javax.media.j3d.VirtualUniverse;
 import javax.vecmath.Color3f;
+import javax.media.j3d.Light;
 
 import org.pilotix.client.ClientArea.Obstacle;
 import org.pilotix.client.j3d.J3DArea;
@@ -36,6 +39,7 @@ import org.pilotix.client.j3d.J3DCamera;
 import org.pilotix.client.j3d.J3DMinimap;
 import org.pilotix.client.j3d.J3DObstacle;
 import org.pilotix.client.j3d.J3DShip;
+import org.pilotix.client.j3d.J3DObject;
 import org.pilotix.common.Angle;
 import org.pilotix.common.Ball;
 import org.pilotix.common.IterableArray;
@@ -60,7 +64,7 @@ import org.pilotix.common.IterableArray.Action;
  *
  * @see GUIPanel
  */
-public class Display3D {
+public class Display3D implements KeyListener {
 
     private VirtualUniverse universe = null;
     private Locale locale = null;
@@ -68,6 +72,8 @@ public class Display3D {
     private Canvas3D mainCanvas3D = null;
     private Canvas3D minimapCanvas3D = null;
     private J3DArea areaJ3D = null;
+    // Groupe des objets que la lumière ne doit pas traverser (est-ce bien ça?)
+    private BranchGroup lightLimitsGroup = null;
 
     private IterableArray shipsJ3D = new IterableArray(
         Environment.theClientArea.getNbMaxShips());
@@ -85,17 +91,33 @@ public class Display3D {
             Ship ship = (Ship) aShip;
             System.out.println("[Display3D] New Ship id="+ship.getId());
 
+            /*
+            J3DObject shipJ3D = new J3DObject(
+             "wipeout.pilotix.shape.xml",
+             Environment.clientConfig.getColorFromId(ship.getId()),
+             ship.getPosition(),
+             ship.getDirection());
+            */
+
+            // Cette méthode permet d'avoir les éclairages (gérés dans J3DShip)
+            // mais à terme il faudra coder les lumières dans le fichier XML
+            // et on pourra alors utiliser la méthode ci-dessus mise en commentaire
             J3DShip shipJ3D = new J3DShip(
                 "wipeout.pilotix.shape.xml",
                 Environment.clientConfig.getColorFromId(ship.getId()));
             shipJ3D.setPosition(ship.getPosition());
             shipJ3D.setDirection(ship.getDirection());
 
-            /*J3DObject shipJ3D = new J3DObject(
-             "wipeout.pilotix.shape.xml",
-             Environment.clientConfig.getColorFromId(ship.getId()),
-             ship.getPosition(),
-             ship.getDirection());*/
+            // Ajout des limites (scopes) pour les lumières de ce vaisseau
+            // (pour l'instant on se limite aux obstaclesJ3D)
+            // NOTE : au 16/08/2005, ça n'a pas l'air de marcher comme il faut
+            // -> les SpotLight du J3DShip n'éclairent plus rien du tout! :-(
+            for (int i=0; i<shipJ3D.lights.length; i++) {
+                for (int j=0; j<obstaclesJ3D.size(); j++) {
+                    System.out.println("Ajout de l'obstacle n°"+j+" pour la lumière n°"+i);
+                    shipJ3D.lights[i].addScope((BranchGroup)obstaclesJ3D.get(j));
+                }
+            }
 
             if (ship.getId() == Environment.theClientArea.getOwnShipId()) {
                 shipJ3D.addCamera(ownShip3DCamera);
@@ -111,7 +133,6 @@ public class Display3D {
 
         public void remove(Object object){
             locale.removeBranchGraph((J3DShip)object);
-            System.out.println("[Display3D] Remove J3DShip:"+object);
         }
     };
 
@@ -134,7 +155,7 @@ public class Display3D {
             System.out.println("[Display3D] Remove J3DBall");
         }
     };
-    
+
     /**
      * Crée un VirtualUniverse, une Locale, et deux Canvas3D. Le premier canvas
      * est pour le rendu de la vue principale. Le second canvas est pour le
@@ -158,6 +179,9 @@ public class Display3D {
     }
 
     public void init() {
+        // Ce Display3D doit être dans les écouteurs de Controls
+        // (il doit réagir quand l'utilisateur veut déplacer la caméra)
+        Environment.theControls.addListener(this);
 
         float xMax = Environment.theClientArea.getXMax();
         float yMax = Environment.theClientArea.getYMax();
@@ -170,7 +194,7 @@ public class Display3D {
         double w = minimapCanvas3D.getWidth();
         minimapCanvas3D.setSize((int) w, (int) (w * (yMax / xMax)));
 
-        // Ajout du J3DArea dans objectsJ3D
+        // Ajout du J3DArea dans la Locale
         areaJ3D = new J3DArea(xMax, yMax);
         locale.addBranchGraph(areaJ3D);
 
@@ -192,13 +216,16 @@ public class Display3D {
         }
 
         ownShip3DCamera = new J3DCamera(mainCanvas3D);
-        ownShip3DCamera.setCoordinates(0.0f, 0.0f, 150.0f);
+        ownShip3DCamera.lookAtOriginRotX(100.0f, (float)Math.PI / 2.0f);
     }
 
     /**
      * Réinitialise ce Display3D.
      */
     public void reset() {
+        // Ce Display3D ne doit plus être dans les écouteurs de Controls
+        Environment.theControls.removeListener(this);
+
         // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
         if (minimapJ3D != null) {
             minimapJ3D.getCamera().getView().removeCanvas3D(minimapCanvas3D);
@@ -219,7 +246,7 @@ public class Display3D {
             i++;
         }
         for (int j=0; j < i; j++) {
-            locale.removeBranchGraph((BranchGroup) array_branchgroups[j]);        
+            locale.removeBranchGraph((BranchGroup) array_branchgroups[j]);
         }
 
         obstaclesJ3D.clear();
@@ -229,7 +256,7 @@ public class Display3D {
 
     /**
      * Renvoie le Canvas3D de la vue principale.
-     * 
+     *
      * @return le Canvas3D principal
      */
     public Canvas3D getMainCanvas3D() {
@@ -238,7 +265,7 @@ public class Display3D {
 
     /**
      * Renvoie le Canvas3D de la mini-carte.
-     * 
+     *
      * @return le Canvas3D secondaire
      */
     public Canvas3D getMinimapCanvas3D() {
@@ -260,313 +287,47 @@ public class Display3D {
         IterableArray balls = Environment.theClientArea.getBalls();
         balls.copyInto(ballsJ3D, actionBalls);
     }
+
+    /**
+     * Répond aux événements claviers et souris relatifs à l'affichage.
+     */
+    public void keyTyped(KeyEvent e) {
+    }
+
+    /**
+     * Répond aux événements claviers et souris relatifs à l'affichage.
+     */
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == '+') {
+            ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent()-2.5f,
+                                             ownShip3DCamera.getAngleYOZ());
+        }
+        else if (e.getKeyChar() == '-') {
+            ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent()+2.5f,
+                                             ownShip3DCamera.getAngleYOZ());
+        }
+        else if (e.getKeyChar() == '0') {
+            ((J3DShip)shipsJ3D.get(Environment.theClientArea.getOwnShipId())).cameraRotationSwitch();
+        }
+        else if (e.getKeyChar() == '2') {
+            ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
+                                             ownShip3DCamera.getAngleYOZ()-(float)Math.PI/72.0f);
+        }
+        else if (e.getKeyChar() == '5') {
+            ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
+                                             (float)Math.PI/2.0f);
+        }
+        else if (e.getKeyChar() == '8') {
+            ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
+                                             ownShip3DCamera.getAngleYOZ()+(float)Math.PI/72.0f);
+        }
+    }
+
+    /**
+     * Répond aux événements claviers et souris relatifs à l'affichage.
+     */
+    public void keyReleased(KeyEvent e) {
+
+    }
+
 }
-
-    /********************************************************************/
-
-    /**
-     * Initialise les composants d'affichage 3D.
-     * Les objets sont stockés dans un IterableArray selon un ordre
-     * bien précis :
-     * <pre>
-     * 0                 | J3DShip du joueur d'id=0
-     * ...               | ...
-     * getNbMaxShips()-1 | Dernier J3DShip possible (lu dans ClientArea)
-     * getNbMaxShips()   | J3DObstacle n°1
-     * ...               | ...
-     * j                 | Dernier J3DObstacle (lu dans ClientArea)
-     * ...               | ...
-     * nbMaxObjectsJ3D-2 | J3DMinimap
-     * nbMaxObjectsJ3D-1 | J3DArea
-     * </pre>
-     */
-/*
-    public void init() {
-        // Création du conteneur pour les J3DBalls
-        ballsJ3D = new IterableArray(Environment.theClientArea.getNbMaxShips());
-
-        // Création du conteneur pour les J3DObject
-        objectsJ3D = new IterableArray(nbMaxObjectsJ3D);
-
-        // Ajout de la minimap dans objectsJ3D
-        float xMax = Environment.theClientArea.getXMax();
-        float yMax = Environment.theClientArea.getYMax();
-        objectsJ3D.add(nbMaxObjectsJ3D - 2, new J3DMinimap(
-            minimapCanvas3D,
-            xMax / 2.0f,
-            yMax / 2.0f));
-        locale.addBranchGraph((J3DMinimap) objectsJ3D.get(nbMaxObjectsJ3D - 2));
-
-        // Ajuste la taille du Canvas3D de la minimap pour qu'on voit tout
-        double w = minimapCanvas3D.getWidth();
-        minimapCanvas3D.setSize((int) w, (int) (w * (yMax / xMax)));
-
-        // Ajout du J3DArea dans objectsJ3D
-        objectsJ3D.add(nbMaxObjectsJ3D - 1, new J3DArea(
-            Environment.theClientArea.getXMax(),
-            Environment.theClientArea.getYMax()));
-        locale.addBranchGraph((BranchGroup) objectsJ3D.get(nbMaxObjectsJ3D - 1));
-
-        // Ajout des obstacles dans objectsJ3D (définis dans ClientArea)
-        Vector upLeftCorner = null;
-        Vector downRightCorner = null;
-        int altitude = 0;
-        int height = 0;
-        String topTexture = null;
-        String sideTexture = null;
-        for (int i = 0; i < Environment.theClientArea.getObstacles().size(); i++) {
-            upLeftCorner = Environment.theClientArea.getObstacle(i).upLeftCorner;
-            downRightCorner = Environment.theClientArea.getObstacle(i).downRightCorner;
-            topTexture = Environment.theClientArea.getObstacle(i).topTexture;
-            sideTexture = Environment.theClientArea.getObstacle(i).sideTexture;
-            altitude = Environment.theClientArea.getObstacle(i).altitude;
-            height = Environment.theClientArea.getObstacle(i).height;
-            objectsJ3D.add(
-                Environment.theClientArea.getNbMaxShips() + i,
-                new J3DObstacle(
-                    upLeftCorner,
-                    downRightCorner,
-                    height,
-                    altitude,
-                    topTexture,
-                    sideTexture));
-            locale.addBranchGraph((BranchGroup) objectsJ3D.get(Environment.theClientArea.getNbMaxShips()
-                + i));
-        }
-    }
-*/
-
-    /**
-     * Réinitialise ce Display3D.
-     */
-    /*
-    public void reset() {
-        // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
-        if (!objectsJ3D.isNull(nbMaxObjectsJ3D - 2)) {
-            System.out.println("[Display3D.reset()] Suppression de la J3DMinimap");
-            ((J3DMinimap) objectsJ3D.get(nbMaxObjectsJ3D - 2)).getCamera().getView().removeCanvas3D(
-                minimapCanvas3D);
-        }
-        if (ownShip3DCamera != null) {
-            ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
-            ownShip3DCamera = null;
-        }
-
-        // LinkedList tmplist = new LinkedList(objectsJ3D.values());
-        // for (int i = 0; i < tmplist.size(); i++) {
-        // if (Environment.debug) {
-        // System.out.println("[Display3D.reset] locale -= "
-        // + tmplist.get(i).toString());
-        // }
-        // locale.removeBranchGraph((BranchGroup) tmplist.get(i));
-        // }
-
-        objectsJ3D.clear();
-        ballsJ3D.clear();
-    }
-
-
-    /**
-     * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
-     * qu'il apparaît dans ClientArea au moment de l'appel. Elle est appelée par
-     * ClientMainLoopThread.
-     * Elle effectue un parcours des ships et met à jour les shipsJ3D
-     */
-     /* N'EST PLUS UTILISE
-    public void update() {
-        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
-            updateBall(i);
-        }
-        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
-            updateShip(i);
-        }
-    }
-    */
-
-    /**
-     * Ajoute un vaisseau dans l'affichage 3D. Cette fonction est appelée par
-     * updateShip().
-     *
-     * @param aShipId
-     *            l'identifiant du vaisseau à ajouter
-     * @param aPosition
-     *            la position du vaisseau
-     * @param aDirection
-     *            la direction du vaisseau
-     * @param aAltitude
-     *            l'altitude du vaisseau
-     */
-     /*
-    private void addShip(int aShipId, Vector aPosition, Angle aDirection,
-            int aAltitude) {
-        if (objectsJ3D.isNull(aShipId)) {
-            Color3f thisShipColor = Environment.clientConfig.getColorFromId(aShipId);
-            objectsJ3D.add(aShipId, new J3DShip(
-                "wipeout.pilotix.shape.xml",
-                thisShipColor));
-
-            // Si c'est le vaisseau du joueur qu'on vient de créer, on lui
-            // ajoute une caméra
-            if (Environment.theClientArea.getOwnShipId() == aShipId) {
-                ownShip3DCamera = new J3DCamera(mainCanvas3D);
-                ownShip3DCamera.setCoordinates(0.0f, 0.0f, 150.0f);
-                ((J3DShip) objectsJ3D.get(aShipId)).addCamera(ownShip3DCamera);
-            }
-
-            // Ajout du J3DShip dans la locale
-            locale.addBranchGraph((BranchGroup) objectsJ3D.get(aShipId));
-
-            // Appel de setShip pour modifier la position, la direction et
-            // l'état du vaisseau
-            setShip(aShipId, aPosition, aDirection, aAltitude, Ship.ADD);
-        } else {
-            System.err.println("[Display3D.addShip] ALERTE : utilisez setShip() et non addShip()"
-                + " car le vaisseau dont l'id est "
-                + aShipId
-                + " existe déjà dans la liste objectsJ3D.");
-            setShip(aShipId, aPosition, aDirection, aAltitude, Ship.NULL);
-        }
-    }
-*/
-
-    /**
-     * Retire un vaisseau de l'affichage 3D. Cette fonction est appelée par
-     * updateShip().
-     *
-     * @param aShipId
-     *            l'identifiant du vaisseau à retirer
-     */
-    /*
-    private void removeShip(int aShipId) {
-        if (aShipId == Environment.theClientArea.getOwnShipId()) {
-            // Si le vaisseau est celui du joueur, on retire la caméra
-            ((J3DShip) objectsJ3D.get(Environment.theClientArea.getOwnShipId())).getCamera().getView().removeCanvas3D(
-                mainCanvas3D);
-        }
-        // On retire une branche de la locale.
-        locale.removeBranchGraph((BranchGroup) objectsJ3D.get(aShipId));
-        // On retire le vaisseau de la liste des objets 3D
-        objectsJ3D.remove(aShipId);
-    }
-    */
-
-    /**
-     * Modifie les paramètres d'un vaisseau existant dans l'affichage 3D. Cette
-     * fonction est appelée par updateShip().
-     *
-     * @param aShipId
-     *            l'identifiant du vaisseau à modifier
-     * @param aPosition
-     *            la position du vaisseau
-     * @param aDirection
-     *            la direction du vaisseau
-     * @param aAltitude
-     *            l'altitude du vaisseau
-     * @param aState
-     *            l'état du vaisseau
-     */
-    /*
-    private void setShip(int aShipId, Vector aPosition, Angle aDirection,
-            int aAltitude, int aState) {
-        if (!objectsJ3D.isNull(aShipId)) {
-            ((J3DShip) objectsJ3D.get(aShipId)).setPosition(aPosition);
-            ((J3DShip) objectsJ3D.get(aShipId)).setDirection(aDirection);
-            ((J3DShip) objectsJ3D.get(aShipId)).setAltitude(aAltitude);
-            //((J3DShip)objectsJ3D.get("ship"+aShipId)).setState(aState); // A
-            // FAIRE PLUS TARD
-        } else {
-            System.err.println("[Display3D.setShip] ERREUR: ship[" + aShipId
-                + "]==null");
-        }
-    }
-    */
-
-    /**
-     * Crée, met à jour l'état, ou supprime un vaisseau dans l'affichage 3D, en
-     * consultant l'état du vaisseau dans le tableau "ships" de ClientArea pour
-     * savoir ce qu'il faut faire. Cette fonction est appelée par la fonction
-     * update().
-     *
-     * @param aShipId
-     *            l'identifiant du vaisseau à modifier
-     */
-     /*
-    private void updateShip(int aShipId) {
-        // Si le ship dans ClientArea n'est pas null...
-        if (!Environment.theClientArea.shipIsNull(aShipId)) {
-            if (!objectsJ3D.isNull(aShipId)) {
-                // ...et le J3DShip non plus, on met simplement à jour la vue 3D
-                setShip(
-                    aShipId,
-                    Environment.theClientArea.getShipPosition(aShipId),
-                    Environment.theClientArea.getShipDirection(aShipId),
-                    100,
-                    Environment.theClientArea.getShipStates(aShipId));
-            } else {
-                // ...sinon si seul le J3DShip est null, on ajoute ce vaisseau
-                addShip(
-                    aShipId,
-                    Environment.theClientArea.getShipPosition(aShipId),
-                    Environment.theClientArea.getShipDirection(aShipId),
-                    100);
-            }
-        } else if (!objectsJ3D.isNull(aShipId)) {
-            // Sinon si le ship est null mais pas le shipJ3D,
-            // il faut faire disparaître le shipJ3D
-            removeShip(aShipId);
-        }
-        // Si le ship est null, et le J3DShip aussi, on ne fait rien
-    }
-    */
-
-    /**
-     * Crée, met à jour l'état, ou supprime une balle dans l'affichage 3D, en
-     * consultant l'état de la balle dans le tableau "balls" de Area pour
-     * savoir ce qu'il faut faire. Cette fonction est appelée par la fonction
-     * update().
-     *
-     * @param aBallId
-     *            l'identifiant de la balle à modifier
-     */
-     /*
-    private void updateBall(int aBallId) {
-        // Si la balle dans ClientArea n'est pas nulle...
-        if (!Environment.theClientArea.ballIsNull(aBallId)) {
-            if (!ballsJ3D.isNull(aBallId)) {
-                // ...et le J3DBall non plus, on met simplement à jour la vue 3D
-                Environment.theClientArea.getBall(aBallId).nextFrame();
-                ((J3DBall) ballsJ3D.get(aBallId)).setPosition(Environment.theClientArea.getBallPosition(aBallId));
-            } else {
-                // ...sinon si seule la J3DBall est nulle, on ajoute cette balle
-                ballsJ3D.add(aBallId, new J3DBall(
-                    Environment.theClientArea.getBallPosition(aBallId),
-                    100));
-                locale.addBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
-            }
-        } else if (!ballsJ3D.isNull(aBallId)) {
-            // Sinon si la balle est nulle mais pas la J3DBall,
-            // il faut faire disparaître la J3DBall.
-            // On retire une branche de la locale.
-            locale.removeBranchGraph((BranchGroup) ballsJ3D.get(aBallId));
-            // On retire la balle de la liste des balles
-            ballsJ3D.remove(aBallId);
-        }
-        // Si la balle est nulle dans ClientArea et dans ballsJ3D,
-        // on ne fait rien
-    }
-*/
-    /**
-     * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
-     * qu'il apparaît dans ClientArea au moment de l'appel. Elle est appelée par
-     * ClientMainLoopThread.
-     */
-     /*
-    public void update() {
-        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
-            updateBall(i);
-        }
-        for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
-            updateShip(i);
-        }
-    }
-    */
