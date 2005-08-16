@@ -19,6 +19,7 @@
 
 package org.pilotix.client.j3d;
 
+import javax.media.j3d.Group;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
@@ -43,13 +44,15 @@ public class J3DObject extends BranchGroup {
     private Transform3D translation;
     private Transform3D rotation;
     private Matrix4f tmpMatrix4f;
+    private J3DCamera camera;
+    private boolean cameraCanRotate = false;
 
     /**
      * Construit l'arborescence Java3D minimale d'un objet 3D qui peut ensuite
      * être inséré dans le tableau objectsJ3D de Display3D.
      * Ce constructeur n'associe cependant à cette structure AUCUNE forme 3D.
      * Il ne doit servir que pour les objets 3D qui ne peuvent pas être décrits
-     * entièrement (ou pas du tout) avec un fichier ".PilotixShape.xml" et
+     * entièrement (ou pas du tout) avec un fichier ".pilotix.shape.xml" et
      * doivent donc faire l'objet d'une classe Java spécifique.
      * Ces classes spécifiques peuvent donc hériter de J3DObject sans avoir
      * un paramètre "fichier de forme 3D" en paramètre de leur constructeur.
@@ -62,19 +65,44 @@ public class J3DObject extends BranchGroup {
 
         translationTG = new TransformGroup();
         translationTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        // Les deux lignes suivantes servent à changer la caméra de place
+        // dans l'arborescence : on peut alors la rattacher soit à translationTG,
+        // soit à rotationTG (par la méthode cameraRotationSwitch())
+        translationTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
+        translationTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 
         rotationTG = new TransformGroup();
         rotationTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        // Les deux lignes suivantes servent à changer la caméra de place
+        // dans l'arborescence : on peut alors la rattacher soit à translationTG,
+        // soit à rotationTG (par la méthode cameraRotationSwitch())
+        rotationTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
+        rotationTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 
         translationTG.addChild(rotationTG);
         this.addChild(translationTG);
 
         translation = new Transform3D();
         rotation = new Transform3D();
-        tmpMatrix4f = new Matrix4f(1.0f,0.0f,0.0f,0.0f,
-                                    0.0f,1.0f,0.0f,0.0f,
-                                    0.0f,0.0f,1.0f,0.0f,
-                                    0.0f,0.0f,0.0f,1.0f);
+        tmpMatrix4f = new Matrix4f(1.0f, 0.0f, 0.0f, 0.0f,
+                                   0.0f, 1.0f, 0.0f, 0.0f,
+                                   0.0f, 0.0f, 1.0f, 0.0f,
+                                   0.0f, 0.0f, 0.0f, 1.0f);
+        camera = null;
+
+
+        // Une lumiere d'ambiance
+
+        javax.media.j3d.BoundingSphere areaLightBounds = new javax.media.j3d.BoundingSphere(
+                                                    new javax.vecmath.Point3d(1000.0d, 1000.0d, 100.0d),
+                                                    6000.0d);
+        javax.media.j3d.AmbientLight areaLight = new javax.media.j3d.AmbientLight(
+                                                 new Color3f(1.0f, 1.0f, 0.0f));
+        areaLight.setInfluencingBounds(areaLightBounds);
+        areaLight.setEnable(true);
+        this.addChild(areaLight);
+
+
     }
 
     /**
@@ -98,8 +126,8 @@ public class J3DObject extends BranchGroup {
         }
         rotationTG.addChild(theObjectShape);
     }
-    
-    
+
+
     public J3DObject(String aShapeURL, Color3f aDynamicColor,Vector position,Angle direction) {
         this();
         try {
@@ -113,8 +141,8 @@ public class J3DObject extends BranchGroup {
         setDirection(direction);
     }
 
-    
-   
+
+
     /**
      * Définit la position de cet objet dans le plan horizontal sans modifier
      * l'altitude.
@@ -160,13 +188,89 @@ public class J3DObject extends BranchGroup {
         rotation.rotZ(-Math.toRadians((double) angle.get()));
         rotationTG.setTransform(rotation);
     }
-    
-    
+
+    /**
+     * Ajoute une J3DCamera, qui ne tournera pas, au-dessus de ce J3DObject.
+     *
+     * @param aCamera
+     *            la caméra à mettre au-dessus de cet objet
+     */
+    public void addCamera(J3DCamera aCamera) {
+        addCamera(aCamera, false);
+    }
+
+    /**
+     * Ajoute une J3DCamera au-dessus de ce J3DObject.
+     *
+     * @param aCamera
+     *            la caméra à mettre au-dessus de cet objet
+     * @param canRotate
+     *            détermine si la caméra peut tourner dans le plan X-Y.
+     *            <ul>
+     *            <li>Mis à <code>false</code>, la caméra suivra le
+     *            J3DObject mais ne tournera pas avec lui.</li>
+     *            <li>Mis à <code>true</code>, le nez du vaisseau (si l'objet
+     *            est un vaisseau) pointera toujours vers le haut de l'écran,
+     *            ce qui veut dire que c'est l'arrière-plan qui tournera et
+     *            non le vaisseau.</li>
+     *            </ul>
+     *            Mettre <code>canRotate</code> à vrai doit rendre
+     *            l'affichage plus lent, l'option par défaut est donc <code>false</code>.
+     */
     public void addCamera(J3DCamera aCamera, boolean canRotate) {
-        if (canRotate) {
-            rotationTG.addChild(aCamera);
+        camera = aCamera;
+        cameraCanRotate = canRotate;
+        if (cameraCanRotate) {
+            rotationTG.addChild(camera);
         } else {
-            translationTG.addChild(aCamera);
+            translationTG.addChild(camera);
         }
+    }
+
+    /**
+     * Supprime la J3DCamera associée à ce J3DObject, si elle existe;
+     * ne fait rien dans le cas contraire.
+     */
+    public void removeCamera() {
+        if (camera!=null) {
+            if (cameraCanRotate) {
+                rotationTG.removeChild(camera);
+            }
+            else {
+                translationTG.removeChild(camera);
+            }
+            camera = null;
+        }
+    }
+
+    /**
+     * Permet de changer le comportement de rotation de la caméra.
+     * Si la caméra tournait avec ce J3DObject autour de l'axe Z, elle
+     * ne tournera plus (son angle supérieur gauche sera vers le Nord-Ouest,
+     * son angle supérieur droit vers le Nord-Est, etc.);
+     * inversement, si elle ne pouvait pas tourner, elle reproduira désormais
+     * les mouvements de rotation appliqués à ce J3DObject.
+     */
+    public void cameraRotationSwitch() {
+        if (camera!=null) {
+            camera.detach();
+            if (cameraCanRotate) {
+                translationTG.addChild(camera);
+            }
+            else {
+                rotationTG.addChild(camera);
+            }
+            cameraCanRotate = !cameraCanRotate;
+        }
+    }
+
+    /**
+     * Renvoie la caméra associée avec ce J3DObject, si elle existe.
+     *
+     * @return la caméra qui suit ce J3DObject, ou <code>null</code> si elle
+     *         n'existe pas.
+     */
+    public final J3DCamera getCamera() {
+        return camera;
     }
 }
