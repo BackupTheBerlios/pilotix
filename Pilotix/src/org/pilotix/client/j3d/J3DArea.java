@@ -104,7 +104,7 @@ public class J3DArea extends J3DObject {
         texture.setImage(0, image);
 
         Appearance groundAppearance = new Appearance();
-//        groundAppearance.setTexture(texture);
+        //groundAppearance.setTexture(texture);
         areaGroundShape3D.setAppearance(groundAppearance);
 
         this.addChild(areaGroundShape3D);
@@ -173,15 +173,15 @@ public class J3DArea extends J3DObject {
          */
 
         // Une lumiere d'ambiance
-        /*
+
         javax.media.j3d.BoundingSphere areaLightBounds = new javax.media.j3d.BoundingSphere(
-                new Point3d(aXMax / 2, aYMax / 2, 0.0f), java.lang.Math.max(
-                        aXMax, aYMax));
-        javax.media.j3d.AmbientLight areaLight = new AmbientLight(new Color3f(
-                1.0f, 1.0f, 1.0f));
+                                                    new javax.vecmath.Point3d((double)aXMax / 2, (double)aYMax / 2, 0.0d),
+                                                    (double)java.lang.Math.max(aXMax, aYMax) / 2);
+        javax.media.j3d.AmbientLight areaLight = new javax.media.j3d.AmbientLight(
+                                                 new Color3f(0.0f, 1.0f, 0.0f));
         areaLight.setInfluencingBounds(areaLightBounds);
         this.addChild(areaLight);
-*/
+
         this.compile();
     }
 
