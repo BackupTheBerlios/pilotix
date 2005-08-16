@@ -13,9 +13,11 @@
         <Action name="USE">VK_SPACE</Action>
         <Action name="LEFT">VK_LEFT</Action>
         <Action name="RIGHT">VK_RIGHT</Action>
+        <Action name="ZOOM_IN">VK_PLUS</Action>
+        <Action name="ZOOM_OUT">VK_MINUS</Action>
     </Keymap>
     <Ship name="SimpleShip" />
-    
+
     <PlugIn name="AutoPilot" version="0.5" enable="true">
         <Var name="ON_AT_START">true</Var>
         <Var name="SPEED_ALLOWED">10</Var>
