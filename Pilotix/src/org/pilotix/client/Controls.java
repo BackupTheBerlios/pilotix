@@ -38,9 +38,9 @@ import java.awt.image.*;
  * clavier. et la fonction setMouseComponent pour les évènements souris. Les
  * plugins peuvent s'enregistrer en tant que listeners pour récupérer les
  * évènements clavier.
- * 
+ *
  * @author Loïc Guibart
- * 
+ *
  * @.todo chargement des touches (dans Environnement) @.todo changement du
  * pointeur de la souris quand celui-ci est attaché à un composant
  */
@@ -76,6 +76,11 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
      * souris à son composant
      */
     private char mouseGrabKey;
+
+    /** code de la touche pour rapprocher la caméra */
+    private char zoomInKey;
+    /** code de la touche pour reculer la caméra */
+    private char zoomOutKey;
 
     /**
      * gestionnaire de souris
@@ -129,7 +134,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     /**
      * Indique à <code>Controls</code> où doivent être récupérés les
      * évènements claviers.
-     * 
+     *
      * @param gui
      *            Fenêtre principale du client.
      */
@@ -163,7 +168,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Renvoie le tableau de statut des touches.
-     * 
+     *
      * @return Tableau d'entier contenant l'état de toutes les touches.
      */
     public int[] getKeyStatus() {
@@ -174,7 +179,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Traitement d'un évènement clavier
-     * 
+     *
      * @param ke
      *            Evènement à traiter.
      */
@@ -197,7 +202,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Active ou désactive les contrôles.
-     * 
+     *
      * @param isActive
      *            Indique si les contrôles doivent être activés.
      */
@@ -207,7 +212,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Transmet l'évènement "touche appuyée" aux listeners
-     * 
+     *
      * @param e
      *            Evènement clavier.
      */
@@ -219,7 +224,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Transmet l'évènement "touche pressée" aux listeners
-     * 
+     *
      * @param e
      *            Evènement clavier.
      */
@@ -231,7 +236,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Transmet l'évènement "touche relachée" aux listeners
-     * 
+     *
      * @param e
      *            Evènement clavier.
      */
@@ -243,7 +248,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Ajoute un listener d'évènement clavier
-     * 
+     *
      * @param kl
      *            Listener à ajouter.
      */
@@ -253,7 +258,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Retire un listener d'évènement clavier
-     * 
+     *
      * @param kl
      *            Listener à supprimer.
      */
@@ -263,7 +268,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Traitement d'un évènement "touche pressée"
-     * 
+     *
      * @param e
      *            Evenement clavier.
      */
@@ -275,7 +280,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Traitement d'un évènement "touche relachée"
-     * 
+     *
      * @param e
      *            Evenement clavier.
      */
@@ -290,7 +295,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
     /**
      * Traitement d'un évènement "touche appuyée"
-     * 
+     *
      * @param e
      *            Evenement clavier.
      */
@@ -313,7 +318,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
      * souris vont être récupérés dans ce composant. Le pointeur de la souris
      * peut être attaché à ce composant ce qui fait que le pointeur ne sortira
      * pas du composant.
-     * 
+     *
      * @param comp
      *            Composant AWT où vont être récupérés les évènements souris.
      */
@@ -331,7 +336,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     /**
      * Récupère la variation de la position de la souris depuis le dernier
      * appel
-     * 
+     *
      * @return Vecteur contenant la variation de la position en x et y.
      */
     public Vector getMouseVariation() {
@@ -456,6 +461,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
         public void mouseWheelMoved(MouseWheelEvent e) {
             // mettre ici le code de l'action effectuée par la molette
+
         }
     }
 
