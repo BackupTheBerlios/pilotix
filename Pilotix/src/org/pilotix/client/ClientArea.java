@@ -34,13 +34,13 @@ import org.w3c.dom.NodeList;
  * Cette classe est une copie locale de l'instance de ServerArea qui se trouve
  * sur le serveur.
  * </p>
- * 
+ *
  * <p>
  * La boucle principale (ClientMainLoopThread) récupère les informations du
  * serveur puis met à jour cette classe. Ensuite ClientArea met à jour Display3D
  * (si nécessaire).
  * </p>
- * 
+ *
  * <p>
  * Les autres "plug-ins" peuvent consulter ClientArea pour mettre à jour leur
  * état (détections, etc.)
@@ -51,7 +51,7 @@ import org.w3c.dom.NodeList;
  * @see Ship
  * @see org.pilotix.common.Area
  * @see org.pilotix.server.ServerArea
- * 
+ *
  * @author Grégoire Colbert
  * @author Florent Sithimolada
  */
@@ -261,7 +261,7 @@ public class ClientArea extends org.pilotix.common.Area {
     /**
      * Renvoie la direction du vaisseau dont l'identifiant est passé en
      * paramètre.
-     * 
+     *
      * @param aShipId
      *            le vaisseau dont la direction doit être renvoyée
      * @return la direction du vaisseau
@@ -273,7 +273,7 @@ public class ClientArea extends org.pilotix.common.Area {
 
     /**
      * Renvoie l'état du vaisseau dont l'identifiant est passé en paramètre.
-     * 
+     *
      * @param aShipId
      *            le vaisseau dont l'état doit être renvoyé
      * @return l'état du vaisseau
@@ -283,33 +283,8 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie le vaisseau dont l'identificateur est fourni.
-     *
-     * @param shipID
-     *            l'identification du vaisseau à renvoyer
-     * @return une instance de Ship, ou null si l'identifiant fourni n'est pas
-     *         celui d'un vaisseau
-     */
-    /*
-     * public Ship getShip(int shipID) { return (Ship) ships[shipID]; }
-     */
-    /**
-     * Renvoie l'ensemble des vaisseaux dans un tableau.
-     *
-     * @return le tableau des vaisseaux
-     */
-    /*
-     public Ship[] getShips() {
-     return ships;
-     }
-     */
-    public IterableArray getShips() {
-        return ships;
-    }
-
-    /**
      * Renvoie l'identifiant du vaisseau du joueur
-     * 
+     *
      * @return l'identifiant du vaisseau du joueur
      */
     public int getOwnShipId() {
@@ -317,17 +292,8 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie le nombre de vaisseaux actuellement dans la partie
-     * 
-     * @return le nombre de vaisseaux
-     */
-    public int getNbShips() {
-        return nbShips;
-    }
-
-    /**
      * Définit l'identifiant du vaisseau du joueur
-     * 
+     *
      * @param shipId
      *            l'identifiant du vaisseau tel que fourni par le serveur
      */
@@ -337,7 +303,7 @@ public class ClientArea extends org.pilotix.common.Area {
 
     /**
      * Renvoie la valeur maximale de X pour l'aire de jeu en cours.
-     * 
+     *
      * @return la valeur maximale de X
      */
     public final float getXMax() {
@@ -346,7 +312,7 @@ public class ClientArea extends org.pilotix.common.Area {
 
     /**
      * Renvoie la valeur maximale de Y pour l'aire de jeu en cours.
-     * 
+     *
      * @return la valeur maximale de Y
      */
     public final float getYMax() {
