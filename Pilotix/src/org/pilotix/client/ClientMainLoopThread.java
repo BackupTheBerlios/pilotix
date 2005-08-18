@@ -37,7 +37,7 @@ import org.pilotix.common.Transferable;
  * @see ClientArea
  * @see GUIPanel
  * @see Display3D
- * 
+ *
  * @author Florent Sithimolada
  * @author Loïc Guibart
  * @author Grégoire Colbert
@@ -97,14 +97,22 @@ public class ClientMainLoopThread extends Thread {
                     // On prend en compte l'action du joueur
                     (Environment.controlCmd.getCommand()).write(clientMessageHandler);
                 } else if (flag == Transferable.INFO) {
-                    int isOwnShip = clientMessageHandler.receiveOneByte();
-                    // On reçoit notre numéro de joueur
-                    if (isOwnShip == Information.OWN_SHIP_ID) {
-                        System.out.println("[CMLT] Réception OWN_SHIP_ID");
-                        Environment.theClientArea.setOwnShipId(clientMessageHandler.receiveOneByte());
+                    int typeInfo = clientMessageHandler.receiveOneByte();
+                    switch (typeInfo) {
+                        case Information.OWN_SHIP_ID :
+                            // On reçoit notre numéro de joueur
+                            System.out.println("[CMLT] Reçu Information, type OWN_SHIP_ID");
+                            Environment.theClientArea.setOwnShipId(clientMessageHandler.receiveOneByte());
+                            break;
+                        case Information.DECONNECT :
+                            System.out.println("[CMLT] Reçu Information, type DECONNECT");
+                            break;
+                        case Information.AREA_ID :
+                            System.out.println("[CMLT] Reçu Information, type AREA_ID");
+                            break;
                     }
                 } else {
-                    System.out.println("Paquet inconnu = "+flag);
+                    System.out.println("[CMLT] Reçu paquet inconnu, flag = "+flag);
                 }
             }
 

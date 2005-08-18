@@ -110,15 +110,18 @@ public class Display3D implements KeyListener {
 
             // Ajout des limites (scopes) pour les lumières de ce vaisseau
             // (pour l'instant on se limite aux obstaclesJ3D)
-            // NOTE : au 16/08/2005, ça n'a pas l'air de marcher comme il faut
-            // -> les SpotLight du J3DShip n'éclairent plus rien du tout! :-(
+/*
             for (int i=0; i<shipJ3D.lights.length; i++) {
                 for (int j=0; j<obstaclesJ3D.size(); j++) {
                     System.out.println("Ajout de l'obstacle n°"+j+" pour la lumière n°"+i);
                     shipJ3D.lights[i].addScope((BranchGroup)obstaclesJ3D.get(j));
                 }
+                for (int j=0; j<shipsJ3D.size(); j++) {
+                    System.out.println("Ajout du J3DShip n°"+j+" pour la lumière n°"+i);
+                    shipJ3D.lights[i].addScope((BranchGroup)shipsJ3D.get(j));
+                }
             }
-
+*/
             if (ship.getId() == Environment.theClientArea.getOwnShipId()) {
                 shipJ3D.addCamera(ownShip3DCamera);
             }
