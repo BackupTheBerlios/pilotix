@@ -62,7 +62,7 @@ import javax.swing.table.DefaultTableModel;
  * </p>
  * 
  * <p>
- * <strong>REMARQUE IMPORTANTE SUR L'INTERNATIONALISATION : </strong>
+ * <strong>REMARQUE IMPORTANTE SUR LES TRADUCTIONS : </strong>
  * </p>
  * <ul>
  * <li>les chaînes de caractères visibles par l'utilisateur ne doivent plus
@@ -143,7 +143,7 @@ public class GUIPanel extends JPanel implements ActionListener {
          * .getString("colorLabel"); infoColumns[2] =
          * ResourceBundle.getBundle("i18nClient") .getString("nameLabel");
          */
-        infoPlayers = new DefaultTableModel(infoColumns, 16);
+        infoPlayers = new DefaultTableModel(infoColumns, Environment.theClientArea.getNbMaxShips());
         JTable tableInfoPlayers = new JTable(infoPlayers);
         JScrollPane scrollpane = new JScrollPane(tableInfoPlayers);
         scrollpane.setPreferredSize(new Dimension(0, 100));
