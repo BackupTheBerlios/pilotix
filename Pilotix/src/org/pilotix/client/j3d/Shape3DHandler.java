@@ -151,7 +151,7 @@ public class Shape3DHandler {
 
         Appearance appearance = new Appearance();
         Material material = new Material();
-        material.setColorTarget(Material.EMISSIVE);
+        material.setColorTarget(Material.AMBIENT);
         material.setShininess(100.0f);
         appearance.setMaterial(material);
 
