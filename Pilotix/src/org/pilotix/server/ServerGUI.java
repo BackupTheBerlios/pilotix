@@ -85,7 +85,7 @@ public class ServerGUI extends JFrame implements ActionListener {
                 e.printStackTrace();
             }
         } else if (str.equals("stopServer")) {
-            pilotixServer.stop();
+            pilotixServer.endGame();
             startStopButton.setActionCommand("startServer");
             startStopButton.setText(ResourceBundle.getBundle(
                          propertiesPath + "i18nServer")

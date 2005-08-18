@@ -22,7 +22,7 @@ package org.pilotix.server;
 import java.util.Iterator;
 
 public class ServerMainLoopThread extends Thread {
-  
+
     private boolean newClientHandler = false;
 
     public ServerMainLoopThread() throws Exception {
@@ -46,8 +46,7 @@ public class ServerMainLoopThread extends Thread {
             case ClientHandlerThread.TOBEKILL:
                 PilotixServer.theSA.removeShip(CHT.getShip());
                 PilotixServer.theCHTs.remove(CHT);
-                System.out.println("[ServerMainLoopThread]Running with "
-                    + PilotixServer.theCHTs.size() + " player(s) ");
+                System.out.println("[SMLT] Nb joueurs="+PilotixServer.theCHTs.size());
                 break;
             }
         }
@@ -65,9 +64,7 @@ public class ServerMainLoopThread extends Thread {
             PilotixServer.theNewCHTs.clear();
 
             newClientHandler = false;
-            System.out.println("[ServerMainLoopThread]Running with "
-                + PilotixServer.theCHTs.size() + " player(s) ");
-
+            System.out.println("[SMLT] Nb joueurs="+PilotixServer.theCHTs.size());
         }
 
         PilotixServer.theSA.nextFrame();
@@ -85,5 +82,4 @@ public class ServerMainLoopThread extends Thread {
     public synchronized void newClient() {
         newClientHandler = true;
     }
-
 }

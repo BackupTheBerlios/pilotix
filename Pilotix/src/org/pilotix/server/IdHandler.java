@@ -27,12 +27,12 @@ public class IdHandler {
 
     public IdHandler() {
         nbId = 0;
-        nbMaxId = 0;        
+        nbMaxId = 0;
     }
-    
+
     public void setNbMaxIds(int nb){
-    	nbMaxId = nb;
-    	tab = new boolean[nbMaxId];
+        nbMaxId = nb;
+        tab = new boolean[nbMaxId];
     }
 
     /*public synchronized void needToWait() throws InterruptedException {
@@ -42,13 +42,13 @@ public class IdHandler {
     }*/
 
     public synchronized int getId() {
-        int i = 0;        
+        int i = 0;
         while (tab[i] == true) {
             i++;
         }
         tab[i] = true;
         nbId++;
-        System.out.println("[IdHandler] New Id given : " + i);
+        System.out.println("[IdHandler.getId()] Nouvel Id attribué : " + i);
         return i;
     }
 
@@ -61,8 +61,7 @@ public class IdHandler {
         } else {
             nbId--;
         }
-        System.out.println("[IdHandler] players " + indice
-                + " give back his Id");
-        System.out.println("[IdHandler] Nb players :" + nbId);
+        System.out.println("[IdHandler.giveBackId()] Joueur id=" + indice + " a rendu son Id");
+        System.out.println("[IdHandler.giveBackId()] Nombre de joueurs : " + nbId);
     }
 }

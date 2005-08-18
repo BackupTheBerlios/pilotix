@@ -23,6 +23,7 @@ public class ClockerThread extends Thread {
 
     private int framePerSecond;
     private ServerMainLoopThread serverMainLoopThread;
+    private boolean quit = false;
 
     public ClockerThread(int fps, ServerMainLoopThread aServerMainLoopThread)
             throws Exception {
@@ -31,8 +32,9 @@ public class ClockerThread extends Thread {
         serverMainLoopThread = aServerMainLoopThread;
     }
 
-    public void run() {    
-        while (true) {
+    public void run() {
+        quit = false;
+        while (!quit) {
             /*
              * switch (i){ case 0 : System.out.print(" \\ \r");break; case 1 :
              * System.out.print(" | \r");break; case 2 : System.out.print(" /
@@ -45,5 +47,9 @@ public class ClockerThread extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void endGame() {
+        quit = true;
     }
 }

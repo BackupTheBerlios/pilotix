@@ -26,7 +26,7 @@ public class ClientHandlerThread extends Thread {
     private int shipId;
     private MessageHandler messageHandler;
     private ServerShip ship;
-    private boolean active = true;
+    private boolean quit = false;
 
     private int state = LOGINING;
     public static final int LOGINING = 1;
@@ -40,8 +40,7 @@ public class ClientHandlerThread extends Thread {
             throws Exception {
         messageHandler = aMessageHandler;
         ship = new ServerShip();
-        ship.set(theClientId, new Vector(500, 500), new ServerAngle(0),
-                Ship.ADD);
+        ship.set(theClientId, new Vector(500, 500), new ServerAngle(0), Ship.ADD);
         Information info = new Information();
         info.code = Information.OWN_SHIP_ID;
         info.ownShipId = theClientId;
@@ -52,7 +51,8 @@ public class ClientHandlerThread extends Thread {
     }
 
     public void run() {
-        while (active) {
+        quit = false;
+        while (!quit) {
             try {
                 int flag = messageHandler.receiveOneByte();
                 if (flag  == Transferable.COMMAND){
@@ -64,12 +64,12 @@ public class ClientHandlerThread extends Thread {
                     info.read(messageHandler); // Je vois pas trop l'intérêt
                                                // de passer par Information.read()
                     if (info.code == Information.DECONNECT){
-                        active = false;
+                        quit = true;
                         try {
                             PilotixServer.theIH.giveBackId(ship.getId());
                         } catch (Exception f) {
                             f.printStackTrace();
-                            System.out.println("ATTENTION PB ID NON RENDU");
+                            System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numéro 1)!");
                         }
 //                        messageHandler.close(); // Entraine une exception "Socket closed"
                                                   // dans le serveur
@@ -77,22 +77,22 @@ public class ClientHandlerThread extends Thread {
                     }
                 }
             } catch (Exception e) {
-                active = false;
+                quit = true;
                 System.out.println("[ClientHandlerThread]  Ship "
                         + ship.getId() + " Has gone !");
                 try {
                     PilotixServer.theIH.giveBackId(ship.getId());
                 } catch (Exception f) {
                     f.printStackTrace();
-                    System.out.println("ATTENTION PB ID NON RENDU");
+                    System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numéro 2)!");
                 }
                 state = DECONNECTED;
             }
         }
     }
 
-    public void sendArea()throws Exception {
-            PilotixServer.theSA.write(messageHandler);
+    public void sendArea() throws Exception {
+        PilotixServer.theSA.write(messageHandler);
     }
 
     public ServerShip getShip() {
@@ -108,5 +108,19 @@ public class ClientHandlerThread extends Thread {
         if (aState == ClientHandlerThread.TOBEKILL) {
             ship.setStates(Ship.REMOVE);
         }
+    }
+
+    public void endGame() {
+        ship.setStates(Ship.REMOVE);
+        try {
+            sendArea();
+//            PilotixServer.theIH.giveBackId(ship.getId());
+        } catch (Exception e) {
+            System.out.println("[PilotixServer.endGame()] EXCEPTION par sendArea() : ");
+            e.printStackTrace();
+        }
+        quit = true;
+        System.out.println("[ClientHandlerThread.endGame()] Fermeture des sockets pour le client n°"+ship.getId());
+        messageHandler.close();
     }
 }

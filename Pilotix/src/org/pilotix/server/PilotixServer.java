@@ -26,14 +26,12 @@ import java.util.LinkedList;
 
 /**
  * Pilotix : lance le serveur du jeu
- * 
+ *
  * Auteurs : - Flo (dernière modif : 1/09/2003)
- *  
+ *
  */
 
 public class PilotixServer {
-    
-    //public static int nbMaxPlayer;
 
     public static IdHandler theIH;
     public static ServerArea theSA;
@@ -42,10 +40,11 @@ public class PilotixServer {
     public static ConnexionHandlerThread theCHT;
     public static XMLHandler theXH;
 
+    // Les instances de ClientHandlerThread
     public static boolean newCHTs;
     public static LinkedList theNewCHTs = new LinkedList();
     public static LinkedList theCHTs = new LinkedList();
-    
+
     public static String dataPath = System.getProperty("pilotix.data.path")
     + "/";
 
@@ -57,18 +56,26 @@ public class PilotixServer {
      * @param port
      *            port TCP sur lequel le serveur doit écouter
      * @param fps
-     *            nombre d'images par seconde demandé (le serveur lui, fait se
+     *            nombre d'images par seconde demandé (le serveur lui, fait ce
      *            qu'il peut !)
      */
     public PilotixServer(int port, int fps) throws Exception {
         //nbMaxPlayer = 4;
+        System.out.println("-------- [PilotixServer()] --------");
+        //System.out.println("[PilotixServer()] new IdHandler()");
         theIH = new IdHandler();
+        //System.out.println("[PilotixServer()] new XMLHandler()");
         theXH = new XMLHandler();
+        //System.out.println("[PilotixServer()] new ServerArea()");
         theSA = new ServerArea("defaut.pilotix.area.xml");
         //theSA.setMap("defaut.pilotix.area.xml");
+        //System.out.println("[PilotixServer()] theIH.setNbMaxIds(theSA.getNbMaxShips())");
         theIH.setNbMaxIds(theSA.getNbMaxShips());
+        //System.out.println("[PilotixServer()] new ServerMainLoopThread()");
         theSMLT = new ServerMainLoopThread();
+        //System.out.println("[PilotixServer()] new ConnexionHandlerThread()");
         theCHT = new ConnexionHandlerThread(port);
+        //System.out.println("[PilotixServer()] new ClockerThread()");
         theCT = new ClockerThread(fps,theSMLT);
 
         theCHT.start();
@@ -78,12 +85,20 @@ public class PilotixServer {
     }
 
     /**
-     * Arrête le serveur
+     * Arrête la partie en cours
      */
-    public void stop() {
-        // Compléter cette méthode pour arrêter proprement SMLT
+    public void endGame() {
+        // Compléter cette méthode pour arrêter proprement le serveur
         // et réinitialiser tout ce qui doit l'être
-        System.out.println("[PilotixServer.stop()] METHODE A COMPLETER");
+        System.out.println("---- [PilotixServer.endGame()] ----");
+        for (int i=0; i < theCHTs.size(); i++) {
+            System.out.println("[PilotixServer.endGame()] Appel de ClientHandlerThread.endGame() pour le client n°"+i);
+            ((ClientHandlerThread)theCHTs.get(i)).endGame();
+        }
+        theCHTs.clear();
+        theCHT.endGame();
+        theCT.endGame();
+        //theSMLT.endGame();
     }
 
     /**
@@ -95,7 +110,7 @@ public class PilotixServer {
         // Gestion des options en ligne de commande
         boolean withGui = false;
         for (int i=0; i<args.length; i++) {
-            System.out.println(args[i]);
+            //System.out.println(args[i]);
             if (args[i].equals("gui")) {
                 withGui = true;
             }
