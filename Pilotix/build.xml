@@ -4,7 +4,7 @@
   <description>Compilation de Pilotix</description>
 
   <!-- Propriétés globales -->
-  <property name="jaroj" value="2003-2004"/>
+  <property name="jaroj" value="2003-2005"/>
   <property name="src" location="src"/>
   <property name="class" location="class"/>
   <property name="dist" location="dist"/>
