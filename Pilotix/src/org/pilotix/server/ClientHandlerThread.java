@@ -28,7 +28,7 @@ public class ClientHandlerThread extends Thread {
     private ServerShip ship;
     private boolean quit = false;
 
-    private int state = LOGINING;
+    private int status = LOGINING;
     public static final int LOGINING = 1;
     public static final int READY = 2;
     public static final int LOOPING = 3;
@@ -45,7 +45,7 @@ public class ClientHandlerThread extends Thread {
         info.code = Information.OWN_SHIP_ID;
         info.ownShipId = theClientId;
         info.write(messageHandler);
-        state = READY;
+        status = READY;
         PilotixServer.theNewCHTs.add((Object) this);
         PilotixServer.theSMLT.newClient();
     }
@@ -73,7 +73,7 @@ public class ClientHandlerThread extends Thread {
                         }
 //                        messageHandler.close(); // Entraine une exception "Socket closed"
                                                   // dans le serveur
-                        state = WANTTOLEAVE;
+                        status = WANTTOLEAVE;
                     }
                 }
             } catch (Exception e) {
@@ -86,7 +86,7 @@ public class ClientHandlerThread extends Thread {
                     f.printStackTrace();
                     System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numéro 2)!");
                 }
-                state = DECONNECTED;
+                status = DECONNECTED;
             }
         }
     }
@@ -99,13 +99,13 @@ public class ClientHandlerThread extends Thread {
         return ship;
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int aState) {
-        state = aState;
-        if (aState == ClientHandlerThread.TOBEKILL) {
+    public void setStatus(int aStatus) {
+        status = aStatus;
+        if (aStatus == ClientHandlerThread.TOBEKILL) {
             ship.setStates(Ship.REMOVE);
         }
     }

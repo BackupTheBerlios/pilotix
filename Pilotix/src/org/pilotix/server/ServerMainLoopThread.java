@@ -32,15 +32,15 @@ public class ServerMainLoopThread extends Thread {
         //Supression des clients désirant partir
         for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
             ClientHandlerThread CHT = (ClientHandlerThread) PilotixServer.theCHTs.get(i);
-            int state = CHT.getState();
-            switch (state) {
+            int status = CHT.getStatus();
+            switch (status) {
             // Le client veut quitter la partie => sortir
             case ClientHandlerThread.WANTTOLEAVE:
-                CHT.setState(ClientHandlerThread.TOBEKILL);
+                CHT.setStatus(ClientHandlerThread.TOBEKILL);
                 break;
             // Le client a quitté violemment
             case ClientHandlerThread.DECONNECTED:
-                CHT.setState(ClientHandlerThread.TOBEKILL);
+                CHT.setStatus(ClientHandlerThread.TOBEKILL);
                 break;
             // Supression du client ayant quitté
             case ClientHandlerThread.TOBEKILL:
