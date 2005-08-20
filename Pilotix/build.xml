@@ -52,7 +52,9 @@
             encoding="ISO-8859-1"
             optimize="yes"
             debug="yes"
-            deprecation="yes"/>
+            deprecation="yes">
+      <compilerarg value="-Xlint"/> 
+    </javac>
   </target>
 
   <!-- Archives -->
