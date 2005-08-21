@@ -34,11 +34,11 @@ public class ServerAngle extends Angle {
         super(aDegree);
         set(aDegree);
     }
-
-    public void set(int aDegree) {
+    
+    public void set(float aDegree) {
         super.set(aDegree);
-        directionX = Math.sin(Math.toRadians(degree));
-        directionY = Math.cos(Math.toRadians(degree));
+        directionX = Math.sin(Math.toRadians(this.floatValue()));
+        directionY = Math.cos(Math.toRadians(this.floatValue()));
     }
 
     public double getX() {
@@ -50,10 +50,11 @@ public class ServerAngle extends Angle {
     }
 
     public void plus(Angle anAngle) {
-        if ((degree + anAngle.get()) < 0) {
-            set(((degree + anAngle.get()) % -360) + 360);
+    	if ((this.floatValue() + anAngle.floatValue()) < 0) {
+            set(((this.floatValue() + anAngle.floatValue()) % -360) + 360);
         } else {
-            set(degree + anAngle.get());
+            set(this.floatValue() + anAngle.floatValue());
         }
+    	
     }
 }

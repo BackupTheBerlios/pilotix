@@ -29,27 +29,29 @@ public class Command implements Transferable {
      * </pre>
      */
     
-    private Angle direction;
+    private Angle rotateAngle;
     private int acceleration;
     private int toolId;
     private int ballId;
     
+    private byte[] tmpBytes;
+    
     public Command() {
-        direction = new Angle(0);
+        rotateAngle = new Angle(0);
         acceleration = 0;
         toolId = 0;
         ballId = 0;
     }
 
     public void set(Command aCommand) {
-        direction.set((aCommand.getDirection()).get());
+        rotateAngle.set((aCommand.getDirection()).intValue());
         acceleration = aCommand.getAcceleration();
         toolId = aCommand.getToolId();
         ballId = aCommand.getBallId();
     }
 
     public void setDirection(Angle aDirection) {
-        direction.set(aDirection.get());
+        rotateAngle.set(aDirection.intValue());
     }
 
     public void setAcceleration(int anAcceleration) {
@@ -65,7 +67,7 @@ public class Command implements Transferable {
     }
 
     public Angle getDirection() {
-        return direction;
+        return rotateAngle;
     }
 
     public int getAcceleration() {
@@ -82,22 +84,29 @@ public class Command implements Transferable {
     
    
     
-    public void read(MessageHandler mh){
-        
-        byte[] bytes = mh.receiveNBytes(4);
+    public void read(MessageHandler mh){	
+    	// Be careful flag SHIP is handled by en other process.
+    	// all indexes are shifted by one
+        byte[] bytes = mh.receiveNBytes(5);
         acceleration = bytes[0];
-        direction.set(bytes[1]*3);
-        toolId = bytes[2];
-        ballId = bytes[3];
+        
+        rotateAngle.setBytes(bytes,1);
+        
+        toolId = bytes[3];
+        ballId = bytes[4];
     }
     
     public void write(MessageHandler mh)throws Exception{
-        byte[] bytes = new byte[5];
+        byte[] bytes = new byte[6];
         bytes[0]=Transferable.COMMAND;
         bytes[1]=(byte) acceleration;
-        bytes[2]=(byte) (direction.get() / 3);
-        bytes[3]=(byte) toolId;
-        bytes[4]=(byte) ballId;
+       
+        tmpBytes = rotateAngle.getBytes();
+        bytes[2] = tmpBytes[0];
+        bytes[3] = tmpBytes[1];
+        
+        bytes[4]=(byte) toolId;
+        bytes[5]=(byte) ballId;
         mh.sendBytes(bytes);
     }
     

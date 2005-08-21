@@ -112,38 +112,42 @@ public class Ship extends PilotixElement implements Transferable {
   
 
     public void read(MessageHandler mh) {
-        byte[] bytes = mh.receiveNBytes(7);
+        // Be careful flag SHIP is handled by en other process.
+    	// all indexes are shifted by one
+    	byte[] bytes = mh.receiveNBytes(8);
         id = bytes[0];
         states = bytes[1];
 
         position.x = 0;
         position.y = 0;
-
+        int deg2 = 0;
         int inc = 1;
         for (int i = 0; i < 8; i++) {
             position.x += ((byte) (bytes[3] >> i) & 0x01) * inc;
             position.y += ((byte) (bytes[5] >> i) & 0x01) * inc;
+            deg2 += ((byte) (bytes[7] >> i) & 0x01) * inc;
             inc = inc << 1;
         }
         inc = 256;
         for (int i = 0; i < 8; i++) {
             position.x += ((byte) (bytes[2] >> i) & 0x01) * inc;
             position.y += ((byte) (bytes[4] >> i) & 0x01) * inc;
+            deg2 += ((byte) (bytes[6] >> i) & 0x01) * inc;
             inc = inc << 1;
         }
 
-        inc = 1;
+        /*inc = 1;
         int deg = 0;
         for (int i = 0; i < 8; i++) {
             deg += ((byte) (bytes[6] >> i) & 0x01) * inc;
             inc = inc << 1;
-        }
-        direction.set(deg * 2);
+        }*/
+        direction.set(deg2);
        
     }
 
     public void write(MessageHandler mh) throws Exception{
-        byte[] bytes = new byte[8];
+        byte[] bytes = new byte[9];
         bytes[0] = (byte) Transferable.SHIP;
         bytes[1] = (byte) id;
         bytes[2] = (byte) states;
@@ -151,7 +155,8 @@ public class Ship extends PilotixElement implements Transferable {
         bytes[4] = (byte) position.x;
         bytes[5] = (byte) (position.y / 256);
         bytes[6] = (byte) position.y;
-        bytes[7] = (byte) (direction.get() / 2);
+        bytes[7] = (byte) (direction.intValue() / 256);
+        bytes[8] = (byte) (direction.intValue());
 
 
         mh.sendBytes(bytes);

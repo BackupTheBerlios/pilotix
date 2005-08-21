@@ -185,7 +185,7 @@ public class J3DObject extends BranchGroup {
      *            l'objet en degrés (0 étant vers le haut, 90 à droite, etc.)
      */
     public final void setDirection(Angle angle) {
-        rotation.rotZ(-Math.toRadians((double) angle.get()));
+        rotation.rotZ(-Math.toRadians((double) angle.floatValue()));
         rotationTG.setTransform(rotation);
     }
 

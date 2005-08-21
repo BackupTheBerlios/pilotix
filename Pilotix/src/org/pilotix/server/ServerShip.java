@@ -68,8 +68,8 @@ public class ServerShip extends Ship {
     }
 
     public void addCommand(Command aCommand) {
-        tmpAngle.set((command.getDirection()).get()
-            + ((aCommand.getDirection()).get()));
+        tmpAngle.set((command.getDirection()).floatValue()
+            + ((aCommand.getDirection()).floatValue()));
         command.setDirection(tmpAngle);
         command.setAcceleration(aCommand.getAcceleration());
         command.setToolId(aCommand.getToolId());
