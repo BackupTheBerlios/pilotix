@@ -76,7 +76,7 @@ public class ControlCommand {
         if (keyStatus[useKey] == Controls.PRESSED) cmd.setToolId(1);
         
         // actions de la souris
-        angle.set(Environment.theControls.getMouseVariation().x*0.05f);
+        angle.set(Environment.theControls.getMouseVariation().x*0.5f);
         cmd.setDirection(angle);
         
         return cmd;
