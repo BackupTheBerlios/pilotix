@@ -344,6 +344,45 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
+     * Récupère le code touche associé à une action définie dans le fichier de
+     * configuration utilisateur.
+     * Le code touche correspond à une constante <code>VK_*</code> définie dans la classe
+     * <code>KeyEvent</code>.
+     * @param actionName Nom de l'action.
+     * @return code correspondant.
+     */
+    public int getKeyCodeFromAction(String actionName) {
+        String actionKey = (String)Environment.userConfig.getKeymap().get(actionName);
+        
+        try {
+
+            if (actionKey == null) {
+                System.err.println("La touche correspondant à l'action '" + actionName + "' n'est pas definie");
+                return 0;
+            }
+            
+            return getKeyCode(actionKey);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération de la config des touches");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * Effectue la correspondance entre un intutilé de touche et son code (voir KeyEvent).
+     * Malheureusement cette méthode n'existe pas dans KeyEvent... Je n'ai trouvé que ce
+     * moyen de faire mais c'est pas terrible...
+     * @param touche
+     * @return code correspondant.
+     */
+    
+    private int getKeyCode(String key) throws Exception {
+        return ((Class.forName("java.awt.event.KeyEvent")).getField(key)).getInt(null);
+    }
+
+
+    /**
      * Classe interne effectuant la gestion des évènements souris
      */
     class Mouse extends MouseInputAdapter implements MouseWheelListener {
