@@ -81,7 +81,10 @@ public class Display3D implements KeyListener {
         Environment.theClientArea.getNbMaxBalls());
     private IterableArray obstaclesJ3D = new IterableArray(
         Environment.theClientArea.getNbMaxObstacles());
-
+    
+// Touches de contrôle de la caméra
+    private int zoomInKey, zoomOutKey, centerKey, rotationModeKey, leanForwardKey, leanBackwardKey;    
+    
     private J3DMinimap minimapJ3D;
 
     // L'interface Action est definie dans IterableArray
@@ -176,6 +179,14 @@ public class Display3D implements KeyListener {
         mainCanvas3D = new Canvas3D(config);
         minimapCanvas3D = new Canvas3D(config);
 
+        // récupération des touches
+        zoomInKey = Environment.theControls.getKeyCodeFromAction("CAMERA_ZOOM_IN");
+        zoomOutKey = Environment.theControls.getKeyCodeFromAction("CAMERA_ZOOM_OUT");
+        centerKey = Environment.theControls.getKeyCodeFromAction("CAMERA_CENTER");
+        rotationModeKey = Environment.theControls.getKeyCodeFromAction("CAMERA_ROTATION_MODE");
+        leanForwardKey = Environment.theControls.getKeyCodeFromAction("CAMERA_LEAN_FORWARD");
+        leanBackwardKey = Environment.theControls.getKeyCodeFromAction("CAMERA_LEAN_BACKWARD");
+        
         if (Environment.debug) {
             System.out.println("[Display3D] Constructeur");
         }
@@ -301,26 +312,26 @@ public class Display3D implements KeyListener {
      * Répond aux événements claviers et souris relatifs à l'affichage.
      */
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ADD) {
+        if (e.getKeyCode() == zoomInKey) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent()-2.5f,
                                              ownShip3DCamera.getAngleYOZ());
         }
-        else if (e.getKeyCode() == KeyEvent.VK_SUBTRACT) {
+        else if (e.getKeyCode() == zoomOutKey) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent()+2.5f,
                                              ownShip3DCamera.getAngleYOZ());
         }
-        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD0) {
+        else if (e.getKeyCode() == rotationModeKey) {
             ((J3DShip)shipsJ3D.get(Environment.theClientArea.getOwnShipId())).cameraRotationSwitch();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD2) {
+        else if (e.getKeyCode() == leanBackwardKey) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
                                              ownShip3DCamera.getAngleYOZ()-(float)Math.PI/72.0f);
         }
-        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD5) {
+        else if (e.getKeyCode() == centerKey) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
                                              (float)Math.PI/2.0f);
         }
-        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD8) {
+        else if (e.getKeyCode() == leanForwardKey) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
                                              ownShip3DCamera.getAngleYOZ()+(float)Math.PI/72.0f);
         }
