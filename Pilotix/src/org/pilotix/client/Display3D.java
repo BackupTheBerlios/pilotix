@@ -301,26 +301,26 @@ public class Display3D implements KeyListener {
      * Répond aux événements claviers et souris relatifs à l'affichage.
      */
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == '+') {
+        if (e.getKeyCode() == KeyEvent.VK_ADD) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent()-2.5f,
                                              ownShip3DCamera.getAngleYOZ());
         }
-        else if (e.getKeyChar() == '-') {
+        else if (e.getKeyCode() == KeyEvent.VK_SUBTRACT) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent()+2.5f,
                                              ownShip3DCamera.getAngleYOZ());
         }
-        else if (e.getKeyChar() == '0') {
+        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD0) {
             ((J3DShip)shipsJ3D.get(Environment.theClientArea.getOwnShipId())).cameraRotationSwitch();
         }
-        else if (e.getKeyChar() == '2') {
+        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD2) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
                                              ownShip3DCamera.getAngleYOZ()-(float)Math.PI/72.0f);
         }
-        else if (e.getKeyChar() == '5') {
+        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD5) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
                                              (float)Math.PI/2.0f);
         }
-        else if (e.getKeyChar() == '8') {
+        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD8) {
             ownShip3DCamera.lookAtOriginRotX(ownShip3DCamera.getDistanceFromParent(),
                                              ownShip3DCamera.getAngleYOZ()+(float)Math.PI/72.0f);
         }
