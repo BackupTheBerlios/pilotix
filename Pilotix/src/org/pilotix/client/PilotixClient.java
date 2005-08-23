@@ -60,13 +60,14 @@ public class PilotixClient {
         //System.out.println(Environment.userConfig.getKeymap());
         //System.out.println(Environment.userConfig.getPlugInVars("AutoPilot"));
 
+        Environment.theControls = new Controls();
+
         Environment.theClientArea = new ClientArea();
 
         Environment.theDisplay3D = new Display3D();
 
         Environment.theGUI = new GUI();
 
-        Environment.theControls = new Controls();
         Environment.theControls.setMainFrame(Environment.theGUI);
         Environment.controlCmd = new ControlCommand();
 
