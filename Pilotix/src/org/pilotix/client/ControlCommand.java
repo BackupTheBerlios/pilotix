@@ -44,18 +44,10 @@ public class ControlCommand {
      * Constructeur : récupère les codes des touches définis dans le fichier de configuration.
      */
     public ControlCommand () {
-        HashMap keys = Environment.userConfig.getKeymap();
-        
         // récupération des touches définies
-        try {
-            accelKey = getKeyCode((String)keys.get("ACCELERATE"));
-            useKey = getKeyCode((String)keys.get("USE"));
-            
-        } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération de la config des touches");
-            e.printStackTrace();
-        }
-        
+        accelKey = Environment.theControls.getKeyCodeFromAction("ACCELERATE");
+        useKey = Environment.theControls.getKeyCodeFromAction("USE");
+
         cmd = new Command();
         angle = new Angle();
     }
@@ -80,18 +72,5 @@ public class ControlCommand {
         cmd.setDirection(angle);
         
         return cmd;
-    }
-    
-    
-    /**
-     * Effectue la correspondance entre un intutilé de touche et son code (voir KeyEvent).
-     * Malheureusement cette méthode n'existe pas dans KeyEvent... Je n'ai trouvé que ce
-     * moyen de faire mais c'est pas terrible...
-     * @param touche
-     * @return code correspondant.
-     */
-    
-    private int getKeyCode(String key) throws Exception {
-        return ((Class.forName("java.awt.event.KeyEvent")).getField(key)).getInt(null);
     }
 }
