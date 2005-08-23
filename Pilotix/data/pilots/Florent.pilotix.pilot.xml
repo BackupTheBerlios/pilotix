@@ -13,8 +13,12 @@
         <Action name="USE">VK_SPACE</Action>
         <Action name="LEFT">VK_LEFT</Action>
         <Action name="RIGHT">VK_RIGHT</Action>
-        <Action name="ZOOM_IN">VK_PLUS</Action>
-        <Action name="ZOOM_OUT">VK_MINUS</Action>
+        <Action name="CAMERA_ZOOM_IN">VK_ADD</Action>
+        <Action name="CAMERA_ZOOM_OUT">VK_SUBTRACT</Action>
+        <Action name="CAMERA_ROTATION_MODE">VK_NUMPAD0</Action>
+        <Action name="CAMERA_CENTER">VK_NUMPAD5</Action>
+        <Action name="CAMERA_LEAN_BACKWARD">VK_NUMPAD2</Action>
+        <Action name="CAMERA_LEAN_FORWARD">VK_NUMPAD8</Action>
     </Keymap>
     <Ship name="SimpleShip" />
 
