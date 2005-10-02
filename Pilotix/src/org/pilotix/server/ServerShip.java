@@ -42,6 +42,8 @@ public class ServerShip extends Ship {
 
     protected Command command;
 
+	private String name;
+
     public ServerShip() {
         super();
         nextPosition = new Vector(0, 0);
@@ -142,4 +144,12 @@ public class ServerShip extends Ship {
         }
 
     }
+
+	public void setName(String shipName) {
+		name = shipName;
+	}
+	
+	public String getName() {
+		return name;
+	}
 }

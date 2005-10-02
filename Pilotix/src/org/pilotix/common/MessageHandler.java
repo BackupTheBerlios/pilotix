@@ -51,16 +51,9 @@ public class MessageHandler {
         output.write(bytes, 0, bytes.length);
     }
 
-    public void sendOneByte(byte aByte) {
+    public void sendOneByte(byte aByte) throws Exception {
         byte[] bytes = { aByte};
-        try {
             output.write(bytes, 0, 1);
-        } catch (SocketException e) {
-            System.out.println("[MessageHandler.sendOneByte() - EXCEPTION SOCKET");
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public byte receiveOneByte() throws Exception  {

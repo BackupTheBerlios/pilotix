@@ -21,10 +21,14 @@ package org.pilotix.server;
 
 import java.util.Iterator;
 
+import org.pilotix.common.Information;
+
 public class ServerMainLoopThread extends Thread {
 
     private boolean newClientHandler = false;
 
+    private Information info = new Information();
+    
     public ServerMainLoopThread() throws Exception {
     }
 
@@ -46,7 +50,7 @@ public class ServerMainLoopThread extends Thread {
             case ClientHandlerThread.TOBEKILL:
                 PilotixServer.theSA.removeShip(CHT.getShip());
                 PilotixServer.theCHTs.remove(CHT);
-                System.out.println("[SMLT] Nb joueurs="+PilotixServer.theCHTs.size());
+                System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
                 break;
             }
         }
@@ -58,13 +62,26 @@ public class ServerMainLoopThread extends Thread {
                 ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();
                 //theShips.add(newCHT.getShip());
                 PilotixServer.theSA.addShip(newCHT.getShip());
-
             }
             //effacement de la liste temporaire
             PilotixServer.theNewCHTs.clear();
 
             newClientHandler = false;
-            System.out.println("[SMLT] Nb joueurs="+PilotixServer.theCHTs.size());
+            System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
+            
+            // envoie de tous les noms a tout les autre vaisseaux
+            for (Iterator iter2 = PilotixServer.theCHTs.iterator(); iter2.hasNext();) {
+            	ClientHandlerThread CHT = (ClientHandlerThread) iter2.next();
+            	info.setShipName(CHT.getShip().getId(),((ServerShip)CHT.getShip()).getName());
+            	for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
+            		ClientHandlerThread CHTD = (ClientHandlerThread) iter.next();
+            		try {
+            			info.write(CHTD.getMessageHandler());
+            		} catch (Exception e) {
+            			e.printStackTrace();
+            		}
+            	}
+            }            
         }
 
         PilotixServer.theSA.nextFrame();
@@ -74,7 +91,7 @@ public class ServerMainLoopThread extends Thread {
             try {
                 CHT.sendArea();
             } catch (Exception e) {
-                e.printStackTrace();
+            	System.out.println("[SMLT] Ship "+CHT.getShip().getName()+" left The Game");
             }
         }
     }

@@ -39,7 +39,7 @@ class ClientTest {
                     }
                 }
                 Information info = new Information();
-                info.code = Information.DECONNECT;
+                info.setDeconnected();
                 //msHandler.send(info);
                 try {
                 info.write(msHandler);

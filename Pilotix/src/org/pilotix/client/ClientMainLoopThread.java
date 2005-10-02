@@ -97,12 +97,41 @@ public class ClientMainLoopThread extends Thread {
                     // On prend en compte l'action du joueur
                     (Environment.controlCmd.getCommand()).write(clientMessageHandler);
                 } else if (flag == Transferable.INFO) {
-                    int typeInfo = clientMessageHandler.receiveOneByte();
-                    switch (typeInfo) {
+                	//int typeInfo = clientMessageHandler.receiveOneByte();
+                	Information info = new Information();
+                	info.read(clientMessageHandler);
+                	switch (info.getType()) {
+                	case Information.OWN_SHIP_ID :
+                		// On reçoit notre numéro de joueur
+                		System.out.println("[CMLT] Reçu Information, type OWN_SHIP_ID :"+info.getOwnShipId());
+                		Environment.theClientArea.setOwnShipId(info.getOwnShipId());
+                		// il doit alors envoyer sont propre nom
+                		Information info2 = new Information();
+                		// a remplacer par le vrai nom
+                		info2.setShipName(info.getOwnShipId(),"ship"+info.getOwnShipId());
+                		info2.write(clientMessageHandler);
+                	break;
+                	case Information.DECONNECT :
+                		System.out.println("[CMLT] Reçu Information, type DECONNECT");
+                	break;
+                	case Information.AREA_ID :
+                		System.out.println("[CMLT] Reçu Information, type AREA_ID");
+                	break;
+                	case Information.SHIP_NAME :
+                		System.out.println(info.getShipId()+" is "+info.getShipName());
+                		break;
+                	}
+                    /*switch (typeInfo) {
                         case Information.OWN_SHIP_ID :
                             // On reçoit notre numéro de joueur
                             System.out.println("[CMLT] Reçu Information, type OWN_SHIP_ID");
-                            Environment.theClientArea.setOwnShipId(clientMessageHandler.receiveOneByte());
+                        	int shipId = (int)clientMessageHandler.receiveOneByte();
+                            Environment.theClientArea.setOwnShipId(shipId);
+                            // il doit alors envoyer sont nom
+                            Information info = new Information();
+                            // a remplacer par le vrai nom
+                            info.setShipName(shipId,"ship"+shipId);
+                            info.write(clientMessageHandler);
                             break;
                         case Information.DECONNECT :
                             System.out.println("[CMLT] Reçu Information, type DECONNECT");
@@ -110,7 +139,13 @@ public class ClientMainLoopThread extends Thread {
                         case Information.AREA_ID :
                             System.out.println("[CMLT] Reçu Information, type AREA_ID");
                             break;
-                    }
+                        case Information.SHIP_NAME :
+                        	Information info = new Information();
+                        // a remplacer par le vrai nom
+                        info.read();
+                        info.write(clientMessageHandler);
+                            break;
+                    }*/
                 } else {
                     System.out.println("[CMLT] Reçu paquet inconnu, flag = "+flag);
                 }
@@ -140,7 +175,7 @@ public class ClientMainLoopThread extends Thread {
     public void endGame() {
         try {
             Information info = new Information();
-            info.code = Information.DECONNECT;
+            info.setDeconnected();
             info.write(clientMessageHandler);
             if (Environment.debug) {
                 System.out.println("[CMLT.endGame] DECONNECT envoyé.");

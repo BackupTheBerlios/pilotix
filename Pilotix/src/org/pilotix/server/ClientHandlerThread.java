@@ -23,7 +23,6 @@ import org.pilotix.common.*;
 
 public class ClientHandlerThread extends Thread {
 
-    private int shipId;
     private MessageHandler messageHandler;
     private ServerShip ship;
     private boolean quit = false;
@@ -42,12 +41,10 @@ public class ClientHandlerThread extends Thread {
         ship = new ServerShip();
         ship.set(theClientId, new Vector(500, 500), new ServerAngle(0), Ship.ADD);
         Information info = new Information();
-        info.code = Information.OWN_SHIP_ID;
-        info.ownShipId = theClientId;
+        info.setOwnShipId(theClientId);
         info.write(messageHandler);
-        status = READY;
-        PilotixServer.theNewCHTs.add((Object) this);
-        PilotixServer.theSMLT.newClient();
+        //status = READY;
+        
     }
 
     public void run() {
@@ -63,7 +60,7 @@ public class ClientHandlerThread extends Thread {
                     Information info = new Information();
                     info.read(messageHandler); // Je vois pas trop l'intérêt
                                                // de passer par Information.read()
-                    if (info.code == Information.DECONNECT){
+                    if (info.getType() == Information.DECONNECT){
                         quit = true;
                         try {
                             PilotixServer.theIH.giveBackId(ship.getId());
@@ -74,6 +71,11 @@ public class ClientHandlerThread extends Thread {
 //                        messageHandler.close(); // Entraine une exception "Socket closed"
                                                   // dans le serveur
                         status = WANTTOLEAVE;
+                    }else if(info.getType() == Information.SHIP_NAME){
+                    	System.out.println("[CHT] Adding new ship with name:"+info.getShipName());
+                    	ship.setName(info.getShipName());						
+                    	PilotixServer.theNewCHTs.add((Object) this);
+                        PilotixServer.theSMLT.newClient();
                     }
                 }
             } catch (Exception e) {
@@ -122,5 +124,9 @@ public class ClientHandlerThread extends Thread {
         quit = true;
         System.out.println("[ClientHandlerThread.endGame()] Fermeture des sockets pour le client n°"+ship.getId());
         messageHandler.close();
+    }
+    
+    public MessageHandler getMessageHandler(){
+    	return messageHandler;
     }
 }
