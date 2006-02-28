@@ -3,8 +3,12 @@
 
   <description>Compilation de Pilotix</description>
 
+  <tstamp>
+    <format property="ANNEE_EN_COURS" pattern="yyyy"/>
+  </tstamp>
+
   <!-- Propriétés globales -->
-  <property name="jaroj" value="2003-2005"/>
+  <property name="jaroj" value="2003-${ANNEE_EN_COURS}"/>
   <property name="src" location="src"/>
   <property name="class" location="class"/>
   <property name="dist" location="dist"/>
@@ -53,7 +57,7 @@
             optimize="yes"
             debug="yes"
             deprecation="yes">
-      <compilerarg value="-Xlint"/> 
+      <compilerarg value="-Xlint"/>
     </javac>
   </target>
 
