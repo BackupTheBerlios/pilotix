@@ -106,7 +106,6 @@
 
   <!-- Documentation -->
   <target name="javadoc" depends="logo" description="Générer la documentation">
-    <tstamp/>
     <javadoc packagenames="*"
              sourcepath="${src}"
              destdir="${javadoc}"
