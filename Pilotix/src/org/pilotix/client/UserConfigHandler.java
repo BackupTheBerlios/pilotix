@@ -28,10 +28,10 @@ import org.pilotix.common.ResourceLocator;
 /**
  * Cette classe représente un fichier de configuration utilisateur. Elle permet
  * de récupérer les champs contenus dans ce fichier.
- * Les champs obligatoires (tous ceux qui ne correspondent pas aux plugins
+ * Les champs obligatoires (tous ceux qui ne correspondent pas aux plugins)
  * sont recopiés dans des variables locales. Ces valeurs sont recopiées
  * à nouveau dans le Document lors de la sauvegarde.
- * 
+ *
  * @author Loïc Guibart
  */
 public class UserConfigHandler {
@@ -48,14 +48,14 @@ public class UserConfigHandler {
     private int interfaceHeight, interfaceLength;
     private HashMap keymap;
     private String favoriteShipName;
-    
+
     /*private HashMap builtInVars;
     private HashMap plugInVars;*/
 
     /**
      * Construit la représentation du contenu du fichier de configuration d'un
      * utilisateur.
-     * 
+     *
      * @param userName
      *            Nom de l'utilisateur.
      */
@@ -66,7 +66,7 @@ public class UserConfigHandler {
         documentElement = configDocument.getDocumentElement();
         parseConfig();
     }
-    
+
     private void parseConfig() {
         NodeList nl;
         // --- description
@@ -88,8 +88,8 @@ public class UserConfigHandler {
         topElt = (Element)nl.item(0);
         keymap = getValuesFromElements(topElt, "Action");
     }
-        
-        
+
+
     private String getChildElementValue(Element elt, String childName) {
         NodeList nl = elt.getElementsByTagName(childName);
         return ((Element)nl.item(0)).getFirstChild().getNodeValue();
@@ -98,46 +98,46 @@ public class UserConfigHandler {
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String name) {
         firstName = name;
     }
-    
+
     public String getFamilyName() {
         return familyName;
     }
-    
+
     public void setFamilyName(String name) {
         familyName = name;
     }
 
     /**
      * Renvoie la longueur de la fenêtre du jeu.
-     * 
+     *
      * @return la longueur de l'interface, en pixels
      */
     public int getInterfaceLength() {
-    	return interfaceLength;
+        return interfaceLength;
     }
 
     /**
      * Renvoie la hauteur de la fenêtre du jeu.
-     * 
+     *
      * @return la hauteur de l'interface, en pixels
      */
     public int getInterfaceHeight() {
         return interfaceHeight;
     }
-    
+
     public void setInterfaceDimensions(int length, int height) {
         interfaceLength = length;
         interfaceHeight = height;
     }
-    
+
     public String getFavoriteShipName() {
         return favoriteShipName;
     }
-    
+
     public void setFavoriteShipName(String name) {
         favoriteShipName = name;
     }
@@ -145,18 +145,18 @@ public class UserConfigHandler {
     public HashMap getKeymap() {
         return keymap;
     }
-    
+
     public void setKeymap(HashMap aKeymap) {
         keymap = aKeymap;
     }
 
- 
 
 
-    
+
+
     /**
      * Renvoie les variables d'une section de type BuiltIn.
-     * 
+     *
      * @param builtInName
      *            Nom de la section.
      * @return HashMap contenant les associations nom-valeur des variables de
@@ -172,7 +172,7 @@ public class UserConfigHandler {
 
     /**
      * Renvoie les variables d'une section de type PlugIn.
-     * 
+     *
      * @param plugInName
      *            Nom de la section.
      * @return HashMap contenant les associations nom-valeur des variables de
@@ -197,7 +197,7 @@ public class UserConfigHandler {
 
     /**
      * Renvoie une section de type et de nom donnés.
-     * 
+     *
      * @param type
      *            Type de la section (BuiltIn, PlugIn).
      * @param name

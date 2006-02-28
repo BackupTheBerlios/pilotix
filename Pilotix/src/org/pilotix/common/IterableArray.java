@@ -31,7 +31,7 @@ package org.pilotix.common;
  *
  * Les accès à hasNext(), next() et reset() qui servent pour le parcours chainé
  * devront être faits en exclusion mutuelle.
- *  
+ *
  */
 
 public class IterableArray {
@@ -140,7 +140,8 @@ public class IterableArray {
      *
      * @param index
      *            numéro de la case à modifier
-     * @return l'objet stocké
+     * @param obj
+     *            l'objet à écrire dans la case
      */
     public void set(int index, Object obj) {//throws Exception {
         objects[index] = obj;
@@ -399,7 +400,7 @@ public class IterableArray {
                     action.update(objects[current], cible.get(cible.current));
                     cible.cursor1Next();
                     this.cursor1Next();
-                } 
+                }
             }
         }
     }
@@ -407,12 +408,12 @@ public class IterableArray {
 
     private void cursor1SetIndexAfter(int index) {
        current=first;
-       //System.out.println("cursor after"+index); 
-       //System.out.println("First="+current);        
+       //System.out.println("cursor after"+index);
+       //System.out.println("First="+current);
        while ((current != -1)&& (current <= index)){
            //System.out.println("current"+ current);
            //System.out.println("Next current"+next[current]);
-           current = next[current];            
+           current = next[current];
         }
         //System.out.println("finish="+current);
        //current = anIndex
