@@ -32,6 +32,13 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
+import javax.media.j3d.Appearance;
+import javax.media.j3d.Material;
+import javax.media.j3d.Text3D;
+import javax.media.j3d.Font3D;
+import javax.media.j3d.FontExtrusion;
+import javax.media.j3d.Shape3D;
+import java.awt.Font;
 
 /**
  * <p>
@@ -126,4 +133,23 @@ public class J3DShip extends J3DObject {
 */
 
     }
+
+    /**
+     * Cette fonction affiche le nom du joueur à côté de son vaisseau
+     * @param aName le nom du joueur
+     */
+    public void setPlayerName(String aName) {
+        Appearance textAppear = new Appearance();
+        textAppear.setMaterial(new Material());
+        Font3D font3D = new Font3D(
+                            new Font("Lucida sans", Font.PLAIN, 4),
+                            new FontExtrusion());
+        Text3D textGeom = new Text3D(font3D, aName);
+        textGeom.setAlignment(Text3D.ALIGN_CENTER);
+        Shape3D textShape = new Shape3D();
+        textShape.setGeometry(textGeom);
+        textShape.setAppearance(textAppear);
+        rotationTG.addChild(textShape);
+    }
+
 }
