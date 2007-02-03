@@ -19,53 +19,53 @@
 
 package org.pilotix.client.j3d;
 
-import org.pilotix.client.Display3D;
+import java.awt.Font;
 
+import javax.media.j3d.Appearance;
 import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Font3D;
+import javax.media.j3d.FontExtrusion;
 import javax.media.j3d.Light;
-import javax.media.j3d.SpotLight;
+import javax.media.j3d.Material;
 import javax.media.j3d.PointLight;
-import javax.media.j3d.Fog;
-import javax.media.j3d.LinearFog;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.SpotLight;
+import javax.media.j3d.Text3D;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
+import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
-
-import javax.media.j3d.Appearance;
-import javax.media.j3d.Material;
-import javax.media.j3d.Text3D;
-import javax.media.j3d.Font3D;
-import javax.media.j3d.FontExtrusion;
-import javax.media.j3d.Shape3D;
-import java.awt.Font;
 
 /**
  * <p>
  * Cette classe regroupe les objets Java3D qui constituent visuellement un
- * vaisseau. Cette classe est générique, elle peut être utilisée pour n'importe
- * quel joueur et peut afficher n'importe quel équipement. Pour l'aspect
+ * vaisseau. Cette classe est gï¿½nï¿½rique, elle peut ï¿½tre utilisï¿½e pour n'importe
+ * quel joueur et peut afficher n'importe quel ï¿½quipement. Pour l'aspect
  * non-graphique d'un vaisseau, voir la classe Ship.
  * </p>
  *
  * <p>
- * Techniquement, cette classe hérite de J3DObject.
- * Optionnellement, comme avec tous les J3DObject, une J3DCamera peut être
- * ajoutée et elle suivra alors le J3DShip. Voir la classe J3DCamera pour plus
- * d'informations sur les caméras.
+ * Techniquement, cette classe hï¿½rite de J3DObject.
+ * Optionnellement, comme avec tous les J3DObject, une J3DCamera peut ï¿½tre
+ * ajoutï¿½e et elle suivra alors le J3DShip. Voir la classe J3DCamera pour plus
+ * d'informations sur les camï¿½ras.
  * </p>
  *
  * @see J3DObject
  * @see org.pilotix.common.Ship
  * @see J3DCamera
  *
- * @author Grégoire Colbert
+ * @author Grï¿½goire Colbert
  */
 public class J3DShip extends J3DObject {
     public Light[] lights;
 
     /**
-     * Crée une représentation 3D d'un vaisseau.
+     * Crï¿½e une reprï¿½sentation 3D d'un vaisseau.
      */
     public J3DShip(String shipShapeURL, Color3f aShipColor) {
         super(shipShapeURL, aShipColor);
@@ -135,7 +135,7 @@ public class J3DShip extends J3DObject {
     }
 
     /**
-     * Cette fonction affiche le nom du joueur à côté de son vaisseau
+     * Cette fonction affiche le nom du joueur ï¿½ cï¿½tï¿½ de son vaisseau
      * @param aName le nom du joueur
      */
     public void setPlayerName(String aName) {
@@ -149,7 +149,17 @@ public class J3DShip extends J3DObject {
         Shape3D textShape = new Shape3D();
         textShape.setGeometry(textGeom);
         textShape.setAppearance(textAppear);
-        rotationTG.addChild(textShape);
+        BranchGroup br = new BranchGroup();
+        //rotationTG.addChild(br);
+        TransformGroup littleTranslate = new TransformGroup();
+        Transform3D t3d = new Transform3D();
+        t3d.setTranslation(new Vector3d(10f,10f,0f));
+        littleTranslate.setTransform(t3d);        
+
+        littleTranslate.addChild(textShape);
+        br.addChild(littleTranslate);
+        translationTG.addChild(br);
+        
     }
 
 }

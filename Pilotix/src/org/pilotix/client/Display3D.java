@@ -49,18 +49,18 @@ import org.pilotix.common.IterableArray.Action;
 
 /**
  * <p>
- * Gère l'affichage des éléments 3D.
+ * Gï¿½re l'affichage des ï¿½lï¿½ments 3D.
  * </p>
  *
  * <p>
- * Cette classe est censée être utilisée conjointement à une instance de
- * GUIPanel. Nous avons essayé de séparer les composants Java standards et ceux
- * liés à Java3D. Cette classe est le conteneur principal pour les composants
+ * Cette classe est censï¿½e ï¿½tre utilisï¿½e conjointement ï¿½ une instance de
+ * GUIPanel. Nous avons essayï¿½ de sï¿½parer les composants Java standards et ceux
+ * liï¿½s ï¿½ Java3D. Cette classe est le conteneur principal pour les composants
  * Java3D, tandis que GUIPanel est le conteneur principal pour les composants
  * Java standards.
  * </p>
  *
- * @author Grégoire Colbert
+ * @author Grï¿½goire Colbert
  *
  * @see GUIPanel
  */
@@ -72,7 +72,7 @@ public class Display3D implements KeyListener {
     private Canvas3D mainCanvas3D = null;
     private Canvas3D minimapCanvas3D = null;
     private J3DArea areaJ3D = null;
-    // Groupe des objets que la lumière ne doit pas traverser (est-ce bien ça?)
+    // Groupe des objets que la lumiï¿½re ne doit pas traverser (est-ce bien ï¿½a?)
     private BranchGroup lightLimitsGroup = null;
 
     private IterableArray shipsJ3D = new IterableArray(
@@ -82,7 +82,7 @@ public class Display3D implements KeyListener {
     private IterableArray obstaclesJ3D = new IterableArray(
         Environment.theClientArea.getNbMaxObstacles());
     
-// Touches de contrôle de la caméra
+// Touches de contrï¿½le de la camï¿½ra
     private int zoomInKey, zoomOutKey, centerKey, rotationModeKey, leanForwardKey, leanBackwardKey;    
     
     private J3DMinimap minimapJ3D;
@@ -102,25 +102,25 @@ public class Display3D implements KeyListener {
              ship.getDirection());
             */
 
-            // Cette méthode permet d'avoir les éclairages (gérés dans J3DShip)
-            // mais à terme il faudra coder les lumières dans le fichier XML
-            // et on pourra alors utiliser la méthode ci-dessus mise en commentaire
+            // Cette mï¿½thode permet d'avoir les ï¿½clairages (gï¿½rï¿½s dans J3DShip)
+            // mais ï¿½ terme il faudra coder les lumiï¿½res dans le fichier XML
+            // et on pourra alors utiliser la mï¿½thode ci-dessus mise en commentaire
             J3DShip shipJ3D = new J3DShip(
                 "wipeout.pilotix.shape.xml",
                 Environment.clientConfig.getColorFromId(ship.getId()));
             shipJ3D.setPosition(ship.getPosition());
             shipJ3D.setDirection(ship.getDirection());
 
-            // Ajout des limites (scopes) pour les lumières de ce vaisseau
+            // Ajout des limites (scopes) pour les lumiï¿½res de ce vaisseau
             // (pour l'instant on se limite aux obstaclesJ3D)
 /*
             for (int i=0; i<shipJ3D.lights.length; i++) {
                 for (int j=0; j<obstaclesJ3D.size(); j++) {
-                    System.out.println("Ajout de l'obstacle n°"+j+" pour la lumière n°"+i);
+                    System.out.println("Ajout de l'obstacle nï¿½"+j+" pour la lumiï¿½re nï¿½"+i);
                     shipJ3D.lights[i].addScope((BranchGroup)obstaclesJ3D.get(j));
                 }
                 for (int j=0; j<shipsJ3D.size(); j++) {
-                    System.out.println("Ajout du J3DShip n°"+j+" pour la lumière n°"+i);
+                    System.out.println("Ajout du J3DShip nï¿½"+j+" pour la lumiï¿½re nï¿½"+i);
                     shipJ3D.lights[i].addScope((BranchGroup)shipsJ3D.get(j));
                 }
             }
@@ -163,12 +163,12 @@ public class Display3D implements KeyListener {
     };
 
     /**
-     * Crée un VirtualUniverse, une Locale, et deux Canvas3D. Le premier canvas
+     * Crï¿½e un VirtualUniverse, une Locale, et deux Canvas3D. Le premier canvas
      * est pour le rendu de la vue principale. Le second canvas est pour le
      * rendu de la carte.
      */
     public Display3D() {
-        // On crée l'univers et la locale. Ces instances dureront jusqu'à la
+        // On crï¿½e l'univers et la locale. Ces instances dureront jusqu'ï¿½ la
         // fermeture de l'application.
         universe = new VirtualUniverse();
         locale = new Locale(universe);
@@ -179,7 +179,7 @@ public class Display3D implements KeyListener {
         mainCanvas3D = new Canvas3D(config);
         minimapCanvas3D = new Canvas3D(config);
 
-        // récupération des touches
+        // rï¿½cupï¿½ration des touches
         zoomInKey = Environment.theControls.getKeyCodeFromAction("CAMERA_ZOOM_IN");
         zoomOutKey = Environment.theControls.getKeyCodeFromAction("CAMERA_ZOOM_OUT");
         centerKey = Environment.theControls.getKeyCodeFromAction("CAMERA_CENTER");
@@ -193,8 +193,8 @@ public class Display3D implements KeyListener {
     }
 
     public void init() {
-        // Ce Display3D doit être dans les écouteurs de Controls
-        // (il doit réagir quand l'utilisateur veut déplacer la caméra)
+        // Ce Display3D doit ï¿½tre dans les ï¿½couteurs de Controls
+        // (il doit rï¿½agir quand l'utilisateur veut dï¿½placer la camï¿½ra)
         Environment.theControls.addListener(this);
 
         float xMax = Environment.theClientArea.getXMax();
@@ -212,7 +212,7 @@ public class Display3D implements KeyListener {
         areaJ3D = new J3DArea(xMax, yMax);
         locale.addBranchGraph(areaJ3D);
 
-        // Ajout des obstacles dans objectsJ3D (définis dans ClientArea)
+        // Ajout des obstacles dans objectsJ3D (dï¿½finis dans ClientArea)
         J3DObstacle tmpObstacleJ3D;
         Obstacle tmpObstacle;
         IterableArray obstacles = Environment.theClientArea.getObstacles();
@@ -234,19 +234,19 @@ public class Display3D implements KeyListener {
     }
 
     /**
-     * Réinitialise ce Display3D.
+     * Rï¿½initialise ce Display3D.
      */
     public void reset() {
-        // Ce Display3D ne doit plus être dans les écouteurs de Controls
+        // Ce Display3D ne doit plus ï¿½tre dans les ï¿½couteurs de Controls
         Environment.theControls.removeListener(this);
 
-        // Si la J3DMinimap n'est pas nulle, on la détache du Canvas3D
+        // Si la J3DMinimap n'est pas nulle, on la dï¿½tache du Canvas3D
         if (minimapJ3D != null) {
             minimapJ3D.getCamera().getView().removeCanvas3D(minimapCanvas3D);
             locale.removeBranchGraph(minimapJ3D);
             minimapJ3D = null;
         }
-        // Si la camera du joueur actif n'est pas nulle, on la détache du Canvas3D
+        // Si la camera du joueur actif n'est pas nulle, on la dï¿½tache du Canvas3D
         if (ownShip3DCamera != null) {
             ownShip3DCamera.getView().removeCanvas3D(mainCanvas3D);
             ownShip3DCamera = null;
@@ -287,10 +287,10 @@ public class Display3D implements KeyListener {
     }
 
     /**
-     * Cette fonction sert à synchroniser la vue en 3D avec l'état du jeu tel
-     * qu'il apparaît dans ClientArea au moment de l'appel. Elle est appelée par
+     * Cette fonction sert ï¿½ synchroniser la vue en 3D avec l'ï¿½tat du jeu tel
+     * qu'il apparaï¿½t dans ClientArea au moment de l'appel. Elle est appelï¿½e par
      * ClientMainLoopThread.
-     * Elle effectue un parcours des ships et met à jour les shipsJ3D
+     * Elle effectue un parcours des ships et met ï¿½ jour les shipsJ3D
      */
     public void update() {
         // Mise a jour des vaisseaux
@@ -301,15 +301,21 @@ public class Display3D implements KeyListener {
         IterableArray balls = Environment.theClientArea.getBalls();
         balls.copyInto(ballsJ3D, actionBalls);
     }
+    
+    public void setJ3DShipsName(Integer shipId,String playerName){
+    	if(shipsJ3D.get(shipId)!=null){
+    		((J3DShip)shipsJ3D.get(shipId)).setPlayerName(playerName);
+    	}
+    }
 
     /**
-     * Répond aux événements claviers et souris relatifs à l'affichage.
+     * Rï¿½pond aux ï¿½vï¿½nements claviers et souris relatifs ï¿½ l'affichage.
      */
     public void keyTyped(KeyEvent e) {
     }
 
     /**
-     * Répond aux événements claviers et souris relatifs à l'affichage.
+     * Rï¿½pond aux ï¿½vï¿½nements claviers et souris relatifs ï¿½ l'affichage.
      */
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == zoomInKey) {
@@ -338,7 +344,7 @@ public class Display3D implements KeyListener {
     }
 
     /**
-     * Répond aux événements claviers et souris relatifs à l'affichage.
+     * Rï¿½pond aux ï¿½vï¿½nements claviers et souris relatifs ï¿½ l'affichage.
      */
     public void keyReleased(KeyEvent e) {
 
