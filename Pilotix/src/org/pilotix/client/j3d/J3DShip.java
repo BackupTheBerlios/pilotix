@@ -43,7 +43,7 @@ import javax.vecmath.Vector3f;
 /**
  * <p>
  * Cette classe regroupe les objets Java3D qui constituent visuellement un
- * vaisseau. Cette classe est g�n�rique, elle peut �tre utilis�e pour n'importe
+ * vaisseau. Cette classe est générique, elle peut �tre utilis�e pour n'importe
  * quel joueur et peut afficher n'importe quel �quipement. Pour l'aspect
  * non-graphique d'un vaisseau, voir la classe Ship.
  * </p>
