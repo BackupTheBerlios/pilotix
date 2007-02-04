@@ -27,7 +27,7 @@ import java.util.LinkedList;
 /**
  * Pilotix : lance le serveur du jeu
  *
- * Auteurs : - Flo (dernière modif : 1/09/2003)
+ * Auteurs : - Flo (derniï¿½re modif : 1/09/2003)
  *
  */
 
@@ -54,9 +54,9 @@ public class PilotixServer {
      * Lance le serveur du jeu
      *
      * @param port
-     *            port TCP sur lequel le serveur doit écouter
+     *            port TCP sur lequel le serveur doit ï¿½couter
      * @param fps
-     *            nombre d'images par seconde demandé (le serveur lui, fait ce
+     *            nombre d'images par seconde demandï¿½ (le serveur lui, fait ce
      *            qu'il peut !)
      */
     public PilotixServer(int port, int fps) throws Exception {
@@ -85,14 +85,14 @@ public class PilotixServer {
     }
 
     /**
-     * Arrête la partie en cours
+     * Arrï¿½te la partie en cours
      */
     public void endGame() {
-        // Compléter cette méthode pour arrêter proprement le serveur
-        // et réinitialiser tout ce qui doit l'être
+        // Complï¿½ter cette mï¿½thode pour arrï¿½ter proprement le serveur
+        // et rï¿½initialiser tout ce qui doit l'ï¿½tre
         System.out.println("---- [PilotixServer.endGame()] ----");
         for (int i=0; i < theCHTs.size(); i++) {
-            System.out.println("[PilotixServer.endGame()] Appel de ClientHandlerThread.endGame() pour le client n°"+i);
+            System.out.println("[PilotixServer.endGame()] Appel de ClientHandlerThread.endGame() pour le client nï¿½"+i);
             ((ClientHandlerThread)theCHTs.get(i)).endGame();
         }
         theCHTs.clear();
@@ -103,7 +103,7 @@ public class PilotixServer {
 
     /**
      * Main du serveur, instancie un nouveau PilotixServer.
-     * La présence de l'option "-gui" permet de lancer l'interface
+     * La prï¿½sence de l'option "-gui" permet de lancer l'interface
      * graphique (classe ServerGUI).
      */
     public static void main(String[] args) throws Exception {
@@ -122,7 +122,7 @@ public class PilotixServer {
             ServerGUI serverGUI = new ServerGUI();
         } else {
             System.out.println("[PilotixServer.main()] - withGui = false");
-            PilotixServer server = new PilotixServer(9000, 30);
+            PilotixServer server = new PilotixServer(9000, 60);
         }
     }
 }

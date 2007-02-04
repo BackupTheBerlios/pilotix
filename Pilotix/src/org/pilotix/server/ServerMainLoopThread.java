@@ -25,15 +25,24 @@ import org.pilotix.common.Information;
 
 public class ServerMainLoopThread extends Thread {
 
+	//used to compute statistics
+	Long lastTime ;
+	Integer nbTime ;
+	Integer messageEvery = 30 ;
+	Long total =0l;
+	
     private boolean newClientHandler = false;
 
     private Information info = new Information();
     
     public ServerMainLoopThread() throws Exception {
+    	lastTime = System.currentTimeMillis();
+    	nbTime = 0;
     }
 
     public void run() {
-        //Supression des clients désirant partir
+    	
+        //Supression des clients dï¿½sirant partir
         for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
             ClientHandlerThread CHT = (ClientHandlerThread) PilotixServer.theCHTs.get(i);
             int status = CHT.getStatus();
@@ -42,11 +51,11 @@ public class ServerMainLoopThread extends Thread {
             case ClientHandlerThread.WANTTOLEAVE:
                 CHT.setStatus(ClientHandlerThread.TOBEKILL);
                 break;
-            // Le client a quitté violemment
+            // Le client a quittï¿½ violemment
             case ClientHandlerThread.DECONNECTED:
                 CHT.setStatus(ClientHandlerThread.TOBEKILL);
                 break;
-            // Supression du client ayant quitté
+            // Supression du client ayant quittï¿½
             case ClientHandlerThread.TOBEKILL:
                 PilotixServer.theSA.removeShip(CHT.getShip());
                 PilotixServer.theCHTs.remove(CHT);
@@ -94,6 +103,17 @@ public class ServerMainLoopThread extends Thread {
             	System.out.println("[SMLT] Ship "+CHT.getShip().getName()+" left The Game");
             }
         }
+        /*if((nbTime % messageEvery ) == 0){
+        	System.out.println("test:"+lastTime+" "+System.currentTimeMillis());
+        	Long e = System.currentTimeMillis()- lastTime;
+        	System.out.println("test:"+(((float)e/(float)1000) /(float)messageEvery));
+        	
+        	//System.out.println("total time to compute 1 frame : "+((float)total*1000 / (float)messageEvery));
+        	nbTime=0;
+        	//total=0l;
+        	lastTime = System.currentTimeMillis();
+        }
+        nbTime++;*/
     }
 
     public synchronized void newClient() {
