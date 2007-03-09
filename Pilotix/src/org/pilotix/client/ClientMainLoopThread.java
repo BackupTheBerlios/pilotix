@@ -118,6 +118,7 @@ public class ClientMainLoopThread extends Thread {
                             System.out.println("[CMLT] Reçu Information, type AREA_ID");
                         break;
                         case Information.SHIP_NAME :
+                            System.out.println("[CMLT] Reçu Information, type SHIP_NAME");
                             System.out.println(info.getShipId()+" is "+info.getShipName());
                             Environment.theDisplay3D.setJ3DShipsName(info.getShipId(), info.getShipName());
                         break;
