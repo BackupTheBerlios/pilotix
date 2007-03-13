@@ -72,11 +72,7 @@ public class ServerMainLoopThread extends Thread {
                 //theShips.add(newCHT.getShip());
                 PilotixServer.theSA.addShip(newCHT.getShip());
             }
-            //effacement de la liste temporaire
-            PilotixServer.theNewCHTs.clear();
-
-            newClientHandler = false;
-            System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
+           
             
               
         }
@@ -105,7 +101,13 @@ public class ServerMainLoopThread extends Thread {
         				e.printStackTrace();
         			}
         		}
-        	}   
+        	}  
+        	
+        	 //effacement de la liste temporaire
+            PilotixServer.theNewCHTs.clear();
+
+            newClientHandler = false;
+            System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
         }
         
         /*if((nbTime % messageEvery ) == 0){
