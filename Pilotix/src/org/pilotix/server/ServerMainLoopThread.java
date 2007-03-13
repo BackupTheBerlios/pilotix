@@ -78,19 +78,7 @@ public class ServerMainLoopThread extends Thread {
             newClientHandler = false;
             System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
             
-            // envoie de tous les noms a tout les autre vaisseaux
-            for (Iterator iter2 = PilotixServer.theCHTs.iterator(); iter2.hasNext();) {
-            	ClientHandlerThread CHT = (ClientHandlerThread) iter2.next();
-            	info.setShipName(CHT.getShip().getId(),((ServerShip)CHT.getShip()).getName());
-            	for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
-            		ClientHandlerThread CHTD = (ClientHandlerThread) iter.next();
-            		try {
-            			info.write(CHTD.getMessageHandler());
-            		} catch (Exception e) {
-            			e.printStackTrace();
-            		}
-            	}
-            }            
+              
         }
 
         PilotixServer.theSA.nextFrame();
@@ -103,6 +91,23 @@ public class ServerMainLoopThread extends Thread {
             	System.out.println("[SMLT] Ship "+CHT.getShip().getName()+" left The Game");
             }
         }
+        
+        if (newClientHandler) {
+        	// envoie de tous les noms a tout les autre vaisseaux
+        	for (Iterator iter2 = PilotixServer.theCHTs.iterator(); iter2.hasNext();) {
+        		ClientHandlerThread CHT = (ClientHandlerThread) iter2.next();
+        		info.setShipName(CHT.getShip().getId(),((ServerShip)CHT.getShip()).getName());
+        		for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
+        			ClientHandlerThread CHTD = (ClientHandlerThread) iter.next();
+        			try {
+        				info.write(CHTD.getMessageHandler());
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        		}
+        	}   
+        }
+        
         /*if((nbTime % messageEvery ) == 0){
         	System.out.println("test:"+lastTime+" "+System.currentTimeMillis());
         	Long e = System.currentTimeMillis()- lastTime;
