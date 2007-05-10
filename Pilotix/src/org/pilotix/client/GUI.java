@@ -28,26 +28,26 @@ import javax.swing.WindowConstants;
 
 /**
  * <p>
- * Cette classe crée une fenêtre pour le client Pilotix.
+ * Cette classe crÃ©e une fenÃªtre pour le client Pilotix.
  * </p>
  * 
  * <p>
- * Tout son contenu, y compris la barre de menu, est ajouté en instanciant la
- * classe GUIPanel. Cette séparation entre la fenêtre et son contenu rendra la
- * création d'une applet plus facile si un jour on décide de faire une applet.
+ * Tout son contenu, y compris la barre de menu, est ajoutÃ© en instanciant la
+ * classe GUIPanel. Cette sÃ©paration entre la fenÃªtre et son contenu rendra la
+ * crÃ©ation d'une applet plus facile si un jour on dÃ©cide de faire une applet.
  * </p>
  * 
  * @see GUIPanel
  * @see JFrame
  * 
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  */
 public class GUI extends JFrame {
 
     private GUIPanel guipanel = null;
 
     /**
-     * Crée une JFrame et la remplit avec un objet de la classe GUIPanel.
+     * CrÃ©e une JFrame et la remplit avec un objet de la classe GUIPanel.
      */
     public GUI() {
         setTitle(ResourceBundle.getBundle(
@@ -74,7 +74,7 @@ public class GUI extends JFrame {
     }
 
     /**
-     * renvoie l'instance de GUIPanel associée avec cette fenêtre GUI.
+     * renvoie l'instance de GUIPanel associÃ©e avec cette fenÃªtre GUI.
      * 
      * @return l'instance de GUIPanel
      */

@@ -160,6 +160,7 @@ public class J3DArea extends J3DObject {
                 k++;
             }
         }
+
         /*
          * pointsShape3D.setGeometry(aPointArray);
          *

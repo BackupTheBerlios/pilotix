@@ -36,14 +36,14 @@ import org.w3c.dom.NodeList;
  * </p>
  *
  * <p>
- * La boucle principale (ClientMainLoopThread) récupère les informations du
- * serveur puis met à jour cette classe. Ensuite ClientArea met à jour Display3D
- * (si nécessaire).
+ * La boucle principale (ClientMainLoopThread) rÃ©cupÃ¨re les informations du
+ * serveur puis met Ã  jour cette classe. Ensuite ClientArea met Ã  jour Display3D
+ * (si nÃ©cessaire).
  * </p>
  *
  * <p>
- * Les autres "plug-ins" peuvent consulter ClientArea pour mettre à jour leur
- * état (détections, etc.)
+ * Les autres "plug-ins" peuvent consulter ClientArea pour mettre Ã  jour leur
+ * Ã©tat (dÃ©tections, etc.)
  * </p>
  *
  * @see Display3D
@@ -52,18 +52,18 @@ import org.w3c.dom.NodeList;
  * @see org.pilotix.common.Area
  * @see org.pilotix.server.ServerArea
  *
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  * @author Florent Sithimolada
  */
 public class ClientArea extends org.pilotix.common.Area {
 
     private IterableArray obstacles;
     private int ownShipId;
-    private float xMax = 100.00f; // Valeur par défaut, écrasée par setArea()
-    private float yMax = 100.00f; // Valeur par défaut, écrasée par setArea()
+    private float xMax = 100.00f; // Valeur par dÃ©faut, Ã©crasÃ©e par setArea()
+    private float yMax = 100.00f; // Valeur par dÃ©faut, Ã©crasÃ©e par setArea()
 
     /**
-     * Ce constructeur crée un tableau pour conserver une copie locale des
+     * Ce constructeur crÃ©e un tableau pour conserver une copie locale des
      * vaisseaux actuellement sur le serveur.
      */
     public ClientArea() {
@@ -77,7 +77,7 @@ public class ClientArea extends org.pilotix.common.Area {
      * Initialise le tableau des vaisseaux locaux
      */
     public void init() {
-        // Réinitialisation de la liste des Ships
+        // RÃ©initialisation de la liste des Ships
         ships.clear();
         balls.clear();
         this.setArea("defaut.pilotix.area.xml"); // TEMPORAIRE, DEVRA ETRE ENVOYE PAR LE SERVEUR
@@ -88,7 +88,7 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Réinitialise ce ClientArea (appelé par ClientMainLoopThread quand on
+     * RÃ©initialise ce ClientArea (appelÃ© par ClientMainLoopThread quand on
      * quitte)
      */
     public void reset() {
@@ -102,14 +102,14 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Cette méthode sert à :
+     * Cette mÃ©thode sert Ã  :
      * <ul>
-     * <li>définir quel est le fichier d'aire de jeu à utiliser</li>
-     * <li>mettre à jour ClientArea avec les informations de ce fichier</li>
+     * <li>dÃ©finir quel est le fichier d'aire de jeu Ã  utiliser</li>
+     * <li>mettre Ã  jour ClientArea avec les informations de ce fichier</li>
      * </ul>
      *
      * @param aAreaFile
-     *            le nom du fichier ".pilotix.area.xml" à utiliser
+     *            le nom du fichier ".pilotix.area.xml" Ã  utiliser
      */
     public void setArea(String aAreaFile) {
         Document document = Environment.theXMLHandler.getDocumentFromURL(Environment.theRL.getResource(
@@ -122,13 +122,13 @@ public class ClientArea extends org.pilotix.common.Area {
             e.printStackTrace();
         }
 
-        // Définition des limites externes de l'aire de jeu
+        // DÃ©finition des limites externes de l'aire de jeu
         xMax = Integer.parseInt(rootNode.getAttribute("width"))
             * Environment.u3d;
         yMax = Integer.parseInt(rootNode.getAttribute("height"))
             * Environment.u3d;
 
-        // Définition des limites internes de l'aire de jeu (obstacles)
+        // DÃ©finition des limites internes de l'aire de jeu (obstacles)
         NodeList theObstacles = rootNode.getElementsByTagName("Obstacle");
         obstacles = new IterableArray(theObstacles.getLength());
         Element tmpXmlObstacle = null;
@@ -180,10 +180,10 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie l'obstacle dont le numéro est fourni.
+     * Renvoie l'obstacle dont le numÃ©ro est fourni.
      *
      * @param i
-     *            l'identification du vaisseau à renvoyer
+     *            l'identification du vaisseau Ã  renvoyer
      * @return une instance de Obstacle, ou null si l'identifiant fourni n'est
      *         pas celui d'un vaisseau
      */
@@ -192,31 +192,31 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie la position de la balle dont le numéro est fourni.
+     * Renvoie la position de la balle dont le numÃ©ro est fourni.
      *
      * @param i
      *            l'identification de la balle dont on veut la position
-     * @return une instance de Vector qui correspond à la position
+     * @return une instance de Vector qui correspond Ã  la position
      */
     public Vector getBallPosition(int i) {
         return ((Ball) balls.get(i)).getPosition();
     }
 
     /**
-     * Renvoie la vitesse de la balle dont le numéro est fourni.
+     * Renvoie la vitesse de la balle dont le numÃ©ro est fourni.
      *
      * @param i
      *            l'identification de la balle dont on veut la position
-     * @return une instance de Vector qui correspond à la position
+     * @return une instance de Vector qui correspond Ã  la position
      */
     public Vector getBallSpeed(int i) {
         return ((Ball) balls.get(i)).getSpeed();
     }
 
     /**
-     * Renvoie la balle dont le numéro est fourni.
+     * Renvoie la balle dont le numÃ©ro est fourni.
      *
-     * @param i le numéro de la balle
+     * @param i le numÃ©ro de la balle
      * @return une instance de Ball
      */
     public Ball getBall(int i) {
@@ -224,10 +224,10 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Teste si la balle indiquée existe.
+     * Teste si la balle indiquÃ©e existe.
      *
      * @param aBallId
-     *            la balle dont l'existence doit être testée
+     *            la balle dont l'existence doit Ãªtre testÃ©e
      * @return vrai si la balle existe, faux sinon
      */
     public final boolean ballIsNull(int aBallId) {
@@ -235,10 +235,10 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Teste si le vaisseau indiqué existe.
+     * Teste si le vaisseau indiquÃ© existe.
      *
      * @param aShipId
-     *            le vaisseau dont l'existence doit être testée
+     *            le vaisseau dont l'existence doit Ãªtre testÃ©e
      * @return vrai si le vaisseau existe, faux sinon
      */
     public final boolean shipIsNull(int aShipId) {
@@ -246,11 +246,11 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie la position du vaisseau dont l'identifiant est passé en
-     * paramètre.
+     * Renvoie la position du vaisseau dont l'identifiant est passÃ© en
+     * paramÃ¨tre.
      *
      * @param aShipId
-     *            le vaisseau dont la position doit être renvoyée
+     *            le vaisseau dont la position doit Ãªtre renvoyÃ©e
      * @return la position du vaisseau
      */
     public final Vector getShipPosition(int aShipId) {
@@ -259,11 +259,11 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie la direction du vaisseau dont l'identifiant est passé en
-     * paramètre.
+     * Renvoie la direction du vaisseau dont l'identifiant est passÃ© en
+     * paramÃ¨tre.
      *
      * @param aShipId
-     *            le vaisseau dont la direction doit être renvoyée
+     *            le vaisseau dont la direction doit Ãªtre renvoyÃ©e
      * @return la direction du vaisseau
      */
     public final Angle getShipDirection(int aShipId) {
@@ -272,11 +272,11 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Renvoie l'état du vaisseau dont l'identifiant est passé en paramètre.
+     * Renvoie l'Ã©tat du vaisseau dont l'identifiant est passÃ© en paramÃ¨tre.
      *
      * @param aShipId
-     *            le vaisseau dont l'état doit être renvoyé
-     * @return l'état du vaisseau
+     *            le vaisseau dont l'Ã©tat doit Ãªtre renvoyÃ©
+     * @return l'Ã©tat du vaisseau
      */
     public final int getShipStates(int aShipId) {
         return ((Ship) ships.get(aShipId)).getStates();
@@ -292,7 +292,7 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Définit l'identifiant du vaisseau du joueur
+     * DÃ©finit l'identifiant du vaisseau du joueur
      *
      * @param shipId
      *            l'identifiant du vaisseau tel que fourni par le serveur
@@ -320,8 +320,8 @@ public class ClientArea extends org.pilotix.common.Area {
     }
 
     /**
-     * Met à jour la position de certains éléments qui ne sont pas
-     * mis à jour à chaque frame par le serveur (position des balles
+     * Met Ã  jour la position de certains Ã©lÃ©ments qui ne sont pas
+     * mis Ã  jour Ã  chaque frame par le serveur (position des balles
      * par exemple).
      */
     public void nextFrame() {

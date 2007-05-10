@@ -32,9 +32,9 @@ import org.pilotix.common.Angle;
 import org.pilotix.common.Vector;
 
 /**
- * Classe mère de tous les objets en 3D du jeu.
+ * Classe mÃ¨re de tous les objets en 3D du jeu.
  *
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  */
 public class J3DObject extends BranchGroup {
 
@@ -49,33 +49,33 @@ public class J3DObject extends BranchGroup {
 
     /**
      * Construit l'arborescence Java3D minimale d'un objet 3D qui peut ensuite
-     * être inséré dans le tableau objectsJ3D de Display3D.
-     * Ce constructeur n'associe cependant à cette structure AUCUNE forme 3D.
-     * Il ne doit servir que pour les objets 3D qui ne peuvent pas être décrits
-     * entièrement (ou pas du tout) avec un fichier ".pilotix.shape.xml" et
-     * doivent donc faire l'objet d'une classe Java spécifique.
-     * Ces classes spécifiques peuvent donc hériter de J3DObject sans avoir
-     * un paramètre "fichier de forme 3D" en paramètre de leur constructeur.
+     * Ãªtre insÃ©rÃ© dans le tableau objectsJ3D de Display3D.
+     * Ce constructeur n'associe cependant Ã  cette structure AUCUNE forme 3D.
+     * Il ne doit servir que pour les objets 3D qui ne peuvent pas Ãªtre dÃ©crits
+     * entiÃ¨rement (ou pas du tout) avec un fichier ".pilotix.shape.xml" et
+     * doivent donc faire l'objet d'une classe Java spÃ©cifique.
+     * Ces classes spÃ©cifiques peuvent donc hÃ©riter de J3DObject sans avoir
+     * un paramÃ¨tre "fichier de forme 3D" en paramÃ¨tre de leur constructeur.
      *
-     * C'est le cas par exemple de J3DArea car c'est un rectangle non colorié,
-     * alors que Shape3DHandler ne permet de générer que des triangles coloriés.
+     * C'est le cas par exemple de J3DArea car c'est un rectangle non coloriÃ©,
+     * alors que Shape3DHandler ne permet de gÃ©nÃ©rer que des triangles coloriÃ©s.
      */
     public J3DObject() {
         this.setCapability(BranchGroup.ALLOW_DETACH);
 
         translationTG = new TransformGroup();
         translationTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        // Les deux lignes suivantes servent à changer la caméra de place
-        // dans l'arborescence : on peut alors la rattacher soit à translationTG,
-        // soit à rotationTG (par la méthode cameraRotationSwitch())
+        // Les deux lignes suivantes servent Ã  changer la camÃ©ra de place
+        // dans l'arborescence : on peut alors la rattacher soit Ã  translationTG,
+        // soit Ã  rotationTG (par la mÃ©thode cameraRotationSwitch())
         translationTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
         translationTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 
         rotationTG = new TransformGroup();
         rotationTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        // Les deux lignes suivantes servent à changer la caméra de place
-        // dans l'arborescence : on peut alors la rattacher soit à translationTG,
-        // soit à rotationTG (par la méthode cameraRotationSwitch())
+        // Les deux lignes suivantes servent Ã  changer la camÃ©ra de place
+        // dans l'arborescence : on peut alors la rattacher soit Ã  translationTG,
+        // soit Ã  rotationTG (par la mÃ©thode cameraRotationSwitch())
         rotationTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
         rotationTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 
@@ -106,15 +106,15 @@ public class J3DObject extends BranchGroup {
     }
 
     /**
-     * Construit un objet 3D pouvant être affiché par Display3D,
-     * à partir d'un fichier contenant ses propriétés géométriques,
-     * qui est recherché dans le répertoire pilotix.config.path/shapes
-     * (par défaut ce répertoire est data/shapes/).
+     * Construit un objet 3D pouvant Ãªtre affichÃ© par Display3D,
+     * Ã  partir d'un fichier contenant ses propriÃ©tÃ©s gÃ©omÃ©triques,
+     * qui est recherchÃ© dans le rÃ©pertoire pilotix.config.path/shapes
+     * (par dÃ©faut ce rÃ©pertoire est data/shapes/).
      *
      * @param aShapeURL
      *        le nom d'un fichier ".pilotix.shape.xml" dans "data/shapes"
      * @param aDynamicColor
-     *        la couleur à utiliser si l'attribut rgb="dynamic" dans le fichier XML
+     *        la couleur Ã  utiliser si l'attribut rgb="dynamic" dans le fichier XML
      */
     public J3DObject(String aShapeURL, Color3f aDynamicColor) {
         this();
@@ -144,14 +144,14 @@ public class J3DObject extends BranchGroup {
 
 
     /**
-     * Définit la position de cet objet dans le plan horizontal sans modifier
+     * DÃ©finit la position de cet objet dans le plan horizontal sans modifier
      * l'altitude.
-     * Le système de coordonnées du paramètre <code>aVector</code> est celui
-     * du serveur, une multiplication par Environment.u3d est donc effectuée
-     * pour avoir les coordonnées dans le client (réelles et non entières).
+     * Le systÃ¨me de coordonnÃ©es du paramÃ¨tre <code>aVector</code> est celui
+     * du serveur, une multiplication par Environment.u3d est donc effectuÃ©e
+     * pour avoir les coordonnÃ©es dans le client (rÃ©elles et non entiÃ¨res).
      *
      * @param aVector
-     *            un vecteur définissant la position en X et en Y de l'objet.
+     *            un vecteur dÃ©finissant la position en X et en Y de l'objet.
      */
     public final void setPosition(Vector aVector) {
         tmpMatrix4f.setElement(0, 3, aVector.x * Environment.u3d);
@@ -161,14 +161,14 @@ public class J3DObject extends BranchGroup {
     }
 
     /**
-     * Définit l'altitude de cet objet sans modifier sa position dans le plan
+     * DÃ©finit l'altitude de cet objet sans modifier sa position dans le plan
      * horizontal.
-     * Le système de coordonnées du paramètre <code>altitude</code> est celui
-     * du serveur, une multiplication par Environment.u3d est donc effectuée
-     * pour avoir les coordonnées dans le client (réelles et non entières).
+     * Le systÃ¨me de coordonnÃ©es du paramÃ¨tre <code>altitude</code> est celui
+     * du serveur, une multiplication par Environment.u3d est donc effectuÃ©e
+     * pour avoir les coordonnÃ©es dans le client (rÃ©elles et non entiÃ¨res).
      *
      * @param altitude
-     *            un entier représentant la nouvelle altitude de l'objet (sa
+     *            un entier reprÃ©sentant la nouvelle altitude de l'objet (sa
      *            position dans le plan horizontal ne changera pas).
      */
     public final void setAltitude(int altitude) {
@@ -178,11 +178,11 @@ public class J3DObject extends BranchGroup {
     }
 
     /**
-     * Définit la direction de cet objet dans le plan horizontal.
+     * DÃ©finit la direction de cet objet dans le plan horizontal.
      *
      * @param angle
-     *            une instance de la classe Angle représentant la direction de
-     *            l'objet en degrés (0 étant vers le haut, 90 à droite, etc.)
+     *            une instance de la classe Angle reprÃ©sentant la direction de
+     *            l'objet en degrÃ©s (0 Ã©tant vers le haut, 90 Ã  droite, etc.)
      */
     public final void setDirection(Angle angle) {
         rotation.rotZ(-Math.toRadians((double) angle.floatValue()));
@@ -193,7 +193,7 @@ public class J3DObject extends BranchGroup {
      * Ajoute une J3DCamera, qui ne tournera pas, au-dessus de ce J3DObject.
      *
      * @param aCamera
-     *            la caméra à mettre au-dessus de cet objet
+     *            la camÃ©ra Ã  mettre au-dessus de cet objet
      */
     public void addCamera(J3DCamera aCamera) {
         addCamera(aCamera, false);
@@ -203,19 +203,19 @@ public class J3DObject extends BranchGroup {
      * Ajoute une J3DCamera au-dessus de ce J3DObject.
      *
      * @param aCamera
-     *            la caméra à mettre au-dessus de cet objet
+     *            la camÃ©ra Ã  mettre au-dessus de cet objet
      * @param canRotate
-     *            détermine si la caméra peut tourner dans le plan X-Y.
+     *            dÃ©termine si la camÃ©ra peut tourner dans le plan X-Y.
      *            <ul>
-     *            <li>Mis à <code>false</code>, la caméra suivra le
+     *            <li>Mis Ã  <code>false</code>, la camÃ©ra suivra le
      *            J3DObject mais ne tournera pas avec lui.</li>
-     *            <li>Mis à <code>true</code>, le nez du vaisseau (si l'objet
-     *            est un vaisseau) pointera toujours vers le haut de l'écran,
-     *            ce qui veut dire que c'est l'arrière-plan qui tournera et
+     *            <li>Mis Ã  <code>true</code>, le nez du vaisseau (si l'objet
+     *            est un vaisseau) pointera toujours vers le haut de l'Ã©cran,
+     *            ce qui veut dire que c'est l'arriÃ¨re-plan qui tournera et
      *            non le vaisseau.</li>
      *            </ul>
-     *            Mettre <code>canRotate</code> à vrai doit rendre
-     *            l'affichage plus lent, l'option par défaut est donc <code>false</code>.
+     *            Mettre <code>canRotate</code> Ã  vrai doit rendre
+     *            l'affichage plus lent, l'option par dÃ©faut est donc <code>false</code>.
      */
     public void addCamera(J3DCamera aCamera, boolean canRotate) {
         camera = aCamera;
@@ -228,7 +228,7 @@ public class J3DObject extends BranchGroup {
     }
 
     /**
-     * Supprime la J3DCamera associée à ce J3DObject, si elle existe;
+     * Supprime la J3DCamera associÃ©e Ã  ce J3DObject, si elle existe;
      * ne fait rien dans le cas contraire.
      */
     public void removeCamera() {
@@ -244,12 +244,12 @@ public class J3DObject extends BranchGroup {
     }
 
     /**
-     * Permet de changer le comportement de rotation de la caméra.
-     * Si la caméra tournait avec ce J3DObject autour de l'axe Z, elle
-     * ne tournera plus (son angle supérieur gauche sera vers le Nord-Ouest,
-     * son angle supérieur droit vers le Nord-Est, etc.);
-     * inversement, si elle ne pouvait pas tourner, elle reproduira désormais
-     * les mouvements de rotation appliqués à ce J3DObject.
+     * Permet de changer le comportement de rotation de la camÃ©ra.
+     * Si la camÃ©ra tournait avec ce J3DObject autour de l'axe Z, elle
+     * ne tournera plus (son angle supÃ©rieur gauche sera vers le Nord-Ouest,
+     * son angle supÃ©rieur droit vers le Nord-Est, etc.);
+     * inversement, si elle ne pouvait pas tourner, elle reproduira dÃ©sormais
+     * les mouvements de rotation appliquÃ©s Ã  ce J3DObject.
      */
     public void cameraRotationSwitch() {
         if (camera!=null) {
@@ -265,9 +265,9 @@ public class J3DObject extends BranchGroup {
     }
 
     /**
-     * Renvoie la caméra associée avec ce J3DObject, si elle existe.
+     * Renvoie la camÃ©ra associÃ©e avec ce J3DObject, si elle existe.
      *
-     * @return la caméra qui suit ce J3DObject, ou <code>null</code> si elle
+     * @return la camÃ©ra qui suit ce J3DObject, ou <code>null</code> si elle
      *         n'existe pas.
      */
     public final J3DCamera getCamera() {

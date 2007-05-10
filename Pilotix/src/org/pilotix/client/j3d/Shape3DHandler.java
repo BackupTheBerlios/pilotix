@@ -36,7 +36,7 @@ import javax.media.j3d.*;
 import java.lang.Integer;
 
 /**
- * Cette classe sert à lire le fichier de Forme3D du client écrit en XML.
+ * Cette classe sert Ã  lire le fichier de Forme3D du client Ã©crit en XML.
  */
 public class Shape3DHandler {
 
@@ -57,13 +57,13 @@ public class Shape3DHandler {
     private Element xmlPoint;
 
     /**
-     * Renvoie une instance de Shape3D correspondant aux données contenues dans
-     * le fichier XML dont le nom est passé en paramètre et qui doit se trouver
-     * dans le répertoire data/shapes.
-     * Vous ne pouvez utiliser cette méthode que si
+     * Renvoie une instance de Shape3D correspondant aux donnÃ©es contenues dans
+     * le fichier XML dont le nom est passÃ© en paramÃ¨tre et qui doit se trouver
+     * dans le rÃ©pertoire data/shapes.
+     * Vous ne pouvez utiliser cette mÃ©thode que si
      *
      * @param aShapeFile
-     *            nom du fichier XML à traiter
+     *            nom du fichier XML Ã  traiter
      * @return
      *            l'objet Shape3D
      */
@@ -72,14 +72,14 @@ public class Shape3DHandler {
     }
 
     /**
-     * Renvoie une instance de Shape3D correspondant aux données contenues dans
-     * le fichier XML dont le nom est passé en paramètre et qui doit se trouver
-     * dans le répertoire data/shapes.
+     * Renvoie une instance de Shape3D correspondant aux donnÃ©es contenues dans
+     * le fichier XML dont le nom est passÃ© en paramÃ¨tre et qui doit se trouver
+     * dans le rÃ©pertoire data/shapes.
      *
      * @param aShapeFile
-     *            nom du fichier XML à traiter
+     *            nom du fichier XML Ã  traiter
      * @param aDynamicColor
-     *            couleur à utiliser si l'attribut rgb="dynamic"
+     *            couleur Ã  utiliser si l'attribut rgb="dynamic"
      * @return
      *            l'objet Shape3D
      */
@@ -89,7 +89,7 @@ public class Shape3DHandler {
                         ResourceLocator.SHAPE, aShapeFile));
         rootNode = document.getDocumentElement();
 
-        //calcul du nombre de points utilisés: nb face * 3
+        //calcul du nombre de points utilisÃ©s: nb face * 3
         int count = 0;
         NodeList faceLists = rootNode.getElementsByTagName("FaceList");
         for (int i = 0; i < faceLists.getLength(); i++) {

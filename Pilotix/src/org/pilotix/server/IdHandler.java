@@ -48,7 +48,7 @@ public class IdHandler {
         }
         tab[i] = true;
         nbId++;
-        System.out.println("[IdHandler.getId()] Nouvel Id attribué : " + i);
+        System.out.println("[IdHandler.getId()] Nouvel Id attribuÃ© : " + i);
         return i;
     }
 

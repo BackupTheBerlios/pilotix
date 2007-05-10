@@ -43,8 +43,8 @@ import com.sun.j3d.utils.geometry.NormalGenerator;
 
 /**
  * <p>
- * Cette classe construit un obstacle visuel à partir de ses
- * caractéristiques.
+ * Cette classe construit un obstacle visuel Ã  partir de ses
+ * caractÃ©ristiques.
  * </p>
  */
 public class J3DObstacle extends J3DObject {
@@ -52,9 +52,9 @@ public class J3DObstacle extends J3DObject {
     int nbFaces = 5; // On ne dessine pas la face cachee de l'obstacle
 
     /**
-     * Construit un obstacle dont les coordonnées des coins sont fournis
-     * (le système de coordonnées est celui du serveur), et recouvre
-     * les faces avec les textures indiquées, dont les URLs seront trouvées
+     * Construit un obstacle dont les coordonnÃ©es des coins sont fournis
+     * (le systÃ¨me de coordonnÃ©es est celui du serveur), et recouvre
+     * les faces avec les textures indiquÃ©es, dont les URLs seront trouvÃ©es
      * par ResourceLocator.
      */
     public J3DObstacle(Vector upLeftCorner,
@@ -67,14 +67,14 @@ public class J3DObstacle extends J3DObject {
         super();
 
         // --------------------
-        // GEOMETRIE : on réserve 4*nbFaces points
+        // GEOMETRIE : on rÃ©serve 4*nbFaces points
         QuadArray quadArray = new QuadArray(4*nbFaces,
                    GeometryArray.COORDINATES
                    | GeometryArray.TEXTURE_COORDINATE_2
                    | GeometryArray.NORMALS
                    | GeometryArray.COLOR_3);
 
-        // Les points, nommés selon leur position par rapport à l'observateur
+        // Les points, nommÃ©s selon leur position par rapport Ã  l'observateur
         // AuSol signifie z = 0.0f
         // EnAlt signifie en altitude, z = height*Environment.u3d
         Point3f pointBasGaucheAuSol = new Point3f(0.0f,
@@ -151,7 +151,7 @@ public class J3DObstacle extends J3DObject {
         texture2D.setBoundaryModeT(Texture.WRAP);
         texture2D.setImage(0, topImage);
 
-        // Définition des points d'accrochage de la texture
+        // DÃ©finition des points d'accrochage de la texture
         TexCoord2f tmpTexCoord2f = new TexCoord2f();
         float x_sur_y = ((downRightCorner.x - upLeftCorner.x)*Environment.u3d)
                         / ((downRightCorner.y - upLeftCorner.y)*Environment.u3d);
@@ -174,7 +174,7 @@ public class J3DObstacle extends J3DObject {
 
         // --------------------
         // APPARENCE
-        // Création de l'apparence et application des textures
+        // CrÃ©ation de l'apparence et application des textures
         Appearance obstacleAppearance = new Appearance();
 //        obstacleAppearance.setTexture(texture2D);
 
@@ -189,7 +189,7 @@ public class J3DObstacle extends J3DObject {
         transparency.setTransparency(0.0f);
         obstacleAppearance.setTransparencyAttributes(transparency);
 
-        // Création du Shape3D
+        // CrÃ©ation du Shape3D
         Shape3D obstacleShape3D = new Shape3D();
         obstacleShape3D.setAppearance(obstacleAppearance);
 

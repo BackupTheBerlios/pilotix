@@ -42,7 +42,7 @@ public class ServerShip extends Ship {
 
     protected Command command;
 
-	private String name;
+    private String name;
 
     public ServerShip() {
         super();
@@ -145,11 +145,11 @@ public class ServerShip extends Ship {
 
     }
 
-	public void setName(String shipName) {
-		name = shipName;
-	}
-	
-	public String getName() {
-		return name;
-	}
+    public void setName(String shipName) {
+        name = shipName;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

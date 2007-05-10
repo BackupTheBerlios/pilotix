@@ -20,7 +20,7 @@ package org.pilotix.common;
 
 /**
  * Cette classe est la classe parente de toutes les classes
- * qui définissent des objets physiques du jeu.
+ * qui dÃ©finissent des objets physiques du jeu.
  *
  * @author Florent Sithimolada
  */
@@ -60,5 +60,5 @@ public abstract class PilotixElement {
     public int getStates() {
         return states;
     }
-  
+
 }

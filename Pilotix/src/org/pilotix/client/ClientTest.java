@@ -44,7 +44,6 @@ class ClientTest {
                 try {
                 info.write(msHandler);
                 } catch (Exception e) {
-                   
                 }
             }
         };

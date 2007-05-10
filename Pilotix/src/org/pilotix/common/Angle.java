@@ -19,9 +19,9 @@
 package org.pilotix.common;
 
 /**
- * Angle en degrés compris entre 0 et 359,
- * les angles en dehors de cette plage étant
- * ramenés dedans par un modulo.
+ * Angle en degrÃ©s compris entre 0 et 359,
+ * les angles en dehors de cette plage Ã©tant
+ * ramenÃ©s dedans par un modulo.
  */
 public class Angle {
 
@@ -29,7 +29,7 @@ public class Angle {
     private float degree;
     private int tmpDegree;
     /**
-     * Crée un angle de valeur 0.
+     * CrÃ©e un angle de valeur 0.
      */
     public Angle() {
         //oldDegree = 0;
@@ -37,7 +37,7 @@ public class Angle {
     }
 
     /**
-     * Crée un angle avec la valeur d'un autre angle en paramètre.
+     * CrÃ©e un angle avec la valeur d'un autre angle en paramÃ¨tre.
      *
      * @param anAngle
      *            un angle
@@ -48,7 +48,7 @@ public class Angle {
     }
 
     /**
-     * Crée un angle avec la valeur passée en paramètre.
+     * CrÃ©e un angle avec la valeur passÃ©e en paramÃ¨tre.
      *
      * @param aDegree
      *            la valeur de l'angle
@@ -62,7 +62,7 @@ public class Angle {
     }
 
     /**
-     * Met à jour cet angle avec la valeur passée en paramètre.
+     * Met Ã  jour cet angle avec la valeur passÃ©e en paramÃ¨tre.
      *
      * @param aDegree
      *            valeur l'angle
@@ -84,7 +84,7 @@ public class Angle {
     }
 
     /**
-     * Mise à jour de l'angle avec la valeur d'un autre angle.
+     * Mise Ã  jour de l'angle avec la valeur d'un autre angle.
      *
      * @param anAngle
      *            l'angle dont on veut recopier la valeur
@@ -95,7 +95,7 @@ public class Angle {
     }
 
     /**
-     * Récupère la valeur de l'angle.
+     * RÃ©cupÃ¨re la valeur de l'angle.
      *
      * @return un angle
      */

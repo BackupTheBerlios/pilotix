@@ -20,17 +20,17 @@
 package org.pilotix.common;
 
 /**
- * Similaire à un Array simple, IterableArray comporte néanmoins un chainage
- * bi-directionnel reliant toutes ses cases non vides. La principale différence
- * avec OldIterrableArray (qui va prochainement être mis au grenier!), est qu'il
- * est possible d'insérer n'importe où dans le tableau, alors qu'il fallait
- * demander à OldIterableArray de faire ce placement pour nous.
+ * Similaire Ã  un Array simple, IterableArray comporte nÃ©anmoins un chainage
+ * bi-directionnel reliant toutes ses cases non vides. La principale diffÃ©rence
+ * avec OldIterrableArray (qui va prochainement Ãªtre mis au grenier!), est qu'il
+ * est possible d'insÃ©rer n'importe oÃ¹ dans le tableau, alors qu'il fallait
+ * demander Ã  OldIterableArray de faire ce placement pour nous.
  *
- * Pour de bonnes performances il sera nécessaire d'effectuer des insertions avant
- * le premier élement non vide du tableau, ou après le dernier.
+ * Pour de bonnes performances il sera nÃ©cessaire d'effectuer des insertions avant
+ * le premier Ã©lement non vide du tableau, ou aprÃ¨s le dernier.
  *
- * Les accès à hasNext(), next() et reset() qui servent pour le parcours chainé
- * devront être faits en exclusion mutuelle.
+ * Les accÃ¨s Ã  hasNext(), next() et reset() qui servent pour le parcours chainÃ©
+ * devront Ãªtre faits en exclusion mutuelle.
  *
  */
 
@@ -74,13 +74,13 @@ public class IterableArray {
     }
 
     /**
-     * Insertion de l'objet dans la case de numéro donné. Attention les
-     * insertions au milieu peuvent prendre jusqu'à un temps nbmax.
+     * Insertion de l'objet dans la case de numÃ©ro donnÃ©. Attention les
+     * insertions au milieu peuvent prendre jusqu'Ã  un temps nbmax.
      *
      * @param index
-     *            numero de la case où sera stocké l'objet
+     *            numero de la case oÃ¹ sera stockÃ© l'objet
      * @param obj
-     *            objet à stocker
+     *            objet Ã  stocker
      * @throws Exception
      *             quand le tableau est plein
      */
@@ -121,11 +121,11 @@ public class IterableArray {
     }
 
     /**
-     * Récupère la donnée stockée
+     * RÃ©cupÃ¨re la donnÃ©e stockÃ©e
      *
      * @param index
-     *            numéro de la case à récupérer
-     * @return l'objet stocké
+     *            numÃ©ro de la case Ã  rÃ©cupÃ©rer
+     * @return l'objet stockÃ©
      */
     public Object get(int index) {//throws Exception {
         /*
@@ -136,22 +136,22 @@ public class IterableArray {
     }
 
     /**
-     * Modifie la donnée stockée
+     * Modifie la donnÃ©e stockÃ©e
      *
      * @param index
-     *            numéro de la case à modifier
+     *            numÃ©ro de la case Ã  modifier
      * @param obj
-     *            l'objet à écrire dans la case
+     *            l'objet Ã  Ã©crire dans la case
      */
     public void set(int index, Object obj) {//throws Exception {
         objects[index] = obj;
     }
 
     /**
-     * Teste la présence d'un objet à la case indiquée.
+     * Teste la prÃ©sence d'un objet Ã  la case indiquÃ©e.
      *
      * @param index
-     *            numéro de la case à tester
+     *            numÃ©ro de la case Ã  tester
      * @return vrai s'il y a un objet, faux sinon
      */
     public boolean isNull(int index) {
@@ -160,19 +160,19 @@ public class IterableArray {
 
     /**
      * retourne le nombre de cases non vides
-     * @return le nombre de cases utilisées
+     * @return le nombre de cases utilisÃ©es
      */
     public int size() {
         return nb;
     }
 
     /**
-     * Supprime l'objet situé à l'emplacement donné.
+     * Supprime l'objet situÃ© Ã  l'emplacement donnÃ©.
      *
      * @param index
-     *            numéro de la case à supprimer
+     *            numÃ©ro de la case Ã  supprimer
      * @throws Exception
-     *             si le tableau est déjà vide
+     *             si le tableau est dÃ©jÃ  vide
      */
     public synchronized void remove(int index) {
         //System.out.println("[IterrableArray.remove(index="+index+") nb="+nb);
@@ -364,18 +364,18 @@ public class IterableArray {
         cible.cursor1OnFirst();
         while (this.cursor1IsNotNull() || cible.cursor1IsNotNull()) {
             if (cible.cursor1IsNull()) {
-                // Le cas où la cible est vide (et donc la source ne l'est pas,
+                // Le cas oÃ¹ la cible est vide (et donc la source ne l'est pas,
                 // car dans le cas contraire on serait sorti du "while")
                 // => ajout de la source dans la cible
                 cible.add(current, action.add(objects[current]));
                 cible.cursor1SetIndexAfter(current);
                 this.cursor1Next();
             } else {
-                // Les cas où la cible n'est pas vide...
+                // Les cas oÃ¹ la cible n'est pas vide...
                 if (this.cursor1IsNull()) {
                     // Si la source est vide
                     // => suppression de l'objet dans la cible
-                    //System.out.println("Début du cas cible pas vide et source vide, cursor1="+current);
+                    //System.out.println("DÃ©but du cas cible pas vide et source vide, cursor1="+current);
                     action.remove(cible.get(cible.current));
                     cible.remove(cible.current);
                     cible.cursor1Next();
@@ -383,7 +383,7 @@ public class IterableArray {
                 } else if (cible.current < current) {
                     //System.out.println("remove on leser");
                     //  suppression de l'objet
-                    //System.out.println("Début du cas cible.current="+cible.current+" < current="+current);
+                    //System.out.println("DÃ©but du cas cible.current="+cible.current+" < current="+current);
                     action.remove(cible.get(cible.current));
                     cible.remove(cible.current);
                     cible.cursor1SetIndexAfter(current);

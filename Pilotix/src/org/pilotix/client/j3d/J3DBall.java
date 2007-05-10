@@ -36,7 +36,7 @@ public class J3DBall extends J3DObject {
         super();
 
         // --------------------
-        // GEOMETRIE : une sphère
+        // GEOMETRIE : une sphÃ¨re
         com.sun.j3d.utils.geometry.Sphere aSphere =
             new com.sun.j3d.utils.geometry.Sphere(1.0f);
 

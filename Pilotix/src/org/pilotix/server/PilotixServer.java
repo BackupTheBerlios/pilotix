@@ -27,7 +27,7 @@ import java.util.LinkedList;
 /**
  * Pilotix : lance le serveur du jeu
  *
- * Auteurs : - Flo (derni�re modif : 1/09/2003)
+ * Auteurs : - Flo
  *
  */
 
@@ -54,9 +54,9 @@ public class PilotixServer {
      * Lance le serveur du jeu
      *
      * @param port
-     *            port TCP sur lequel le serveur doit �couter
+     *            port TCP sur lequel le serveur doit écouter
      * @param fps
-     *            nombre d'images par seconde demand� (le serveur lui, fait ce
+     *            nombre d'images par seconde demandé (le serveur lui, fait ce
      *            qu'il peut !)
      */
     public PilotixServer(int port, int fps) throws Exception {
@@ -85,14 +85,14 @@ public class PilotixServer {
     }
 
     /**
-     * Arr�te la partie en cours
+     * Arrête la partie en cours
      */
     public void endGame() {
-        // Compl�ter cette m�thode pour arr�ter proprement le serveur
-        // et r�initialiser tout ce qui doit l'�tre
+        // Compléter cette méthode pour arrêter proprement le serveur
+        // et réinitialiser tout ce qui doit l'être
         System.out.println("---- [PilotixServer.endGame()] ----");
         for (int i=0; i < theCHTs.size(); i++) {
-            System.out.println("[PilotixServer.endGame()] Appel de ClientHandlerThread.endGame() pour le client n�"+i);
+            System.out.println("[PilotixServer.endGame()] Appel de ClientHandlerThread.endGame() pour le client n°"+i);
             ((ClientHandlerThread)theCHTs.get(i)).endGame();
         }
         theCHTs.clear();
@@ -103,7 +103,7 @@ public class PilotixServer {
 
     /**
      * Main du serveur, instancie un nouveau PilotixServer.
-     * La pr�sence de l'option "-gui" permet de lancer l'interface
+     * La présence de l'option "-gui" permet de lancer l'interface
      * graphique (classe ServerGUI).
      */
     public static void main(String[] args) throws Exception {

@@ -34,7 +34,7 @@ public class ServerAngle extends Angle {
         super(aDegree);
         set(aDegree);
     }
-    
+
     public void set(float aDegree) {
         super.set(aDegree);
         directionX = Math.sin(Math.toRadians(this.floatValue()));
@@ -50,11 +50,10 @@ public class ServerAngle extends Angle {
     }
 
     public void plus(Angle anAngle) {
-    	if ((this.floatValue() + anAngle.floatValue()) < 0) {
+        if ((this.floatValue() + anAngle.floatValue()) < 0) {
             set(((this.floatValue() + anAngle.floatValue()) % -360) + 360);
         } else {
             set(this.floatValue() + anAngle.floatValue());
         }
-    	
     }
 }

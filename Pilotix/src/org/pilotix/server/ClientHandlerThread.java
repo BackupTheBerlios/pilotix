@@ -44,7 +44,6 @@ public class ClientHandlerThread extends Thread {
         info.setOwnShipId(theClientId);
         info.write(messageHandler);
         //status = READY;
-        
     }
 
     public void run() {
@@ -58,7 +57,7 @@ public class ClientHandlerThread extends Thread {
                     ship.addCommand(com);
                 }else if (flag == Transferable.INFO){
                     Information info = new Information();
-                    info.read(messageHandler); // Je vois pas trop l'intérêt
+                    info.read(messageHandler); // Je vois pas trop l'intÃ©rÃªt
                                                // de passer par Information.read()
                     if (info.getType() == Information.DECONNECT){
                         quit = true;
@@ -66,7 +65,7 @@ public class ClientHandlerThread extends Thread {
                             PilotixServer.theIH.giveBackId(ship.getId());
                         } catch (Exception f) {
                             f.printStackTrace();
-                            System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numéro 1)!");
+                            System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numÃ©ro 1)!");
                         }
 //                        messageHandler.close(); // Entraine une exception "Socket closed"
                                                   // dans le serveur
@@ -86,7 +85,7 @@ public class ClientHandlerThread extends Thread {
                     PilotixServer.theIH.giveBackId(ship.getId());
                 } catch (Exception f) {
                     f.printStackTrace();
-                    System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numéro 2)!");
+                    System.out.println("[ClientHandlerThread.run()] Attention, id="+ship.getId()+" non rendu (cas numÃ©ro 2)!");
                 }
                 status = DECONNECTED;
             }
@@ -122,10 +121,10 @@ public class ClientHandlerThread extends Thread {
             e.printStackTrace();
         }
         quit = true;
-        System.out.println("[ClientHandlerThread.endGame()] Fermeture des sockets pour le client n°"+ship.getId());
+        System.out.println("[ClientHandlerThread.endGame()] Fermeture des sockets pour le client nÂ°"+ship.getId());
         messageHandler.close();
     }
-    
+
     public MessageHandler getMessageHandler(){
     	return messageHandler;
     }

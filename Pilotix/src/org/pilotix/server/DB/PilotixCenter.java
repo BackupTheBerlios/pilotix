@@ -24,12 +24,8 @@ package org.pilotix.server.DB;
 
 public class PilotixCenter {
 
-
-    
     public PilotixCenter(){
-       
-    }
-    
 
- 
+    }
+
 }

@@ -20,19 +20,19 @@
 package org.pilotix.common;
 
 /**
-  * Contient les informations relatives à une balle,
-  * et les méthodes d'encapsulation pour les transferts
-  * sur le réseau.
+  * Contient les informations relatives Ã  une balle,
+  * et les mÃ©thodes d'encapsulation pour les transferts
+  * sur le rÃ©seau.
   *
   * <br />
-  * Message ADD : utilisé pour la création d'une balle
+  * Message ADD : utilisÃ© pour la crÃ©ation d'une balle
   * <pre>
   * | Octet0  |  Octet1  | Octet2  | Octet3  | Octet4-5 | Octet6-7 | Octet8-9  | Octet10-11|
   * | 1 Octet |  1 Octet | 1 Octet | 1 Octet | 2 Octets | 2 Octets | 2 Octets  | 2 Octets  |
   * |flag BALL|states ADD| ShipID  | BallID  |    X     |    Y     | Vitesse X | Vitesse Y |
   * </pre>
   *
-  * Message REMOVE : utilisé pour la destruction d'une balle
+  * Message REMOVE : utilisÃ© pour la destruction d'une balle
   * <pre>
   * | Octet 0 |    Octet1    | Octet2  | Octet3  |
   * | 1 Octet |    1 Octet   | 1 Octet | 1 Octet |
@@ -50,8 +50,7 @@ public class Ball extends PilotixElement implements Transferable {
      * Message de destruction d'une balle (voir la description de la classe)
      */
     public static final int REMOVE = 4;
-    
-   
+
     protected Vector speed = new Vector();
     public static int lengthInByte = 9;
     private int radius = 100;
@@ -68,7 +67,7 @@ public class Ball extends PilotixElement implements Transferable {
     public Ball(Ball aBall) {
         this(aBall.getId(), aBall.getPosition(), aBall.getSpeed());
     }
-    
+
     /**
      * @return le rayon d'action
      */
@@ -79,8 +78,6 @@ public class Ball extends PilotixElement implements Transferable {
     public Vector getSpeed() {
         return speed;
     }
-
-    
 
     public void read(MessageHandler mh) throws Exception{
         byte[] bytes = null;
@@ -133,7 +130,6 @@ public class Ball extends PilotixElement implements Transferable {
                 speed.y *= -1;
             }
 
-            
         } else if (states == REMOVE) {
             // on ne fait rien la ball sera detuit
             bytes = mh.receiveNBytes(2);
@@ -167,7 +163,7 @@ public class Ball extends PilotixElement implements Transferable {
             if (speed.y < 0) {
                 bytes[10] |= 0x80;
             }
-            
+
             mh.sendBytes(bytes);
 
         } else if (states == REMOVE) {
@@ -177,7 +173,6 @@ public class Ball extends PilotixElement implements Transferable {
             bytes[2] = (byte) id;//shipId;
             bytes[3] = (byte) id;
 
-            
             mh.sendBytes(bytes);
 
         } else {

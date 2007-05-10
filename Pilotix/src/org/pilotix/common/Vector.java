@@ -19,7 +19,7 @@
 package org.pilotix.common;
 
 /**
- * Vecteur 2D à multiples usages : position, vitesse, accéleration.
+ * Vecteur 2D Ã  multiples usages : position, vitesse, accÃ©leration.
  *
  * @author Florent Sithimolada
  */
@@ -29,14 +29,14 @@ public class Vector {
     public int y;
 
     /**
-     * Crée un vecteur de valeur (0,0).
+     * CrÃ©e un vecteur de valeur (0,0).
      */
     public Vector() {
         this(0,0);
     }
 
     /**
-     * Crée un vecteur avec les valeurs fournies.
+     * CrÃ©e un vecteur avec les valeurs fournies.
      *
      * @param px
      *            valeur de x
@@ -47,12 +47,12 @@ public class Vector {
         x = px;
         y = py;
     }
-    
+
     /**
-     * Crée un vecteur identique à celui fourni.
+     * CrÃ©e un vecteur identique Ã  celui fourni.
      *
      * @param aVector
-     *            le vecteur à dupliquer
+     *            le vecteur Ã  dupliquer
      */
     public Vector(Vector aVector){
         x = aVector.x;
@@ -60,7 +60,7 @@ public class Vector {
     }
 
     /**
-     * Met à jour un vecteur avec les valeurs fournies.
+     * Met Ã  jour un vecteur avec les valeurs fournies.
      *
      * @param px
      *            nouvelle valeur de x
@@ -73,11 +73,11 @@ public class Vector {
     }
 
     /**
-     * Met à jour un vecteur avec un autre vecteur
+     * Met Ã  jour un vecteur avec un autre vecteur
      *
      * @param b
      *            le vecteur dont chaque composante sera
-     *            copiée dans le vecteur courant
+     *            copiÃ©e dans le vecteur courant
      */
     public void set(Vector b) {
         x = b.x;
@@ -86,7 +86,7 @@ public class Vector {
 
     /**
      * Multiplie chaque terme du vecteur par les valeurs
-     * correspondantes du vecteur passé en paramètre.
+     * correspondantes du vecteur passÃ© en paramÃ¨tre.
      *
      * @param b
      *            le vecteur dont chaque composante sert
@@ -97,25 +97,25 @@ public class Vector {
         x = x * b.x;
         y = y * b.y;
     }
-    
+
     public long dot(Vector b) {
         return  (long)x * (long)b.x + (long)y * (long)b.y;
     }
-    
+
     public Vector plus(Vector b) {
         Vector result = new Vector();
         result.x = x + b.x;
         result.y = y + b.y;
         return result;
     }
-    
+
     public Vector less(Vector b) {
         Vector result = new Vector();
         result.x = x - b.x;
         result.y = y - b.y;
         return result;
     }
-    
+
     public Vector mult(double aNumber) {
         Vector result = new Vector();
         result.x = (int) Math.round(aNumber * this.x);
@@ -123,13 +123,11 @@ public class Vector {
         return result;
     }
 
-    
     public Vector plus(int x, int y) {
         Vector result = new Vector(this.x+x,this.y+y);
         return result;
     }
-    
-    
+
     public String toString(){
         return "[Vector]"+x+","+y;
     }

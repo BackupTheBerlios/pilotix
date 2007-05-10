@@ -26,13 +26,13 @@ import org.w3c.dom.NodeList;
 import org.pilotix.common.ResourceLocator;
 
 /**
- * Cette classe représente un fichier de configuration utilisateur. Elle permet
- * de récupérer les champs contenus dans ce fichier.
+ * Cette classe reprÃ©sente un fichier de configuration utilisateur. Elle permet
+ * de rÃ©cupÃ©rer les champs contenus dans ce fichier.
  * Les champs obligatoires (tous ceux qui ne correspondent pas aux plugins)
- * sont recopiés dans des variables locales. Ces valeurs sont recopiées
- * à nouveau dans le Document lors de la sauvegarde.
+ * sont recopiÃ©s dans des variables locales. Ces valeurs sont recopiÃ©es
+ * Ã  nouveau dans le Document lors de la sauvegarde.
  *
- * @author Loïc Guibart
+ * @author LoÃ¯c Guibart
  */
 public class UserConfigHandler {
 
@@ -53,7 +53,7 @@ public class UserConfigHandler {
     private HashMap plugInVars;*/
 
     /**
-     * Construit la représentation du contenu du fichier de configuration d'un
+     * Construit la reprÃ©sentation du contenu du fichier de configuration d'un
      * utilisateur.
      *
      * @param userName
@@ -112,7 +112,7 @@ public class UserConfigHandler {
     }
 
     /**
-     * Renvoie la longueur de la fenêtre du jeu.
+     * Renvoie la longueur de la fenÃªtre du jeu.
      *
      * @return la longueur de l'interface, en pixels
      */
@@ -121,7 +121,7 @@ public class UserConfigHandler {
     }
 
     /**
-     * Renvoie la hauteur de la fenêtre du jeu.
+     * Renvoie la hauteur de la fenÃªtre du jeu.
      *
      * @return la hauteur de l'interface, en pixels
      */
@@ -149,9 +149,6 @@ public class UserConfigHandler {
     public void setKeymap(HashMap aKeymap) {
         keymap = aKeymap;
     }
-
-
-
 
 
     /**
@@ -196,14 +193,14 @@ public class UserConfigHandler {
     }
 
     /**
-     * Renvoie une section de type et de nom donnés.
+     * Renvoie une section de type et de nom donnÃ©s.
      *
      * @param type
      *            Type de la section (BuiltIn, PlugIn).
      * @param name
-     *            Nom de la section (correspond à l'attribut "name" de
-     *            l'élément).
-     * @return Element correspondant à la section dans le Document.
+     *            Nom de la section (correspond Ã  l'attribut "name" de
+     *            l'Ã©lÃ©ment).
+     * @return Element correspondant Ã  la section dans le Document.
      */
     /*private Element getElementByTypeAndName(String type, String name) {
         NodeList nl = documentElement.getElementsByTagName(type);
@@ -226,11 +223,11 @@ public class UserConfigHandler {
     }*/
 
     /**
-     * Renvoie les couples nom-valeur d'un ensemble d'éléments de la forme
+     * Renvoie les couples nom-valeur d'un ensemble d'Ã©lÃ©ments de la forme
      * <pre><tagName name="nom">valeur</tagName></pre>.
-     * @param topElement Element père des éléments concernés.
-     * @param tagName Nom des éléments concernés.
-     * @return HashMap contenant les associations nom-valeur des éléments concernés.
+     * @param topElement Element pÃ¨re des Ã©lÃ©ments concernÃ©s.
+     * @param tagName Nom des Ã©lÃ©ments concernÃ©s.
+     * @return HashMap contenant les associations nom-valeur des Ã©lÃ©ments concernÃ©s.
      */
     private HashMap getValuesFromElements(Element topElement, String tagName) {
         NodeList nl = topElement.getElementsByTagName(tagName);

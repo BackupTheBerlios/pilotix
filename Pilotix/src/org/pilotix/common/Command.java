@@ -28,14 +28,13 @@ public class Command implements Transferable {
      * |Flag COMMAND| Accele  | Directi | ToolId  | BallId  |
      * </pre>
      */
-    
     private Angle rotateAngle;
     private int acceleration;
     private int toolId;
     private int ballId;
-    
+
     private byte[] tmpBytes;
-    
+
     public Command() {
         rotateAngle = new Angle(0);
         acceleration = 0;
@@ -81,34 +80,31 @@ public class Command implements Transferable {
     public int getBallId() {
         return ballId;
     }
-    
-   
-    
-    public void read(MessageHandler mh){	
-    	// Be careful flag SHIP is handled by en other process.
-    	// all indexes are shifted by one
+
+    public void read(MessageHandler mh){
+        // Be careful flag SHIP is handled by en other process.
+        // all indexes are shifted by one
         byte[] bytes = mh.receiveNBytes(5);
         acceleration = bytes[0];
-        
+
         rotateAngle.setBytes(bytes,1);
-        
+
         toolId = bytes[3];
         ballId = bytes[4];
     }
-    
+
     public void write(MessageHandler mh)throws Exception{
         byte[] bytes = new byte[6];
         bytes[0]=Transferable.COMMAND;
         bytes[1]=(byte) acceleration;
-       
+
         tmpBytes = rotateAngle.getBytes();
         bytes[2] = tmpBytes[0];
         bytes[3] = tmpBytes[1];
-        
+
         bytes[4]=(byte) toolId;
         bytes[5]=(byte) ballId;
         mh.sendBytes(bytes);
     }
-    
-    
+
 }

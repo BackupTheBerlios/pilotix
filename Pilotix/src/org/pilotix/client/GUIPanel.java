@@ -42,22 +42,22 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * <p>
- * Cette classe crée l'interface graphique du client, à l'exception des classes
- * orientées 3D.
+ * Cette classe crÃ©e l'interface graphique du client, Ã  l'exception des classes
+ * orientÃ©es 3D.
  * </p>
  * 
  * <p>
- * Elle est censée être utilisée conjointement à une instance de Display3D.
- * Nous avons essayé de séparer les composants Java standards et ceux liés à
+ * Elle est censÃ©e Ãªtre utilisÃ©e conjointement Ã  une instance de Display3D.
+ * Nous avons essayÃ© de sÃ©parer les composants Java standards et ceux liÃ©s Ã 
  * Java3D. Cette classe est le conteneur principal pour les composants Java
  * standards, tandis que Display3D est le conteneur principal pour les
  * composants Java3D.
  * </p>
  * 
  * <p>
- * Techniquement, cette classe crée un JPanel qui contient une barre de menu
- * dans son panel nord, et différents panneaux pour l'interface graphique. Les
- * composants Java3D sont trouvés dans un objet Display3D référencé dans la
+ * Techniquement, cette classe crÃ©e un JPanel qui contient une barre de menu
+ * dans son panel nord, et diffÃ©rents panneaux pour l'interface graphique. Les
+ * composants Java3D sont trouvÃ©s dans un objet Display3D rÃ©fÃ©rencÃ© dans la
  * classe Environment.
  * </p>
  * 
@@ -65,20 +65,20 @@ import javax.swing.table.DefaultTableModel;
  * <strong>REMARQUE IMPORTANTE SUR LES TRADUCTIONS : </strong>
  * </p>
  * <ul>
- * <li>les chaînes de caractères visibles par l'utilisateur ne doivent plus
- * être codées en dur. Elles doivent être définies dans le fichier "i18nClient"
- * du répertoire "properties/" sous la forme : clef=valeur où clef est la
- * chaîne passée en paramêtre de :
+ * <li>les chaÃ®nes de caractÃ¨res visibles par l'utilisateur ne doivent plus
+ * Ãªtre codÃ©es en dur. Elles doivent Ãªtre dÃ©finies dans le fichier "i18nClient"
+ * du rÃ©pertoire "properties/" sous la forme : clef=valeur oÃ¹ clef est la
+ * chaÃ®ne passÃ©e en paramÃªtre de :
  * ResourceBundle.getBundle("i18nClient").getString(" <clef>")</li>
- * <li>selon l'environnement de l'utilisateur, le fichier réellement ouvert
+ * <li>selon l'environnement de l'utilisateur, le fichier rÃ©ellement ouvert
  * sera par exemple "i18nClient_en", "i18nClient_de", etc.</li>
  * <li>on peut forcer la langue avec l'option -Duser.language sur la ligne de
- * commande, par exemple pour l'espéranto : java -Duser.language=eo -jar
+ * commande, par exemple pour l'espÃ©ranto : java -Duser.language=eo -jar
  * dist/PilotixClient.jar</li>
  * </ul>
  * 
- * @author Grégoire Colbert
- * @author Loïc Guibart
+ * @author GrÃ©goire Colbert
+ * @author LoÃ¯c Guibart
  * 
  * @see GUI
  * @see Display3D
@@ -100,29 +100,29 @@ public class GUIPanel extends JPanel implements ActionListener {
     private Object[] infoColumns = null;
 
     /**
-     * Crée un JPanel et le remplit avec des conteneurs selon une disposition
+     * CrÃ©e un JPanel et le remplit avec des conteneurs selon une disposition
      * de type BorderLayout.
      */
     public GUIPanel() {
-        // GUIPanel est le panneau de plus haut niveau : on définit ses
-        // propriétés
+        // GUIPanel est le panneau de plus haut niveau : on dÃ©finit ses
+        // propriÃ©tÃ©s
         setLayout(new BorderLayout());
 
-        // Crée le menu
+        // CrÃ©e le menu
         add("North", menuBar());
 
-        // Crée et ajoute le panneau central
+        // CrÃ©e et ajoute le panneau central
         centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
 
         add("Center", centerPanel);
 
-        // Crée et ajoute le panneau de l'Est
+        // CrÃ©e et ajoute le panneau de l'Est
         eastPanel = new JPanel();
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
         eastPanel.setPreferredSize(new Dimension(250, 0));
 
-        // Liste des joueurs présents
+        // Liste des joueurs prÃ©sents
         infoColumns = new Object[5];
         infoColumns[0] = ResourceBundle.getBundle(
                 Environment.propertiesPath + "i18nClient").getString("idLabel");
@@ -153,21 +153,21 @@ public class GUIPanel extends JPanel implements ActionListener {
 
 
     /**
-     * Cette fonction met à jour la partie non-3D du client au cours du jeu,
+     * Cette fonction met Ã  jour la partie non-3D du client au cours du jeu,
      * en consultant ClientArea.
      */
     public void update() {
-        // On teste si le joueur a stoppé la partie car si c'est le cas,
+        // On teste si le joueur a stoppÃ© la partie car si c'est le cas,
         // il faut effacer toutes les lignes du tableau et non une seule.
         boolean playerHasQuit = Environment.theClientArea.shipIsNull(
                                   Environment.theClientArea.getOwnShipId());
 
-        // Petite optimisation possible : ne mettre à jour que jusqu'au numéro
-        // le plus grand alloué à un joueur (si on a eu au plus 4 joueurs, il
-        // ne sert à rien de mettre à jour au-delà de la ligne 4). Mais ce
-        // numéro n'est pas forcément égal au nombre de joueurs en cours, car
-        // le joueur dont le numéro est le plus grand n'est pas forcément le
-        // premier à partir.
+        // Petite optimisation possible : ne mettre Ã  jour que jusqu'au numÃ©ro
+        // le plus grand allouÃ© Ã  un joueur (si on a eu au plus 4 joueurs, il
+        // ne sert Ã  rien de mettre Ã  jour au-delÃ  de la ligne 4). Mais ce
+        // numÃ©ro n'est pas forcÃ©ment Ã©gal au nombre de joueurs en cours, car
+        // le joueur dont le numÃ©ro est le plus grand n'est pas forcÃ©ment le
+        // premier Ã  partir.
         for (int i = 0; i < Environment.theClientArea.getNbMaxShips(); i++) {
             if (Environment.theClientArea.shipIsNull(i) || playerHasQuit) {
                 infoPlayers.setValueAt("", i, 0);
@@ -196,12 +196,12 @@ public class GUIPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Crée une barre de menu.
+     * CrÃ©e une barre de menu.
      *
      * @return la barre de menu pour le client Pilotix.
      */
     private JMenuBar menuBar() {
-        // Indispensable sinon les menus sont cachés par le Canvas3D
+        // Indispensable sinon les menus sont cachÃ©s par le Canvas3D
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
         JMenuBar menuBar = new JMenuBar();
 
@@ -244,11 +244,11 @@ public class GUIPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Écouteur de boutons : fait des choses en fonction du champ ActionCommand
+     * Ã‰couteur de boutons : fait des choses en fonction du champ ActionCommand
      * des boutons.
-     * 
+     *
      * @param evt
-     *            l'instance de ActionEvent à traiter.
+     *            l'instance de ActionEvent Ã  traiter.
      */
     public void actionPerformed(ActionEvent evt) {
         String str = evt.getActionCommand();
@@ -262,27 +262,25 @@ public class GUIPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Ouvre les boîtes de dialogue pour se connecter au serveur,
-     * puis si les paramètres sont potentiellement bons (port entier positif),
+     * Ouvre les boÃ®tes de dialogue pour se connecter au serveur,
+     * puis si les paramÃ¨tres sont potentiellement bons (port entier positif),
      * lance ClientMainLoopThread.
      */
     private void askForConnectionParameters() {
-        // Boîtes de dialogue pour la connexion au serveur
+        // BoÃ®tes de dialogue pour la connexion au serveur
         Environment.theServerIP = JOptionPane.showInputDialog(
                       ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
                                     .getString("enterServerIPMessage"),
                       Environment.theServerIP);
-        
-        String tmpStringServerPort = null;                
+        String tmpStringServerPort = null;
         tmpStringServerPort = JOptionPane.showInputDialog(
                       ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
                                     .getString("enterServerPortMessage"),
-                      Environment.theServerPort);               
-                              
+                      Environment.theServerPort);
         try {
             Environment.theServerPort = new Integer(tmpStringServerPort); // -> Exception
-        
-            // Lance la boucle de réception des messages du serveur
+
+            // Lance la boucle de rÃ©ception des messages du serveur
             Environment.theClientMainLoopThread = new ClientMainLoopThread();
             Environment.theClientMainLoopThread.start();
         } catch (Exception e) {
@@ -292,13 +290,13 @@ public class GUIPanel extends JPanel implements ActionListener {
                                 .getString("error_portNotInteger"),
                   ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient")
                                 .getString("error"),
-                  JOptionPane.ERROR_MESSAGE);                    
+                  JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
-     * Affiche une boîte de dialogue indiquant que la connexion au serveur a échoué.
-     * Cette procédure est appelée par ClientMainLoopThread.
+     * Affiche une boÃ®te de dialogue indiquant que la connexion au serveur a Ã©chouÃ©.
+     * Cette procÃ©dure est appelÃ©e par ClientMainLoopThread.
      */
     public void displayMessageConnectionRefused() {
         JOptionPane.showMessageDialog(
@@ -309,32 +307,32 @@ public class GUIPanel extends JPanel implements ActionListener {
                             .getString("error"),
               JOptionPane.ERROR_MESSAGE);
     }
-    
+
     /**
-     * Démarrer la partie. Est appelé par ClientMainLoopThread lorsque la connexion
-     * avec le serveur est établie.
+     * DÃ©marrer la partie. Est appelÃ© par ClientMainLoopThread lorsque la connexion
+     * avec le serveur est Ã©tablie.
      */
     public void beginGame() {
-        // Mise à jour de l'interface
+        // Mise Ã  jour de l'interface
         centerPanel.add("Center", Environment.theDisplay3D.getMainCanvas3D());
         eastPanel.add(Environment.theDisplay3D.getMinimapCanvas3D());
         //Environment.theDisplay3D.getMinimapCanvas3D().setSize(100,100);
         this.validate();
-    
-        // Mise à jour du menu
+
+        // Mise Ã  jour du menu
         newgameMenuItem.setEnabled(false);
         endgameMenuItem.setEnabled(true);
-          
+
         // Association du Canvas3D principal avec la class Controls pour la
         // souris
         Environment.theControls.setMouseComponent(Environment.theDisplay3D
                 .getMainCanvas3D());
 
-        // Activation de la récupération d'évènements clavier par Controls
+        // Activation de la rÃ©cupÃ©ration d'Ã©vÃ¨nements clavier par Controls
         Environment.theControls.active(true);
 
         // Ecouteur pour redimensionner la minimap si on redimensionne la
-        // fenêtre
+        // fenÃªtre
         Environment.theDisplay3D.getMinimapCanvas3D().addComponentListener(
                 new ComponentAdapter() {
 
@@ -350,20 +348,20 @@ public class GUIPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Finir la partie. Appelé par l'écouteur de boutons, actionPerformed().
+     * Finir la partie. AppelÃ© par l'Ã©couteur de boutons, actionPerformed().
      */
     private void endGame() {
-        // Mise à jour de l'interface
+        // Mise Ã  jour de l'interface
         centerPanel.remove(Environment.theDisplay3D.getMainCanvas3D()); // En
                                                                         // premier...
         eastPanel.remove(Environment.theDisplay3D.getMinimapCanvas3D());
         newgameMenuItem.setEnabled(true);
         endgameMenuItem.setEnabled(false);
 
-        // Arrêt de la boucle de réception des messages du serveur
+        // ArrÃªt de la boucle de rÃ©ception des messages du serveur
         Environment.theClientMainLoopThread.endGame();
 
-        // Un peu de ménage
+        // Un peu de mÃ©nage
         System.gc();
     }
 }

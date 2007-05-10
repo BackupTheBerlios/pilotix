@@ -25,13 +25,13 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * Commentaire à refaire.
+ * Commentaire Ã  refaire.
  */
 public class MessageHandler {
 
     private InputStream input;
     private OutputStream output;
-    
+
     public MessageHandler(Socket aSocket) throws Exception {
         input = aSocket.getInputStream();
         output = aSocket.getOutputStream();
@@ -61,7 +61,7 @@ public class MessageHandler {
         input.read(result, 0, 1);
         return result[0];
     }
-    
+
     public byte[] receiveNBytes(int nbByte) {
         byte[] result = new byte[nbByte];
         try {

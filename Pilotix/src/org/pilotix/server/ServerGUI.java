@@ -30,10 +30,10 @@ import javax.swing.JButton;
 
 /**
  * <p>
- * Cette classe crée une fenêtre pour le serveur Pilotix.
+ * Cette classe crÃ©e une fenÃªtre pour le serveur Pilotix.
  * </p>
  *
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  */
 public class ServerGUI extends JFrame implements ActionListener {
 
@@ -43,7 +43,7 @@ public class ServerGUI extends JFrame implements ActionListener {
     private JButton startStopButton = null;
 
     /**
-     * Crée une JFrame
+     * CrÃ©e une JFrame
      */
     public ServerGUI() {
         setTitle(ResourceBundle.getBundle(
@@ -53,7 +53,7 @@ public class ServerGUI extends JFrame implements ActionListener {
         getContentPane().setLayout(new BorderLayout());
         setSize(200,100);
 
-        // Bouton permettant de démarrer/arrêter le serveur
+        // Bouton permettant de dÃ©marrer/arrÃªter le serveur
         startStopButton = new JButton(ResourceBundle.getBundle(
                          propertiesPath + "i18nServer")
                          .getString("startServer_ButtonName"));
@@ -65,11 +65,11 @@ public class ServerGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Écouteur de boutons : fait des choses en fonction du champ ActionCommand
+     * Ã‰couteur de boutons : fait des choses en fonction du champ ActionCommand
      * des boutons.
      *
      * @param evt
-     *            l'instance de ActionEvent à traiter.
+     *            l'instance de ActionEvent Ã  traiter.
      */
     public void actionPerformed(ActionEvent evt) {
         String str = evt.getActionCommand();

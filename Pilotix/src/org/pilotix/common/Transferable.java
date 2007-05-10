@@ -1,11 +1,11 @@
 package org.pilotix.common;
 
 /**
- * Pour être transmis par le réseau, un Object
- * doit être converti en une chaîne de bits,
+ * Pour Ãªtre transmis par le rÃ©seau, un Object
+ * doit Ãªtre converti en une chaÃ®ne de bits,
  * et inversement.
  *
- * Ces méthodes sont utilisées par MessageHandler
+ * Ces mÃ©thodes sont utilisÃ©es par MessageHandler
  *
  * @see MessageHandler
  */
@@ -14,19 +14,19 @@ public interface Transferable {
     public static final byte AREA = 1;
     public static final byte SHIP = 3;
     public static final byte BALL = 4;
-    public static final byte INFO = 2;   
-    public static final byte COMMAND = 8;   
+    public static final byte INFO = 2;
+    public static final byte COMMAND = 8;
 
     /**
-     * Met à jour l'objet à partir d'une chaîne d'octets recupéré via un messageHandler
-     * 
+     * Met Ã  jour l'objet Ã  partir d'une chaÃ®ne d'octets recupÃ©rÃ© via un messageHandler
+     *
      */
     public abstract void read(MessageHandler messageHandler) throws Exception;
 
     //public abstract void setFromBytes(byte[] bytes);
 
     /**
-     * envoie des octets représentant l'objet par le bié d'un messageHandler
+     * envoie des octets reprÃ©sentant l'objet par le biÃ© d'un messageHandler
      */
     public abstract void write(MessageHandler messageHandler) throws Exception;
     //public abstract byte[] getAsBytes();

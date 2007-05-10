@@ -175,7 +175,7 @@ public class ServerArea extends Area {
                 balls.remove(tmpBall.getId());
             }
         }
-        //      affectation des trajectoirs des Balls survivante
+        // affectation des trajectoires des Balls survivantes
         for (balls.cursor1OnFirst(); balls.cursor1IsNotNull();balls.cursor1Next()) {
             ((ServerBall) balls.cursor1Get()).nextFrame();
         }

@@ -23,11 +23,11 @@ import java.util.HashMap;
 import org.pilotix.common.*;
 
 /**
- * Classe effectuant le lien entre les entrées (touches du clavier, souris) et les données
- * concernant le vaisseau à envoyer au serveur.
- * L'objet Command qui constitue ces données est positionné par la méthode getCommand().
+ * Classe effectuant le lien entre les entrÃ©es (touches du clavier, souris) et les donnÃ©es
+ * concernant le vaisseau Ã  envoyer au serveur.
+ * L'objet Command qui constitue ces donnÃ©es est positionnÃ© par la mÃ©thode getCommand().
  * 
- * @author Loïc Guibart
+ * @author LoÃ¯c Guibart
  * @see Command
  */
 public class ControlCommand {
@@ -35,26 +35,26 @@ public class ControlCommand {
     private int accelKey;
     /** code de la touche d'action */
     private int useKey;
-    /** Objet Command positionné à partir de l'état des touches */
+    /** Objet Command positionnÃ© Ã  partir de l'Ã©tat des touches */
     private Command cmd;
     /** Angle de rotation du vaisseau */
     private Angle angle;
-    
+
     /**
-     * Constructeur : récupère les codes des touches définis dans le fichier de configuration.
+     * Constructeur : rÃ©cupÃ¨re les codes des touches dÃ©finis dans le fichier de configuration.
      */
     public ControlCommand () {
-        // récupération des touches définies
+        // rÃ©cupÃ©ration des touches dÃ©finies
         accelKey = Environment.theControls.getKeyCodeFromAction("ACCELERATE");
         useKey = Environment.theControls.getKeyCodeFromAction("USE");
 
         cmd = new Command();
         angle = new Angle();
     }
-    
+
     /**
-     * Positionne et renvoie l'objet Command à envoyer au serveur à partir de l'état des touches.
-     * @return L'objet Command positionné
+     * Positionne et renvoie l'objet Command Ã  envoyer au serveur Ã  partir de l'Ã©tat des touches.
+     * @return L'objet Command positionnÃ©
      */
     public Command getCommand() {
         int[] keyStatus = Environment.theControls.getKeyStatus();
@@ -62,15 +62,15 @@ public class ControlCommand {
         cmd.setAcceleration(0);
         cmd.setToolId(0);
         cmd.setBallId(0);
-        
+
         // actions des touches
         if (keyStatus[accelKey] == Controls.PRESSED) cmd.setAcceleration(2);
         if (keyStatus[useKey] == Controls.PRESSED) cmd.setToolId(1);
-        
+
         // actions de la souris
         angle.set(Environment.theControls.getMouseVariation().x*0.5f);
         cmd.setDirection(angle);
-        
+
         return cmd;
     }
 }

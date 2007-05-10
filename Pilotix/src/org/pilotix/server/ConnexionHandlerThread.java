@@ -45,7 +45,7 @@ public class ConnexionHandlerThread extends Thread {
                 new ClientHandlerThread(PilotixServer.theIH.getId(),
                         new MessageHandler(socket)).start();
             } catch (SocketException se) {
-                System.out.println("[ConnexionHandlerThread.run()] Exception normale (fermeture de serverSocket alors qu'on était dans ServerSocket.accept()");
+                System.out.println("[ConnexionHandlerThread.run()] Exception normale (fermeture de serverSocket alors qu'on Ã©tait dans ServerSocket.accept()");
             } catch (Exception e) {
                 System.out.println("[ConnexionHandlerThread.run()] Exception anormale");
                 e.printStackTrace();
@@ -57,7 +57,7 @@ public class ConnexionHandlerThread extends Thread {
         quit = true;
         try {
             serverSocket.close();
-            System.out.println("[ConnexionHandlerThread.endGame()] serverSocket fermée");
+            System.out.println("[ConnexionHandlerThread.endGame()] serverSocket fermÃ©e");
         } catch (Exception e) {
             System.out.println("[ConnexionHandlerThread.endGame()] Exception sur serverSocket.close() :");
             e.printStackTrace();

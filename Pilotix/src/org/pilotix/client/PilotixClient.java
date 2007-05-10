@@ -25,10 +25,10 @@ import org.pilotix.common.ResourceLocator;
 import org.pilotix.common.XMLHandler;
 
 /**
- * La classe qui crée le client.
- * 
- * @author Grégoire Colbert
- * 
+ * La classe qui crÃ©e le client.
+ *
+ * @author GrÃ©goire Colbert
+ *
  * @see XMLHandler
  * @see ClientArea
  * @see Controls
@@ -39,12 +39,11 @@ import org.pilotix.common.XMLHandler;
 public class PilotixClient {
 
     /**
-     * Crée tous les composants fondamentaux du client.
+     * CrÃ©e tous les composants fondamentaux du client.
      */
     public PilotixClient() {
         Environment.theRL = new ResourceLocator(Environment.dataPath);
 
-        
         /*Environment.theXMLConfigHandler = new XMLHandler(Environment.theRL
                 .getResource(ResourceLocator.CONFIG,
                         "pilotix-client-config.xml"));*/
@@ -52,8 +51,8 @@ public class PilotixClient {
         Environment.theXMLHandler = new XMLHandler();
 
         /*
-         * test du fonctionnement de UserConfigHandler à terme il faudra une
-         * fenetre de selection de l'utilisateur avant de créer userConfig
+         * test du fonctionnement de UserConfigHandler Ã  terme il faudra une
+         * fenetre de selection de l'utilisateur avant de crÃ©er userConfig
          */
         Environment.clientConfig = new ClientConfigHandler();
         Environment.userConfig = new UserConfigHandler("Florent");
@@ -74,7 +73,7 @@ public class PilotixClient {
     }
 
     /**
-     * Crée une instance de la classe PilotixClient.
+     * CrÃ©e une instance de la classe PilotixClient.
      */
     public static void main(String[] args) throws Exception{
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

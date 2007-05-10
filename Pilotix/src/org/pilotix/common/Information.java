@@ -1,7 +1,7 @@
 package org.pilotix.common;
 
 /**
- * Classe servant à véhiculer diverses informations
+ * Classe servant Ã  vÃ©hiculer diverses informations
  * entre le client et le serveur.
  */
 public class Information implements Transferable {
@@ -38,7 +38,6 @@ public class Information implements Transferable {
      * </pre>
      */
     public static final byte DECONNECT = 3;
-    
 
     private int type = 0;
     private int ownShipId = 0;
@@ -63,10 +62,10 @@ public class Information implements Transferable {
         areaId = anAreaId;
         type = AREA_ID;
     }
-    
+
     public void setShipName(int aShipId,String aShipName) {
         shipName = aShipName;
-        shipId =aShipId;        
+        shipId =aShipId;
         type = SHIP_NAME;
     }
 
@@ -74,14 +73,14 @@ public class Information implements Transferable {
         type = DECONNECT;
     }
 
-    public void read(MessageHandler mh)  throws Exception {        
+    public void read(MessageHandler mh)  throws Exception {
         type = mh.receiveOneByte();
         if (type == OWN_SHIP_ID) {
             ownShipId = mh.receiveOneByte();
         } else if(type == SHIP_NAME){
-        	shipId = mh.receiveOneByte();
-        	int length = mh.receiveOneByte();
-        	shipName = new String(mh.receiveNBytes(length));
+            shipId = mh.receiveOneByte();
+            int length = mh.receiveOneByte();
+            shipName = new String(mh.receiveNBytes(length));
         }
     }
 
@@ -91,7 +90,7 @@ public class Information implements Transferable {
             bytes = new byte[3];
             bytes[0] = Transferable.INFO;
             bytes[1] = OWN_SHIP_ID;
-            bytes[2] = (byte)ownShipId;            
+            bytes[2] = (byte)ownShipId;
             mh.sendBytes(bytes);
         } else if(type == DECONNECT){
             bytes = new byte[2];
@@ -105,58 +104,65 @@ public class Information implements Transferable {
             bytes[2] = (byte)shipId;
             bytes[3] = (byte)shipName.length();
             for(int i = 0,n = shipName.length();i<n;i++){
-            	bytes[4+i] = (byte)shipName.charAt(i);
+                bytes[4+i] = (byte)shipName.charAt(i);
             }
             mh.sendBytes(bytes);
         }
     }
-    
-	/**
-	 * @return Returns the shipId.
-	 */
-	public int getShipId() {
-		return shipId;
-	}
-	/**
-	 * @param shipId The shipId to set.
-	 */
-	public void setShipId(int shipId) {
-		this.shipId = shipId;
-	}
-	/**
-	 * @return Returns the shipName.
-	 */
-	public String getShipName() {
-		return shipName;
-	}
-	/**
-	 * @param shipName The shipName to set.
-	 */
-	public void setShipName(String shipName) {
-		this.shipName = shipName;
-	}
-	/**
-	 * @return Returns the type.
-	 */
-	public int getType() {
-		return type;
-	}
-	/**
-	 * @param type The type to set.
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-	/**
-	 * @return Returns the areaId.
-	 */
-	public String getAreaId() {
-		return areaId;
-	}
-	/**
-	 * @return Returns the ownShipId.
-	 */
-	public int getOwnShipId() {
-		return ownShipId;
-	}
+
+    /**
+     * @return Returns the shipId.
+     */
+    public int getShipId() {
+        return shipId;
+    }
+
+    /**
+     * @param shipId The shipId to set.
+     */
+    public void setShipId(int shipId) {
+        this.shipId = shipId;
+    }
+
+    /**
+     * @return Returns the shipName.
+     */
+    public String getShipName() {
+        return shipName;
+    }
+
+    /**
+     * @param shipName The shipName to set.
+     */
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
+    }
+
+    /**
+     * @return Returns the type.
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * @param type The type to set.
+     */
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    /**
+     * @return Returns the areaId.
+     */
+    public String getAreaId() {
+        return areaId;
+    }
+
+    /**
+     * @return Returns the ownShipId.
+     */
+    public int getOwnShipId() {
+        return ownShipId;
+    }
 }

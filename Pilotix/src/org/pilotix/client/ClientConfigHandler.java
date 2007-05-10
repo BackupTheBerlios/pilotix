@@ -27,9 +27,9 @@ import javax.vecmath.Color3f;
 import org.pilotix.common.ResourceLocator;
 
 /**
- * Cette classe représente le fichier de configuration du client.
+ * Cette classe reprÃ©sente le fichier de configuration du client.
  * 
- * @author Loïc Guibart
+ * @author LoÃ¯c Guibart
  */
 public class ClientConfigHandler {
     private final static String cfgFileName = "pilotix.client.config.xml";
@@ -37,7 +37,7 @@ public class ClientConfigHandler {
     private Element documentElement;
 
     /**
-     * Construit la représentation du contenu du fichier de configuration du client
+     * Construit la reprÃ©sentation du contenu du fichier de configuration du client
      */
     public ClientConfigHandler() {
         configDocument = Environment.theXMLHandler
@@ -47,14 +47,14 @@ public class ClientConfigHandler {
     }
 
     /**
-     * Renvoie la couleur du vaisseau dont l'id est passé en paramêtre. Le
+     * Renvoie la couleur du vaisseau dont l'id est passÃ© en paramÃªtre. Le
      * fichier XML de configuration doit contenir un joueur dont l'id vaut le
-     * numéro de son vaisseau (0, 1, etc).
+     * numÃ©ro de son vaisseau (0, 1, etc).
      *
      * @param aShipId
      *            l'identifiant du vaisseau
      * @return la couleur du vaisseau ayant cet identifiant
-     *         (le blanc est la couleur renvoyée par défaut)
+     *         (le blanc est la couleur renvoyÃ©e par dÃ©faut)
      */
     public final Color3f getColorFromId(int aShipId) {
         boolean found = false;
@@ -77,13 +77,13 @@ public class ClientConfigHandler {
     }
 
     /**
-     * Renvoie une instance de Color3f correspondant à la couleur passée en paramêtre.
+     * Renvoie une instance de Color3f correspondant Ã  la couleur passÃ©e en paramÃªtre.
      * @param colorIdent
-     *            Couleur à convertir, sous la forme "R;G;B".
-     * @return la couleur demandée
+     *            Couleur Ã  convertir, sous la forme "R;G;B".
+     * @return la couleur demandÃ©e
      */
-    // la méthode se trouve ici pour le moment, mais comme elle servira également pour la récupération
-    // des couleurs des vaisseaux, il faudra trouver un endroit où la mettre
+    // la mÃ©thode se trouve ici pour le moment, mais comme elle servira Ã©galement pour la rÃ©cupÃ©ration
+    // des couleurs des vaisseaux, il faudra trouver un endroit oÃ¹ la mettre
     private Color3f getColor(String colorIdent) {
         java.util.StringTokenizer st = new java.util.StringTokenizer(colorIdent, ";");
         float r = Float.parseFloat(st.nextToken());

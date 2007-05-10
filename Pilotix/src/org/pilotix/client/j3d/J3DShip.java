@@ -43,29 +43,29 @@ import javax.vecmath.Vector3f;
 /**
  * <p>
  * Cette classe regroupe les objets Java3D qui constituent visuellement un
- * vaisseau. Cette classe est générique, elle peut être utilisée pour n'importe
- * quel joueur et peut afficher n'importe quel équipement. Pour l'aspect
+ * vaisseau. Cette classe est gÃ©nÃ©rique, elle peut Ãªtre utilisÃ©e pour n'importe
+ * quel joueur et peut afficher n'importe quel Ã©quipement. Pour l'aspect
  * non-graphique d'un vaisseau, voir la classe Ship.
  * </p>
  *
  * <p>
- * Techniquement, cette classe hérite de J3DObject.
- * Optionnellement, comme avec tous les J3DObject, une J3DCamera peut être
- * ajoutée et elle suivra alors le J3DShip. Voir la classe J3DCamera pour plus
- * d'informations sur les caméras.
+ * Techniquement, cette classe hÃ©rite de J3DObject.
+ * Optionnellement, comme avec tous les J3DObject, une J3DCamera peut Ãªtre
+ * ajoutÃ©e et elle suivra alors le J3DShip. Voir la classe J3DCamera pour plus
+ * d'informations sur les camÃ©ras.
  * </p>
  *
  * @see J3DObject
  * @see org.pilotix.common.Ship
  * @see J3DCamera
  *
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  */
 public class J3DShip extends J3DObject {
     public Light[] lights;
 
     /**
-     * Crée une représentation 3D d'un vaisseau.
+     * CrÃ©e une reprÃ©sentation 3D d'un vaisseau.
      */
     public J3DShip(String shipShapeURL, Color3f aShipColor) {
         super(shipShapeURL, aShipColor);
@@ -135,7 +135,7 @@ public class J3DShip extends J3DObject {
     }
 
     /**
-     * Cette fonction affiche le nom du joueur à côté de son vaisseau
+     * Cette fonction affiche le nom du joueur Ã  cÃ´tÃ© de son vaisseau
      * @param aName le nom du joueur
      */
     public void setPlayerName(String aName) {

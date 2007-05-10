@@ -21,8 +21,8 @@ package org.pilotix.common;
 
 
 /**
- * Contient les informations relatives à l'aire de jeu, et les méthodes
- * d'encapsulation pour les transferts sur le réseau.
+ * Contient les informations relatives Ã  l'aire de jeu, et les mÃ©thodes
+ * d'encapsulation pour les transferts sur le rÃ©seau.
  *
  * <pre>
  *
@@ -95,7 +95,7 @@ public class Area implements Transferable {
     }
 
     /**
-     * Renvoie le nombre de balles présentes dans le jeu.
+     * Renvoie le nombre de balles prÃ©sentes dans le jeu.
      *
      * @return le nombre de balles
      */
@@ -138,13 +138,13 @@ public class Area implements Transferable {
     }
 
     /**
-     * Lit les messages dans le MessageHandler et met à jour
+     * Lit les messages dans le MessageHandler et met Ã  jour
      * l'aire de jeu (vaisseaux et balles);
-     * le message Transferable.AREA sert de délimiteur :
-     * une fois qu'on a trouvé un message AREA,
-     * on lit la série de messages BALL et SHIP qui
-     * le suivent, jusqu'à trouver un autre message AREA;
-     * alors on arrête la lecture et on sort de cette fonction.
+     * le message Transferable.AREA sert de dÃ©limiteur :
+     * une fois qu'on a trouvÃ© un message AREA,
+     * on lit la sÃ©rie de messages BALL et SHIP qui
+     * le suivent, jusqu'Ã  trouver un autre message AREA;
+     * alors on arrÃªte la lecture et on sort de cette fonction.
      */
      public void read(MessageHandler mh) throws Exception {
         byte flag = mh.receiveOneByte();
@@ -162,7 +162,7 @@ public class Area implements Transferable {
             else if (flag == Transferable.SHIP) {
                 tmpShip.read(mh);
                 if (tmpShip.getStates() == Ship.REMOVE) {
-                    System.out.println("Area.read() => Remove du Ship n°"+tmpShip.getId());
+                    System.out.println("Area.read() => Remove du Ship nÂ°"+tmpShip.getId());
                     ships.remove(tmpShip.getId());
                     //nbShips--;
                 } else if (ships.isNull(tmpShip.getId())) {

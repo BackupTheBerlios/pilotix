@@ -20,12 +20,12 @@
 package org.pilotix.common;
 
 /**
- * Contient les informations relatives à un Vaisseau.
- * Ship est spécialisée en ServerShip pour le serveur et
+ * Contient les informations relatives Ã  un Vaisseau.
+ * Ship est spÃ©cialisÃ©e en ServerShip pour le serveur et
  * en ClientShip pour le client.
  *
- * Contient également les méthodes d'encapsulation pour les
- * transfert sur le réseau
+ * Contient Ã©galement les mÃ©thodes d'encapsulation pour les
+ * transfert sur le rÃ©seau
  *
  * 
  * <pre>
@@ -44,11 +44,9 @@ public class Ship extends PilotixElement implements Transferable {
     public final static int HIT = 3;
     public final static int ACCELERATING = 4;
 
-    
     protected Vector speed;
     protected Angle direction;
     protected int radius = 400;
-
 
     public Ship() {
         super();
@@ -57,7 +55,6 @@ public class Ship extends PilotixElement implements Transferable {
         direction = new Angle(0);
         states = 0;
     }
-
 
     public Ship(Ship aShip) {
         states = aShip.states;
@@ -92,29 +89,24 @@ public class Ship extends PilotixElement implements Transferable {
      /*public void setDirection(Angle aDirection) {
      direction = aDirection;
      }*/
-   
-    
+
     public int getRadius() {
         return radius;
     }
 
     /**
      * Retrieves the direction of the Ship.
-     * 
+     *
      * @return the current direction of the Ship
      */
     public Angle getDirection() {
         return direction;
     }
 
-
-
-  
-
     public void read(MessageHandler mh) {
         // Be careful flag SHIP is handled by en other process.
-    	// all indexes are shifted by one
-    	byte[] bytes = mh.receiveNBytes(8);
+        // all indexes are shifted by one
+        byte[] bytes = mh.receiveNBytes(8);
         id = bytes[0];
         states = bytes[1];
 
@@ -143,7 +135,6 @@ public class Ship extends PilotixElement implements Transferable {
             inc = inc << 1;
         }*/
         direction.set(deg2);
-       
     }
 
     public void write(MessageHandler mh) throws Exception{
@@ -161,7 +152,4 @@ public class Ship extends PilotixElement implements Transferable {
 
         mh.sendBytes(bytes);
     }
-    
-   
-   
 }

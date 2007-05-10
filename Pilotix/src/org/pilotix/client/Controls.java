@@ -30,19 +30,19 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.image.*;
 
 /**
- * Le rôle de cette classe est de gérer la souris et le clavier. L'état de
- * toutes les touches du clavier est stocké dans un tableau, qui peut être
- * récupéré avec la fonction <code>getKeyStatus()</code>. La variation de
- * déplacement de la souris est récupérée avec <code>getMouseVariation()</code>.
- * La fonction setMainFrame doit être utilisée afin de récupérer les évènements
- * clavier. et la fonction setMouseComponent pour les évènements souris. Les
- * plugins peuvent s'enregistrer en tant que listeners pour récupérer les
- * évènements clavier.
+ * Le rÃ´le de cette classe est de gÃ©rer la souris et le clavier. L'Ã©tat de
+ * toutes les touches du clavier est stockÃ© dans un tableau, qui peut Ãªtre
+ * rÃ©cupÃ©rÃ© avec la fonction <code>getKeyStatus()</code>. La variation de
+ * dÃ©placement de la souris est rÃ©cupÃ©rÃ©e avec <code>getMouseVariation()</code>.
+ * La fonction setMainFrame doit Ãªtre utilisÃ©e afin de rÃ©cupÃ©rer les Ã©vÃ¨nements
+ * clavier. et la fonction setMouseComponent pour les Ã©vÃ¨nements souris. Les
+ * plugins peuvent s'enregistrer en tant que listeners pour rÃ©cupÃ©rer les
+ * Ã©vÃ¨nements clavier.
  *
- * @author Loïc Guibart
+ * @author LoÃ¯c Guibart
  *
  * @.todo chargement des touches (dans Environnement) @.todo changement du
- * pointeur de la souris quand celui-ci est attaché à un composant
+ * pointeur de la souris quand celui-ci est attachÃ© Ã  un composant
  */
 
 public class Controls extends KeyAdapter implements KeyEventDispatcher {
@@ -54,17 +54,17 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     private static final int NB_KEYS = 256;
 
     /**
-     * état de la touche : pas appuyée
+     * Ã©tat de la touche : pas appuyÃ©e
      */
     public static final int NOTHING = 0;
 
     /**
-     * état de la touche : pressée
+     * Ã©tat de la touche : pressÃ©e
      */
     public static final int PRESSED = 1;
 
     /**
-     * état de la touche : pressée et relachée depuis le dernier appel à <code>getKeyStatus</code>
+     * Ã©tat de la touche : pressÃ©e et relachÃ©e depuis le dernier appel Ã  <code>getKeyStatus</code>
      */
     public static final int PRESSED_AND_RELEASED = 2;
 
@@ -72,14 +72,14 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     public int keyAccel;
 
     /**
-     * Caractère de la touche effectuant l'attachement / le détachement de la
-     * souris à son composant
+     * CaractÃ¨re de la touche effectuant l'attachement / le dÃ©tachement de la
+     * souris Ã  son composant
      */
     private char mouseGrabKey;
 
-    /** code de la touche pour rapprocher la caméra */
+    /** code de la touche pour rapprocher la camÃ©ra */
     private char zoomInKey;
-    /** code de la touche pour reculer la caméra */
+    /** code de la touche pour reculer la camÃ©ra */
     private char zoomOutKey;
 
     /**
@@ -88,28 +88,28 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     private Mouse mm;
 
     /**
-     * Tableau de l'état des touches
+     * Tableau de l'Ã©tat des touches
      */
     private int[] keyStatus;
 
     /**
-     * Tableau indiquant si la touche était appuyée avant le dernier appel à
+     * Tableau indiquant si la touche Ã©tait appuyÃ©e avant le dernier appel Ã 
      * <code>getKeyStatus</code>.
      */
     private boolean[] wasPressed;
 
     /**
-     * Indique si la souris est actuellement "attachée" à son composant
+     * Indique si la souris est actuellement "attachÃ©e" Ã  son composant
      */
     private boolean mouseGrabbed;
 
     /**
-     * Indique si les évènements clavier sont traités
+     * Indique si les Ã©vÃ¨nements clavier sont traitÃ©s
      */
     private boolean processKeyEvents;
 
     /**
-     * Liste des listeners d'évènement clavier
+     * Liste des listeners d'Ã©vÃ¨nement clavier
      */
     private LinkedList keyListeners;
 
@@ -121,7 +121,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
         mm = new Mouse();
         keyListeners = new LinkedList();
         mouseGrabbed = false;
-        mouseGrabKey = KeyEvent.VK_G; // à changer
+        mouseGrabKey = KeyEvent.VK_G; // Ã  changer
         keyStatus = new int[NB_KEYS];
         wasPressed = new boolean[NB_KEYS];
         processKeyEvents = false;
@@ -132,11 +132,11 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Indique à <code>Controls</code> où doivent être récupérés les
-     * évènements claviers.
+     * Indique Ã  <code>Controls</code> oÃ¹ doivent Ãªtre rÃ©cupÃ©rÃ©s les
+     * Ã©vÃ¨nements claviers.
      *
      * @param gui
-     *            Fenêtre principale du client.
+     *            FenÃªtre principale du client.
      */
     public void setMainFrame(GUI gui) {
         /*
@@ -151,8 +151,8 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
          */
 
         /*
-         * ajout d'un listener indiquant si position ou la taille de la fenêtre
-         * sont modifiées
+         * ajout d'un listener indiquant si position ou la taille de la fenÃªtre
+         * sont modifiÃ©es
          */
         gui.addComponentListener(new ComponentAdapter() {
 
@@ -169,7 +169,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     /**
      * Renvoie le tableau de statut des touches.
      *
-     * @return Tableau d'entier contenant l'état de toutes les touches.
+     * @return Tableau d'entier contenant l'Ã©tat de toutes les touches.
      */
     public int[] getKeyStatus() {
         for (int i = 0; i < NB_KEYS; i++)
@@ -178,10 +178,10 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Traitement d'un évènement clavier
+     * Traitement d'un Ã©vÃ¨nement clavier
      *
      * @param ke
-     *            Evènement à traiter.
+     *            EvÃ¨nement Ã  traiter.
      */
     public boolean dispatchKeyEvent(KeyEvent ke) {
         if (processKeyEvents) {
@@ -201,20 +201,20 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Active ou désactive les contrôles.
+     * Active ou dÃ©sactive les contrÃ´les.
      *
      * @param isActive
-     *            Indique si les contrôles doivent être activés.
+     *            Indique si les contrÃ´les doivent Ãªtre activÃ©s.
      */
     public void active(boolean isActive) {
         processKeyEvents = isActive;
     }
 
     /**
-     * Transmet l'évènement "touche appuyée" aux listeners
+     * Transmet l'Ã©vÃ¨nement "touche appuyÃ©e" aux listeners
      *
      * @param e
-     *            Evènement clavier.
+     *            EvÃ¨nement clavier.
      */
     private void fireTypedEvent(KeyEvent e) {
         Iterator it = keyListeners.listIterator();
@@ -223,10 +223,10 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Transmet l'évènement "touche pressée" aux listeners
+     * Transmet l'Ã©vÃ¨nement "touche pressÃ©e" aux listeners
      *
      * @param e
-     *            Evènement clavier.
+     *            EvÃ¨nement clavier.
      */
     private void firePressedEvent(KeyEvent e) {
         Iterator it = keyListeners.listIterator();
@@ -235,10 +235,10 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Transmet l'évènement "touche relachée" aux listeners
+     * Transmet l'Ã©vÃ¨nement "touche relachÃ©e" aux listeners
      *
      * @param e
-     *            Evènement clavier.
+     *            EvÃ¨nement clavier.
      */
     private void fireReleasedEvent(KeyEvent e) {
         Iterator it = keyListeners.listIterator();
@@ -247,27 +247,27 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Ajoute un listener d'évènement clavier
+     * Ajoute un listener d'Ã©vÃ¨nement clavier
      *
      * @param kl
-     *            Listener à ajouter.
+     *            Listener Ã  ajouter.
      */
     public void addListener(KeyListener kl) {
         keyListeners.add(kl);
     }
 
     /**
-     * Retire un listener d'évènement clavier
+     * Retire un listener d'Ã©vÃ¨nement clavier
      *
      * @param kl
-     *            Listener à supprimer.
+     *            Listener Ã  supprimer.
      */
     public void removeListener(KeyListener kl) {
         keyListeners.remove(kl);
     }
 
     /**
-     * Traitement d'un évènement "touche pressée"
+     * Traitement d'un Ã©vÃ¨nement "touche pressÃ©e"
      *
      * @param e
      *            Evenement clavier.
@@ -279,7 +279,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Traitement d'un évènement "touche relachée"
+     * Traitement d'un Ã©vÃ¨nement "touche relachÃ©e"
      *
      * @param e
      *            Evenement clavier.
@@ -294,7 +294,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Traitement d'un évènement "touche appuyée"
+     * Traitement d'un Ã©vÃ¨nement "touche appuyÃ©e"
      *
      * @param e
      *            Evenement clavier.
@@ -314,27 +314,27 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Associe le gestionnaire de souris à un composant AWT. Les évènements
-     * souris vont être récupérés dans ce composant. Le pointeur de la souris
-     * peut être attaché à ce composant ce qui fait que le pointeur ne sortira
+     * Associe le gestionnaire de souris Ã  un composant AWT. Les Ã©vÃ¨nements
+     * souris vont Ãªtre rÃ©cupÃ©rÃ©s dans ce composant. Le pointeur de la souris
+     * peut Ãªtre attachÃ© Ã  ce composant ce qui fait que le pointeur ne sortira
      * pas du composant.
      *
      * @param comp
-     *            Composant AWT où vont être récupérés les évènements souris.
+     *            Composant AWT oÃ¹ vont Ãªtre rÃ©cupÃ©rÃ©s les Ã©vÃ¨nements souris.
      */
     public void setMouseComponent(Component comp) {
         mm.setComponent(comp);
     }
 
     /**
-     * Enlève l'association entre la souris et le composant
+     * EnlÃ¨ve l'association entre la souris et le composant
      */
     /*
      * public void unsetMouseComponent() { mm.unsetComponent();
      */
 
     /**
-     * Récupère la variation de la position de la souris depuis le dernier
+     * RÃ©cupÃ¨re la variation de la position de la souris depuis le dernier
      * appel
      *
      * @return Vecteur contenant la variation de la position en x et y.
@@ -344,46 +344,45 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
     }
 
     /**
-     * Récupère le code touche associé à une action définie dans le fichier de
+     * RÃ©cupÃ¨re le code touche associÃ© Ã  une action dÃ©finie dans le fichier de
      * configuration utilisateur.
-     * Le code touche correspond à une constante <code>VK_*</code> définie dans la classe
+     * Le code touche correspond Ã  une constante <code>VK_*</code> dÃ©finie dans la classe
      * <code>KeyEvent</code>.
      * @param actionName Nom de l'action.
      * @return code correspondant.
      */
     public int getKeyCodeFromAction(String actionName) {
         String actionKey = (String)Environment.userConfig.getKeymap().get(actionName);
-        
+
         try {
 
             if (actionKey == null) {
-                System.err.println("La touche correspondant à l'action '" + actionName + "' n'est pas definie");
+                System.err.println("La touche correspondant Ã  l'action '" + actionName + "' n'est pas definie");
                 return 0;
             }
-            
+
             return getKeyCode(actionKey);
         } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération de la config des touches");
+            System.err.println("Erreur lors de la rÃ©cupÃ©ration de la config des touches");
             e.printStackTrace();
             return 0;
         }
     }
 
     /**
-     * Effectue la correspondance entre un intutilé de touche et son code (voir KeyEvent).
-     * Malheureusement cette méthode n'existe pas dans KeyEvent... Je n'ai trouvé que ce
+     * Effectue la correspondance entre un intutilÃ© de touche et son code (voir KeyEvent).
+     * Malheureusement cette mÃ©thode n'existe pas dans KeyEvent... Je n'ai trouvÃ© que ce
      * moyen de faire mais c'est pas terrible...
      * @param touche
      * @return code correspondant.
      */
-    
     private int getKeyCode(String key) throws Exception {
         return ((Class.forName("java.awt.event.KeyEvent")).getField(key)).getInt(null);
     }
 
 
     /**
-     * Classe interne effectuant la gestion des évènements souris
+     * Classe interne effectuant la gestion des Ã©vÃ¨nements souris
      */
     class Mouse extends MouseInputAdapter implements MouseWheelListener {
 
@@ -441,7 +440,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
 
         /**
          * Traitement de la modification de la taille ou de la position de la
-         * fenêtre
+         * fenÃªtre
          */
         public void frameChanged() {
             if (component != null) {
@@ -499,7 +498,7 @@ public class Controls extends KeyAdapter implements KeyEventDispatcher {
         }
 
         public void mouseWheelMoved(MouseWheelEvent e) {
-            // mettre ici le code de l'action effectuée par la molette
+            // mettre ici le code de l'action effectuÃ©e par la molette
 
         }
     }

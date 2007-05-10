@@ -33,13 +33,13 @@ import javax.vecmath.Matrix4f;
 
 /**
  * <p>
- * Cette classe regroupe les classes Java3D à instancier pour voir ce qui se
+ * Cette classe regroupe les classes Java3D Ã  instancier pour voir ce qui se
  * passe dans le monde virtuel de Pilotix.
  * </p>
  *
  * <p>
- * Techniquement, cette classe doit être utilisée comme un TransformGroup. Elle
- * crée un objet View, un ViewPlatform et un Transform3D.
+ * Techniquement, cette classe doit Ãªtre utilisÃ©e comme un TransformGroup. Elle
+ * crÃ©e un objet View, un ViewPlatform et un Transform3D.
  * </p>
  *
  * @see BranchGroup
@@ -48,7 +48,7 @@ import javax.vecmath.Matrix4f;
  * @see View
  * @see Transform3D
  *
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  */
 public class J3DCamera extends BranchGroup {
 
@@ -60,16 +60,16 @@ public class J3DCamera extends BranchGroup {
     private float angleYOZ = 0.0f;
 
     /**
-     * Crée un TransformGroup et le remplit avec une ViewPlatform, une View et
-     * une matrice Transform3D qui sert à stocker la position de la caméra.
-     * Nous appelons finalement la méthode setCoordinates avec x=0.0f, y=0.0f
-     * et z=200.0f ce qui place la caméra au dessus des objets du BranchGroup
-     * où ce TransformGroup est ajouté (le x et le y sont relatifs au
+     * CrÃ©e un TransformGroup et le remplit avec une ViewPlatform, une View et
+     * une matrice Transform3D qui sert Ã  stocker la position de la camÃ©ra.
+     * Nous appelons finalement la mÃ©thode setCoordinates avec x=0.0f, y=0.0f
+     * et z=200.0f ce qui place la camÃ©ra au dessus des objets du BranchGroup
+     * oÃ¹ ce TransformGroup est ajoutÃ© (le x et le y sont relatifs au
      * BranchGroup).
      *
      * @param aCanvas3D
-     *            le Canvas3D où vous voulez afficher les images vues par cette
-     *            caméra.
+     *            le Canvas3D oÃ¹ vous voulez afficher les images vues par cette
+     *            camÃ©ra.
      *
      * @see TransformGroup
      * @see ViewPlatform
@@ -106,9 +106,9 @@ public class J3DCamera extends BranchGroup {
     }
 
     /**
-     * Met la caméra à la position (x, y, z) fournie. Nous faisons cela en
-     * appliquant un objet Vector3f au champ Transform3D de la caméra. Ces
-     * valeurs sont relatives au noeud-père de cet objet J3DCamera.
+     * Met la camÃ©ra Ã  la position (x, y, z) fournie. Nous faisons cela en
+     * appliquant un objet Vector3f au champ Transform3D de la camÃ©ra. Ces
+     * valeurs sont relatives au noeud-pÃ¨re de cet objet J3DCamera.
      */
     public void setCoordinates(float x, float y, float z) {
         distanceFromParent = (float)Math.sqrt(x*x + y*y + z*z);
@@ -117,19 +117,19 @@ public class J3DCamera extends BranchGroup {
     }
 
     /**
-     * Cette méthode place la caméra, par rapport à son noeud-père, à une distance
+     * Cette mÃ©thode place la camÃ©ra, par rapport Ã  son noeud-pÃ¨re, Ã  une distance
      * "dist" et lui donne un angle "angle" par rapport au plan xOy.
      * Il y a donc une rotation d'angle alpha autour de l'axe Ox, et une
      * translation sur Oy et sur Oz de telle sorte que la distance entre l'origine
-     * du repère et la caméra soit égale à "dist".
-     * L'effet obtenu est que la caméra pointe vers l'origine du noeud-père
+     * du repÃ¨re et la camÃ©ra soit Ã©gale Ã  "dist".
+     * L'effet obtenu est que la camÃ©ra pointe vers l'origine du noeud-pÃ¨re
      * avec un angle "angle".
      */
     public void lookAtOriginRotX(float dist, float angle) {
         distanceFromParent = dist;
         angleYOZ = angle;
         // Rotation autour de l'axe X d'un angle "angle", et translation sur Y et Z
-        // pour se placer à la distance "dist" de l'objet associé à cette caméra
+        // pour se placer Ã  la distance "dist" de l'objet associÃ© Ã  cette camÃ©ra
         trans3D.set(new Matrix4f(1.0f, 0.0f, 0.0f, 0.0f,
                                  0.0f, (float)Math.sin(angle), -(float)Math.cos(angle), -dist*(float)Math.cos(angle),
                                  0.0f, (float)Math.cos(angle), (float)Math.sin(angle), dist*(float)Math.sin(angle),
@@ -138,52 +138,52 @@ public class J3DCamera extends BranchGroup {
     }
 
     /**
-     * Renvoie la distance entre cette caméra et l'objet à laquelle elle est rattachée.
+     * Renvoie la distance entre cette camÃ©ra et l'objet Ã  laquelle elle est rattachÃ©e.
      */
     public float getDistanceFromParent() {
         return distanceFromParent;
     }
 
     /**
-     * Renvoie la distance entre cette caméra et l'objet à laquelle elle est rattachée.
+     * Renvoie la distance entre cette camÃ©ra et l'objet Ã  laquelle elle est rattachÃ©e.
      */
     public float getAngleYOZ() {
         return angleYOZ;
     }
 
     /**
-     * Renvoie l'objet View de cette caméra, qui référence le Canvas3D sur
+     * Renvoie l'objet View de cette camÃ©ra, qui rÃ©fÃ©rence le Canvas3D sur
      * lequel se fait l'affichage.
      *
-     * @return l'objet View de cette caméra
+     * @return l'objet View de cette camÃ©ra
      */
     public View getView() {
         return view;
     }
 
     /**
-     * Renvoie l'objet ViewPlatform de cette caméra.
+     * Renvoie l'objet ViewPlatform de cette camÃ©ra.
      *
-     * @return l'objet ViewPlatform de cette caméra
+     * @return l'objet ViewPlatform de cette camÃ©ra
      */
     private ViewPlatform getViewPlatform() {
         return viewPlatform;
     }
 
     /**
-     * Renvoie l'objet Transform3D de cette caméra.
+     * Renvoie l'objet Transform3D de cette camÃ©ra.
      *
-     * @return l'objet Transfom3D de cette caméra
+     * @return l'objet Transfom3D de cette camÃ©ra
      */
     private Transform3D getTransform3D() {
         return trans3D;
     }
 
     /**
-     * Applique à cette caméra l'objet Transform3D fourni.
+     * Applique Ã  cette camÃ©ra l'objet Transform3D fourni.
      *
      * @param aTransform3D
-     *            la transformation à appliquer
+     *            la transformation Ã  appliquer
      */
     private void setTransform3D(Transform3D aTransform3D) {
         trans3D = aTransform3D;

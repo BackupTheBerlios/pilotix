@@ -24,7 +24,7 @@ import java.io.File;
 //import org.pilotix.client.Environment;
 
 /**
- * Cette classe sert à renvoyer l'URL d'un fichier à
+ * Cette classe sert Ã  renvoyer l'URL d'un fichier Ã 
  * partir de son type (CONFIG, TEXTURE, SHAPE, etc),
  * en cherchant d'abord sur le disque, puis dans le Jar.
  */
@@ -52,9 +52,9 @@ public class ResourceLocator {
     }
 
     /**
-    * Cette méthode renvoie l'URL de la ressource dont le
+    * Cette mÃ©thode renvoie l'URL de la ressource dont le
     * type et le nom sont fournis. La recherche est faite
-    * prioritairement sur le disque, puis en cas d'échec,
+    * prioritairement sur le disque, puis en cas d'Ã©chec,
     * dans le fichier Jar.
     *
     * @param resourceType

@@ -28,8 +28,8 @@ import org.pilotix.common.Ship;
 import org.pilotix.common.Transferable;
 
 /**
- * Cette classe est utilisée pour recevoir des messages
- * du serveur et pour mettre à jour ClientArea, Display3D
+ * Cette classe est utilisÃ©e pour recevoir des messages
+ * du serveur et pour mettre Ã  jour ClientArea, Display3D
  * et le tableau des joueurs dans GUIPanel, en fonction
  * de ces messages.
  *
@@ -39,8 +39,8 @@ import org.pilotix.common.Transferable;
  * @see Display3D
  *
  * @author Florent Sithimolada
- * @author Loïc Guibart
- * @author Grégoire Colbert
+ * @author LoÃ¯c Guibart
+ * @author GrÃ©goire Colbert
  */
 public class ClientMainLoopThread extends Thread {
 
@@ -69,7 +69,7 @@ public class ClientMainLoopThread extends Thread {
             int port = Environment.theServerPort.intValue();
             socket = new Socket(ip, port);
             if (Environment.debug) {
-                System.out.println("[CMLT] Connecté à "+ socket.getInetAddress() + ":" + socket.getPort());
+                System.out.println("[CMLT] ConnectÃ© Ã  "+ socket.getInetAddress() + ":" + socket.getPort());
             }
             clientMessageHandler = new MessageHandler(socket);
 
@@ -79,7 +79,7 @@ public class ClientMainLoopThread extends Thread {
             Environment.theGUI.getGUIPanel().beginGame();
 
             if (Environment.debug) {
-                System.out.println("[CMLT] Début de la boucle");
+                System.out.println("[CMLT] DÃ©but de la boucle");
             }
 
             while (!quit) {
@@ -87,11 +87,11 @@ public class ClientMainLoopThread extends Thread {
 
                 if (flag == Transferable.AREA) {
                     Environment.theClientArea.read(clientMessageHandler);
-                    // Effectue les calculs côté client
+                    // Effectue les calculs cÃ´tÃ© client
                     Environment.theClientArea.nextFrame();
-                    // On met à jour l'affichage 3D
+                    // On met Ã  jour l'affichage 3D
                     Environment.theDisplay3D.update();
-                    // On met à jour la liste des joueurs présents
+                    // On met Ã  jour la liste des joueurs prÃ©sents
                     Environment.theGUI.getGUIPanel().update();
                     // On prend en compte l'action du joueur
                     (Environment.controlCmd.getCommand()).write(clientMessageHandler);
@@ -102,8 +102,8 @@ public class ClientMainLoopThread extends Thread {
                     info.read(clientMessageHandler);
                     switch (info.getType()) {
                         case Information.OWN_SHIP_ID :
-                            // On reçoit notre numéro de joueur
-                            System.out.println("[CMLT] Reçu Information, type OWN_SHIP_ID :"+info.getOwnShipId());
+                            // On reÃ§oit notre numÃ©ro de joueur
+                            System.out.println("[CMLT] ReÃ§u Information, type OWN_SHIP_ID :"+info.getOwnShipId());
                             Environment.theClientArea.setOwnShipId(info.getOwnShipId());
                             // il doit alors envoyer son propre nom
                             Information info2 = new Information();
@@ -112,21 +112,21 @@ public class ClientMainLoopThread extends Thread {
                             info2.write(clientMessageHandler);
                         break;
                         case Information.DECONNECT :
-                            System.out.println("[CMLT] Reçu Information, type DECONNECT");
+                            System.out.println("[CMLT] ReÃ§u Information, type DECONNECT");
                         break;
                         case Information.AREA_ID :
-                            System.out.println("[CMLT] Reçu Information, type AREA_ID");
+                            System.out.println("[CMLT] ReÃ§u Information, type AREA_ID");
                         break;
                         case Information.SHIP_NAME :
-                            System.out.println("[CMLT] Reçu Information, type SHIP_NAME");
+                            System.out.println("[CMLT] ReÃ§u Information, type SHIP_NAME");
                             System.out.println(info.getShipId()+" is "+info.getShipName());
                             Environment.theDisplay3D.setJ3DShipsName(info.getShipId(), info.getShipName());
                         break;
                     }
                     /*switch (typeInfo) {
                         case Information.OWN_SHIP_ID :
-                            // On reçoit notre numéro de joueur
-                            System.out.println("[CMLT] Reçu Information, type OWN_SHIP_ID");
+                            // On reÃ§oit notre numÃ©ro de joueur
+                            System.out.println("[CMLT] ReÃ§u Information, type OWN_SHIP_ID");
                             int shipId = (int)clientMessageHandler.receiveOneByte();
                             Environment.theClientArea.setOwnShipId(shipId);
                             // il doit alors envoyer sont nom
@@ -136,10 +136,10 @@ public class ClientMainLoopThread extends Thread {
                             info.write(clientMessageHandler);
                             break;
                         case Information.DECONNECT :
-                            System.out.println("[CMLT] Reçu Information, type DECONNECT");
+                            System.out.println("[CMLT] ReÃ§u Information, type DECONNECT");
                             break;
                         case Information.AREA_ID :
-                            System.out.println("[CMLT] Reçu Information, type AREA_ID");
+                            System.out.println("[CMLT] ReÃ§u Information, type AREA_ID");
                             break;
                         case Information.SHIP_NAME :
                         Information info = new Information();
@@ -149,7 +149,7 @@ public class ClientMainLoopThread extends Thread {
                             break;
                     }*/
                 } else {
-                    System.out.println("[CMLT] Reçu paquet inconnu, flag = "+flag);
+                    System.out.println("[CMLT] ReÃ§u paquet inconnu, flag = "+flag);
                 }
             }
 
@@ -159,11 +159,11 @@ public class ClientMainLoopThread extends Thread {
             Environment.theClientArea.reset();
             socket.close();
             if (Environment.debug) {
-                System.out.println("[CMLT] Socket fermée. A+\n-----\n");
+                System.out.println("[CMLT] Socket fermÃ©e. A+\n-----\n");
             }
 
         } catch (IOException e) {
-            System.out.println("[CMLT] ERREUR : connexion refusée.");
+            System.out.println("[CMLT] ERREUR : connexion refusÃ©e.");
             Environment.theGUI.getGUIPanel().displayMessageConnectionRefused();
         } catch (Exception e) {
             System.out.println("[CMLT] ERREUR. :-(");
@@ -172,7 +172,7 @@ public class ClientMainLoopThread extends Thread {
     }
 
     /**
-     * Arrête le thread quand le joueur quitte la partie.
+     * ArrÃªte le thread quand le joueur quitte la partie.
      */
     public void endGame() {
         try {
@@ -180,7 +180,7 @@ public class ClientMainLoopThread extends Thread {
             info.setDeconnected();
             info.write(clientMessageHandler);
             if (Environment.debug) {
-                System.out.println("[CMLT.endGame] DECONNECT envoyé.");
+                System.out.println("[CMLT.endGame] DECONNECT envoyÃ©.");
             }
         } catch (Exception e) {
             e.printStackTrace();

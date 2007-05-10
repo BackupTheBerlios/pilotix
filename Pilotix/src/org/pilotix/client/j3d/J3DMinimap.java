@@ -24,11 +24,11 @@ import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 
 /**
- * Cette classe crée une caméra pointant vers le sol et la relie à un Canvas3D
- * donné. La caméra étant placée assez haut, la vue convient pour faire une
+ * Cette classe crÃ©e une camÃ©ra pointant vers le sol et la relie Ã  un Canvas3D
+ * donnÃ©. La camÃ©ra Ã©tant placÃ©e assez haut, la vue convient pour faire une
  * mini-carte.
  * 
- * @author Grégoire Colbert
+ * @author GrÃ©goire Colbert
  * 
  * @see J3DCamera
  * @see BranchGroup
@@ -40,10 +40,10 @@ public class J3DMinimap extends BranchGroup {
     private J3DCamera camera = null;
 
     /**
-     * Crée une caméra et affiche ce qu'elle voit dans le Canvas3D fourni.
+     * CrÃ©e une camÃ©ra et affiche ce qu'elle voit dans le Canvas3D fourni.
      * 
      * @param aCanvas3D
-     *            le Canvas3D auquel relier la caméra
+     *            le Canvas3D auquel relier la camÃ©ra
      */
     public J3DMinimap(Canvas3D aCanvas3D, float aX, float aY) {
         setCapability(BranchGroup.ALLOW_DETACH);
@@ -55,9 +55,9 @@ public class J3DMinimap extends BranchGroup {
     }
 
     /**
-     * Renvoie la caméra associée à cette mini-carte.
+     * Renvoie la camÃ©ra associÃ©e Ã  cette mini-carte.
      * 
-     * @return la caméra
+     * @return la camÃ©ra
      */
     public J3DCamera getCamera() {
         return camera;
