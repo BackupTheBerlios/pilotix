@@ -46,7 +46,7 @@ public class Angle {
         //set(anAngle.oldDegree);
         set(anAngle.degree);
     }
-    
+
     /**
      * Crée un angle avec la valeur passée en paramètre.
      *
@@ -56,7 +56,7 @@ public class Angle {
     /*public Angle(int aDegree) {
         set((float)aDegree);
     }*/
-    
+
     public Angle(float aDegree) {
         set(aDegree);
     }
@@ -74,12 +74,12 @@ public class Angle {
             oldDegree = aDegree % (360);
         }
     }*/
-    
-    public void set(float degree) {
-    	if (degree < 0) {
-            this.degree = degree % (-360);
+
+    public void set(float aDegree) {
+        if (aDegree < 0) {
+            this.degree = aDegree % (-360);
         } else {
-            this.degree = degree % (360);
+            this.degree = aDegree % (360);
         }
     }
 
@@ -100,33 +100,33 @@ public class Angle {
      * @return un angle
      */
     public int intValue() {
-    	return (int)degree;
+        return (int)degree;
     }
-    
+
     public float floatValue() {
         return degree;
     }
-    
+
     public byte[] getBytes() {
-    	byte[] result = new byte[2];
-        
-    	tmpDegree = (int)(degree*100);
-    	
-    	result[0]= (byte) (((byte)(Math.abs(tmpDegree) / 256))| (tmpDegree<0?0x80:0x00));
-    	result[1]=(byte) (Math.abs(tmpDegree));
+        byte[] result = new byte[2];
+
+        tmpDegree = (int)(degree*100);
+
+        result[0]= (byte) (((byte)(Math.abs(tmpDegree) / 256))| (tmpDegree<0?0x80:0x00));
+        result[1]=(byte) (Math.abs(tmpDegree));
         return result;
     }
-    
+
     public void setBytes(byte[] bytes,int offset) {
-    	tmpDegree = 0;
+        tmpDegree = 0;
         int inc = 1;
         int inc2 = 256;
         for (int i = 0; i < 8; i++) {
-        	// most left bit code negative
-        	if(i==7&&((byte) (bytes[offset] >> i) & 0x01)==1){
-            	tmpDegree *= -1;
+            // most left bit code negative
+            if(i==7&&((byte) (bytes[offset] >> i) & 0x01)==1){
+                tmpDegree *= -1;
             }else{
-            	tmpDegree += ((byte) (bytes[offset] >> i) & 0x01) * inc2;
+                tmpDegree += ((byte) (bytes[offset] >> i) & 0x01) * inc2;
             }
             tmpDegree += ((byte) (bytes[offset+1] >> i) & 0x01) * inc;
             inc = inc << 1;
