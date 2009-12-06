@@ -49,6 +49,14 @@
     <mkdir dir="${class}"/>
   </target>
 
+  <!-- ClassPath -->
+  <path id="classpath.path">
+    <pathelement path="${classpath}"/>
+    <pathelement location="/usr/lib/jvm/java-6-sun/lib/ext/vecmath.jar"/>
+    <pathelement location="/usr/lib/jvm/java-6-sun/lib/ext/j3dcore.jar"/>
+    <pathelement location="/usr/lib/jvm/java-6-sun/lib/ext/j3dutils.jar"/>
+  </path>
+
   <!-- Compilation -->
   <target name="compile" depends="init" description="Compiler le code source">
     <javac srcdir="${src}"
@@ -58,6 +66,9 @@
             debug="yes"
             deprecation="yes">
       <compilerarg value="-Xlint"/>
+      <classpath>
+        <path refid="classpath.path"/>
+      </classpath>
     </javac>
   </target>
 
@@ -121,10 +132,9 @@
       <doctitle>Pilotix : documentation (${DSTAMP})</doctitle>
       <bottom><![CDATA[<em><a href="http://pilotix.berlios.de/" target="_top"><img src="http://pilotix.berlios.de/include/images/logopilotix-petit-avec-fleche.png" alt="pilotix.berlios.de" title="http://pilotix.berlios.de"></a> Pilotix.org ${jaroj} - Stilisto : G.C.</em>]]></bottom>
       <tag name=".todo" scope="all" description="À faire&#160;:" />
-      <!--
-      <link offline="true" href="http://java.sun.com/products/jdk/1.4.1/docs/api/" packagelistLoc="C:\tmp"/>
-      <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
-      -->
+      <classpath>
+        <path refid="classpath.path"/>
+      </classpath>
     </javadoc>
   </target>
 
