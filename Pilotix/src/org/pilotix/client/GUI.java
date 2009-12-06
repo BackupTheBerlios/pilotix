@@ -44,41 +44,38 @@ import javax.swing.WindowConstants;
  */
 public class GUI extends JFrame {
 
-    private GUIPanel guipanel = null;
+	private static final long serialVersionUID = 634581901108452649L;
+	private GUIPanel guipanel = null;
 
-    /**
-     * Crée une JFrame et la remplit avec un objet de la classe GUIPanel.
-     */
-    public GUI() {
-        setTitle(ResourceBundle.getBundle(
-                Environment.propertiesPath + "i18nClient").getString(
-                "mainFrameTitle"));
-        setSize(Environment.userConfig.getInterfaceLength(),
-                Environment.userConfig.getInterfaceHeight());
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout());
-        guipanel = new GUIPanel();
-        getContentPane().add("Center", guipanel);
+	/**
+	 * Crée une JFrame et la remplit avec un objet de la classe GUIPanel.
+	 */
+	public GUI() {
+		setTitle(ResourceBundle.getBundle(Environment.propertiesPath + "i18nClient").getString("mainFrameTitle"));
+		setSize(Environment.userConfig.getInterfaceLength(), Environment.userConfig.getInterfaceHeight());
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout());
+		guipanel = new GUIPanel();
+		getContentPane().add("Center", guipanel);
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = getSize();
-        if (frameSize.height > screenSize.height) {
-            frameSize.height = screenSize.height;
-        }
-        if (frameSize.width > screenSize.width) {
-            frameSize.width = screenSize.width;
-        }
-        setLocation((screenSize.width - frameSize.width) / 2,
-                (screenSize.height - frameSize.height) / 2);
-        setVisible(true);
-    }
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension frameSize = getSize();
+		if (frameSize.height > screenSize.height) {
+			frameSize.height = screenSize.height;
+		}
+		if (frameSize.width > screenSize.width) {
+			frameSize.width = screenSize.width;
+		}
+		setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
+		setVisible(true);
+	}
 
-    /**
-     * renvoie l'instance de GUIPanel associée avec cette fenêtre GUI.
-     * 
-     * @return l'instance de GUIPanel
-     */
-    public GUIPanel getGUIPanel() {
-        return guipanel;
-    }
+	/**
+	 * renvoie l'instance de GUIPanel associée avec cette fenêtre GUI.
+	 * 
+	 * @return l'instance de GUIPanel
+	 */
+	public GUIPanel getGUIPanel() {
+		return guipanel;
+	}
 }

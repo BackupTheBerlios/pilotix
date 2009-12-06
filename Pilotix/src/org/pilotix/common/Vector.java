@@ -20,115 +20,114 @@ package org.pilotix.common;
 
 /**
  * Vecteur 2D à multiples usages : position, vitesse, accéleration.
- *
+ * 
  * @author Florent Sithimolada
  */
 public class Vector {
 
-    public int x;
-    public int y;
+	public int x;
+	public int y;
 
-    /**
-     * Crée un vecteur de valeur (0,0).
-     */
-    public Vector() {
-        this(0,0);
-    }
+	/**
+	 * Crée un vecteur de valeur (0,0).
+	 */
+	public Vector() {
+		this(0, 0);
+	}
 
-    /**
-     * Crée un vecteur avec les valeurs fournies.
-     *
-     * @param px
-     *            valeur de x
-     * @param py
-     *            valeur de y
-     */
-    public Vector(int px, int py) {
-        x = px;
-        y = py;
-    }
+	/**
+	 * Crée un vecteur avec les valeurs fournies.
+	 * 
+	 * @param px
+	 *            valeur de x
+	 * @param py
+	 *            valeur de y
+	 */
+	public Vector(int px, int py) {
+		x = px;
+		y = py;
+	}
 
-    /**
-     * Crée un vecteur identique à celui fourni.
-     *
-     * @param aVector
-     *            le vecteur à dupliquer
-     */
-    public Vector(Vector aVector){
-        x = aVector.x;
-        y = aVector.y;
-    }
+	/**
+	 * Crée un vecteur identique à celui fourni.
+	 * 
+	 * @param aVector
+	 *            le vecteur à dupliquer
+	 */
+	public Vector(Vector aVector) {
+		x = aVector.x;
+		y = aVector.y;
+	}
 
-    /**
-     * Met à jour un vecteur avec les valeurs fournies.
-     *
-     * @param px
-     *            nouvelle valeur de x
-     * @param py
-     *            nouvelle valeur de y
-     */
-    public void set(int px, int py) {
-        x = px;
-        y = py;
-    }
+	/**
+	 * Met à jour un vecteur avec les valeurs fournies.
+	 * 
+	 * @param px
+	 *            nouvelle valeur de x
+	 * @param py
+	 *            nouvelle valeur de y
+	 */
+	public void set(int px, int py) {
+		x = px;
+		y = py;
+	}
 
-    /**
-     * Met à jour un vecteur avec un autre vecteur
-     *
-     * @param b
-     *            le vecteur dont chaque composante sera
-     *            copiée dans le vecteur courant
-     */
-    public void set(Vector b) {
-        x = b.x;
-        y = b.y;
-    }
+	/**
+	 * Met à jour un vecteur avec un autre vecteur
+	 * 
+	 * @param b
+	 *            le vecteur dont chaque composante sera copiée dans le vecteur
+	 *            courant
+	 */
+	public void set(Vector b) {
+		x = b.x;
+		y = b.y;
+	}
 
-    /**
-     * Multiplie chaque terme du vecteur par les valeurs
-     * correspondantes du vecteur passé en paramètre.
-     *
-     * @param b
-     *            le vecteur dont chaque composante sert
-     *            de multiplicateur aux composantes du
-     *            vecteur courant
-     */
-    public void setDot(Vector b) {
-        x = x * b.x;
-        y = y * b.y;
-    }
+	/**
+	 * Multiplie chaque terme du vecteur par les valeurs correspondantes du
+	 * vecteur passé en paramètre.
+	 * 
+	 * @param b
+	 *            le vecteur dont chaque composante sert de multiplicateur aux
+	 *            composantes du vecteur courant
+	 */
+	public void setDot(Vector b) {
+		x = x * b.x;
+		y = y * b.y;
+	}
 
-    public long dot(Vector b) {
-        return  (long)x * (long)b.x + (long)y * (long)b.y;
-    }
+	public long dot(Vector b) {
+		return (long) x * (long) b.x + (long) y * (long) b.y;
+	}
 
-    public Vector plus(Vector b) {
-        Vector result = new Vector();
-        result.x = x + b.x;
-        result.y = y + b.y;
-        return result;
-    }
+	public Vector plus(Vector b) {
+		Vector result = new Vector();
+		result.x = x + b.x;
+		result.y = y + b.y;
+		return result;
+	}
 
-    public Vector less(Vector b) {
-        Vector result = new Vector();
-        result.x = x - b.x;
-        result.y = y - b.y;
-        return result;
-    }
+	public Vector less(Vector b) {
+		Vector result = new Vector();
+		result.x = x - b.x;
+		result.y = y - b.y;
+		return result;
+	}
 
-    public Vector mult(double aNumber) {
-        Vector result = new Vector();
-        result.x = (int) Math.round(aNumber * this.x);
-        result.y = (int) Math.round(aNumber * this.y);
-        return result;
-    }
+	public Vector mult(double aNumber) {
+		Vector result = new Vector();
+		result.x = (int) Math.round(aNumber * this.x);
+		result.y = (int) Math.round(aNumber * this.y);
+		return result;
+	}
 
-    public Vector plus(int x, int y) {
-        Vector result = new Vector(this.x+x,this.y+y);
-        return result;
-    }
+	public Vector plus(int x, int y) {
+		Vector result = new Vector(this.x + x, this.y + y);
+		return result;
+	}
 
-    public String toString(){
-        return "[Vector]"+x+","+y;
-    }
+	public String toString() {
+		return "[Vector]" + x + "," + y;
+	}
 }

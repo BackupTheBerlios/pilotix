@@ -32,64 +32,57 @@ import javax.swing.JButton;
  * <p>
  * Cette classe crée une fenêtre pour le serveur Pilotix.
  * </p>
- *
+ * 
  * @author Grégoire Colbert
  */
 public class ServerGUI extends JFrame implements ActionListener {
 
-    public static String propertiesPath = "properties/";
+	private static final long serialVersionUID = 3113980341960517463L;
 
-    private PilotixServer pilotixServer = null;
-    private JButton startStopButton = null;
+	public static String propertiesPath = "properties/";
 
-    /**
-     * Crée une JFrame
-     */
-    public ServerGUI() {
-        setTitle(ResourceBundle.getBundle(
-                         propertiesPath + "i18nServer")
-                         .getString("server_FrameTitle"));
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout());
-        setSize(200,100);
+	private PilotixServer pilotixServer = null;
+	private JButton startStopButton = null;
 
-        // Bouton permettant de démarrer/arrêter le serveur
-        startStopButton = new JButton(ResourceBundle.getBundle(
-                         propertiesPath + "i18nServer")
-                         .getString("startServer_ButtonName"));
-        startStopButton.setActionCommand("startServer");
-        startStopButton.addActionListener(this);
-        getContentPane().add("Center", startStopButton);
+	/**
+	 * Crée une JFrame
+	 */
+	public ServerGUI() {
+		setTitle(ResourceBundle.getBundle(propertiesPath + "i18nServer").getString("server_FrameTitle"));
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout());
+		setSize(200, 100);
 
-        setVisible(true);
-    }
+		// Bouton permettant de démarrer/arrêter le serveur
+		startStopButton = new JButton(ResourceBundle.getBundle(propertiesPath + "i18nServer").getString("startServer_ButtonName"));
+		startStopButton.setActionCommand("startServer");
+		startStopButton.addActionListener(this);
+		getContentPane().add("Center", startStopButton);
 
-    /**
-     * Écouteur de boutons : fait des choses en fonction du champ ActionCommand
-     * des boutons.
-     *
-     * @param evt
-     *            l'instance de ActionEvent à traiter.
-     */
-    public void actionPerformed(ActionEvent evt) {
-        String str = evt.getActionCommand();
-        if (str.equals("startServer")) {
-            try {
-                pilotixServer = new PilotixServer(9000, 30);
-                startStopButton.setActionCommand("stopServer");
-                startStopButton.setText(ResourceBundle.getBundle(
-                         propertiesPath + "i18nServer")
-                         .getString("stopServer_ButtonName"));
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (str.equals("stopServer")) {
-            pilotixServer.endGame();
-            startStopButton.setActionCommand("startServer");
-            startStopButton.setText(ResourceBundle.getBundle(
-                         propertiesPath + "i18nServer")
-                         .getString("startServer_ButtonName"));
-        }
-    }
+		setVisible(true);
+	}
+
+	/**
+	 * Écouteur de boutons : fait des choses en fonction du champ ActionCommand
+	 * des boutons.
+	 * 
+	 * @param evt
+	 *            l'instance de ActionEvent à traiter.
+	 */
+	public void actionPerformed(ActionEvent evt) {
+		String str = evt.getActionCommand();
+		if (str.equals("startServer")) {
+			try {
+				pilotixServer = new PilotixServer(9000, 30);
+				startStopButton.setActionCommand("stopServer");
+				startStopButton.setText(ResourceBundle.getBundle(propertiesPath + "i18nServer").getString("stopServer_ButtonName"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (str.equals("stopServer")) {
+			pilotixServer.endGame();
+			startStopButton.setActionCommand("startServer");
+			startStopButton.setText(ResourceBundle.getBundle(propertiesPath + "i18nServer").getString("startServer_ButtonName"));
+		}
+	}
 }

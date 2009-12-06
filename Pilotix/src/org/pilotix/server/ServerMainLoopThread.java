@@ -19,108 +19,103 @@
 
 package org.pilotix.server;
 
-import java.util.Iterator;
-
 import org.pilotix.common.Information;
 
 public class ServerMainLoopThread extends Thread {
 
-    //used to compute statistics
-    Long lastTime ;
-    Integer nbTime ;
-    Integer messageEvery = 30 ;
-    Long total =0l;
+	// used to compute statistics
+	Long lastTime;
+	Integer nbTime;
+	Integer messageEvery = 30;
+	Long total = 0l;
 
-    private boolean newClientHandler = false;
+	private boolean newClientHandler = false;
 
-    private Information info = new Information();
+	private Information info = new Information();
 
-    public ServerMainLoopThread() throws Exception {
-        lastTime = System.currentTimeMillis();
-        nbTime = 0;
-    }
+	public ServerMainLoopThread() throws Exception {
+		lastTime = System.currentTimeMillis();
+		nbTime = 0;
+	}
 
-    public void run() {
+	public void run() {
 
-        //Supression des clients désirant partir
-        for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
-            ClientHandlerThread CHT = (ClientHandlerThread) PilotixServer.theCHTs.get(i);
-            int status = CHT.getStatus();
-            switch (status) {
-            // Le client veut quitter la partie => sortir
-            case ClientHandlerThread.WANTTOLEAVE:
-                CHT.setStatus(ClientHandlerThread.TOBEKILL);
-                break;
-            // Le client a quitté violemment
-            case ClientHandlerThread.DECONNECTED:
-                CHT.setStatus(ClientHandlerThread.TOBEKILL);
-                break;
-            // Supression du client ayant quitté
-            case ClientHandlerThread.TOBEKILL:
-                PilotixServer.theSA.removeShip(CHT.getShip());
-                PilotixServer.theCHTs.remove(CHT);
-                System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
-                break;
-            }
-        }
-        // Ajout des nouveaux clients (en attente sur la liste temporaire)
-        if (newClientHandler) {
-            PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
-            //Ajout des nouveaux vaisseaux
-            for (Iterator iter = PilotixServer.theNewCHTs.iterator(); iter.hasNext();) {
-                ClientHandlerThread newCHT = (ClientHandlerThread) iter.next();
-                //theShips.add(newCHT.getShip());
-                PilotixServer.theSA.addShip(newCHT.getShip());
-            }
-        }
+		// Supression des clients désirant partir
+		for (int i = 0; i < PilotixServer.theCHTs.size(); i++) {
+			ClientHandlerThread myCHT = PilotixServer.theCHTs.get(i);
+			int status = myCHT.getStatus();
+			switch (status) {
+			// Le client veut quitter la partie => sortir
+			case ClientHandlerThread.WANTTOLEAVE:
+				myCHT.setStatus(ClientHandlerThread.TOBEKILL);
+				break;
+			// Le client a quitté violemment
+			case ClientHandlerThread.DECONNECTED:
+				myCHT.setStatus(ClientHandlerThread.TOBEKILL);
+				break;
+			// Supression du client ayant quitté
+			case ClientHandlerThread.TOBEKILL:
+				PilotixServer.theSA.removeShip(myCHT.getShip());
+				PilotixServer.theCHTs.remove(myCHT);
+				System.out.println("[SMLT] Nb Client =" + PilotixServer.theCHTs.size());
+				break;
+			}
+		}
+		// Ajout des nouveaux clients (en attente sur la liste temporaire)
+		if (newClientHandler) {
+			PilotixServer.theCHTs.addAll(PilotixServer.theNewCHTs);
+			// Ajout des nouveaux vaisseaux
+			for (ClientHandlerThread myNewCHT : PilotixServer.theNewCHTs) {
+				PilotixServer.theSA.addShip(myNewCHT.getShip());
+			}
+		}
 
-        PilotixServer.theSA.nextFrame();
-        //envoye de la frame courante a tous les autre ships
-        for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
-            ClientHandlerThread CHT = (ClientHandlerThread) iter.next();
-            try {
-                CHT.sendArea();
-            } catch (Exception e) {
-                System.out.println("[SMLT] Ship "+CHT.getShip().getName()+" left The Game");
-            }
-        }
+		PilotixServer.theSA.nextFrame();
+		// Envoi de la frame courante à tous les autres ships
+		for (ClientHandlerThread myCHT : PilotixServer.theCHTs) {
+			try {
+				myCHT.sendArea();
+			} catch (Exception e) {
+				System.out.println("[SMLT] Ship " + myCHT.getShip().getName() + " left The Game");
+			}
+		}
 
-        if (newClientHandler) {
-            // envoie de tous les noms a tout les autre vaisseaux
-            for (Iterator iter2 = PilotixServer.theCHTs.iterator(); iter2.hasNext();) {
-                ClientHandlerThread CHT = (ClientHandlerThread) iter2.next();
-                info.setShipName(CHT.getShip().getId(),((ServerShip)CHT.getShip()).getName());
-                for (Iterator iter = PilotixServer.theCHTs.iterator(); iter.hasNext();) {
-                    ClientHandlerThread CHTD = (ClientHandlerThread) iter.next();
-                    try {
-                        info.write(CHTD.getMessageHandler());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        }
-                    }
-            }
+		if (newClientHandler) {
+			// Envoi de tous les noms à tous les autres vaisseaux
+			for (ClientHandlerThread mySourceCHT : PilotixServer.theCHTs) {
+				info.setShipName(mySourceCHT.getShip().getId(), mySourceCHT.getShip().getName());
+				for (ClientHandlerThread myDestinationCHT : PilotixServer.theCHTs) {
+					try {
+						info.write(myDestinationCHT.getMessageHandler());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
 
-            //effacement de la liste temporaire
-            PilotixServer.theNewCHTs.clear();
+			// effacement de la liste temporaire
+			PilotixServer.theNewCHTs.clear();
 
-            newClientHandler = false;
-            System.out.println("[SMLT] Nb Client ="+PilotixServer.theCHTs.size());
-        }
+			newClientHandler = false;
+			System.out.println("[SMLT] Nb Client =" + PilotixServer.theCHTs.size());
+		}
 
-        /*if((nbTime % messageEvery ) == 0){
-            System.out.println("test:"+lastTime+" "+System.currentTimeMillis());
-            Long e = System.currentTimeMillis()- lastTime;
-            System.out.println("test:"+(((float)e/(float)1000) /(float)messageEvery));
+		/*
+		 * if((nbTime % messageEvery ) == 0){
+		 * System.out.println("test:"+lastTime+" "+System.currentTimeMillis());
+		 * Long e = System.currentTimeMillis()- lastTime;
+		 * System.out.println("test:"+(((float)e/(float)1000)
+		 * /(float)messageEvery));
+		 * 
+		 * 
+		 * 
+		 * //System.out.println("total time to compute 1 frame : "+((float)total*
+		 * 1000 / (float)messageEvery)); nbTime=0; //total=0l; lastTime =
+		 * System.currentTimeMillis(); } nbTime++;
+		 */
+	}
 
-            //System.out.println("total time to compute 1 frame : "+((float)total*1000 / (float)messageEvery));
-            nbTime=0;
-            //total=0l;
-            lastTime = System.currentTimeMillis();
-        }
-        nbTime++;*/
-    }
-
-    public synchronized void newClient() {
-        newClientHandler = true;
-    }
+	public synchronized void newClient() {
+		newClientHandler = true;
+	}
 }

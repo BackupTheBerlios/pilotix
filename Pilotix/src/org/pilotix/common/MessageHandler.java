@@ -22,53 +22,51 @@ package org.pilotix.common;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
 /**
  * Commentaire à refaire.
  */
 public class MessageHandler {
 
-    private InputStream input;
-    private OutputStream output;
+	private InputStream input;
+	private OutputStream output;
 
-    public MessageHandler(Socket aSocket) throws Exception {
-        input = aSocket.getInputStream();
-        output = aSocket.getOutputStream();
-    }
+	public MessageHandler(Socket aSocket) throws Exception {
+		input = aSocket.getInputStream();
+		output = aSocket.getOutputStream();
+	}
 
-    public void close() {
-        try {
-            input.close();
-            output.close();
-        }
-        catch (Exception e) {
-            System.out.println("MessageHandler.close() - EXCEPTION");
-        }
-    }
+	public void close() {
+		try {
+			input.close();
+			output.close();
+		} catch (Exception e) {
+			System.out.println("MessageHandler.close() - EXCEPTION");
+		}
+	}
 
-    public void sendBytes(byte[] bytes) throws Exception{
-        output.write(bytes, 0, bytes.length);
-    }
+	public void sendBytes(byte[] bytes) throws Exception {
+		output.write(bytes, 0, bytes.length);
+	}
 
-    public void sendOneByte(byte aByte) throws Exception {
-        byte[] bytes = { aByte};
-            output.write(bytes, 0, 1);
-    }
+	public void sendOneByte(byte aByte) throws Exception {
+		byte[] bytes = { aByte };
+		output.write(bytes, 0, 1);
+	}
 
-    public byte receiveOneByte() throws Exception  {
-        byte[] result = new byte[1];
-        input.read(result, 0, 1);
-        return result[0];
-    }
+	public byte receiveOneByte() throws Exception {
+		byte[] result = new byte[1];
+		input.read(result, 0, 1);
+		return result[0];
+	}
 
-    public byte[] receiveNBytes(int nbByte) {
-        byte[] result = new byte[nbByte];
-        try {
-            input.read(result, 0, nbByte);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+	public byte[] receiveNBytes(int nbByte) {
+		byte[] result = new byte[nbByte];
+		try {
+			input.read(result, 0, nbByte);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

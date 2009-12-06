@@ -24,29 +24,29 @@ import org.pilotix.common.XMLHandler;
 
 public class Environment {
 
-    public static ResourceLocator theRL = null;
+	public static ResourceLocator theRL = null;
 
-    public static GUI theGUI = null;
-    public static ClientMainLoopThread theClientMainLoopThread = null;
-    public static Controls theControls = null;
-    public static ControlCommand controlCmd = null;
-    public static Display3D theDisplay3D = null;
-    public static ClientArea theClientArea = null;
-    public static XMLHandler theXMLConfigHandler = null;
-    public static XMLHandler theXMLHandler = null;
-    public static UserConfigHandler userConfig = null;
-    public static ClientConfigHandler clientConfig = null;
+	public static GUI theGUI = null;
+	public static ClientMainLoopThread theClientMainLoopThread = null;
+	public static Controls theControls = null;
+	public static ControlCommand controlCmd = null;
+	public static Display3D theDisplay3D = null;
+	public static ClientArea theClientArea = null;
+	public static XMLHandler theXMLConfigHandler = null;
+	public static XMLHandler theXMLHandler = null;
+	public static UserConfigHandler userConfig = null;
+	public static ClientConfigHandler clientConfig = null;
 
-    public static String theServerIP = new String("localhost");
-    public static Integer theServerPort = new Integer(9000);
+	public static String theServerIP = new String("localhost");
+	public static Integer theServerPort = new Integer(9000);
 
-    public static String dataPath = System.getProperty("pilotix.data.path")
-            + "/";
+	public static String dataPath = System.getProperty("pilotix.data.path") + "/";
 
-    public static String propertiesPath = "properties/";
-    //public static String propertiesPath = System.getProperty("pilotix.properties.path")
-    //+ "/";
+	public static String propertiesPath = "properties/";
+	// public static String propertiesPath =
+	// System.getProperty("pilotix.properties.path")
+	// + "/";
 
-    public static final float u3d = 0.01f;
-    public static boolean debug = true;
+	public static final float u3d = 0.01f;
+	public static boolean debug = true;
 }

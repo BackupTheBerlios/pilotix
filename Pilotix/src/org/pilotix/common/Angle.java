@@ -19,119 +19,97 @@
 package org.pilotix.common;
 
 /**
- * Angle en degrés compris entre 0 et 359.
- * Les angles en dehors de cette plage étant
- * ramenés dedans par un modulo.
+ * Angle en degrés compris entre 0 et 359, les angles en dehors de cette plage
+ * étant ramenés dedans par un modulo.
  */
 public class Angle {
 
-    //protected int oldDegree;
-    private float degree;
-    private int tmpDegree;
-    /**
-     * Crée un angle de valeur 0.
-     */
-    public Angle() {
-        //oldDegree = 0;
-        degree = 0;
-    }
+	private float degree;
+	private int tmpDegree;
 
-    /**
-     * Crée un angle avec la valeur d'un autre angle en paramètre.
-     *
-     * @param anAngle
-     *            un angle
-     */
-    public Angle(Angle anAngle) {
-        //set(anAngle.oldDegree);
-        set(anAngle.degree);
-    }
+	/**
+	 * Crée un angle de valeur 0.
+	 */
+	public Angle() {
+		degree = 0;
+	}
 
-    /**
-     * Crée un angle avec la valeur passée en paramètre.
-     *
-     * @param aDegree
-     *            la valeur de l'angle
-     */
-    /*public Angle(int aDegree) {
-        set((float)aDegree);
-    }*/
+	/**
+	 * Crée un angle avec la valeur d'un autre angle en paramètre.
+	 * 
+	 * @param anAngle
+	 *            un angle
+	 */
+	public Angle(Angle anAngle) {
+		set(anAngle.degree);
+	}
 
-    public Angle(float aDegree) {
-        set(aDegree);
-    }
+	/**
+	 * Crée un angle avec la valeur passée en paramètre.
+	 * 
+	 * @param aDegree
+	 *            la valeur de l'angle
+	 */
+	public Angle(float aDegree) {
+		set(aDegree);
+	}
 
-    /**
-     * Met à jour cet angle avec la valeur passée en paramètre.
-     *
-     * @param aDegree
-     *            valeur l'angle
-     */
-    /*public void set(int aDegree) {
-        if (aDegree < 0) {
-            oldDegree = aDegree % (-360);
-        } else {
-            oldDegree = aDegree % (360);
-        }
-    }*/
+	public void set(float aDegree) {
+		if (aDegree < 0) {
+			this.degree = aDegree % (-360);
+		} else {
+			this.degree = aDegree % (360);
+		}
+	}
 
-    public void set(float aDegree) {
-        if (aDegree < 0) {
-            this.degree = aDegree % (-360);
-        } else {
-            this.degree = aDegree % (360);
-        }
-    }
+	/**
+	 * Mise à jour de l'angle avec la valeur d'un autre angle.
+	 * 
+	 * @param anAngle
+	 *            l'angle dont on veut recopier la valeur
+	 */
+	public void set(Angle anAngle) {
+		degree = anAngle.degree;
+	}
 
-    /**
-     * Mise à jour de l'angle avec la valeur d'un autre angle.
-     *
-     * @param anAngle
-     *            l'angle dont on veut recopier la valeur
-     */
-    public void set(Angle anAngle) {
-        //oldDegree = anAngle.oldDegree;
-        degree = anAngle.degree;
-    }
+	/**
+	 * Récupère la valeur de l'angle.
+	 * 
+	 * @return un angle
+	 */
+	public int intValue() {
+		return (int) degree;
+	}
 
-    /**
-     * Récupère la valeur de l'angle.
-     *
-     * @return un angle
-     */
-    public int intValue() {
-        return (int)degree;
-    }
+	public float floatValue() {
+		return degree;
+	}
 
-    public float floatValue() {
-        return degree;
-    }
+	public byte[] getBytes() {
+		byte[] result = new byte[2];
 
-    public byte[] getBytes() {
-        byte[] result = new byte[2];
+		tmpDegree = (int) (degree * 100);
 
-        tmpDegree = (int)(degree*100);
+		result[0] = (byte) (((byte) (Math.abs(tmpDegree) / 256)) | (tmpDegree < 0 ? 0x80 : 0x00));
+		result[1] = (byte) (Math.abs(tmpDegree));
+		return result;
+	}
 
-        result[0]= (byte) (((byte)(Math.abs(tmpDegree) / 256))| (tmpDegree<0?0x80:0x00));
-        result[1]=(byte) (Math.abs(tmpDegree));
-        return result;
-    }
-
-    public void setBytes(byte[] bytes,int offset) {
-        tmpDegree = 0;
-        int inc = 1;
-        int inc2 = 256;
-        for (int i = 0; i < 8; i++) {
-            // most left bit code negative
-            if(i==7&&((byte) (bytes[offset] >> i) & 0x01)==1){
-                tmpDegree *= -1;
-            }else{
-                tmpDegree += ((byte) (bytes[offset] >> i) & 0x01) * inc2;
-            }
-            tmpDegree += ((byte) (bytes[offset+1] >> i) & 0x01) * inc;
-            inc = inc << 1;
-            inc2 = inc2 << 1;
-        }
-        degree = tmpDegree/100;
-    }
+	public void setBytes(byte[] bytes, int offset) {
+		tmpDegree = 0;
+		int inc = 1;
+		int inc2 = 256;
+		for (int i = 0; i < 8; i++) {
+			// most left bit code negative
+			if (i == 7 && ((byte) (bytes[offset] >> i) & 0x01) == 1) {
+				tmpDegree *= -1;
+			} else {
+				tmpDegree += ((byte) (bytes[offset] >> i) & 0x01) * inc2;
+			}
+			tmpDegree += ((byte) (bytes[offset + 1] >> i) & 0x01) * inc;
+			inc = inc << 1;
+			inc2 = inc2 << 1;
+		}
+		degree = tmpDegree / 100;
+	}
 }

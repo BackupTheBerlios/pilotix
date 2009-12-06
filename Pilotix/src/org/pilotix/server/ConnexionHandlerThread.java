@@ -28,49 +28,48 @@ import java.net.SocketException;
 
 public class ConnexionHandlerThread extends Thread {
 
-    ServerSocket serverSocket;
-    private boolean quit = false;
+	ServerSocket serverSocket;
+	private boolean quit = false;
 
-    public ConnexionHandlerThread(int aPort) throws Exception {
-        //System.out.println("[ConnexionHandler] Launched ");
-        serverSocket = new ServerSocket(aPort);
-    }
+	public ConnexionHandlerThread(int aPort) throws Exception {
+		// System.out.println("[ConnexionHandler] Launched ");
+		serverSocket = new ServerSocket(aPort);
+	}
 
-    public void run() {
-        while (!quit) {
-            try {
-                //PilotixServer.theIH.needToWait();
-                Socket socket = serverSocket.accept();
-                //System.out.println(socket.getInetAddress()+":"+socket.getPort());
-                new ClientHandlerThread(PilotixServer.theIH.getId(),
-                        new MessageHandler(socket)).start();
-            } catch (SocketException se) {
-                System.out.println("[ConnexionHandlerThread.run()] Exception normale (fermeture de serverSocket alors qu'on était dans ServerSocket.accept()");
-            } catch (Exception e) {
-                System.out.println("[ConnexionHandlerThread.run()] Exception anormale");
-                e.printStackTrace();
-            }
-        }
-    }
+	public void run() {
+		while (!quit) {
+			try {
+				// PilotixServer.theIH.needToWait();
+				Socket socket = serverSocket.accept();
+				// System.out.println(socket.getInetAddress()+":"+socket.getPort());
+				new ClientHandlerThread(PilotixServer.theIH.getId(), new MessageHandler(socket)).start();
+			} catch (SocketException se) {
+				System.out.println("[ConnexionHandlerThread.run()] Exception normale (fermeture de serverSocket alors qu'on était dans ServerSocket.accept()");
+			} catch (Exception e) {
+				System.out.println("[ConnexionHandlerThread.run()] Exception anormale");
+				e.printStackTrace();
+			}
+		}
+	}
 
-    public void endGame() {
-        quit = true;
-        try {
-            serverSocket.close();
-            System.out.println("[ConnexionHandlerThread.endGame()] serverSocket fermée");
-        } catch (Exception e) {
-            System.out.println("[ConnexionHandlerThread.endGame()] Exception sur serverSocket.close() :");
-            e.printStackTrace();
-        }
-    }
+	public void endGame() {
+		quit = true;
+		try {
+			serverSocket.close();
+			System.out.println("[ConnexionHandlerThread.endGame()] serverSocket fermée");
+		} catch (Exception e) {
+			System.out.println("[ConnexionHandlerThread.endGame()] Exception sur serverSocket.close() :");
+			e.printStackTrace();
+		}
+	}
 
-    /*
-     * public int getId(){ if (nbmax == nb){ return -1; } int i = 0;
-     * while(tab[i] == true){ i++; } tab[i] = true; nb++;
-     * System.out.println("Nb players :"+nb); return i; }
-     *
-     * public void giveBackId(int indice) { tab[indice] = false; nb--;
-     * System.out.println("players "+indice+" give back his Id");
-     * System.out.println("Nb players :"+nb);
-     */
+	/*
+	 * public int getId(){ if (nbmax == nb){ return -1; } int i = 0;
+	 * while(tab[i] == true){ i++; } tab[i] = true; nb++;
+	 * System.out.println("Nb players :"+nb); return i; }
+	 * 
+	 * public void giveBackId(int indice) { tab[indice] = false; nb--;
+	 * System.out.println("players "+indice+" give back his Id");
+	 * System.out.println("Nb players :"+nb);
+	 */
 }

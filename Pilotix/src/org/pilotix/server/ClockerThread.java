@@ -21,35 +21,34 @@ package org.pilotix.server;
 
 public class ClockerThread extends Thread {
 
-    private int framePerSecond;
-    private ServerMainLoopThread serverMainLoopThread;
-    private boolean quit = false;
+	private int framePerSecond;
+	private ServerMainLoopThread serverMainLoopThread;
+	private boolean quit = false;
 
-    public ClockerThread(int fps, ServerMainLoopThread aServerMainLoopThread)
-            throws Exception {
-        framePerSecond = fps;
-        System.out.println("[ClockerThread] Frames/s = "+framePerSecond);
-        serverMainLoopThread = aServerMainLoopThread;
-    }
+	public ClockerThread(int fps, ServerMainLoopThread aServerMainLoopThread) throws Exception {
+		framePerSecond = fps;
+		System.out.println("[ClockerThread] Frames/s = " + framePerSecond);
+		serverMainLoopThread = aServerMainLoopThread;
+	}
 
-    public void run() {
-        quit = false;
-        while (!quit) {
-            /*
-             * switch (i){ case 0 : System.out.print(" \\ \r");break; case 1 :
-             * System.out.print(" | \r");break; case 2 : System.out.print(" /
-             * \r");break; case 3 : System.out.print(" - \r");break; } i++;
-             */
-            serverMainLoopThread.run();
-            try {
-                sleep(1000 / framePerSecond);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	public void run() {
+		quit = false;
+		while (!quit) {
+			/*
+			 * switch (i){ case 0 : System.out.print(" \\ \r");break; case 1 :
+			 * System.out.print(" | \r");break; case 2 : System.out.print(" /
+			 * \r");break; case 3 : System.out.print(" - \r");break; } i++;
+			 */
+			serverMainLoopThread.run();
+			try {
+				sleep(1000 / framePerSecond);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    public void endGame() {
-        quit = true;
-    }
+	public void endGame() {
+		quit = true;
+	}
 }

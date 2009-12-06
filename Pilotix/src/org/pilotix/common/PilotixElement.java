@@ -19,46 +19,47 @@
 package org.pilotix.common;
 
 /**
- * Cette classe est la classe parente de toutes les classes
- * qui définissent des objets physiques du jeu.
- *
+ * Cette classe est la classe parente de toutes les classes qui définissent des
+ * objets physiques du jeu.
+ * 
  * @author Florent Sithimolada
  */
 public abstract class PilotixElement {
 
-    protected int id;
-    protected int states;
-    protected Vector position = new Vector();
+	protected int id;
+	protected int states;
+	protected Vector position = new Vector();
 
-    public PilotixElement() {
-    };
+	public PilotixElement() {
+	};
 
-    public PilotixElement(int id, int states, Vector position) {
-        this.id = id;
-        this.states = states;
-        this.position.set(position);
-    };
+	public PilotixElement(int id, int states, Vector position) {
+		this.id = id;
+		this.states = states;
+		this.position.set(position);
+	};
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public Vector getPosition() {
-        return position;
-    }
+	public Vector getPosition() {
+		return position;
+	}
 
-    /**
-     * @param state The state to set.
-     */
-    public void setStates(int state) {
-        this.states = state;
-    }
+	/**
+	 * @param state
+	 *            The state to set.
+	 */
+	public void setStates(int state) {
+		this.states = state;
+	}
 
-    /**
-     * @return Returns the state.
-     */
-    public int getStates() {
-        return states;
-    }
+	/**
+	 * @return Returns the state.
+	 */
+	public int getStates() {
+		return states;
+	}
 
 }

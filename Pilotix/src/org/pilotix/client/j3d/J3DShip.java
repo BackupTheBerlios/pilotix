@@ -47,118 +47,92 @@ import javax.vecmath.Vector3f;
  * quel joueur et peut afficher n'importe quel équipement. Pour l'aspect
  * non-graphique d'un vaisseau, voir la classe Ship.
  * </p>
- *
+ * 
  * <p>
- * Techniquement, cette classe hérite de J3DObject.
- * Optionnellement, comme avec tous les J3DObject, une J3DCamera peut être
- * ajoutée et elle suivra alors le J3DShip. Voir la classe J3DCamera pour plus
- * d'informations sur les caméras.
+ * Techniquement, cette classe hérite de J3DObject. Optionnellement, comme avec
+ * tous les J3DObject, une J3DCamera peut être ajoutée et elle suivra alors le
+ * J3DShip. Voir la classe J3DCamera pour plus d'informations sur les caméras.
  * </p>
- *
+ * 
  * @see J3DObject
  * @see org.pilotix.common.Ship
  * @see J3DCamera
- *
+ * 
  * @author Grégoire Colbert
  */
 public class J3DShip extends J3DObject {
-    public Light[] lights;
+	public Light[] lights;
 
-    /**
-     * Crée une représentation 3D d'un vaisseau.
-     */
-    public J3DShip(String shipShapeURL, Color3f aShipColor) {
-        super(shipShapeURL, aShipColor);
+	/**
+	 * Crée une représentation 3D d'un vaisseau.
+	 */
+	public J3DShip(String shipShapeURL, Color3f aShipColor) {
+		super(shipShapeURL, aShipColor);
 
-        lights = new Light[3];
+		lights = new Light[3];
 
-        // Creation de deux phares blancs a l'avant du vaisseau
-        float spotRange = 150.0f;
-        Point3d leftSpotPosition = new Point3d(-0.5f, 0.0f, 2.5f);
-        BoundingSphere leftSpotBounds = new BoundingSphere(
-                                        leftSpotPosition,spotRange);
-        lights[0] = new SpotLight(
-                                new Color3f(1.0f, 1.0f, 1.0f),
-                                new Point3f(leftSpotPosition),
-                                new Point3f(1.0f, 0.0f, 0.0003f),
-                                new Vector3f(0.0f, 1.0f, 0.1f),
-                                (float) java.lang.Math.PI / 6,
-                                16.0f);
-        lights[0].setInfluencingBounds(leftSpotBounds);
-        rotationTG.addChild(lights[0]);
+		// Creation de deux phares blancs a l'avant du vaisseau
+		float spotRange = 150.0f;
+		Point3d leftSpotPosition = new Point3d(-0.5f, 0.0f, 2.5f);
+		BoundingSphere leftSpotBounds = new BoundingSphere(leftSpotPosition, spotRange);
+		lights[0] = new SpotLight(new Color3f(1.0f, 1.0f, 1.0f), new Point3f(leftSpotPosition), new Point3f(1.0f, 0.0f, 0.0003f), new Vector3f(0.0f, 1.0f, 0.1f), (float) java.lang.Math.PI / 6, 16.0f);
+		lights[0].setInfluencingBounds(leftSpotBounds);
+		rotationTG.addChild(lights[0]);
 
-        Point3d rightSpotPosition = new Point3d(0.5f, 0.0f, 2.5f);
-        BoundingSphere rightSpotBounds = new BoundingSphere(
-                                         rightSpotPosition, spotRange);
-        lights[1] = new SpotLight(
-                                new Color3f(1.0f, 1.0f, 1.0f),
-                                new Point3f(rightSpotPosition),
-                                new Point3f(1.0f, 0.0f, 0.0003f),
-                                new Vector3f(0.0f, 1.0f, 0.1f),
-                                (float) java.lang.Math.PI / 6,
-                                16.0f);
-        lights[1].setInfluencingBounds(rightSpotBounds);
-        rotationTG.addChild(lights[1]);
+		Point3d rightSpotPosition = new Point3d(0.5f, 0.0f, 2.5f);
+		BoundingSphere rightSpotBounds = new BoundingSphere(rightSpotPosition, spotRange);
+		lights[1] = new SpotLight(new Color3f(1.0f, 1.0f, 1.0f), new Point3f(rightSpotPosition), new Point3f(1.0f, 0.0f, 0.0003f), new Vector3f(0.0f, 1.0f, 0.1f), (float) java.lang.Math.PI / 6, 16.0f);
+		lights[1].setInfluencingBounds(rightSpotBounds);
+		rotationTG.addChild(lights[1]);
 
-        // Lumiere du reacteur
-        Point3d reactorLightPosition = new Point3d(0.0f, -3.0f, 0.0f);
-        BoundingSphere reactorLightBounds = new BoundingSphere(
-                                            reactorLightPosition, 50.0f);
-        lights[2] = new SpotLight(
-                new Color3f(1.0f, 0.0f, 0.0f),
-                new Point3f(reactorLightPosition),
-                new Point3f(1.0f, 0.01f, 0.001f),
-                new Vector3f(0.0f, -1.0f, 0.1f),
-                (float) java.lang.Math.PI / 8,
-                32.0f);
-        lights[2].setInfluencingBounds(reactorLightBounds);
-        rotationTG.addChild(lights[2]);
+		// Lumiere du reacteur
+		Point3d reactorLightPosition = new Point3d(0.0f, -3.0f, 0.0f);
+		BoundingSphere reactorLightBounds = new BoundingSphere(reactorLightPosition, 50.0f);
+		lights[2] = new SpotLight(new Color3f(1.0f, 0.0f, 0.0f), new Point3f(reactorLightPosition), new Point3f(1.0f, 0.01f, 0.001f), new Vector3f(0.0f, -1.0f, 0.1f), (float) java.lang.Math.PI / 8, 32.0f);
+		lights[2].setInfluencingBounds(reactorLightBounds);
+		rotationTG.addChild(lights[2]);
 
-        // Lumiere du cockpit de la couleur du joueur
-        Point3d cockpitLightPosition = new Point3d(0.0f, 0.0f, 5.0f);
-        BoundingSphere cockpitLightBounds = new BoundingSphere(
-                                            cockpitLightPosition, 30.0f);
-        Light cockpitLight = new PointLight(
-                true,
-                //aShipColor,
-                new Color3f(0.3f, 0.3f, 0.3f),
-                new Point3f(cockpitLightPosition),
-                new Point3f(1.0f, 0.0f,0.009f));
-        cockpitLight.setInfluencingBounds(cockpitLightBounds);
-        rotationTG.addChild(cockpitLight);
+		// Lumiere du cockpit de la couleur du joueur
+		Point3d cockpitLightPosition = new Point3d(0.0f, 0.0f, 5.0f);
+		BoundingSphere cockpitLightBounds = new BoundingSphere(cockpitLightPosition, 30.0f);
+		Light cockpitLight = new PointLight(true,
+		// aShipColor,
+				new Color3f(0.3f, 0.3f, 0.3f), new Point3f(cockpitLightPosition), new Point3f(1.0f, 0.0f, 0.009f));
+		cockpitLight.setInfluencingBounds(cockpitLightBounds);
+		rotationTG.addChild(cockpitLight);
 
-/*
-        Fog fog = new LinearFog(new Color3f(0.0f,0.9f,0.0f),1.0f,200.0f);
-        rotationTG.addChild(fog);
-*/
+		/*
+		 * Fog fog = new LinearFog(new Color3f(0.0f,0.9f,0.0f),1.0f,200.0f);
+		 * rotationTG.addChild(fog);
+		 */
 
-    }
+	}
 
-    /**
-     * Cette fonction affiche le nom du joueur à côté de son vaisseau
-     * @param aName le nom du joueur
-     */
-    public void setPlayerName(String aName) {
-        Appearance textAppear = new Appearance();
-        textAppear.setMaterial(new Material());
-        Font3D font3D = new Font3D(
-                            new Font("Lucida sans", Font.PLAIN, 4),
-                            new FontExtrusion());
-        Text3D textGeom = new Text3D(font3D, aName);
-        textGeom.setAlignment(Text3D.ALIGN_CENTER);
-        Shape3D textShape = new Shape3D();
-        textShape.setGeometry(textGeom);
-        textShape.setAppearance(textAppear);
-        BranchGroup br = new BranchGroup();
-        //rotationTG.addChild(br);
+	/**
+	 * Cette fonction affiche le nom du joueur à côté de son vaisseau
+	 * 
+	 * @param aName
+	 *            le nom du joueur
+	 */
+	public void setPlayerName(String aName) {
+		Appearance textAppear = new Appearance();
+		textAppear.setMaterial(new Material());
+		Font3D font3D = new Font3D(new Font("Lucida sans", Font.PLAIN, 4), new FontExtrusion());
+		Text3D textGeom = new Text3D(font3D, aName);
+		textGeom.setAlignment(Text3D.ALIGN_CENTER);
+		Shape3D textShape = new Shape3D();
+		textShape.setGeometry(textGeom);
+		textShape.setAppearance(textAppear);
+		BranchGroup br = new BranchGroup();
+		// rotationTG.addChild(br);
 
-        TransformGroup littleTranslate = new TransformGroup();
-        Transform3D t3d = new Transform3D();
-        t3d.setTranslation(new Vector3d(10f,10f,0f));
-        littleTranslate.setTransform(t3d);
-        littleTranslate.addChild(textShape);
-        br.addChild(littleTranslate);
-        translationTG.addChild(br);
-    }
+		TransformGroup littleTranslate = new TransformGroup();
+		Transform3D t3d = new Transform3D();
+		t3d.setTranslation(new Vector3d(10f, 10f, 0f));
+		littleTranslate.setTransform(t3d);
+		littleTranslate.addChild(textShape);
+		br.addChild(littleTranslate);
+		translationTG.addChild(br);
+	}
 
 }

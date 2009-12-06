@@ -33,33 +33,32 @@ import javax.media.j3d.Canvas3D;
  * @see J3DCamera
  * @see BranchGroup
  * @see Canvas3D
- *  
+ * 
  */
 public class J3DMinimap extends BranchGroup {
 
-    private J3DCamera camera = null;
+	private J3DCamera camera = null;
 
-    /**
-     * Crée une caméra et affiche ce qu'elle voit dans le Canvas3D fourni.
-     * 
-     * @param aCanvas3D
-     *            le Canvas3D auquel relier la caméra
-     */
-    public J3DMinimap(Canvas3D aCanvas3D, float aX, float aY) {
-        setCapability(BranchGroup.ALLOW_DETACH);
-        camera = new J3DCamera(aCanvas3D);
-        addChild(camera);
-        camera.setCoordinates(aX, aY, (float) camera.getView()
-                .getBackClipDistance());
-        compile();
-    }
+	/**
+	 * Crée une caméra et affiche ce qu'elle voit dans le Canvas3D fourni.
+	 * 
+	 * @param aCanvas3D
+	 *            le Canvas3D auquel relier la caméra
+	 */
+	public J3DMinimap(Canvas3D aCanvas3D, float aX, float aY) {
+		setCapability(BranchGroup.ALLOW_DETACH);
+		camera = new J3DCamera(aCanvas3D);
+		addChild(camera);
+		camera.setCoordinates(aX, aY, (float) camera.getView().getBackClipDistance());
+		compile();
+	}
 
-    /**
-     * Renvoie la caméra associée à cette mini-carte.
-     * 
-     * @return la caméra
-     */
-    public J3DCamera getCamera() {
-        return camera;
-    }
+	/**
+	 * Renvoie la caméra associée à cette mini-carte.
+	 * 
+	 * @return la caméra
+	 */
+	public J3DCamera getCamera() {
+		return camera;
+	}
 }

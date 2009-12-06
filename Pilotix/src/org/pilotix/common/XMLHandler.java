@@ -24,87 +24,66 @@ import javax.xml.parsers.*;
 import java.net.URL;
 
 /**
- * Cette classe sert à construire un Document DOM à partir de l'URL d'un
- * fichier écrit en XML. Pour le moment elle contient également quelques
- * paramètres du client, qui seront déplacés par la suite.
- *
+ * Cette classe sert à construire un Document DOM à partir de l'URL d'un fichier
+ * écrit en XML. Pour le moment elle contient également quelques paramètres du
+ * client, qui seront déplacés par la suite.
+ * 
  * @author Loïc Guibart
  * @author Grégoire Colbert
- *
+ * 
  * @see org.w3c.dom.Document
  */
 public class XMLHandler {
 
-    private boolean isValid = false;
-    private static  DocumentBuilder docBuilder;
+	private static DocumentBuilder docBuilder;
 
-    /**
-     * Construit une représentation DOM d'un fichier XML à partir de son URL.
-     * Par la suite ce constructeur ne prendra plus de paramètre...
-     *
-     * @param fileURL
-     *            l'URL du nom du fichier XML à charger
-     */
-    public XMLHandler(URL fileURL) {
-        try {
-            DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-                    .newInstance();
-            // l'URL de la DTD est indiquée dans le fichier XML,
-            // invérifiable dans le cas d'un fichier XML situé dans un JAR
-            //builderFactory.setValidating(true);
-            builderFactory.setValidating(false);
-            docBuilder = builderFactory.newDocumentBuilder();
+	/**
+	 * Construit une représentation DOM d'un fichier XML à partir de son URL.
+	 * Par la suite ce constructeur ne prendra plus de paramètre...
+	 * 
+	 * @param fileURL
+	 *            l'URL du nom du fichier XML à charger
+	 */
+	public XMLHandler(URL fileURL) {
+		try {
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+			// l'URL de la DTD est indiquée dans le fichier XML,
+			// invérifiable dans le cas d'un fichier XML situé dans un JAR
+			// builderFactory.setValidating(true);
+			builderFactory.setValidating(false);
+			docBuilder = builderFactory.newDocumentBuilder();
 
-            Document document = docBuilder.parse(fileURL.openStream());
-            isValid = true;
-        } catch (Exception e) {
-            System.out.println("[XMLHandler(URL)]" + e.getMessage());
-        }
-    }
+			//Document document = docBuilder.parse(fileURL.openStream());
+		} catch (Exception e) {
+			System.out.println("[XMLHandler(URL)]" + e.getMessage());
+		}
+	}
 
-    public XMLHandler() {
-        try {
-            DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-                    .newInstance();
-            builderFactory.setValidating(false);
-            docBuilder = builderFactory.newDocumentBuilder();
-        } catch (Exception e) {
-            System.out.println("[XMLHandler()]" + e.getMessage());
-        }
-    }
+	public XMLHandler() {
+		try {
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+			builderFactory.setValidating(false);
+			docBuilder = builderFactory.newDocumentBuilder();
+		} catch (Exception e) {
+			System.out.println("[XMLHandler()]" + e.getMessage());
+		}
+	}
 
-    /**
-     * Parse un fichier XML et renvoie le Document correspondant.
-     * 
-     * @param fileURL
-     *            URL du fichier XML à parser.
-     * @return L'objet org.w3c.dom.Document correspondant au contenu du fichier
-     *         XML
-     */
-    public Document getDocumentFromURL(URL fileURL) {
-        try {
-            return docBuilder.parse(fileURL.openStream());
-        } catch (Exception e) {
-            e.printStackTrace();
-            //System.out.println("[XMLHandler.getDocumentFromURL]" + e.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Parse un fichier XML et renvoie le Document correspondant.
-     *
-     * @param uri
-     *            adresse/nom du fichier XML à parser.
-     * @return L'objet org.w3c.dom.Document correspondant au contenu du fichier
-     *         XML
-     */
-    /*public static Document getDocumentFromFile(String uri) {
-        try {
-            return docBuilder.parse(uri);
-        } catch (Exception e) {
-            System.out.println("[XMLHandler.getDocumentFromFile]" + e.getMessage());
-            return null;
-        }
-    }*/
+	/**
+	 * Parse un fichier XML et renvoie le Document correspondant.
+	 * 
+	 * @param fileURL
+	 *            URL du fichier XML à parser.
+	 * @return L'objet org.w3c.dom.Document correspondant au contenu du fichier
+	 *         XML
+	 */
+	public Document getDocumentFromURL(URL fileURL) {
+		try {
+			return docBuilder.parse(fileURL.openStream());
+		} catch (Exception e) {
+			e.printStackTrace();
+			// System.out.println("[XMLHandler.getDocumentFromURL]" + e.getMessage());
+			return null;
+		}
+	}
 }

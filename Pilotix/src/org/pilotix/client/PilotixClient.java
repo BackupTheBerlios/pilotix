@@ -26,9 +26,9 @@ import org.pilotix.common.XMLHandler;
 
 /**
  * La classe qui crée le client.
- *
+ * 
  * @author Grégoire Colbert
- *
+ * 
  * @see XMLHandler
  * @see ClientArea
  * @see Controls
@@ -38,46 +38,47 @@ import org.pilotix.common.XMLHandler;
  */
 public class PilotixClient {
 
-    /**
-     * Crée tous les composants fondamentaux du client.
-     */
-    public PilotixClient() {
-        Environment.theRL = new ResourceLocator(Environment.dataPath);
+	/**
+	 * Crée tous les composants fondamentaux du client.
+	 */
+	public PilotixClient() {
+		Environment.theRL = new ResourceLocator(Environment.dataPath);
 
-        /*Environment.theXMLConfigHandler = new XMLHandler(Environment.theRL
-                .getResource(ResourceLocator.CONFIG,
-                        "pilotix-client-config.xml"));*/
+		/*
+		 * Environment.theXMLConfigHandler = new XMLHandler(Environment.theRL
+		 * .getResource(ResourceLocator.CONFIG, "pilotix-client-config.xml"));
+		 */
 
-        Environment.theXMLHandler = new XMLHandler();
+		Environment.theXMLHandler = new XMLHandler();
 
-        /*
-         * test du fonctionnement de UserConfigHandler à terme il faudra une
-         * fenetre de selection de l'utilisateur avant de créer userConfig
-         */
-        Environment.clientConfig = new ClientConfigHandler();
-        Environment.userConfig = new UserConfigHandler("Florent");
-        //System.out.println(Environment.userConfig.getKeymap());
-        //System.out.println(Environment.userConfig.getPlugInVars("AutoPilot"));
+		/*
+		 * test du fonctionnement de UserConfigHandler à terme il faudra une
+		 * fenetre de selection de l'utilisateur avant de créer userConfig
+		 */
+		Environment.clientConfig = new ClientConfigHandler();
+		Environment.userConfig = new UserConfigHandler("Florent");
+		// System.out.println(Environment.userConfig.getKeymap());
+		// System.out.println(Environment.userConfig.getPlugInVars("AutoPilot"));
 
-        Environment.theControls = new Controls();
+		Environment.theControls = new Controls();
 
-        Environment.theClientArea = new ClientArea();
+		Environment.theClientArea = new ClientArea();
 
-        Environment.theDisplay3D = new Display3D();
+		Environment.theDisplay3D = new Display3D();
 
-        Environment.theGUI = new GUI();
+		Environment.theGUI = new GUI();
 
-        Environment.theControls.setMainFrame(Environment.theGUI);
-        Environment.controlCmd = new ControlCommand();
+		Environment.theControls.setMainFrame(Environment.theGUI);
+		Environment.controlCmd = new ControlCommand();
 
-    }
+	}
 
-    /**
-     * Crée une instance de la classe PilotixClient.
-     */
-    public static void main(String[] args) throws Exception{
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        new PilotixClient();
-    }
+	/**
+	 * Crée une instance de la classe PilotixClient.
+	 */
+	public static void main(String[] args) throws Exception {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		new PilotixClient();
+	}
 
 }

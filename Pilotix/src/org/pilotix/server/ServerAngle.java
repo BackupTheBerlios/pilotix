@@ -23,37 +23,37 @@ import org.pilotix.common.*;
 
 public class ServerAngle extends Angle {
 
-    private double directionX;
-    private double directionY;
+	private double directionX;
+	private double directionY;
 
-    public ServerAngle() {
-        super();
-    }
+	public ServerAngle() {
+		super();
+	}
 
-    public ServerAngle(int aDegree) {
-        super(aDegree);
-        set(aDegree);
-    }
+	public ServerAngle(int aDegree) {
+		super(aDegree);
+		set(aDegree);
+	}
 
-    public void set(float aDegree) {
-        super.set(aDegree);
-        directionX = Math.sin(Math.toRadians(this.floatValue()));
-        directionY = Math.cos(Math.toRadians(this.floatValue()));
-    }
+	public void set(float aDegree) {
+		super.set(aDegree);
+		directionX = Math.sin(Math.toRadians(this.floatValue()));
+		directionY = Math.cos(Math.toRadians(this.floatValue()));
+	}
 
-    public double getX() {
-        return directionX;
-    }
+	public double getX() {
+		return directionX;
+	}
 
-    public double getY() {
-        return directionY;
-    }
+	public double getY() {
+		return directionY;
+	}
 
-    public void plus(Angle anAngle) {
-        if ((this.floatValue() + anAngle.floatValue()) < 0) {
-            set(((this.floatValue() + anAngle.floatValue()) % -360) + 360);
-        } else {
-            set(this.floatValue() + anAngle.floatValue());
-        }
-    }
+	public void plus(Angle anAngle) {
+		if ((this.floatValue() + anAngle.floatValue()) < 0) {
+			set(((this.floatValue() + anAngle.floatValue()) % -360) + 360);
+		} else {
+			set(this.floatValue() + anAngle.floatValue());
+		}
+	}
 }

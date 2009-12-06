@@ -20,33 +20,31 @@
 package org.pilotix.client;
 
 import org.pilotix.common.Ship;
+
 //import org.pilotix.common.Vector;
 //import org.pilotix.common.Angle;
 
 public class ClientShip extends Ship {
 
-    public ClientShip() {
-        super();
-    }
+	public ClientShip() {
+		super();
+	}
 
-    /*
-     * public ClientShip(int aShipId, Vector aPosition, Angle aDirection, int
-     * theStates){ super(aShipId,aPosition,aDirection,theStates);
-     */
+	/*
+	 * public ClientShip(int aShipId, Vector aPosition, Angle aDirection, int
+	 * theStates){ super(aShipId,aPosition,aDirection,theStates);
+	 */
 
-    /*
-     * public ClientShip(Ship aShip){
-     * super(aShip.getId(),aShip.getPosition(),aShip.getDirection(),aShip.getStates());
-     *  
-     */
+	/*
+	 * public ClientShip(Ship aShip){
+	 * super(aShip.getId(),aShip.getPosition(),aShip
+	 * .getDirection(),aShip.getStates());
+	 */
 
-    /*public void set(int aShipId, Vector aPosition, Angle aDirection,
-            int theStates) {
-        id = aShipId;
-        states = theStates;
-        position.set(aPosition);
-        direction.set(aDirection);
-    }*/
+	/*
+	 * public void set(int aShipId, Vector aPosition, Angle aDirection, int
+	 * theStates) { id = aShipId; states = theStates; position.set(aPosition);
+	 * direction.set(aDirection); }
+	 */
 
 }
-  

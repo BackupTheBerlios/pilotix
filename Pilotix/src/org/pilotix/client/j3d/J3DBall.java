@@ -28,25 +28,24 @@ import org.pilotix.common.Vector;
  */
 public class J3DBall extends J3DObject {
 
-    /**
-     * Construit une balle.
-     */
-    public J3DBall(Vector position, int altitude) {
+	/**
+	 * Construit une balle.
+	 */
+	public J3DBall(Vector position, int altitude) {
 
-        super();
+		super();
 
-        // --------------------
-        // GEOMETRIE : une sphère
-        com.sun.j3d.utils.geometry.Sphere aSphere =
-            new com.sun.j3d.utils.geometry.Sphere(1.0f);
+		// --------------------
+		// GEOMETRIE : une sphère
+		com.sun.j3d.utils.geometry.Sphere aSphere = new com.sun.j3d.utils.geometry.Sphere(1.0f);
 
-        // --------------------
-        // POSITIONNEMENT DE L'OBJET DANS LA SCENE
-        rotationTG.addChild(aSphere);
-        this.setPosition(position);
-        this.setAltitude(altitude);
+		// --------------------
+		// POSITIONNEMENT DE L'OBJET DANS LA SCENE
+		rotationTG.addChild(aSphere);
+		this.setPosition(position);
+		this.setAltitude(altitude);
 
-        this.compile();
-        //System.out.println("J3DBall construite");
-    }
+		this.compile();
+		// System.out.println("J3DBall construite");
+	}
 }

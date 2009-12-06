@@ -21,47 +21,46 @@ package org.pilotix.server;
 
 public class IdHandler {
 
-    private int nbId;
-    private int nbMaxId;
-    private boolean[] tab;
+	private int nbId;
+	private int nbMaxId;
+	private boolean[] tab;
 
-    public IdHandler() {
-        nbId = 0;
-        nbMaxId = 0;
-    }
+	public IdHandler() {
+		nbId = 0;
+		nbMaxId = 0;
+	}
 
-    public void setNbMaxIds(int nb){
-        nbMaxId = nb;
-        tab = new boolean[nbMaxId];
-    }
+	public void setNbMaxIds(int nb) {
+		nbMaxId = nb;
+		tab = new boolean[nbMaxId];
+	}
 
-    /*public synchronized void needToWait() throws InterruptedException {
-        if (nbMaxId == nbId) {
-            wait();
-        }
-    }*/
+	/*
+	 * public synchronized void needToWait() throws InterruptedException { if
+	 * (nbMaxId == nbId) { wait(); } }
+	 */
 
-    public synchronized int getId() {
-        int i = 0;
-        while (tab[i] == true) {
-            i++;
-        }
-        tab[i] = true;
-        nbId++;
-        System.out.println("[IdHandler.getId()] Nouvel Id attribué : " + i);
-        return i;
-    }
+	public synchronized int getId() {
+		int i = 0;
+		while (tab[i] == true) {
+			i++;
+		}
+		tab[i] = true;
+		nbId++;
+		System.out.println("[IdHandler.getId()] Nouvel Id attribué : " + i);
+		return i;
+	}
 
-    public synchronized void giveBackId(int indice) throws InterruptedException {
-        tab[indice] = false;
-        if (nbMaxId == nbId) {
-            nbId--;
-            //notify();
+	public synchronized void giveBackId(int indice) throws InterruptedException {
+		tab[indice] = false;
+		if (nbMaxId == nbId) {
+			nbId--;
+			// notify();
 
-        } else {
-            nbId--;
-        }
-        System.out.println("[IdHandler.giveBackId()] Joueur id=" + indice + " a rendu son Id");
-        System.out.println("[IdHandler.giveBackId()] Nombre de joueurs : " + nbId);
-    }
+		} else {
+			nbId--;
+		}
+		System.out.println("[IdHandler.giveBackId()] Joueur id=" + indice + " a rendu son Id");
+		System.out.println("[IdHandler.giveBackId()] Nombre de joueurs : " + nbId);
+	}
 }
