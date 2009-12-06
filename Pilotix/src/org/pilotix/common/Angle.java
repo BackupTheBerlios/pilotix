@@ -19,8 +19,8 @@
 package org.pilotix.common;
 
 /**
- * Angle en degrés compris entre 0 et 359,
- * les angles en dehors de cette plage étant
+ * Angle en degrés compris entre 0 et 359.
+ * Les angles en dehors de cette plage étant
  * ramenés dedans par un modulo.
  */
 public class Angle {
