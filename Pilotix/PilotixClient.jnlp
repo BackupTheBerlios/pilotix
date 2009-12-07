@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="0.2 1.0" codebase="http://pilotix.berlios.de/" href="root/Pilotix/PilotixClient.jnlp">
+<jnlp spec="0.2 1.0" codebase="http://pilotix.berlios.de/" href="workspace/Pilotix/PilotixClient.jnlp">
   <information>
     <title>Pilotix (client)</title>
     <vendor>Pilotix.org</vendor>
@@ -15,9 +15,9 @@
   <resources>
     <j2se version="1.5+" />
     <extension name="Java3D" href="http://download.java.net/media/java3d/webstart/release/java3d-latest.jnlp"/>
-    <jar href="root/Pilotix/dist/PilotixClient.jar" main="true" />
-    <jar href="root/Pilotix/dist/PilotixCommon.jar" />
-    <jar href="root/Pilotix/dist/PilotixData.jar" />
+    <jar href="workspace/Pilotix/dist/PilotixClient.jar" main="true" />
+    <jar href="workspace/Pilotix/dist/PilotixCommon.jar" />
+    <jar href="workspace/Pilotix/dist/PilotixData.jar" />
     <property name="pilotix.data.path" value="data" />
   </resources>
   <application-desc main-class="org.pilotix.client.PilotixClient" />

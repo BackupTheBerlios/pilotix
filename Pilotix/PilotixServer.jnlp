@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="0.2 1.0" codebase="http://pilotix.berlios.de/" href="root/Pilotix/PilotixServer.jnlp">
+<jnlp spec="0.2 1.0" codebase="http://pilotix.berlios.de/" href="workspace/Pilotix/PilotixServer.jnlp">
   <information>
     <title>Pilotix (server)</title>
     <vendor>Pilotix.org</vendor>
@@ -14,9 +14,9 @@
   </security>
   <resources>
     <j2se version="1.5+" />
-    <jar href="root/Pilotix/dist/PilotixServer.jar" main="true" />
-    <jar href="root/Pilotix/dist/PilotixCommon.jar" />
-    <jar href="root/Pilotix/dist/PilotixData.jar" />
+    <jar href="workspace/Pilotix/dist/PilotixServer.jar" main="true" />
+    <jar href="workspace/Pilotix/dist/PilotixCommon.jar" />
+    <jar href="workspace/Pilotix/dist/PilotixData.jar" />
     <property name="pilotix.data.path" value="data" />
   </resources>
   <application-desc main-class="org.pilotix.server.PilotixServer">
