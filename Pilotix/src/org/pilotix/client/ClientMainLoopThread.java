@@ -119,25 +119,8 @@ public class ClientMainLoopThread extends Thread {
 						Environment.theDisplay3D.setJ3DShipsName(info.getShipId(), info.getShipName());
 						break;
 					}
-					/*
-					 * switch (typeInfo) { case Information.OWN_SHIP_ID : // On
-					 * reçoit notre numéro de joueurSystem.out.println(
-					 * "[CMLT] Reçu Information, type OWN_SHIP_ID"); int shipId
-					 * = (int)clientMessageHandler.receiveOneByte();
-					 * Environment.theClientArea.setOwnShipId(shipId); // il
-					 * doit alors envoyer sont nom Information info = new
-					 * Information(); // a remplacer par le vrai nom
-					 * info.setShipName(shipId,"ship"+shipId);
-					 * info.write(clientMessageHandler); break; case
-					 * Information.DECONNECT :
-					 * System.out.println("[CMLT] Reçu Information, type DECONNECT"
-					 * ); break; case Information.AREA_ID :
-					 * System.out.println("[CMLT] Reçu Information, type AREA_ID"
-					 * ); break; case Information.SHIP_NAME : Information info =
-					 * new Information(); // a remplacer par le vrai nom
-					 * info.read(); info.write(clientMessageHandler); break; }
-					 */
-				} else {
+				}
+				else {
 					System.out.println("[CMLT] Reçu paquet inconnu, flag = " + flag);
 				}
 			}
@@ -150,11 +133,12 @@ public class ClientMainLoopThread extends Thread {
 			if (Environment.debug) {
 				System.out.println("[CMLT] Socket fermée. A+\n-----\n");
 			}
-
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			System.out.println("[CMLT] ERREUR : connexion refusée.");
 			Environment.theGUI.getGUIPanel().displayMessageConnectionRefused();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("[CMLT] ERREUR. :-(");
 			e.printStackTrace();
 		}
